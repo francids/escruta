@@ -1,1 +1,1 @@
-# PregunAI Frontend
+# Escruta - Frontend
