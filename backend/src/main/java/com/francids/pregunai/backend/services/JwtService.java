@@ -75,7 +75,7 @@ public class JwtService {
         return Jwts.parser()
                 .verifyWith((SecretKey) getSignInKey())
                 .build()
-                .parseEncryptedClaims(token)
+                .parseSignedClaims(token)
                 .getPayload();
     }
 
