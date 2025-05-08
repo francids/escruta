@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -49,11 +51,24 @@ public class GlobalExceptionHandler {
             errorDetail.setProperty("description", "The JWT token has expired");
         }
 
+        if (exception instanceof MethodArgumentNotValidException) {
+            errorDetail = handleValidationException((MethodArgumentNotValidException) exception);
+            return errorDetail;
+        }
+
         if (errorDetail == null) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
             errorDetail.setProperty("description", "Unknown internal server error.");
         }
 
+        return errorDetail;
+    }
+
+    private ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
+        String errors = ex.getBindingResult().getFieldErrors().stream().map(fieldError -> String.format("'%s' %s", fieldError.getField(), fieldError.getDefaultMessage())).collect(Collectors.joining(", "));
+
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), "Validation error in the submitted data.");
+        errorDetail.setProperty("description", errors);
         return errorDetail;
     }
 }
