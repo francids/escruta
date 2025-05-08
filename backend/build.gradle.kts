@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "com.francids.pregunai"
+group = "com.francids.escruta"
 version = "0.0.1"
 
 java {
