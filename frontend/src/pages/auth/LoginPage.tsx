@@ -29,10 +29,16 @@ export default function LoginPage() {
       }
       navigate("/app");
     } catch (err: unknown) {
-      setError(
-        (err as { response?: { data?: { description?: string } } }).response
-          ?.data?.description || "Login error. Please try again."
-      );
+      const error = err as { response?: { data?: { description?: string } } };
+      if (error.response) {
+        setError(
+          error.response.data?.description || "Login error. Please try again."
+        );
+      } else {
+        setError(
+          "Cannot connect to the server. Please check your connection and try again."
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -96,7 +102,7 @@ export default function LoginPage() {
             </label>
           </div>
           {error && (
-            <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded-xs">
               {error}
             </div>
           )}
