@@ -29,10 +29,12 @@ export default function LoginPage() {
       }
       navigate("/app");
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { description?: string } } };
-      if (error.response) {
+      const error = err as { status: number };
+      if (error.status) {
         setError(
-          error.response.data?.description || "Login error. Please try again."
+          error.status === 401
+            ? "Invalid email or password."
+            : "Login error. Please try again."
         );
       } else {
         setError(

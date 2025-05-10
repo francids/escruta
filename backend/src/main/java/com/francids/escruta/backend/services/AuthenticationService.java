@@ -5,7 +5,9 @@ import com.francids.escruta.backend.dtos.RegisterUserDto;
 import com.francids.escruta.backend.entities.User;
 import com.francids.escruta.backend.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager
-    ) {
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -35,15 +33,19 @@ public class AuthenticationService {
     }
 
     public User authenticate(LoginUserDto input) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getEmail(),
+                            input.getPassword()
+                    )
+            );
 
-        return userRepository
-                .findByEmail(input.getEmail())
-                .orElseThrow();
+            return userRepository
+                    .findByEmail(input.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException(input.getEmail()));
+        } catch (BadCredentialsException e) {
+            return null;
+        }
     }
 }
