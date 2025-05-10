@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import Logo from "./Logo";
+import Logo from "../../components/Logo";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function Navbar() {
