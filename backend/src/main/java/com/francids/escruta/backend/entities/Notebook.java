@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -31,9 +31,9 @@ public class Notebook {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Date createdAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column()
-    private Date updatedAt;
+    private Timestamp updatedAt;
 }

@@ -8,7 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -34,11 +34,11 @@ public class User implements UserDetails {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Date createdAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column()
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
