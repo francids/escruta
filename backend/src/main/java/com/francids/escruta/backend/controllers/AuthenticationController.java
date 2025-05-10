@@ -6,6 +6,7 @@ import com.francids.escruta.backend.dtos.RegisterUserDto;
 import com.francids.escruta.backend.entities.User;
 import com.francids.escruta.backend.services.AuthenticationService;
 import com.francids.escruta.backend.services.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signUp(registerUserDto);
 
         return ResponseEntity.ok(registeredUser);
