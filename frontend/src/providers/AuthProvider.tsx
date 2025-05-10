@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import authService from "../services/AuthService";
-import { useCookie } from "../hooks/useCookie";
+import useCookie from "../hooks/useCookie";
 import { AUTH_TOKEN_KEY } from "../config";
 import { AuthContext } from "../contexts/AuthContext";
 

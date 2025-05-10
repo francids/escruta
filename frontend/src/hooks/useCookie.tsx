@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 
-export const useCookie = (keyName: string, defaultValue: object) => {
+export default function useCookie(keyName: string, defaultValue: object = {}) {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = Cookies.get(keyName);
@@ -27,4 +27,4 @@ export const useCookie = (keyName: string, defaultValue: object) => {
   };
 
   return [storedValue, setValue];
-};
+}
