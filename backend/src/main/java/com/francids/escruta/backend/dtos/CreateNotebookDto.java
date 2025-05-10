@@ -1,6 +1,6 @@
 package com.francids.escruta.backend.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +9,6 @@ import lombok.Setter;
 public class CreateNotebookDto {
     private String icon;
 
-    @NotBlank
+    @NotNull
     private String title;
 }

@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class NotebookDto {
     @NotNull
-    private Integer id;
+    private UUID id;
 
     private BasicUser user;
     private String icon;

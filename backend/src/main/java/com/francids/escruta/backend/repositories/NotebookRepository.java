@@ -4,6 +4,8 @@ import com.francids.escruta.backend.entities.Notebook;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface NotebookRepository extends CrudRepository<Notebook, Integer> {
+public interface NotebookRepository extends CrudRepository<Notebook, UUID> {
 }
