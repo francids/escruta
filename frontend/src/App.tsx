@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { AuthProvider } from "./providers/AuthProvider.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
-import LandingPage from "./pages/LandingPage.tsx";
+import LandingPage from "./landing/LandingPage.tsx";
 import LoginPage from "./pages/auth/LoginPage.tsx";
 
 // App
