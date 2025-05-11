@@ -1,4 +1,5 @@
 import type Notebook from "../interfaces/Notebook";
+import { Menu } from "./ui";
 
 const NotebookIcon = () => (
   <svg
@@ -23,13 +24,12 @@ const DotsVerticalIcon = () => (
   </svg>
 );
 
-export default function NotebookCard({
-  notebook,
-  onClick,
-}: {
+type NotebookCardProps = {
   notebook: Notebook;
   onClick: (notebook: Notebook) => void;
-}) {
+};
+
+export default function NotebookCard({ notebook, onClick }: NotebookCardProps) {
   const formatDate = (date: Date) => {
     return new Date(date)
       .toLocaleDateString("es-ES", {
@@ -40,6 +40,10 @@ export default function NotebookCard({
       .replace(".", "");
   };
 
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <div
       className="h-40 w-full rounded-xs border p-4 cursor-pointer hover:shadow-sx transition-shadow flex flex-col justify-between bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600"
@@ -48,15 +52,26 @@ export default function NotebookCard({
     >
       <div className="flex justify-between items-start">
         <NotebookIcon />
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log("Options clicked for:", notebook.title);
-          }}
-          className="p-1 rounded-xs hover:bg-gray-200 dark:hover:bg-gray-600"
-        >
-          <DotsVerticalIcon />
-        </button>
+        <div onClick={handleMenuClick}>
+          <Menu
+            items={[
+              {
+                label: "Rename",
+                onClick: () => console.log("Rename:", notebook.title),
+              },
+              {
+                label: "Delete",
+                onClick: () => console.log("Delete:", notebook.title),
+                variant: "danger",
+              },
+            ]}
+            trigger={
+              <button className="p-1 rounded-xs hover:bg-gray-200 dark:hover:bg-gray-600">
+                <DotsVerticalIcon />
+              </button>
+            }
+          />
+        </div>
       </div>
 
       <div>
