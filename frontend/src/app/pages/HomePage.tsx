@@ -1,7 +1,7 @@
-import NotebookCard from "../../components/NotebookCard";
-import type Notebook from "../../interfaces/Notebook";
+import NotebookCard from "../components/NotebookCard";
+import type Notebook from "../interfaces/Notebook";
 import useFetch from "../../hooks/useFetch";
-import Logo from "../../components/Logo";
+import Logo from "../../shared/Logo";
 
 export default function HomePage() {
   const { data, loading, error } = useFetch<Notebook[]>("/notebooks");

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import authService from "../services/AuthService";
+import authService from "./AuthService";
 import useCookie from "../hooks/useCookie";
 import { AUTH_TOKEN_KEY } from "../config";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [tokenCookie, setTokenCookie] = useCookie(AUTH_TOKEN_KEY, {

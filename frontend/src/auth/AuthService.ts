@@ -1,4 +1,4 @@
-import backendClient from "./backend";
+import backendClient from "../backend";
 
 export const authService = {
   login: async (email: string, password: string) => {

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import useCookie from "../../hooks/useCookie";
-import PatternBackground from "../../landing/components/PatternBackground";
-import Logo from "../../components/Logo";
+import PatternBackground from "../../shared/PatternBackground";
+import Logo from "../../shared/Logo";
 
 export default function LoginPage() {
   const [savedEmail, setSavedEmail] = useCookie("savedEmail", { email: "" });

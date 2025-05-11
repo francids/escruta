@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import useCookie from "./useCookie";
-import backendClient from "../services/backend";
+import backendClient from "../backend";
 import type { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { AUTH_TOKEN_KEY } from "../config";
 

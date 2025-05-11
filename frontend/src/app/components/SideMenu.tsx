@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import { useNavigate } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import Tooltip from "./ui/Tooltip";
 
 export default function SideMenu() {
