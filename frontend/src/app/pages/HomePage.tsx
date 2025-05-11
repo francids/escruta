@@ -1,6 +1,7 @@
 import NotebookCard from "../components/NotebookCard";
 import type Notebook from "../interfaces/Notebook";
 import useFetch from "../../hooks/useFetch";
+import useCookie from "../../hooks/useCookie";
 import Logo from "../../shared/Logo";
 import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import { useState } from "react";
@@ -14,7 +15,10 @@ enum SortOptions {
 
 export default function HomePage() {
   const { data, loading, error, refetch } = useFetch<Notebook[]>("/notebooks");
-  const [sortBy, setSortBy] = useState<SortOptions>(SortOptions.Newest);
+  const [sortBy, setSortBy] = useCookie<SortOptions>(
+    "notebookSortPreference",
+    SortOptions.Newest
+  );
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newNotebookTitle, setNewNotebookTitle] = useState("");
 

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 
-export default function useCookie(keyName: string, defaultValue: object = {}) {
-  const [storedValue, setStoredValue] = useState(() => {
+export default function useCookie<T>(keyName: string, defaultValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const value = Cookies.get(keyName);
       if (value) {
-        return JSON.parse(value);
+        return JSON.parse(value) as T;
       } else {
         Cookies.set(keyName, JSON.stringify(defaultValue));
         return defaultValue;
@@ -17,7 +17,7 @@ export default function useCookie(keyName: string, defaultValue: object = {}) {
     }
   });
 
-  const setValue = (newValue: object) => {
+  const setValue = (newValue: T) => {
     try {
       Cookies.set(keyName, JSON.stringify(newValue));
     } catch (err: unknown) {
@@ -26,5 +26,5 @@ export default function useCookie(keyName: string, defaultValue: object = {}) {
     setStoredValue(newValue);
   };
 
-  return [storedValue, setValue];
+  return [storedValue, setValue] as const;
 }
