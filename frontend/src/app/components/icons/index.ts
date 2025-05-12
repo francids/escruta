@@ -5,3 +5,5 @@ export { default as SettingsIcon } from "./SettingsIcon";
 export { default as LogoutIcon } from "./LogoutIcon";
 export { default as BackIcon } from "./BackIcon";
 export { default as EditIcon } from "./EditIcon";
+export { default as AddIcon } from "./AddIcon";
+export { default as LinkIcon } from "./LinkIcon";

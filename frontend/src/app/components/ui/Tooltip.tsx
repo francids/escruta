@@ -18,7 +18,7 @@ export default function Tooltip({
     <div className="relative group">
       {children}
       <div
-        className={`absolute ${positionClasses[position]} hidden group-hover:block whitespace-normal break-words rounded-xs bg-black dark:bg-white py-1.5 px-3 text-sm text-white dark:text-black`}
+        className={`absolute ${positionClasses[position]} hidden group-hover:block whitespace-normal break-words rounded-xs bg-black dark:bg-white py-1.5 px-3 text-sm text-white dark:text-black z-30`}
       >
         {text}
       </div>
