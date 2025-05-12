@@ -1,5 +1,3 @@
-type TooltipPosition = "top" | "bottom" | "left" | "right";
-
 export default function Tooltip({
   children,
   text,
@@ -7,7 +5,7 @@ export default function Tooltip({
 }: {
   children: React.ReactNode;
   text: string;
-  position?: TooltipPosition;
+  position?: "top" | "bottom" | "left" | "right";
 }) {
   const positionClasses = {
     top: "bottom-full left-1/2 -translate-x-1/2 mb-2",

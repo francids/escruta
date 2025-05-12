@@ -1,15 +1,25 @@
 import { NavLink } from "react-router";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { Tooltip } from "./ui";
+import { Tooltip, Button } from "./ui";
+import Modal from "./ui/Modal";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import type User from "../../auth/interfaces/User";
 import useCookie from "../../hooks/useCookie";
+import { useState } from "react";
 
 export default function SideMenu() {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [, setUser] = useCookie<User | null>("user", null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogout = () => {
+    setUser(null);
+    logout();
+    navigate("/", { replace: true });
+    setShowLogoutModal(false);
+  };
 
   return (
     <div className="flex h-screen flex-col justify-between border-e border-gray-900/20 dark:border-gray-100/20 transition-all duration-300 w-16 min-w-16 max-w-16">
@@ -36,17 +46,37 @@ export default function SideMenu() {
         </Tooltip>
         <Tooltip text="Logout" position="right">
           <button
-            onClick={() => {
-              setUser(null);
-              logout();
-              navigate("/", { replace: true });
-            }}
+            onClick={() => setShowLogoutModal(true)}
             className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
           >
             <LogoutIcon />
           </button>
         </Tooltip>
       </div>
+
+      <Modal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        title="Logout"
+        width="sm"
+        actions={
+          <>
+            <Button
+              onClick={() => setShowLogoutModal(false)}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleLogout} variant="danger">
+              Logout
+            </Button>
+          </>
+        }
+      >
+        <p className="text-gray-700 dark:text-gray-300">
+          Are you sure you want to log out?
+        </p>
+      </Modal>
     </div>
   );
 }

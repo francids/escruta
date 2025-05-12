@@ -2,7 +2,7 @@ type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
 };
 
@@ -21,6 +21,8 @@ export default function Button({
       "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700",
     secondary:
       "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600",
+    danger:
+      "bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 dark:bg-red-600 dark:hover:bg-red-700",
   };
 
   const disabledStyles =
