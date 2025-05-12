@@ -1,8 +1,7 @@
 import { NavLink } from "react-router";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { Tooltip, Button } from "./ui";
-import Modal from "./ui/Modal";
+import { Tooltip, Button, Modal, IconButton } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import type User from "../../auth/interfaces/User";
 import useCookie from "../../hooks/useCookie";
@@ -30,28 +29,31 @@ export default function SideMenu() {
 
       <div className="mb-6 flex flex-col items-center justify-center gap-3">
         <Tooltip text="Notebooks" position="right">
-          <NavLink
-            to="/app"
-            className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
-          >
-            <HomeIcon />
-          </NavLink>
+          <IconButton
+            icon={<HomeIcon />}
+            size="md"
+            ariaLabel="See notebooks"
+            variant="secondary"
+            onClick={() => navigate("/app")}
+          />
         </Tooltip>
         <Tooltip text="Settings" position="right">
-          <NavLink
-            to="/app/settings"
-            className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
-          >
-            <SettingsIcon />
-          </NavLink>
+          <IconButton
+            icon={<SettingsIcon />}
+            size="md"
+            ariaLabel="See settings"
+            variant="secondary"
+            onClick={() => navigate("/app/settings")}
+          />
         </Tooltip>
         <Tooltip text="Logout" position="right">
-          <button
+          <IconButton
+            icon={<LogoutIcon />}
+            size="md"
+            ariaLabel="Logout"
+            variant="secondary"
             onClick={() => setShowLogoutModal(true)}
-            className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
-          >
-            <LogoutIcon />
-          </button>
+          />
         </Tooltip>
       </div>
 

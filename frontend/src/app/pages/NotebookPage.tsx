@@ -2,6 +2,8 @@ import CommonBar from "../components/CommonBar";
 import { useLoaderData } from "react-router";
 import useFetch from "../../hooks/useFetch";
 import type NotebookContent from "../interfaces/NotebookContent";
+import { EditIcon } from "../components/icons";
+import { Tooltip, IconButton } from "../components/ui";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -23,10 +25,18 @@ export default function NotebookPage() {
 
   return (
     <div className="p-6 md:p-8">
-      <CommonBar>
+      <CommonBar className="justify-between items-center gap-4">
         <h1 className="text-2xl font-sans font-normal truncate">
           Notebook: <span className="font-semibold">{notebook?.title}</span>
         </h1>
+        <Tooltip text="Edit title" position="bottom">
+          <IconButton
+            icon={<EditIcon />}
+            variant="secondary"
+            size="md"
+            className="flex-shrink-0"
+          />
+        </Tooltip>
       </CommonBar>
     </div>
   );

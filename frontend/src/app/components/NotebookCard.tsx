@@ -1,6 +1,7 @@
 import type Notebook from "../interfaces/Notebook";
 import { Menu } from "./ui";
 import { NotebookIcon, DotsVerticalIcon } from "./icons";
+import { IconButton } from "./ui";
 
 type NotebookCardProps = {
   notebook: Notebook;
@@ -44,9 +45,12 @@ export default function NotebookCard({ notebook, onClick }: NotebookCardProps) {
               },
             ]}
             trigger={
-              <button className="p-1 rounded-xs hover:bg-gray-200 dark:hover:bg-gray-600">
-                <DotsVerticalIcon />
-              </button>
+              <IconButton
+                icon={<DotsVerticalIcon />}
+                size="sm"
+                ariaLabel="More options"
+                variant="ghost"
+              />
             }
           />
         </div>

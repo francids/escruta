@@ -4,3 +4,4 @@ export { default as HomeIcon } from "./HomeIcon";
 export { default as SettingsIcon } from "./SettingsIcon";
 export { default as LogoutIcon } from "./LogoutIcon";
 export { default as BackIcon } from "./BackIcon";
+export { default as EditIcon } from "./EditIcon";
