@@ -1,4 +1,5 @@
 import useCookie from "../../../hooks/useCookie";
+import CommonBar from "../CommonBar";
 import { Dropdown } from "../ui";
 
 enum ThemeOptions {
@@ -14,7 +15,7 @@ export default function AppearanceSection() {
   );
 
   return (
-    <div className="mb-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
+    <CommonBar className="flex-col justify-center items-start">
       <h2 className="text-xl font-medium mb-4">Appearance</h2>
       <div className="flex items-center gap-4">
         <Dropdown<ThemeOptions>
@@ -24,6 +25,6 @@ export default function AppearanceSection() {
           label="Theme:"
         />
       </div>
-    </div>
+    </CommonBar>
   );
 }

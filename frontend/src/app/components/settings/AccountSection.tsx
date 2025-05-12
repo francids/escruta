@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Modal, TextField } from "../../components/ui";
 import type User from "../../../auth/interfaces/User";
+import CommonBar from "../CommonBar";
 
 interface AccountSectionProps {
   user: User | null;
@@ -62,7 +63,7 @@ export default function AccountSection({ user }: AccountSectionProps) {
   };
 
   return (
-    <div className="mb-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
+    <CommonBar className="flex-col justify-center items-start">
       <h2 className="text-xl font-medium mb-4">Account</h2>
       <div className="space-y-4">
         {user && (
@@ -205,6 +206,6 @@ export default function AccountSection({ user }: AccountSectionProps) {
           )}
         </div>
       </Modal>
-    </div>
+    </CommonBar>
   );
 }

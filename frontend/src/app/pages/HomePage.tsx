@@ -5,6 +5,7 @@ import useCookie from "../../hooks/useCookie";
 import Logo from "../../shared/Logo";
 import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import { useState } from "react";
+import CommonBar from "../components/CommonBar";
 
 enum SortOptions {
   Newest = "Newest",
@@ -83,25 +84,23 @@ export default function HomePage() {
 
   return (
     <div className="p-6 md:p-8">
-      <div className="flex justify-between items-center mb-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
+      <CommonBar className="justify-between items-center">
         <h1 className="text-3xl font-sans font-normal flex flex-row gap-2 items-center">
           <span className="leading-none mb-1">Welcome to </span>
           <Logo className="h-4.5 w-auto" />
         </h1>
-      </div>
-      <div className="flex justify-between items-center mb-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
-        <div className="flex w-full justify-between items-center">
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            Create notebook
-          </Button>
-          <Dropdown<SortOptions>
-            options={Object.values(SortOptions)}
-            selectedOption={sortBy}
-            onSelect={(option) => setSortBy(option as SortOptions)}
-            label="Sort by:"
-          />
-        </div>
-      </div>
+      </CommonBar>
+      <CommonBar className="justify-between items-center">
+        <Button onClick={() => setIsCreateModalOpen(true)}>
+          Create notebook
+        </Button>
+        <Dropdown<SortOptions>
+          options={Object.values(SortOptions)}
+          selectedOption={sortBy}
+          onSelect={(option) => setSortBy(option as SortOptions)}
+          label="Sort by:"
+        />
+      </CommonBar>
       <div className="flex flex-wrap gap-4">
         {getSortedNotebooks().map((notebook) => (
           <NotebookCard
