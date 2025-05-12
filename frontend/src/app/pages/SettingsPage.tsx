@@ -12,7 +12,7 @@ export default function SettingsPage() {
         <h1 className="text-3xl font-sans font-normal">Settings</h1>
       </CommonBar>
       <AppearanceSection />
-      <AccountSection user={user} />
+      <AccountSection user={user!} />
     </div>
   );
 }

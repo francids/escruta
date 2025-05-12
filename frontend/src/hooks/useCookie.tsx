@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 
-export default function useCookie<T>(keyName: string, defaultValue: T) {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+export default function useCookie<T>(keyName: string, defaultValue?: T) {
+  const [storedValue, setStoredValue] = useState<T | undefined>(() => {
     try {
       const value = Cookies.get(keyName);
       if (value) {
@@ -13,7 +13,7 @@ export default function useCookie<T>(keyName: string, defaultValue: T) {
       }
     } catch (err: unknown) {
       console.error("Error getting cookie:", err);
-      return defaultValue;
+      return undefined;
     }
   });
 

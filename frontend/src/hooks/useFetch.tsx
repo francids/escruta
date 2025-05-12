@@ -29,7 +29,7 @@ function useFetch<T = unknown>(
     loading: false,
     error: null,
   });
-  const [token] = useCookie(AUTH_TOKEN_KEY);
+  const [token] = useCookie<{ token: string }>(AUTH_TOKEN_KEY);
 
   const fetchData = useCallback(async (): Promise<void> => {
     setState((prev) => ({ ...prev, loading: true, error: null }));
@@ -39,7 +39,7 @@ function useFetch<T = unknown>(
         url: endpoint,
         ...options,
         headers: {
-          Authorization: `Bearer ${token.token}`,
+          Authorization: `Bearer ${token!.token}`,
         },
       };
 
@@ -71,7 +71,7 @@ function useFetch<T = unknown>(
         options.onError(errorObj);
       }
     }
-  }, [endpoint, options, token.token]);
+  }, [endpoint, options, token]);
 
   useEffect(() => {
     if (immediate) {

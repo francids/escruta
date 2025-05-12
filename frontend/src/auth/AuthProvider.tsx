@@ -6,9 +6,12 @@ import { AuthContext } from "./AuthContext";
 import type User from "./interfaces/User";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [tokenCookie, setTokenCookie] = useCookie(AUTH_TOKEN_KEY, {
-    token: null,
-  });
+  const [tokenCookie, setTokenCookie] = useCookie<{ token: string | null }>(
+    AUTH_TOKEN_KEY,
+    {
+      token: null,
+    }
+  );
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const fetchUserData = useCallback(async () => {
-    if (tokenCookie.token) {
+    if (tokenCookie!.token) {
       try {
         const userData = await authService.getUser();
         setCurrentUser(userData);
@@ -43,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [tokenCookie]);
 
   const isAuthenticated = useCallback(() => {
-    return !!tokenCookie.token;
+    return !!tokenCookie!.token;
   }, [tokenCookie]);
 
   useEffect(() => {
@@ -63,7 +66,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        token: tokenCookie.token,
+        token: tokenCookie!.token,
         isAuthenticated,
         login,
         logout,

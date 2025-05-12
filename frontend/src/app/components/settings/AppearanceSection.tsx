@@ -20,7 +20,7 @@ export default function AppearanceSection() {
       <div className="flex items-center gap-4">
         <Dropdown<ThemeOptions>
           options={Object.values(ThemeOptions)}
-          selectedOption={theme}
+          selectedOption={theme!}
           onSelect={(option) => setTheme(option as ThemeOptions)}
           label="Theme:"
         />

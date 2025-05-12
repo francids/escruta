@@ -98,7 +98,7 @@ export default function HomePage() {
         </Button>
         <Dropdown<SortOptions>
           options={Object.values(SortOptions)}
-          selectedOption={sortBy}
+          selectedOption={sortBy!}
           onSelect={(option) => setSortBy(option as SortOptions)}
           label="Sort by:"
         />

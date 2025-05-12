@@ -6,10 +6,13 @@ import PatternBackground from "../../shared/PatternBackground";
 import Logo from "../../shared/Logo";
 
 export default function LoginPage() {
-  const [savedEmail, setSavedEmail] = useCookie("savedEmail", { email: "" });
-  const [email, setEmail] = useState(savedEmail.email || "");
+  const [savedEmail, setSavedEmail] = useCookie<{ email: string }>(
+    "savedEmail",
+    { email: "" }
+  );
+  const [email, setEmail] = useState(savedEmail!.email || "");
   const [password, setPassword] = useState("");
-  const [rememberEmail, setRememberEmail] = useState(!!savedEmail.email);
+  const [rememberEmail, setRememberEmail] = useState(!!savedEmail!.email);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ export default function LoginPage() {
       await login(email, password);
       if (rememberEmail) {
         setSavedEmail({ email });
-      } else if (savedEmail.email) {
+      } else if (savedEmail!.email) {
         setSavedEmail({ email: "" });
       }
       navigate("/app");
