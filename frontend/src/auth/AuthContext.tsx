@@ -7,7 +7,6 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<unknown>;
   logout: () => void;
   loading: boolean;
-  user: () => Promise<User | null>;
   currentUser: User | null;
   fetchUserData: () => Promise<void>;
 }

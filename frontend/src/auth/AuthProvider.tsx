@@ -28,14 +28,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setCurrentUser(null);
   };
 
-  const user = useCallback(async () => {
-    if (tokenCookie.token) {
-      const user = await authService.getUser();
-      return user as User;
-    }
-    return null;
-  }, [tokenCookie]);
-
   const fetchUserData = useCallback(async () => {
     if (tokenCookie.token) {
       try {
@@ -76,7 +68,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         logout,
         loading,
-        user,
         currentUser,
         fetchUserData,
       }}
