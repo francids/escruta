@@ -7,6 +7,7 @@ import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import type User from "../../auth/interfaces/User";
 import useCookie from "../../hooks/useCookie";
 import { useState } from "react";
+import AppIcon from "../../shared/AppIcon";
 
 export default function SideMenu() {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ export default function SideMenu() {
 
   return (
     <div className="flex h-screen flex-col justify-between border-e border-gray-900/20 dark:border-gray-100/20 transition-all duration-300 w-16 min-w-16 max-w-16">
-      <NavLink to="/app" className="p-4 flex justify-start items-center">
-        <img src="/favicon.svg" alt="Logo Escruta" className="h-8 w-8" />
+      <NavLink to="/app" className="w-16 h-16 grid place-items-center">
+        <AppIcon className="h-10 w-10" />
       </NavLink>
 
       <div className="mb-6 flex flex-col items-center justify-center gap-3">
