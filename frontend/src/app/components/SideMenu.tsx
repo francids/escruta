@@ -17,7 +17,7 @@ export default function SideMenu() {
   const handleLogout = () => {
     setUser(null);
     logout();
-    navigate("/", { replace: true });
+    navigate("/app", { replace: true });
     setShowLogoutModal(false);
   };
 
