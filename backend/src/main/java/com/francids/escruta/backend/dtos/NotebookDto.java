@@ -11,6 +11,9 @@ import java.util.UUID;
 @Getter
 @Setter
 public class NotebookDto {
+    public NotebookDto() {
+    }
+
     public NotebookDto(Notebook notebook) {
         this.id = notebook.getId();
         this.user = new BasicUser(notebook.getUser());
