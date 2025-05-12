@@ -76,7 +76,7 @@ export default function HomePage() {
       if (createError) {
         throw createError;
       }
-      await refetch();
+      await refetch(true);
       setNewNotebookTitle("");
       setIsCreateModalOpen(false);
     } catch (error) {
