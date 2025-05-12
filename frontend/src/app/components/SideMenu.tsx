@@ -18,7 +18,7 @@ export default function SideMenu() {
       </NavLink>
 
       <div className="mb-6 flex flex-col items-center justify-center gap-3">
-        <Tooltip text="Notebooks">
+        <Tooltip text="Notebooks" position="right">
           <NavLink
             to="/app"
             className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
@@ -26,7 +26,7 @@ export default function SideMenu() {
             <HomeIcon />
           </NavLink>
         </Tooltip>
-        <Tooltip text="Settings">
+        <Tooltip text="Settings" position="right">
           <NavLink
             to="/app/settings"
             className="w-10 h-10 p-2.5 rounded-xs bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center select-none"
@@ -34,7 +34,7 @@ export default function SideMenu() {
             <SettingsIcon />
           </NavLink>
         </Tooltip>
-        <Tooltip text="Logout">
+        <Tooltip text="Logout" position="right">
           <button
             onClick={() => {
               setUser(null);
