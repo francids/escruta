@@ -4,19 +4,16 @@ import { NotebookIcon, DotsVerticalIcon } from "./icons";
 import { IconButton } from "./ui";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router";
 
-type NotebookCardProps = {
-  notebook: Notebook;
-  onClick: (notebook: Notebook) => void;
-};
-
-export default function NotebookCard({ notebook, onClick }: NotebookCardProps) {
+export default function NotebookCard({ notebook }: { notebook: Notebook }) {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
   const [newNotebookTitle, setNewNotebookTitle] = useState<string>(
     notebook.title
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const {
     loading: renamingNotebook,
@@ -91,7 +88,10 @@ export default function NotebookCard({ notebook, onClick }: NotebookCardProps) {
     <>
       <div
         className="h-40 w-full rounded-xs border p-4 cursor-pointer hover:shadow-sx transition-shadow flex flex-col justify-between bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600"
-        onClick={() => onClick(notebook)}
+        onClick={() => {
+          navigate(`/app/notebook/${notebook.id}`);
+          window.scrollTo(0, 0);
+        }}
         style={{ minWidth: "180px", maxWidth: "220px" }}
       >
         <div className="flex justify-between items-start">

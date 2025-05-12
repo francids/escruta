@@ -6,7 +6,6 @@ import Logo from "../../shared/Logo";
 import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import { useState } from "react";
 import CommonBar from "../components/CommonBar";
-import { useNavigate } from "react-router";
 
 enum SortOptions {
   Newest = "Newest",
@@ -23,7 +22,6 @@ export default function HomePage() {
   );
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newNotebookTitle, setNewNotebookTitle] = useState("");
-  const navigate = useNavigate();
 
   const {
     loading: creatingNotebook,
@@ -105,14 +103,7 @@ export default function HomePage() {
       </CommonBar>
       <div className="flex flex-wrap gap-4">
         {getSortedNotebooks().map((notebook) => (
-          <NotebookCard
-            key={notebook.id}
-            notebook={notebook}
-            onClick={() => {
-              navigate(`/app/notebook/${notebook.id}`);
-              window.scrollTo(0, 0);
-            }}
-          />
+          <NotebookCard key={notebook.id} notebook={notebook} />
         ))}
       </div>
 
