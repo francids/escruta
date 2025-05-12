@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import useCookie from "../../hooks/useCookie";
 import PatternBackground from "../../shared/PatternBackground";
@@ -50,7 +50,9 @@ export default function LoginPage() {
     <div className="relative h-screen w-full">
       <PatternBackground className="hidden sm:block" />
       <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
-        <Logo className="h-4 w-auto fill-black dark:fill-white" />
+        <Link to="/">
+          <Logo className="h-4 w-auto fill-black dark:fill-white" />
+        </Link>
         <form
           onSubmit={handleSubmit}
           className="relative w-full sm:max-w-sm bg-white dark:bg-gray-900 p-6 sm:rounded-xs sm:border border-gray-300 dark:border-gray-600 shadow-xs text-gray-800 dark:text-gray-200"
