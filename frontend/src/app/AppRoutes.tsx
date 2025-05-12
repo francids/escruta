@@ -2,6 +2,7 @@ import { type RouteObject } from "react-router";
 import AppLayout from "./layouts/AppLayout";
 import HomePage from "./pages/HomePage";
 import SettingsPage from "./pages/SettingsPage";
+import NotebookPage from "./pages/NotebookPage";
 
 const appRoutes: RouteObject[] = [
   {
@@ -15,6 +16,17 @@ const appRoutes: RouteObject[] = [
       {
         path: "settings",
         Component: SettingsPage,
+      },
+      {
+        path: "notebook/:notebookId",
+        loader: async ({ params }) => {
+          const notebookId = params.notebookId;
+          if (!notebookId) {
+            throw new Error("Notebook ID is required");
+          }
+          return notebookId;
+        },
+        Component: NotebookPage,
       },
     ],
   },
