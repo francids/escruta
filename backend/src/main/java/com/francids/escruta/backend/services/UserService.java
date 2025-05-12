@@ -18,10 +18,7 @@ public class UserService {
     public BasicUser getCurrentBasicUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof User user) {
-            BasicUser basicUser = new BasicUser();
-            basicUser.setId(user.getId());
-            basicUser.setFullName(user.getFullName());
-            return basicUser;
+            return new BasicUser(user);
         }
         return null;
     }

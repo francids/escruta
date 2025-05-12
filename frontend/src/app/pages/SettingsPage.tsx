@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import useCookie from "../../hooks/useCookie";
+import type User from "../../auth/interfaces/User";
 
 enum ThemeOptions {
   System = "System",
@@ -9,6 +10,7 @@ enum ThemeOptions {
 }
 
 export default function SettingsPage() {
+  const [user] = useCookie<User | null>("user", null);
   const [theme, setTheme] = useCookie<ThemeOptions>(
     "themePreference",
     ThemeOptions.System
@@ -66,20 +68,41 @@ export default function SettingsPage() {
       <div className="mb-6 bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
         <h2 className="text-xl font-medium mb-4">Account</h2>
         <div className="space-y-4">
-          <Button onClick={() => setIsPasswordModalOpen(true)}>
-            Change Password
-          </Button>
-        </div>
-      </div>
-
-      {/* About Section */}
-      <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600">
-        <h2 className="text-xl font-medium mb-4">About</h2>
-        <div className="space-y-2">
-          <p className="text-gray-700 dark:text-gray-300">Escruta v1.0.0</p>
-          <p className="text-gray-700 dark:text-gray-300">
-            Made with ❤️ by the Escruta Team
-          </p>
+          {user && (
+            <div className="mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Full Name
+                  </p>
+                  <p className="font-medium">{user.fullName}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Email
+                  </p>
+                  <p className="font-medium">{user.email}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Member Since
+                  </p>
+                  <p className="font-medium">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="flex gap-4">
+            <Button variant="secondary">Change Email</Button>
+            <Button
+              variant="secondary"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              Change Password
+            </Button>
+          </div>
         </div>
       </div>
 

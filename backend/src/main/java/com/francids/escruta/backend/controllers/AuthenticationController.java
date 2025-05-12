@@ -1,14 +1,18 @@
 package com.francids.escruta.backend.controllers;
 
+import com.francids.escruta.backend.dtos.BasicUser;
 import com.francids.escruta.backend.dtos.LoginResponse;
 import com.francids.escruta.backend.dtos.LoginUserDto;
 import com.francids.escruta.backend.dtos.RegisterUserDto;
 import com.francids.escruta.backend.entities.User;
 import com.francids.escruta.backend.services.AuthenticationService;
 import com.francids.escruta.backend.services.JwtService;
+import com.francids.escruta.backend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, UserService userService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+        this.userService = userService;
     }
 
     @PostMapping("/register")
@@ -45,5 +51,11 @@ public class AuthenticationController {
         loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<BasicUser> getUser(@AuthenticationPrincipal User user) {
+        var basicUser = userService.getCurrentBasicUser();
+        return ResponseEntity.ok(basicUser);
     }
 }

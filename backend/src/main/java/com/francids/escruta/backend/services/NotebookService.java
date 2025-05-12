@@ -28,9 +28,7 @@ public class NotebookService {
         dto.setCreatedAt(notebook.getCreatedAt());
         dto.setUpdatedAt(notebook.getUpdatedAt());
 
-        BasicUser basicUser = new BasicUser();
-        basicUser.setId(notebook.getUser().getId());
-        basicUser.setFullName(notebook.getUser().getFullName());
+        BasicUser basicUser = new BasicUser(notebook.getUser());
         dto.setUser(basicUser);
 
         return dto;

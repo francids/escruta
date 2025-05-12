@@ -3,10 +3,13 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Tooltip } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
+import type User from "../../auth/interfaces/User";
+import useCookie from "../../hooks/useCookie";
 
 export default function SideMenu() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const [, setUser] = useCookie<User | null>("user", null);
 
   return (
     <div className="flex h-screen flex-col justify-between border-e border-gray-900/20 dark:border-gray-100/20 transition-all duration-300 w-16 min-w-16 max-w-16">
@@ -34,6 +37,7 @@ export default function SideMenu() {
         <Tooltip text="Logout">
           <button
             onClick={() => {
+              setUser(null);
               logout();
               navigate("/", { replace: true });
             }}
