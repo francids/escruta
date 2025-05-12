@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type ModalProps = {
   isOpen: boolean;
@@ -17,6 +17,28 @@ export default function Modal({
   actions,
   width = "md",
 }: ModalProps) {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsAnimating(true);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsVisible(true);
+        });
+      });
+      document.body.style.overflow = "hidden";
+    } else {
+      setIsVisible(false);
+      const timer = setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -26,17 +48,13 @@ export default function Modal({
 
     window.addEventListener("keydown", handleKeyDown);
 
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    }
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen && !isAnimating) return null;
 
   const widthClasses = {
     sm: "max-w-md",
@@ -46,10 +64,22 @@ export default function Modal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ease-in-out ${
+        isVisible ? "bg-black/90 opacity-100" : "bg-black/0 opacity-0"
+      }`}
+      style={{ pointerEvents: isOpen ? "auto" : "none" }}
+    >
       <div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
       <div
-        className={`${widthClasses[width]} w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 shadow-lg z-10`}
+        ref={modalRef}
+        className={`${
+          widthClasses[width]
+        } w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 shadow-lg z-10 transition-all ${
+          isVisible
+            ? "duration-300 ease-out scale-100 opacity-100 translate-y-0"
+            : "duration-200 ease-in scale-98 opacity-0 -translate-y-2"
+        }`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
