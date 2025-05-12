@@ -94,19 +94,31 @@ export default function HomePage() {
         <Button onClick={() => setIsCreateModalOpen(true)}>
           Create notebook
         </Button>
-        <Dropdown<SortOptions>
-          options={Object.values(SortOptions)}
-          selectedOption={sortBy!}
-          onSelect={(option) => setSortBy(option as SortOptions)}
-          label="Sort by:"
-        />
+        {data && data.length > 0 ? (
+          <Dropdown<SortOptions>
+            options={Object.values(SortOptions)}
+            selectedOption={sortBy!}
+            onSelect={(option) => setSortBy(option as SortOptions)}
+            label="Sort by:"
+          />
+        ) : (
+          <span></span>
+        )}
       </CommonBar>
-      <div className="flex flex-wrap gap-4">
-        {getSortedNotebooks().map((notebook) => (
-          <NotebookCard key={notebook.id} notebook={notebook} />
-        ))}
-      </div>
 
+      {data && data.length > 0 ? (
+        <div className="flex flex-wrap gap-4">
+          {getSortedNotebooks().map((notebook) => (
+            <NotebookCard key={notebook.id} notebook={notebook} />
+          ))}
+        </div>
+      ) : (
+        <CommonBar className="text-center text-gray-500">
+          No notebooks available. Create one to get started!
+        </CommonBar>
+      )}
+
+      {/* Create Notebook Modal */}
       <Modal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
