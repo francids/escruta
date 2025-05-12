@@ -71,9 +71,6 @@ export default function HomePage() {
   const handleCreateNotebook = async () => {
     try {
       await createNotebook();
-      if (createError) {
-        throw createError;
-      }
       await refetch(true);
       setNewNotebookTitle("");
       setIsCreateModalOpen(false);

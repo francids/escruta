@@ -13,14 +13,26 @@ export default function NotebookPage() {
     error,
   } = useFetch<NotebookContent>(`/notebooks/${notebookId}`);
 
-  console.log("notebook", notebook);
-
   if (error) {
-    return <div className="m-4">Error fetching notebook: {error.message}</div>;
+    if ("status" in error && error.status === 404) {
+      return (
+        <CommonBar className="justify-between items-center gap-4 m-4">
+          <h1 className="text-2xl font-sans font-normal truncate">
+            Notebook not found
+          </h1>
+        </CommonBar>
+      );
+    }
+
+    return (
+      <CommonBar className="justify-between items-center gap-4 m-4">
+        Error fetching notebook: {error.message}
+      </CommonBar>
+    );
   }
 
   if (loading) {
-    return <div className="m-4">Loading notebook...</div>;
+    return <CommonBar className="m-4">Loading notebook...</CommonBar>;
   }
 
   return (

@@ -1,18 +1,18 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import useCookie from "./useCookie";
 import backendClient from "../backend";
-import type { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from "axios";
 import { AUTH_TOKEN_KEY } from "../config";
 
 interface UseFetchState<T> {
   data: T | null;
   loading: boolean;
-  error: Error | null;
+  error: Error | AxiosError | null;
 }
 
 interface UseFetchOptions<T> extends AxiosRequestConfig {
   onSuccess?: (data: T) => void;
-  onError?: (error: Error) => void;
+  onError?: (error: Error | AxiosError) => void;
   cacheTime?: number;
   skipCache?: boolean;
 }
@@ -107,11 +107,15 @@ function useFetch<T = unknown>(
           options.onSuccess(response.data);
         }
       } catch (error) {
-        const err = error as AxiosError<{ description?: string }>;
-        const errorMessage =
-          err.response?.data?.description || err.message || "An error occurred";
+        let errorObj: Error | AxiosError;
 
-        const errorObj = new Error(errorMessage);
+        if (error instanceof AxiosError) {
+          errorObj = error;
+        } else {
+          errorObj = new Error(
+            `An unexpected error occurred. Please try again. Error: ${error}`
+          );
+        }
 
         setState({
           data: null,
