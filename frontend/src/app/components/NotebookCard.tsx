@@ -122,7 +122,7 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
         </div>
 
         <div>
-          <h2 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-1 truncate">
+          <h2 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-1 line-clamp-2">
             {notebook.title}
           </h2>
           <p className="text-xs text-gray-500 dark:text-gray-400">
