@@ -177,7 +177,7 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        title="Delete notebook"
+        title={`Delete notebook "${notebook.title}"`}
         actions={
           <>
             <Button
@@ -198,7 +198,9 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
       >
         <div className="space-y-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Are you sure you want to delete this notebook?
+            Are you sure you want to delete this notebook? This action cannot be
+            undone. All notes and data associated with this notebook will be
+            permanently deleted.
           </p>
 
           {deleteError && (
