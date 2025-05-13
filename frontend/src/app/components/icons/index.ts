@@ -7,3 +7,4 @@ export { default as BackIcon } from "./BackIcon";
 export { default as EditIcon } from "./EditIcon";
 export { default as AddIcon } from "./AddIcon";
 export { default as LinkIcon } from "./LinkIcon";
+export { default as CloseIcon } from "./CloseIcon";

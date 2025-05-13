@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import IconButton from "./IconButton";
+import { CloseIcon } from "../icons";
 
 type ModalProps = {
   isOpen: boolean;
@@ -89,26 +91,13 @@ export default function Modal({
                   >
                     {title}
                   </h2>
-                  <button
-                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none"
+                  <IconButton
+                    icon={<CloseIcon />}
                     onClick={onClose}
-                    aria-label="Close"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                    variant="ghost"
+                    size="sm"
+                    ariaLabel="Close modal"
+                  />
                 </div>
               </div>
 
