@@ -46,7 +46,7 @@ export default function Tabs({
                 layoutId="activeTab"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
             )}
             <button
