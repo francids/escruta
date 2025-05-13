@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import type NotebookContent from "../interfaces/NotebookContent";
 import { EditIcon } from "../components/icons";
 import { Tooltip, IconButton, Tab } from "../components/ui";
-import Card from "../components/Card";
+import Card from "../components/ui/Card";
 import CommonBar from "../components/CommonBar";
 import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
