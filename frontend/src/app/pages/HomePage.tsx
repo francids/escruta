@@ -80,7 +80,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="p-6">
       <CommonBar className="justify-between items-center">
         <h1 className="text-3xl font-sans font-normal flex flex-row gap-2 items-center">
           <span className="leading-none mb-1">Welcome to </span>

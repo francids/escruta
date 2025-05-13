@@ -87,7 +87,7 @@ export default function NotebookPage() {
   ];
 
   return (
-    <div className="flex h-screen w-full flex-col p-4">
+    <div className="flex h-screen w-full flex-col p-6">
       <CommonBar className="justify-between items-center gap-4">
         <h1 className="text-2xl font-sans font-normal truncate">
           Notebook: <span className="font-semibold">{notebook?.title}</span>
