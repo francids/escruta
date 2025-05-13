@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 type TabItem = {
   id: string;
@@ -36,28 +37,53 @@ export default function Tabs({
 
   return (
     <div className={`w-full relative ${className}`}>
-      <div className="flex flex-grow border-b border-gray-300 dark:border-gray-700">
-        {items.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => handleTabClick(tab.id)}
-            className={`flex flex-grow justify-center items-center h-10 px-4 text-sm font-medium select-none transition-colors dark:focus:ring-offset-gray-900 ${
-              activeTabId === tab.id
-                ? "border-b-2 border-blue-500 text-blue-500 dark:text-blue-400"
-                : "text-gray-600 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400"
-            }
-            `}
-          >
-            <span
-              className={`${activeTabId === tab.id ? "font-semibold" : ""}`}
+      <div className="flex w-full justify-start p-1 bg-gray-100 dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600">
+        {items.map((tab, index) => (
+          <div key={index} className="relative w-full">
+            {activeTabId === tab.id && (
+              <motion.div
+                className="absolute inset-0 bg-white dark:bg-gray-700 rounded-xs"
+                layoutId="activeTab"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              />
+            )}
+            <button
+              onClick={() => handleTabClick(tab.id)}
+              className={`w-full px-6 py-1.5 text-sm font-medium rounded-xs transition-all duration-300 relative z-10 ${
+                activeTabId === tab.id
+                  ? ""
+                  : "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+              }`}
             >
-              {tab.label}
-            </span>
-          </button>
+              <span
+                className={`${
+                  activeTabId === tab.id
+                    ? "text-gray-800 dark:text-gray-200"
+                    : "text-gray-600 dark:text-gray-400"
+                }
+                  font-semibold text-sm transition-all duration-200`}
+              >
+                {tab.label}
+              </span>
+            </button>
+          </div>
         ))}
       </div>
       <div className="h-[calc(100%-3.5rem)] absolute inset-x-0 bottom-0 flex-grow max-h-full overflow-hidden mt-2 z-0">
-        {activeTab?.content}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTabId}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="h-full"
+          >
+            {activeTab?.content}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

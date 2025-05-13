@@ -95,7 +95,7 @@ export default function NotebookPage() {
         <Tooltip text="Edit title" position="bottom">
           <IconButton
             icon={<EditIcon />}
-            variant="secondary"
+            variant="ghost"
             size="md"
             className="flex-shrink-0"
           />
@@ -115,7 +115,7 @@ export default function NotebookPage() {
                     <Tooltip text="Add source" position="bottom">
                       <IconButton
                         icon={<AddIcon />}
-                        variant="secondary"
+                        variant="primary"
                         size="sm"
                         className="flex-shrink-0"
                       />
@@ -139,7 +139,7 @@ export default function NotebookPage() {
                     <Tooltip text="Add note" position="bottom">
                       <IconButton
                         icon={<AddIcon />}
-                        variant="secondary"
+                        variant="primary"
                         size="sm"
                         className="flex-shrink-0"
                       />
