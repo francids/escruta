@@ -4,6 +4,7 @@ import type User from "./interfaces/User";
 interface AuthContextType {
   token: string | null;
   isAuthenticated: () => boolean;
+  checkTokenValidity: () => boolean;
   login: (email: string, password: string) => Promise<unknown>;
   logout: () => void;
   loading: boolean;

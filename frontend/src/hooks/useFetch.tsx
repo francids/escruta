@@ -3,6 +3,7 @@ import useCookie from "./useCookie";
 import backendClient from "../backend";
 import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from "axios";
 import { AUTH_TOKEN_KEY } from "../config";
+import type Token from "../auth/interfaces/Token";
 
 interface UseFetchState<T> {
   data: T | null;
@@ -48,7 +49,7 @@ function useFetch<T = unknown>(
     loading: false,
     error: null,
   });
-  const [token] = useCookie<{ token: string }>(AUTH_TOKEN_KEY);
+  const [token] = useCookie<Token>(AUTH_TOKEN_KEY);
 
   const cacheTime = options?.cacheTime ?? 5 * 60 * 1000;
   const cacheKey = useRef<string>(generateCacheKey(endpoint, options));
