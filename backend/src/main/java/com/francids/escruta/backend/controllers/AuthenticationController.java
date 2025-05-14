@@ -12,7 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +48,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody LoginUserDto loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         if (authenticatedUser == null) {
@@ -66,7 +65,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<BasicUser> getUser(@AuthenticationPrincipal User user) {
+    public ResponseEntity<BasicUser> getUser() {
         var basicUser = userService.getCurrentBasicUser();
         return ResponseEntity.ok(basicUser);
     }
