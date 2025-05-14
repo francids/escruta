@@ -6,3 +6,5 @@ export { default as TextField } from "./TextField";
 export { default as Menu } from "./Menu";
 export { default as IconButton } from "./IconButton";
 export { default as Tab } from "./Tab";
+export { default as Card } from "./Card";
+export { default as Toast } from "./Toast";

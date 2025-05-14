@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import PatternBackground from "../../shared/PatternBackground";
 import Logo from "../../shared/Logo";
 import { motion, AnimatePresence } from "motion/react";
+import { Toast } from "../../app/components/ui";
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
@@ -12,6 +13,7 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -48,8 +50,14 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await register(email, password, fullName);
-      navigate("/app");
+      const response = await register(email, password, fullName);
+      if (response.status === 201) {
+        setShowSuccessToast(true);
+        setTimeout(() => {
+          setShowSuccessToast(false);
+          navigate("/app");
+        }, 1500);
+      }
     } catch (err: unknown) {
       const error = err as { status: number; message?: string };
       if (error.status) {
@@ -71,6 +79,14 @@ export default function RegisterPage() {
   return (
     <div className="relative h-screen w-full">
       <PatternBackground className="hidden sm:block" />
+      <Toast
+        isVisible={showSuccessToast}
+        onClose={() => setShowSuccessToast(false)}
+        message="Registration successful! Redirecting..."
+        type="success"
+        position="bottom-right"
+        duration={1500}
+      />
       <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
