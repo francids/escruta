@@ -95,3 +95,19 @@
   /* Black */
   --color-black: #000;
 }
+
+@supports (scrollbar-color: auto) {
+  @media (prefers-color-scheme: dark) {
+    html {
+      scrollbar-color: var(--color-neutral-700) var(--color-neutral-900);
+      scrollbar-width: thin;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    html {
+      scrollbar-color: var(--color-neutral-300) var(--color-neutral-100);
+      scrollbar-width: thin;
+    }
+  }
+}
