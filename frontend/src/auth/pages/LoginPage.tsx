@@ -13,14 +13,49 @@ export default function LoginPage() {
   );
   const [email, setEmail] = useState(savedEmail!.email || "");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [rememberEmail, setRememberEmail] = useState(!!savedEmail!.email);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [allowSubmit, setAllowSubmit] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  const checkPasswordStrength = (password: string) => {
+    const criteria = [
+      {
+        valid: password.length >= 8,
+        message: "Password must be at least 8 characters.",
+      },
+      {
+        valid: /[A-Z]/.test(password),
+        message: "Password must contain at least one uppercase letter.",
+      },
+      {
+        valid: /[a-z]/.test(password),
+        message: "Password must contain at least one lowercase letter.",
+      },
+      {
+        valid: /[0-9]/.test(password),
+        message: "Password must contain at least one number.",
+      },
+    ];
+
+    const failedCriterion = criteria.find((criterion) => !criterion.valid);
+
+    return {
+      isValid: !failedCriterion,
+      errorMessage: failedCriterion ? failedCriterion.message : "",
+      lengthCriteria: criteria[0].valid,
+      uppercaseCriteria: criteria[1].valid,
+      lowercaseCriteria: criteria[2].valid,
+      numberCriteria: criteria[3].valid,
+    };
+  };
 
   useEffect(() => {
     if (savedEmail?.email) {
@@ -30,9 +65,42 @@ export default function LoginPage() {
     }
   }, [savedEmail?.email]);
 
+  useEffect(() => {
+    if (passwordTouched) {
+      const validationResult = checkPasswordStrength(password);
+      setPasswordError(validationResult.errorMessage);
+    }
+  }, [password, passwordTouched]);
+
+  useEffect(() => {
+    const isEmailValid = email.trim() !== "" && /\S+@\S+\.\S+/.test(email);
+    const passwordValidation = checkPasswordStrength(password);
+    const isPasswordValid =
+      passwordValidation.isValid && password.trim() !== "";
+
+    setAllowSubmit(isEmailValid && isPasswordValid);
+  }, [email, password]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email.");
+      return;
+    }
+
+    if (!password.trim()) {
+      setError("Password is required.");
+      return;
+    }
+
+    const passwordValidation = checkPasswordStrength(password);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.errorMessage);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -58,6 +126,13 @@ export default function LoginPage() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (!passwordTouched) {
+      setPasswordTouched(true);
     }
   };
 
@@ -135,11 +210,28 @@ export default function LoginPage() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              onChange={handlePasswordChange}
+              className={`w-full px-3 py-2 border ${
+                passwordError
+                  ? "border-red-400"
+                  : "border-gray-300 dark:border-gray-600"
+              } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
               required
               ref={passwordInputRef}
             />
+            <AnimatePresence mode="wait">
+              {passwordError && (
+                <motion.p
+                  className="mt-1 text-sm text-red-500"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {passwordError}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </motion.div>
           <motion.div
             className="mb-4 flex items-center"
@@ -176,13 +268,17 @@ export default function LoginPage() {
           </AnimatePresence>
           <motion.button
             type="submit"
-            disabled={loading}
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded-xs hover:bg-blue-600 transition duration-300 select-none disabled:bg-blue-300"
+            disabled={loading || !allowSubmit}
+            className={`w-full ${
+              allowSubmit
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-blue-300 cursor-not-allowed"
+            } text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.6 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: allowSubmit ? 1.02 : 1 }}
+            whileTap={{ scale: allowSubmit ? 0.98 : 1 }}
           >
             {loading ? (
               <span className="flex items-center justify-center">
