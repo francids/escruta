@@ -13,7 +13,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   );
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useCookie<User | null>(
+    "user",
+    null
+  ) as [User | null, (value: User | null) => void];
 
   const login = async (email: string, password: string) => {
     const response = await authService.login(email, password);
@@ -43,6 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setCurrentUser(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenCookie]);
 
   const isAuthenticated = useCallback(() => {

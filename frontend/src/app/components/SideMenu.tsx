@@ -3,19 +3,15 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Tooltip, Button, Modal, IconButton } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
-import type User from "../../auth/interfaces/User";
-import useCookie from "../../hooks/useCookie";
 import { useState } from "react";
 import AppIcon from "../../shared/AppIcon";
 
 export default function SideMenu() {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const [, setUser] = useCookie<User | null>("user", null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = () => {
-    setUser(null);
     logout();
     navigate("/app", { replace: true });
     setShowLogoutModal(false);
