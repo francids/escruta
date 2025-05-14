@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import useCookie from "../../hooks/useCookie";
@@ -18,6 +18,17 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (savedEmail?.email) {
+      passwordInputRef.current?.focus();
+    } else {
+      emailInputRef.current?.focus();
+    }
+  }, [savedEmail?.email]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +116,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
               required
+              ref={emailInputRef}
             />
           </motion.div>
           <motion.div
@@ -126,6 +138,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
               required
+              ref={passwordInputRef}
             />
           </motion.div>
           <motion.div
