@@ -10,7 +10,10 @@ export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [allowSubmit, setAllowSubmit] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -19,9 +22,62 @@ export default function RegisterPage() {
 
   const fullNameInputRef = useRef<HTMLInputElement>(null);
 
+  const checkPasswordStrength = (password: string) => {
+    const criteria = [
+      {
+        valid: password.length >= 8,
+        message: "Password must be at least 8 characters.",
+      },
+      {
+        valid: /[A-Z]/.test(password),
+        message: "Password must contain at least one uppercase letter.",
+      },
+      {
+        valid: /[a-z]/.test(password),
+        message: "Password must contain at least one lowercase letter.",
+      },
+      {
+        valid: /[0-9]/.test(password),
+        message: "Password must contain at least one number.",
+      },
+    ];
+
+    const failedCriterion = criteria.find((criterion) => !criterion.valid);
+
+    return {
+      isValid: !failedCriterion,
+      errorMessage: failedCriterion ? failedCriterion.message : "",
+      lengthCriteria: criteria[0].valid,
+      uppercaseCriteria: criteria[1].valid,
+      lowercaseCriteria: criteria[2].valid,
+      numberCriteria: criteria[3].valid,
+    };
+  };
+
   useEffect(() => {
     fullNameInputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (passwordTouched) {
+      const validationResult = checkPasswordStrength(password);
+      setPasswordError(validationResult.errorMessage);
+    }
+  }, [password, passwordTouched]);
+
+  useEffect(() => {
+    const isEmailValid = email.trim() !== "" && /\S+@\S+\.\S+/.test(email);
+    const isFullNameValid = fullName.trim() !== "";
+    const passwordValidation = checkPasswordStrength(password);
+    const isPasswordValid =
+      passwordValidation.isValid && password.trim() !== "";
+    const doPasswordsMatch =
+      password === confirmPassword && confirmPassword !== "";
+
+    setAllowSubmit(
+      isEmailValid && isFullNameValid && isPasswordValid && doPasswordsMatch
+    );
+  }, [fullName, email, password, confirmPassword]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,8 +93,14 @@ export default function RegisterPage() {
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (!password.trim()) {
+      setError("Password is required.");
+      return;
+    }
+
+    const passwordValidation = checkPasswordStrength(password);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.errorMessage);
       return;
     }
 
@@ -73,6 +135,13 @@ export default function RegisterPage() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (!passwordTouched) {
+      setPasswordTouched(true);
     }
   };
 
@@ -139,6 +208,7 @@ export default function RegisterPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              placeholder="John Doe"
               required
               ref={fullNameInputRef}
             />
@@ -182,10 +252,27 @@ export default function RegisterPage() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              onChange={handlePasswordChange}
+              className={`w-full px-3 py-2 border ${
+                passwordError
+                  ? "border-red-400"
+                  : "border-gray-300 dark:border-gray-600"
+              } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
               required
             />
+            <AnimatePresence mode="wait">
+              {passwordError && (
+                <motion.p
+                  className="mt-1 text-sm text-red-500"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {passwordError}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           <motion.div
@@ -205,9 +292,26 @@ export default function RegisterPage() {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              className={`w-full px-3 py-2 border ${
+                password !== confirmPassword && confirmPassword
+                  ? "border-red-400"
+                  : "border-gray-300 dark:border-gray-600"
+              } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
               required
             />
+            <AnimatePresence mode="wait">
+              {password !== confirmPassword && confirmPassword && (
+                <motion.p
+                  className="mt-1 text-sm text-red-500"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Passwords do not match.
+                </motion.p>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           <AnimatePresence mode="wait">
@@ -226,13 +330,17 @@ export default function RegisterPage() {
 
           <motion.button
             type="submit"
-            disabled={loading}
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded-xs hover:bg-blue-600 transition duration-300 select-none disabled:bg-blue-300"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            disabled={loading || !allowSubmit || showSuccessToast}
+            className={`w-full ${
+              allowSubmit
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-blue-300 cursor-not-allowed"
+            } text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.7 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: allowSubmit ? 1.02 : 1 }}
+            whileTap={{ scale: allowSubmit ? 0.98 : 1 }}
           >
             {loading ? (
               <span className="flex items-center justify-center">
