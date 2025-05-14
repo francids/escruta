@@ -1,5 +1,5 @@
 import type Notebook from "../interfaces/Notebook";
-import { Button, Menu, Modal, TextField } from "./ui";
+import { Button, Menu, Modal } from "./ui";
 import { NotebookIcon, DotsVerticalIcon } from "./icons";
 import { IconButton } from "./ui";
 import { useState } from "react";
@@ -7,29 +7,9 @@ import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router";
 
 export default function NotebookCard({ notebook }: { notebook: Notebook }) {
-  const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
-  const [newNotebookTitle, setNewNotebookTitle] = useState<string>(
-    notebook.title
-  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const {
-    loading: renamingNotebook,
-    error: renameError,
-    refetch: renameNotebook,
-  } = useFetch<Notebook>(
-    "/notebooks",
-    {
-      method: "PUT",
-      data: {
-        id: notebook.id,
-        title: newNotebookTitle,
-      },
-    },
-    false
-  );
 
   const {
     loading: deletingNotebook,
@@ -45,16 +25,6 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
     },
     false
   );
-
-  async function handleRenameNotebook() {
-    try {
-      await renameNotebook();
-      notebook.title = newNotebookTitle;
-      setIsRenameModalOpen(false);
-    } catch (error) {
-      console.error("Error renaming notebook:", error);
-    }
-  }
 
   async function handleDeleteNotebook() {
     try {
@@ -100,10 +70,6 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
             <Menu
               items={[
                 {
-                  label: "Rename",
-                  onClick: () => setIsRenameModalOpen(true),
-                },
-                {
                   label: "Delete",
                   onClick: () => setIsDeleteModalOpen(true),
                   variant: "danger",
@@ -130,48 +96,6 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
           </p>
         </div>
       </div>
-
-      {/* Rename Modal */}
-      <Modal
-        isOpen={isRenameModalOpen}
-        onClose={() => setIsRenameModalOpen(false)}
-        title="Rename notebook"
-        actions={
-          <>
-            <Button
-              variant="secondary"
-              onClick={() => setIsRenameModalOpen(false)}
-              disabled={renamingNotebook}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleRenameNotebook}
-              disabled={!newNotebookTitle.trim() || renamingNotebook}
-            >
-              {renamingNotebook ? "Renaming..." : "Rename"}
-            </Button>
-          </>
-        }
-      >
-        <div className="space-y-4">
-          <TextField
-            id="notebook-title"
-            label="Notebook Title"
-            type="text"
-            value={newNotebookTitle}
-            onChange={(e) => setNewNotebookTitle(e.target.value)}
-            placeholder="Enter new notebook title"
-            autoFocus
-          />
-          {renameError && (
-            <div className="text-red-500 text-sm">
-              Error: {renameError.message}
-            </div>
-          )}
-        </div>
-      </Modal>
 
       {/* Delete Modal */}
       <Modal
