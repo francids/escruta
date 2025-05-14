@@ -31,6 +31,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return response;
   };
 
+  const register = async (
+    email: string,
+    password: string,
+    fullName: string
+  ) => {
+    const response = await authService.register(email, password, fullName);
+    if (response.status === 201 && response.data.token) {
+      setTokenCookie({
+        token: response.data.token,
+        expiresIn: response.data.expiresIn,
+        createdAt: Date.now(),
+      });
+      await fetchUserData();
+    }
+    return response;
+  };
+
   const logout = () => {
     setTokenCookie({ token: null, expiresIn: 0, createdAt: undefined });
     setCurrentUser(null);
@@ -90,6 +107,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated,
         checkTokenValidity,
         login,
+        register,
         logout,
         loading,
         currentUser,

@@ -9,6 +9,7 @@ import com.francids.escruta.backend.services.AuthenticationService;
 import com.francids.escruta.backend.services.JwtService;
 import com.francids.escruta.backend.services.UserService;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,10 +31,21 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signUp(registerUserDto);
+    public ResponseEntity<LoginResponse> register(@Valid @RequestBody RegisterUserDto registerUserDto) {
+        try {
+            User registeredUser = authenticationService.signUp(registerUserDto);
+            String jwtToken = jwtService.generateToken(registeredUser);
 
-        return ResponseEntity.ok(registeredUser);
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setToken(jwtToken);
+            loginResponse.setExpiresIn(jwtService.getExpirationTime());
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/login")

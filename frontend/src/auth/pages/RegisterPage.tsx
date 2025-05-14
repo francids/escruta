@@ -1,55 +1,62 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import useCookie from "../../hooks/useCookie";
 import PatternBackground from "../../shared/PatternBackground";
 import Logo from "../../shared/Logo";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function LoginPage() {
-  const [savedEmail, setSavedEmail] = useCookie<{ email: string }>(
-    "savedEmail",
-    { email: "" }
-  );
-  const [email, setEmail] = useState(savedEmail!.email || "");
+export default function RegisterPage() {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberEmail, setRememberEmail] = useState(!!savedEmail!.email);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { register } = useAuth();
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const fullNameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (savedEmail?.email) {
-      passwordInputRef.current?.focus();
-    } else {
-      emailInputRef.current?.focus();
-    }
-  }, [savedEmail?.email]);
+    fullNameInputRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!fullName.trim()) {
+      setError("Full name is required.");
+      return;
+    }
+
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login(email, password);
-      if (rememberEmail) {
-        setSavedEmail({ email });
-      } else if (savedEmail!.email) {
-        setSavedEmail({ email: "" });
-      }
+      await register(email, password, fullName);
       navigate("/app");
     } catch (err: unknown) {
-      const error = err as { status: number };
+      const error = err as { status: number; message?: string };
       if (error.status) {
         setError(
-          error.status === 401
-            ? "Invalid email or password."
-            : "Login error. Please try again."
+          error.status === 409
+            ? "This email is already registered."
+            : "Registration error. Please try again."
         );
       } else {
         setError(
@@ -95,13 +102,37 @@ export default function LoginPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            Login
+            Register
           </motion.h1>
+
           <motion.div
             className="mb-4"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
+          >
+            <label
+              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+              htmlFor="fullName"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              required
+              ref={fullNameInputRef}
+            />
+          </motion.div>
+
+          <motion.div
+            className="mb-4"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
           >
             <label
               className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
@@ -116,14 +147,14 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
               required
-              ref={emailInputRef}
             />
           </motion.div>
+
           <motion.div
             className="mb-4"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
           >
             <label
               className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
@@ -138,29 +169,31 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
               required
-              ref={passwordInputRef}
             />
           </motion.div>
+
           <motion.div
-            className="mb-4 flex items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
+            className="mb-4"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.6 }}
           >
-            <input
-              type="checkbox"
-              id="rememberEmail"
-              checked={rememberEmail}
-              onChange={(e) => setRememberEmail(e.target.checked)}
-              className="mr-2 size-4 text-blue-500 border-gray-300 rounded-xs shadow-none focus:ring-blue-500 dark:focus:ring-blue-400"
-            />
             <label
-              htmlFor="rememberEmail"
-              className="text-gray-700 dark:text-gray-300 select-none text-sm"
+              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+              htmlFor="confirmPassword"
             >
-              Remember my email
+              Confirm Password
             </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+              required
+            />
           </motion.div>
+
           <AnimatePresence mode="wait">
             {error && (
               <motion.div
@@ -174,13 +207,14 @@ export default function LoginPage() {
               </motion.div>
             )}
           </AnimatePresence>
+
           <motion.button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-500 text-white px-4 py-2 rounded-xs hover:bg-blue-600 transition duration-300 select-none disabled:bg-blue-300"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.6 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.7 }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -191,37 +225,27 @@ export default function LoginPage() {
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                 />
-                Logging in...
+                Registering...
               </span>
             ) : (
-              "Login"
+              "Register"
             )}
           </motion.button>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            transition={{ duration: 0.3, delay: 0.6 }}
-            className="flex items-center my-6"
-          >
-            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
-            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
-          </motion.div>
-
-          <motion.div
-            className="text-center"
+            className="mt-4 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
+            transition={{ duration: 0.3, delay: 0.8 }}
           >
             <span className="text-sm text-gray-600 dark:text-gray-400">
-              Don't have an account?{" "}
+              Already have an account?{" "}
             </span>
             <Link
-              to="/register"
+              to="/login"
               className="text-sm text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              Register
+              Log in
             </Link>
           </motion.div>
         </motion.form>

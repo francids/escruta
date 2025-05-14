@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import LandingLayout from "./landing/LandingLayout.tsx";
 import LandingRoutes from "./landing/LandingRoutes.tsx";
 import LoginPage from "./auth/pages/LoginPage.tsx";
+import RegisterPage from "./auth/pages/RegisterPage.tsx";
 import AppRoutes from "./app/AppRoutes.tsx";
 import ProtectedRoute from "./auth/ProtectedRoute.tsx";
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "login",
     Component: LoginPage,
+  },
+  {
+    path: "register",
+    Component: RegisterPage,
   },
   {
     Component: ProtectedRoute,
