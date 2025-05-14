@@ -5,6 +5,7 @@ import { AUTH_TOKEN_KEY } from "../config";
 import { AuthContext } from "./AuthContext";
 import type User from "./interfaces/User";
 import type Token from "./interfaces/Token";
+import useFetch from "../hooks/useFetch";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [tokenCookie, setTokenCookie] = useCookie<Token>(AUTH_TOKEN_KEY, {
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     setTokenCookie({ token: null, expiresIn: 0, createdAt: undefined });
     setCurrentUser(null);
+    useFetch.clearCache();
   };
 
   const fetchUserData = useCallback(async () => {
