@@ -22,25 +22,27 @@ public class NotebookService {
     private final NoteRepository noteRepository;
     private final SourceRepository sourceRepository;
 
+    private boolean isUserNotebookOwner(UUID notebookId) {
+        return notebookRepository.existsByIdAndUserId(notebookId, userService.getUserId());
+    }
+
     public List<NotebookDto> getAllUserNotebooks() {
-        return notebookRepository
-                .findByUserId(userService.getUserId())
-                .stream()
-                .map(NotebookDto::new)
-                .toList();
+        return notebookRepository.findByUserId(userService.getUserId()).stream().map(NotebookDto::new).toList();
     }
 
     public Optional<NotebookWithDetailsDto> getUserNotebookWithDetails(UUID id) {
-        var currentUser = userService.getCurrentBasicUser();
-        if (currentUser != null) {
-            Optional<Notebook> notebookOptional = notebookRepository.findById(id);
-            if (notebookOptional.isPresent()) {
-                Notebook notebook = notebookOptional.get();
-                List<Note> notes = noteRepository.findByNotebookId(id);
-                List<Source> sources = sourceRepository.findByNotebookId(id);
-                return Optional.of(new NotebookWithDetailsDto(notebook, notes, sources));
-            }
+        if (!isUserNotebookOwner(id)) {
+            return Optional.empty();
         }
+
+        Optional<Notebook> notebookOptional = notebookRepository.findById(id);
+        if (notebookOptional.isPresent()) {
+            Notebook notebook = notebookOptional.get();
+            List<Note> notes = noteRepository.findByNotebookId(id);
+            List<Source> sources = sourceRepository.findByNotebookId(id);
+            return Optional.of(new NotebookWithDetailsDto(notebook, notes, sources));
+        }
+
         return Optional.empty();
     }
 
@@ -59,6 +61,12 @@ public class NotebookService {
     }
 
     public NotebookDto updateNotebook(NotebookDto newNotebookDto) {
+        UUID notebookId = newNotebookDto.getId();
+
+        if (!isUserNotebookOwner(notebookId)) {
+            return null;
+        }
+
         if (notebookRepository.findById(newNotebookDto.getId()).isPresent()) {
             Notebook notebook = notebookRepository.findById(newNotebookDto.getId()).get();
             notebook.setIcon(newNotebookDto.getIcon() == null ? notebook.getIcon() : newNotebookDto.getIcon());
@@ -70,6 +78,12 @@ public class NotebookService {
     }
 
     public NotebookDto deleteNotebook(NotebookDto notebookDto) {
+        UUID notebookId = notebookDto.getId();
+
+        if (!isUserNotebookOwner(notebookId)) {
+            return null;
+        }
+
         if (notebookRepository.findById(notebookDto.getId()).isPresent()) {
             var notebook = notebookRepository.findById(notebookDto.getId()).get();
             notebookRepository.deleteById(notebook.getId());
