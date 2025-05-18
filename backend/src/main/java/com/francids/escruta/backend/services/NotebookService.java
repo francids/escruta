@@ -54,8 +54,8 @@ public class NotebookService {
         if (currentUser != null) {
             Notebook notebook = new Notebook();
             notebook.setUser(currentUser);
-            notebook.setIcon(createNotebookDto.getIcon());
-            notebook.setTitle(createNotebookDto.getTitle());
+            notebook.setIcon(createNotebookDto.icon());
+            notebook.setTitle(createNotebookDto.title());
             notebookRepository.save(notebook);
 
             return new NotebookResponseDTO(notebook);
@@ -65,7 +65,7 @@ public class NotebookService {
 
     public NotebookResponseDTO updateNotebook(NotebookUpdateDTO newNotebookDto) {
         try {
-            UUID notebookId = UUID.fromString(newNotebookDto.getId());
+            UUID notebookId = UUID.fromString(newNotebookDto.id());
 
             if (!isUserNotebookOwner(notebookId)) {
                 return null;
@@ -74,8 +74,8 @@ public class NotebookService {
             Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
             if (notebookOptional.isPresent()) {
                 Notebook notebook = notebookOptional.get();
-                notebook.setIcon(newNotebookDto.getIcon() == null ? notebook.getIcon() : newNotebookDto.getIcon());
-                notebook.setTitle(newNotebookDto.getTitle() == null ? notebook.getTitle() : newNotebookDto.getTitle());
+                notebook.setIcon(newNotebookDto.icon() == null ? notebook.getIcon() : newNotebookDto.icon());
+                notebook.setTitle(newNotebookDto.title() == null ? notebook.getTitle() : newNotebookDto.title());
                 notebookRepository.save(notebook);
                 return new NotebookResponseDTO(notebook);
             }
@@ -87,7 +87,7 @@ public class NotebookService {
 
     public NotebookResponseDTO deleteNotebook(NotebookUpdateDTO notebookDto) {
         try {
-            UUID notebookId = UUID.fromString(notebookDto.getId());
+            UUID notebookId = UUID.fromString(notebookDto.id());
 
             if (!isUserNotebookOwner(notebookId)) {
                 return null;
