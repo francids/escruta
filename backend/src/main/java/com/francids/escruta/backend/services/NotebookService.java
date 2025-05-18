@@ -7,6 +7,7 @@ import com.francids.escruta.backend.dtos.notebook.NotebookWithDetailsDTO;
 import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.entities.Source;
+import com.francids.escruta.backend.mappers.NotebookMapper;
 import com.francids.escruta.backend.repositories.NoteRepository;
 import com.francids.escruta.backend.repositories.NotebookRepository;
 import com.francids.escruta.backend.repositories.SourceRepository;
@@ -24,6 +25,7 @@ public class NotebookService {
     private final UserService userService;
     private final NoteRepository noteRepository;
     private final SourceRepository sourceRepository;
+    private final NotebookMapper notebookMapper;
 
     private boolean isUserNotebookOwner(UUID notebookId) {
         return notebookRepository.existsByIdAndUserId(notebookId, userService.getUserId());
@@ -52,10 +54,7 @@ public class NotebookService {
     public NotebookResponseDTO createNotebook(NotebookCreationDTO createNotebookDto) {
         var currentUser = userService.getCurrentFullUser();
         if (currentUser != null) {
-            Notebook notebook = new Notebook();
-            notebook.setUser(currentUser);
-            notebook.setIcon(createNotebookDto.icon());
-            notebook.setTitle(createNotebookDto.title());
+            Notebook notebook = notebookMapper.toNotebook(createNotebookDto, currentUser);
             notebookRepository.save(notebook);
 
             return new NotebookResponseDTO(notebook);
@@ -74,8 +73,7 @@ public class NotebookService {
             Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
             if (notebookOptional.isPresent()) {
                 Notebook notebook = notebookOptional.get();
-                notebook.setIcon(newNotebookDto.icon() == null ? notebook.getIcon() : newNotebookDto.icon());
-                notebook.setTitle(newNotebookDto.title() == null ? notebook.getTitle() : newNotebookDto.title());
+                notebookMapper.updateNotebookFromDto(newNotebookDto, notebook);
                 notebookRepository.save(notebook);
                 return new NotebookResponseDTO(notebook);
             }
