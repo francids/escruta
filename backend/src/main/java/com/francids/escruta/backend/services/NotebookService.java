@@ -1,6 +1,9 @@
 package com.francids.escruta.backend.services;
 
-import com.francids.escruta.backend.dtos.*;
+import com.francids.escruta.backend.dtos.notebook.NotebookCreationDTO;
+import com.francids.escruta.backend.dtos.notebook.NotebookResponseDTO;
+import com.francids.escruta.backend.dtos.notebook.NotebookUpdateDTO;
+import com.francids.escruta.backend.dtos.notebook.NotebookWithDetailsDTO;
 import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.entities.Source;
@@ -26,11 +29,11 @@ public class NotebookService {
         return notebookRepository.existsByIdAndUserId(notebookId, userService.getUserId());
     }
 
-    public List<NotebookDto> getAllUserNotebooks() {
-        return notebookRepository.findByUserId(userService.getUserId()).stream().map(NotebookDto::new).toList();
+    public List<NotebookResponseDTO> getAllUserNotebooks() {
+        return notebookRepository.findByUserId(userService.getUserId()).stream().map(NotebookResponseDTO::new).toList();
     }
 
-    public Optional<NotebookWithDetailsDto> getUserNotebookWithDetails(UUID id) {
+    public Optional<NotebookWithDetailsDTO> getUserNotebookWithDetails(UUID id) {
         if (!isUserNotebookOwner(id)) {
             return Optional.empty();
         }
@@ -40,13 +43,13 @@ public class NotebookService {
             Notebook notebook = notebookOptional.get();
             List<Note> notes = noteRepository.findByNotebookId(id);
             List<Source> sources = sourceRepository.findByNotebookId(id);
-            return Optional.of(new NotebookWithDetailsDto(notebook, notes, sources));
+            return Optional.of(new NotebookWithDetailsDTO(notebook, notes, sources));
         }
 
         return Optional.empty();
     }
 
-    public NotebookDto createNotebook(CreateNotebookDto createNotebookDto) {
+    public NotebookResponseDTO createNotebook(NotebookCreationDTO createNotebookDto) {
         var currentUser = userService.getCurrentFullUser();
         if (currentUser != null) {
             Notebook notebook = new Notebook();
@@ -55,40 +58,51 @@ public class NotebookService {
             notebook.setTitle(createNotebookDto.getTitle());
             notebookRepository.save(notebook);
 
-            return new NotebookDto(notebook);
+            return new NotebookResponseDTO(notebook);
         }
         return null;
     }
 
-    public NotebookDto updateNotebook(NotebookDto newNotebookDto) {
-        UUID notebookId = newNotebookDto.getId();
+    public NotebookResponseDTO updateNotebook(NotebookUpdateDTO newNotebookDto) {
+        try {
+            UUID notebookId = UUID.fromString(newNotebookDto.getId());
 
-        if (!isUserNotebookOwner(notebookId)) {
+            if (!isUserNotebookOwner(notebookId)) {
+                return null;
+            }
+
+            Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
+            if (notebookOptional.isPresent()) {
+                Notebook notebook = notebookOptional.get();
+                notebook.setIcon(newNotebookDto.getIcon() == null ? notebook.getIcon() : newNotebookDto.getIcon());
+                notebook.setTitle(newNotebookDto.getTitle() == null ? notebook.getTitle() : newNotebookDto.getTitle());
+                notebookRepository.save(notebook);
+                return new NotebookResponseDTO(notebook);
+            }
+            return null;
+        } catch (IllegalArgumentException e) {
             return null;
         }
-
-        if (notebookRepository.findById(newNotebookDto.getId()).isPresent()) {
-            Notebook notebook = notebookRepository.findById(newNotebookDto.getId()).get();
-            notebook.setIcon(newNotebookDto.getIcon() == null ? notebook.getIcon() : newNotebookDto.getIcon());
-            notebook.setTitle(newNotebookDto.getTitle() == null ? notebook.getTitle() : newNotebookDto.getTitle());
-            notebookRepository.save(notebook);
-            return new NotebookDto(notebook);
-        }
-        return null;
     }
 
-    public NotebookDto deleteNotebook(NotebookDto notebookDto) {
-        UUID notebookId = notebookDto.getId();
+    public NotebookResponseDTO deleteNotebook(NotebookUpdateDTO notebookDto) {
+        try {
+            UUID notebookId = UUID.fromString(notebookDto.getId());
 
-        if (!isUserNotebookOwner(notebookId)) {
+            if (!isUserNotebookOwner(notebookId)) {
+                return null;
+            }
+
+            Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
+            if (notebookOptional.isPresent()) {
+                Notebook notebook = notebookOptional.get();
+                notebookRepository.deleteById(notebook.getId());
+                return new NotebookResponseDTO(notebook);
+            }
+            return null;
+        } catch (IllegalArgumentException e) {
             return null;
         }
-
-        if (notebookRepository.findById(notebookDto.getId()).isPresent()) {
-            var notebook = notebookRepository.findById(notebookDto.getId()).get();
-            notebookRepository.deleteById(notebook.getId());
-            return new NotebookDto(notebook);
-        }
-        return null;
     }
+
 }

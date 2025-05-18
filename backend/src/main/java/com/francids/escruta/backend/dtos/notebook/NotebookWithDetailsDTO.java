@@ -1,5 +1,8 @@
-package com.francids.escruta.backend.dtos;
+package com.francids.escruta.backend.dtos.notebook;
 
+import com.francids.escruta.backend.dtos.BasicUser;
+import com.francids.escruta.backend.dtos.NoteDto;
+import com.francids.escruta.backend.dtos.SourceDto;
 import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.entities.Source;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class NotebookWithDetailsDto {
+public class NotebookWithDetailsDTO {
     private UUID id;
     private BasicUser user;
     private String icon;
@@ -23,7 +26,7 @@ public class NotebookWithDetailsDto {
     private List<NoteDto> notes;
     private List<SourceDto> sources;
 
-    public NotebookWithDetailsDto(Notebook notebook, List<Note> notes, List<Source> sources) {
+    public NotebookWithDetailsDTO(Notebook notebook, List<Note> notes, List<Source> sources) {
         this.id = notebook.getId();
         this.user = new BasicUser(notebook.getUser());
         this.icon = notebook.getIcon();
@@ -33,5 +36,4 @@ public class NotebookWithDetailsDto {
         this.notes = notes.stream().map(NoteDto::new).collect(Collectors.toList());
         this.sources = sources.stream().map(SourceDto::new).collect(Collectors.toList());
     }
-
 }
