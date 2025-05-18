@@ -1,50 +1,33 @@
 package com.francids.escruta.backend.services;
 
-import com.francids.escruta.backend.dtos.CreateNotebookDto;
-import com.francids.escruta.backend.dtos.NotebookDto;
-import com.francids.escruta.backend.dtos.NotebookWithDetailsDto;
+import com.francids.escruta.backend.dtos.*;
 import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.entities.Source;
 import com.francids.escruta.backend.repositories.NoteRepository;
 import com.francids.escruta.backend.repositories.NotebookRepository;
 import com.francids.escruta.backend.repositories.SourceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 @Service
+@RequiredArgsConstructor
 public class NotebookService {
     private final NotebookRepository notebookRepository;
     private final UserService userService;
     private final NoteRepository noteRepository;
     private final SourceRepository sourceRepository;
 
-    NotebookService(
-            NotebookRepository notebookRepository,
-            UserService userService,
-            NoteRepository noteRepository,
-            SourceRepository sourceRepository
-    ) {
-        this.notebookRepository = notebookRepository;
-        this.userService = userService;
-        this.noteRepository = noteRepository;
-        this.sourceRepository = sourceRepository;
-    }
-
     public List<NotebookDto> getAllUserNotebooks() {
-        var currentUser = userService.getCurrentBasicUser();
-        if (currentUser != null) {
-            return StreamSupport
-                    .stream(notebookRepository.findAll().spliterator(), false)
-                    .map(NotebookDto::new)
-                    .filter(notebook -> notebook.getUser().getId().equals(currentUser.getId()))
-                    .toList();
-        }
-        return null;
+        return notebookRepository
+                .findByUserId(userService.getUserId())
+                .stream()
+                .map(NotebookDto::new)
+                .toList();
     }
 
     public Optional<NotebookWithDetailsDto> getUserNotebookWithDetails(UUID id) {

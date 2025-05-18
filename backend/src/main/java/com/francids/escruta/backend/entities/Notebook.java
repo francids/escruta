@@ -2,6 +2,7 @@ package com.francids.escruta.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Setter
 @Table(name = "notebooks")
 @Entity
+@RequiredArgsConstructor
 public class Notebook {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
