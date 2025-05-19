@@ -3,7 +3,6 @@ package com.francids.escruta.backend.dtos.notebook;
 import com.francids.escruta.backend.dtos.BasicUser;
 import com.francids.escruta.backend.dtos.note.NoteResponseDTO;
 import com.francids.escruta.backend.dtos.source.SourceResponseDTO;
-import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.entities.Source;
 
@@ -22,7 +21,7 @@ public record NotebookWithDetailsDTO(
         List<NoteResponseDTO> notes,
         List<SourceResponseDTO> sources
 ) {
-    public NotebookWithDetailsDTO(Notebook notebook, List<Note> notes, List<Source> sources) {
+    public NotebookWithDetailsDTO(Notebook notebook, List<NoteResponseDTO> notes, List<Source> sources) {
         this(
                 notebook.getId(),
                 new BasicUser(notebook.getUser()),
@@ -30,7 +29,7 @@ public record NotebookWithDetailsDTO(
                 notebook.getTitle(),
                 notebook.getCreatedAt(),
                 notebook.getUpdatedAt(),
-                notes.stream().map(NoteResponseDTO::new).collect(Collectors.toList()),
+                notes,
                 sources.stream().map(SourceResponseDTO::new).collect(Collectors.toList())
         );
     }
