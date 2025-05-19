@@ -61,27 +61,24 @@ public class NoteController {
         try {
             UUID uuid = UUID.fromString(notebookId);
             var note = noteService.updateNote(uuid, noteUpdateDTO);
-            return ResponseEntity.ok(note);
+            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{noteId}")
     public ResponseEntity<NoteResponseDTO> deleteNotebookNote(
             @PathVariable String notebookId,
-            @Valid @RequestBody NoteUpdateDTO noteUpdateDTO
+            @PathVariable String noteId
     ) {
         try {
-            UUID uuid = UUID.fromString(notebookId);
-            var note = noteService.deleteNote(uuid, noteUpdateDTO);
-            return ResponseEntity.ok(note);
+            UUID notebookUuid = UUID.fromString(notebookId);
+            UUID noteUuid = UUID.fromString(noteId);
+            var note = noteService.deleteNote(notebookUuid, noteUuid);
+            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
         }
     }
 }

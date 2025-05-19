@@ -54,9 +54,9 @@ public class NoteService {
         return null;
     }
 
-    public NoteResponseDTO deleteNote(UUID notebookId, NoteUpdateDTO noteDto) {
+    public NoteResponseDTO deleteNote(UUID notebookId, UUID noteId) {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
-        Optional<Note> noteOptional = noteRepository.findById(UUID.fromString(noteDto.id()));
+        Optional<Note> noteOptional = noteRepository.findById(noteId);
         if (notebookOptional.isPresent() && noteOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
             noteRepository.deleteById(noteOptional.get().getId());
             return new NoteResponseDTO(noteOptional.get());
