@@ -1,11 +1,13 @@
 package com.francids.escruta.backend.controllers;
 
+import com.francids.escruta.backend.dtos.source.SourceCreationDTO;
 import com.francids.escruta.backend.dtos.source.SourceResponseDTO;
 import com.francids.escruta.backend.dtos.source.SourceUpdateDTO;
 import com.francids.escruta.backend.dtos.source.SourceWithContentDTO;
 import com.francids.escruta.backend.services.SourceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +50,20 @@ public class SourceController {
             UUID sourceUuid = parseUUID(sourceId);
             var source = sourceService.getSource(notebookUuid, sourceUuid);
             return source != null ? ResponseEntity.ok(source) : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<SourceWithContentDTO> createNotebookSource(
+            @PathVariable String notebookId,
+            @Valid @RequestBody SourceCreationDTO sourceCreationDTO
+    ) {
+        try {
+            UUID uuid = parseUUID(notebookId);
+            var source = sourceService.addSource(uuid, sourceCreationDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(source);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
