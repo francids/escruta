@@ -3,6 +3,7 @@ package com.francids.escruta.backend.services;
 import com.francids.escruta.backend.dtos.note.NoteCreationDTO;
 import com.francids.escruta.backend.dtos.note.NoteResponseDTO;
 import com.francids.escruta.backend.dtos.note.NoteUpdateDTO;
+import com.francids.escruta.backend.dtos.note.NoteWithContentDTO;
 import com.francids.escruta.backend.entities.Note;
 import com.francids.escruta.backend.entities.Notebook;
 import com.francids.escruta.backend.mappers.NoteMapper;
@@ -29,6 +30,14 @@ public class NoteService {
             return noteRepository.findByNotebookId(notebookId).stream().map(NoteResponseDTO::new).toList();
         }
         return null;
+    }
+
+    public NoteWithContentDTO getNote(UUID notebookId, UUID noteId) {
+        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            return null;
+        }
+        Optional<Note> note = noteRepository.findById(noteId);
+        return note.map(NoteWithContentDTO::new).orElse(null);
     }
 
     public NoteResponseDTO addNote(UUID notebookId, NoteCreationDTO newNoteDto) {

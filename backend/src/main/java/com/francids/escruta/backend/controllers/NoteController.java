@@ -3,6 +3,7 @@ package com.francids.escruta.backend.controllers;
 import com.francids.escruta.backend.dtos.note.NoteCreationDTO;
 import com.francids.escruta.backend.dtos.note.NoteResponseDTO;
 import com.francids.escruta.backend.dtos.note.NoteUpdateDTO;
+import com.francids.escruta.backend.dtos.note.NoteWithContentDTO;
 import com.francids.escruta.backend.services.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,21 @@ public class NoteController {
         }
     }
 
+    @GetMapping("{noteId}")
+    public ResponseEntity<NoteWithContentDTO> getNotebookNoteContent(
+            @PathVariable String notebookId,
+            @PathVariable String noteId
+    ) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            UUID noteUuid = UUID.fromString(noteId);
+            var note = noteService.getNote(notebookUuid, noteUuid);
+            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<NoteResponseDTO> createNotebookNote(
             @PathVariable String notebookId,
@@ -67,7 +83,7 @@ public class NoteController {
         }
     }
 
-    @DeleteMapping("/{noteId}")
+    @DeleteMapping("{noteId}")
     public ResponseEntity<NoteResponseDTO> deleteNotebookNote(
             @PathVariable String notebookId,
             @PathVariable String noteId
