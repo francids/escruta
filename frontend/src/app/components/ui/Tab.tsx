@@ -37,12 +37,12 @@ export default function Tabs({
 
   return (
     <div className={`w-full relative ${className}`}>
-      <div className="flex w-full justify-start p-1 bg-gray-100 dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600">
+      <div className="flex w-full justify-start p-1 bg-gray-50 dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600">
         {items.map((tab, index) => (
           <div key={index} className="relative w-full">
             {activeTabId === tab.id && (
               <motion.div
-                className="absolute inset-0 bg-white dark:bg-gray-700 rounded-xs"
+                className="absolute inset-0 bg-gray-100 dark:bg-gray-700 rounded-xs"
                 layoutId="activeTab"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
