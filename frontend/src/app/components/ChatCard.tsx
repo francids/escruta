@@ -50,33 +50,51 @@ export default function ChatCard() {
     <Card className="col-span-6 flex flex-col h-full">
       <h2 className="text-lg font-sans font-normal mb-2">Chat</h2>
       <Divider className="mb-0" />
-      <div className="flex-grow overflow-y-auto p-0 space-y-4">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex ${
-              msg.sender === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
+      {messages.length > 0 ? (
+        <div className="flex-grow overflow-y-auto p-0 space-y-4">
+          {messages.map((msg) => (
             <div
-              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                msg.sender === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted"
+              key={msg.id}
+              className={`flex ${
+                msg.sender === "user" ? "justify-end" : "justify-start"
               }`}
             >
-              {msg.text}
+              <div
+                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg select-text ${
+                  msg.sender === "user"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted"
+                }`}
+              >
+                {msg.text}
+              </div>
             </div>
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-muted">
-              Thinking...
+          ))}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-muted select-text">
+                Thinking...
+              </div>
             </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex-grow flex items-center justify-start p-8">
+          <div className="text-muted-foreground">
+            <h3 className="text-xl font-semibold mb-3 text-foreground">
+              Summary of the notebook
+            </h3>
+            <p className="text-sm leading-relaxed">
+              This notebook contains analysis of customer behavior patterns
+              across different product categories. Key findings include a 23%
+              increase in mobile purchases, seasonal trends in electronics
+              sales, and correlation between user demographics and purchasing
+              preferences. The data spans Q1-Q3 2024 with over 50,000
+              transaction records analyzed using machine learning algorithms.
+            </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       <Divider className="mt-0" />
       <div className="py-4">
         <div className="flex items-center gap-2">
