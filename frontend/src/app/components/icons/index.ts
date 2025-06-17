@@ -8,3 +8,5 @@ export { default as EditIcon } from "./EditIcon";
 export { default as AddIcon } from "./AddIcon";
 export { default as LinkIcon } from "./LinkIcon";
 export { default as CloseIcon } from "./CloseIcon";
+export { default as ChatHistoryIcon } from "./ChatHistoryIcon";
+export { default as SendIcon } from "./SendIcon";

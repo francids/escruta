@@ -16,6 +16,7 @@ import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
 import { useEffect, useState } from "react";
 import type Notebook from "../interfaces/Notebook";
+import ChatCard from "../components/ChatCard";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -99,9 +100,9 @@ export default function NotebookPage() {
           />
         </Tooltip>
       </CommonBar>
-      <section className="grid grid-cols-3 grid-rows-1 gap-4 lg:grid-cols-4 h-full max-h-full overflow-hidden">
+      <section className="grid grid-cols-12 grid-rows-1 gap-4 h-full max-h-full overflow-hidden">
         <Tab
-          className="col-span-1 col-start-1"
+          className="col-span-5"
           items={[
             {
               id: "1",
@@ -118,8 +119,14 @@ export default function NotebookPage() {
         />
 
         {/* Chat */}
-        <Card className="col-span-3 col-start-2">
-          <h2 className="text-lg font-sans font-normal">Chat</h2>
+        <ChatCard />
+
+        {/* Tools */}
+        <Card className="col-span-1 h-full">
+          <h2 className="text-lg font-sans font-normal mb-2">Tools</h2>
+          <Tooltip text="" position="bottom">
+            <IconButton icon={<EditIcon />} variant="primary" size="lg" />
+          </Tooltip>
         </Card>
       </section>
 
