@@ -80,7 +80,7 @@ export default function ChatCard() {
         </div>
       ) : (
         <div className="flex-grow flex items-center justify-start p-8">
-          <div className="text-muted-foreground">
+          <div className="text-muted-foreground select-text">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
             </h3>
