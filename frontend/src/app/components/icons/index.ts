@@ -12,3 +12,5 @@ export { default as ChatHistoryIcon } from "./ChatHistoryIcon";
 export { default as SendIcon } from "./SendIcon";
 export { default as MindMapIcon } from "./MindMapIcon";
 export { default as WaveIcon } from "./WaveIcon";
+export { default as SearchIcon } from "./SearchIcon";
+export { default as StarsIcon } from "./StarsIcon";

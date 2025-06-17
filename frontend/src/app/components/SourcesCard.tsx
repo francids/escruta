@@ -1,5 +1,5 @@
 import type Source from "../interfaces/Source";
-import { AddIcon } from "./icons";
+import { AddIcon, StarsIcon } from "./icons";
 import SourceChip from "./SourceChip";
 import {
   Card,
@@ -68,15 +68,25 @@ export default function SourcesCard({ notebookId }: SourcesCardProps) {
       <Card className="h-full overflow-y-auto">
         <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
           <h2 className="text-lg font-sans font-normal">Sources</h2>
-          <Tooltip text="Add source" position="bottom">
-            <IconButton
-              icon={<AddIcon />}
-              variant="primary"
-              size="sm"
-              className="flex-shrink-0"
-              onClick={() => setIsAddSourceModalOpen(true)}
-            />
-          </Tooltip>
+          <div className="flex gap-3">
+            <Tooltip text="Find sources" position="bottom">
+              <IconButton
+                icon={<StarsIcon />}
+                variant="secondary"
+                size="sm"
+                className="flex-shrink-0"
+              />
+            </Tooltip>
+            <Tooltip text="Add source" position="bottom">
+              <IconButton
+                icon={<AddIcon />}
+                variant="primary"
+                size="sm"
+                className="flex-shrink-0"
+                onClick={() => setIsAddSourceModalOpen(true)}
+              />
+            </Tooltip>
+          </div>
         </div>
         <Divider className="my-4" />
         {(() => {
