@@ -107,7 +107,7 @@ export default function NotebookPage() {
             {
               id: "1",
               label: "Sources",
-              content: <SourcesCard />,
+              content: <SourcesCard notebookId={notebookId} />,
             },
             {
               id: "2",
