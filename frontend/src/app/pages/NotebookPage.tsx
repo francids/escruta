@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router";
 import useFetch from "../../hooks/useFetch";
 import type NotebookContent from "../interfaces/NotebookContent";
-import { EditIcon } from "../components/icons";
+import { EditIcon, WaveIcon, MindMapIcon } from "../components/icons";
 import {
   Tooltip,
   IconButton,
@@ -122,10 +122,13 @@ export default function NotebookPage() {
         <ChatCard />
 
         {/* Tools */}
-        <Card className="col-span-1 h-full">
+        <Card className="col-span-1 h-full flex flex-col gap-2">
           <h2 className="text-lg font-sans font-normal mb-2">Tools</h2>
-          <Tooltip text="" position="bottom">
-            <IconButton icon={<EditIcon />} variant="primary" size="lg" />
+          <Tooltip text="Audio Summary" position="left">
+            <IconButton icon={<WaveIcon />} size="lg" />
+          </Tooltip>
+          <Tooltip text="Mind Map" position="left">
+            <IconButton icon={<MindMapIcon />} size="lg" className="mt-2" />
           </Tooltip>
         </Card>
       </section>

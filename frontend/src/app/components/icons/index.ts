@@ -10,3 +10,5 @@ export { default as LinkIcon } from "./LinkIcon";
 export { default as CloseIcon } from "./CloseIcon";
 export { default as ChatHistoryIcon } from "./ChatHistoryIcon";
 export { default as SendIcon } from "./SendIcon";
+export { default as MindMapIcon } from "./MindMapIcon";
+export { default as WaveIcon } from "./WaveIcon";
