@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
 } from "../components/ui";
+import { motion, AnimatePresence } from "motion/react";
 import Card from "../components/ui/Card";
 import CommonBar from "../components/CommonBar";
 import SourcesCard from "../components/SourcesCard";
@@ -31,6 +32,7 @@ export default function NotebookPage() {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [notesRefreshKey, setNotesRefreshKey] = useState<number>(0);
 
   useEffect(() => {
     if (notebook?.title) {
@@ -87,14 +89,6 @@ export default function NotebookPage() {
     }
   }
 
-  function handleNoteSelect(note: Note) {
-    setSelectedNote(note);
-  }
-
-  function handleCloseNote() {
-    setSelectedNote(null);
-  }
-
   return (
     <div className="flex h-screen w-full flex-col p-6">
       <CommonBar className="justify-between items-center gap-4">
@@ -124,13 +118,51 @@ export default function NotebookPage() {
               {
                 id: "2",
                 label: "Notes",
-                content: selectedNote ? (
-                  <NoteEditor
-                    note={selectedNote}
-                    handleCloseNote={handleCloseNote}
-                  />
-                ) : (
-                  <NotesCard onNoteSelect={handleNoteSelect} />
+                content: (
+                  <div className="relative h-full w-full">
+                    <AnimatePresence>
+                      {selectedNote ? (
+                        <motion.div
+                          key={selectedNote.id}
+                          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                            duration: 0.3,
+                          }}
+                          className="absolute inset-0 z-10 h-[96%] self-end"
+                        >
+                          <NoteEditor
+                            notebookId={notebookId}
+                            note={selectedNote}
+                            className="h-full"
+                            handleCloseNote={() => setSelectedNote(null)}
+                            onNoteDeleted={() => {
+                              setSelectedNote(null);
+                              setNotesRefreshKey((prev) => prev + 1);
+                            }}
+                          />
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+                    <motion.div
+                      animate={{
+                        opacity: selectedNote ? 0.5 : 1,
+                        scale: selectedNote ? 0.98 : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="h-full"
+                    >
+                      <NotesCard
+                        notebookId={notebookId}
+                        onNoteSelect={(note: Note) => setSelectedNote(note)}
+                        refreshTrigger={notesRefreshKey}
+                      />
+                    </motion.div>
+                  </div>
                 ),
               },
             ]}

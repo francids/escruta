@@ -1,14 +1,12 @@
 import type Note from "../interfaces/Note";
 
-export default function NoteChip({
-  note,
-  className,
-  onSelect,
-}: {
+interface NoteChipProps {
   note: Note;
   className?: string;
   onSelect?: (note: Note) => void;
-}) {
+}
+
+export default function NoteChip({ note, className, onSelect }: NoteChipProps) {
   return (
     <div
       className={`h-12 w-full rounded-xs border p-3 cursor-pointer hover:shadow-sx transition-shadow flex items-center gap-3 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600 ${className}`}

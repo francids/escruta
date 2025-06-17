@@ -14,3 +14,5 @@ export { default as MindMapIcon } from "./MindMapIcon";
 export { default as WaveIcon } from "./WaveIcon";
 export { default as SearchIcon } from "./SearchIcon";
 export { default as StarsIcon } from "./StarsIcon";
+export { default as SaveIcon } from "./SaveIcon";
+export { default as DeleteIcon } from "./DeleteIcon";
