@@ -4,7 +4,11 @@ import { AddIcon } from "./icons";
 import NoteChip from "./NoteChip";
 import { Divider, IconButton, Tooltip } from "./ui";
 
-export default function NotesCard() {
+export default function NotesCard({
+  onNoteSelect,
+}: {
+  onNoteSelect?: (note: Note) => void;
+}) {
   const notebookId = "123";
   const demoNotes: Note[] = [
     {
@@ -57,7 +61,7 @@ export default function NotesCard() {
       <Divider className="my-4" />
       <div className="grid grid-cols-2 gap-2">
         {demoNotes?.map((note) => (
-          <NoteChip key={note.id} note={note} />
+          <NoteChip key={note.id} note={note} onSelect={onNoteSelect} />
         ))}
       </div>
     </Card>

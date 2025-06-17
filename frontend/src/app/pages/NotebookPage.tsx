@@ -16,7 +16,9 @@ import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
 import { useEffect, useState } from "react";
 import type Notebook from "../interfaces/Notebook";
+import type Note from "../interfaces/Note";
 import ChatCard from "../components/ChatCard";
+import NoteEditor from "../components/NoteEditor";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -28,6 +30,7 @@ export default function NotebookPage() {
 
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   useEffect(() => {
     if (notebook?.title) {
@@ -84,6 +87,14 @@ export default function NotebookPage() {
     }
   }
 
+  function handleNoteSelect(note: Note) {
+    setSelectedNote(note);
+  }
+
+  function handleCloseNote() {
+    setSelectedNote(null);
+  }
+
   return (
     <div className="flex h-screen w-full flex-col p-6">
       <CommonBar className="justify-between items-center gap-4">
@@ -100,23 +111,32 @@ export default function NotebookPage() {
           />
         </Tooltip>
       </CommonBar>
-      <section className="grid grid-cols-12 grid-rows-1 gap-4 h-full max-h-full overflow-hidden">
-        <Tab
-          className="col-span-5"
-          items={[
-            {
-              id: "1",
-              label: "Sources",
-              content: <SourcesCard notebookId={notebookId} />,
-            },
-            {
-              id: "2",
-              label: "Notes",
-              content: <NotesCard />,
-            },
-          ]}
-          defaultActiveTab="1"
-        />
+      <section className="grid grid-cols-12 grid-rows-1 gap-4 h-full max-h-full overflow-hidden relative">
+        <div className="col-span-5 relative">
+          <Tab
+            className="h-full"
+            items={[
+              {
+                id: "1",
+                label: "Sources",
+                content: <SourcesCard notebookId={notebookId} />,
+              },
+              {
+                id: "2",
+                label: "Notes",
+                content: selectedNote ? (
+                  <NoteEditor
+                    note={selectedNote}
+                    handleCloseNote={handleCloseNote}
+                  />
+                ) : (
+                  <NotesCard onNoteSelect={handleNoteSelect} />
+                ),
+              },
+            ]}
+            defaultActiveTab="1"
+          />
+        </div>
 
         {/* Chat */}
         <ChatCard />
