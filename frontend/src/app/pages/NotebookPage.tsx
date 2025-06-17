@@ -18,8 +18,10 @@ import NotesCard from "../components/NotesCard";
 import { useEffect, useState } from "react";
 import type Notebook from "../interfaces/Notebook";
 import type Note from "../interfaces/Note";
+import type Source from "../interfaces/Source";
 import ChatCard from "../components/ChatCard";
 import NoteEditor from "../components/NoteEditor";
+import SourceViewer from "../components/SourceViewer";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -32,6 +34,7 @@ export default function NotebookPage() {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [selectedSource, setSelectedSource] = useState<Source | null>(null);
   const [notesRefreshKey, setNotesRefreshKey] = useState<number>(0);
 
   useEffect(() => {
@@ -113,7 +116,49 @@ export default function NotebookPage() {
               {
                 id: "1",
                 label: "Sources",
-                content: <SourcesCard notebookId={notebookId} />,
+                content: (
+                  <div className="relative h-full w-full">
+                    <AnimatePresence>
+                      {selectedSource ? (
+                        <motion.div
+                          key={selectedSource.id}
+                          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                            duration: 0.3,
+                          }}
+                          className="absolute inset-0 z-10 h-[96%] self-end"
+                        >
+                          <SourceViewer
+                            notebookId={notebookId}
+                            source={selectedSource}
+                            className="h-full"
+                            handleCloseSource={() => setSelectedSource(null)}
+                          />
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+                    <motion.div
+                      animate={{
+                        opacity: selectedSource ? 0.5 : 1,
+                        scale: selectedSource ? 0.98 : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="h-full"
+                    >
+                      <SourcesCard
+                        notebookId={notebookId}
+                        onSourceSelect={(source: Source) =>
+                          setSelectedSource(source)
+                        }
+                      />
+                    </motion.div>
+                  </div>
+                ),
               },
               {
                 id: "2",

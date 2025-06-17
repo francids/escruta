@@ -15,9 +15,13 @@ import useFetch from "../../hooks/useFetch";
 
 interface SourcesCardProps {
   notebookId: string;
+  onSourceSelect?: (source: Source) => void;
 }
 
-export default function SourcesCard({ notebookId }: SourcesCardProps) {
+export default function SourcesCard({
+  notebookId,
+  onSourceSelect,
+}: SourcesCardProps) {
   const {
     data: sources,
     loading,
@@ -110,9 +114,8 @@ export default function SourcesCard({ notebookId }: SourcesCardProps) {
                 {sources.map((source) => (
                   <SourceChip
                     key={source.id}
-                    notebookId={notebookId}
                     source={source}
-                    onSourceDeleted={() => refetchSources(true)}
+                    onSourceSelect={onSourceSelect}
                   />
                 ))}
               </div>
