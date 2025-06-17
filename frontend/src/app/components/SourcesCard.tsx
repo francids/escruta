@@ -23,7 +23,7 @@ export default function SourcesCard({ notebookId }: SourcesCardProps) {
     loading,
     error,
     refetch: refetchSources,
-  } = useFetch<Source[]>(`/notebooks/${notebookId}/sources`);
+  } = useFetch<Source[]>(`notebooks/${notebookId}/sources`);
 
   const [isAddSourceModalOpen, setIsAddSourceModalOpen] =
     useState<boolean>(false);
@@ -98,7 +98,12 @@ export default function SourcesCard({ notebookId }: SourcesCardProps) {
             return (
               <div className="grid grid-cols-2 gap-2">
                 {sources.map((source) => (
-                  <SourceChip key={source.id} source={source} />
+                  <SourceChip
+                    key={source.id}
+                    notebookId={notebookId}
+                    source={source}
+                    onSourceDeleted={() => refetchSources(true)}
+                  />
                 ))}
               </div>
             );

@@ -84,10 +84,10 @@ export default function Modal({
               }}
             >
               <div className="p-6 border-b border-gray-200 dark:border-gray-600">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-4">
                   <h2
                     id="modal-title"
-                    className="text-xl font-medium text-gray-900 dark:text-white"
+                    className="text-xl font-medium text-gray-900 dark:text-white flex-1 min-w-0 line-clamp-3"
                   >
                     {title}
                   </h2>
@@ -97,11 +97,12 @@ export default function Modal({
                     variant="ghost"
                     size="sm"
                     ariaLabel="Close modal"
+                    className="flex-shrink-0"
                   />
                 </div>
               </div>
 
-              <div className="p-6">{children}</div>
+              <div className="p-6 max-h-96 overflow-y-auto">{children}</div>
 
               {actions && (
                 <div className="flex justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-600">
