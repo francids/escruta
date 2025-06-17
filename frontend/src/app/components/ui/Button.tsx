@@ -4,6 +4,7 @@ type ButtonProps = {
   className?: string;
   variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
+  icon?: React.ReactNode;
 };
 
 export default function Button({
@@ -12,6 +13,7 @@ export default function Button({
   className = "",
   variant = "primary",
   disabled = false,
+  icon,
 }: ButtonProps) {
   const baseStyles =
     "group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-xs px-4 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 select-none";
@@ -38,6 +40,11 @@ export default function Button({
       disabled={disabled}
     >
       {children}
+      {icon && (
+        <span className="ml-2 flex items-center justify-center w-4 h-4">
+          {icon}
+        </span>
+      )}
     </button>
   );
 }

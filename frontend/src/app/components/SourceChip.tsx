@@ -101,6 +101,7 @@ export default function SourceChip({
                 onClick={() => {
                   window.open(source.link, "_blank", "noopener noreferrer");
                 }}
+                icon={<LinkIcon />}
               >
                 Open source
               </Button>
