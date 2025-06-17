@@ -2,7 +2,7 @@ import type Source from "../interfaces/Source";
 import Card from "./ui/Card";
 import { AddIcon } from "./icons";
 import SourceChip from "./SourceChip";
-import { IconButton, Tooltip } from "./ui";
+import { Divider, IconButton, Tooltip } from "./ui";
 
 export default function SourcesCard() {
   const notebookId = "123";
@@ -46,11 +46,12 @@ export default function SourcesCard() {
           />
         </Tooltip>
       </div>
-      <ul className="flex flex-col gap-2">
+      <Divider className="my-4" />
+      <div className="grid grid-cols-2 gap-2">
         {demoSources?.map((source) => (
           <SourceChip key={source.id} source={source} />
         ))}
-      </ul>
+      </div>
     </Card>
   );
 }
