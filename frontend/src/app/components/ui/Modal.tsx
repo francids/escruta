@@ -22,25 +22,27 @@ export default function Modal({
   width = "md",
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { openModal, closeModal, getModalZIndex } = useModal();
+  const { openModal, closeModal, getModalZIndex, isTopModal, modalCount } =
+    useModal();
+  const modalId = useRef<string>(`modal-${Date.now()}-${Math.random()}`);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      openModal();
+      openModal(modalId.current);
     }
 
     return () => {
       if (isOpen) {
         document.body.style.overflow = "";
-        closeModal();
+        closeModal(modalId.current);
       }
     };
   }, [isOpen, openModal, closeModal]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === "Escape" && isOpen && isTopModal(modalId.current)) {
         onClose();
       }
     };
@@ -50,7 +52,7 @@ export default function Modal({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, isTopModal]);
 
   const widthClasses = {
     sm: "max-w-md",
@@ -59,7 +61,8 @@ export default function Modal({
     xl: "max-w-2xl",
   };
 
-  const modalZIndex = getModalZIndex();
+  const modalZIndex = getModalZIndex(modalId.current);
+  const shouldShowOverlay = isTopModal(modalId.current);
 
   return (
     <AnimatePresence mode="wait">
@@ -68,11 +71,14 @@ export default function Modal({
           <motion.div
             className="fixed inset-0 bg-black/75 dark:bg-black/50"
             style={{ zIndex: modalZIndex - 1 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: modalCount > 1 ? 1 : 0 }}
+            animate={{ opacity: shouldShowOverlay ? 1 : 0 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={onClose}
+            transition={{
+              duration: shouldShowOverlay ? 0.15 : 0.1,
+              ease: "easeInOut",
+            }}
+            onClick={shouldShowOverlay ? onClose : undefined}
             aria-hidden="true"
           />
 
