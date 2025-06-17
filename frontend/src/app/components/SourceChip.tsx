@@ -120,7 +120,7 @@ export default function SourceChip({
         ) : null}
         {fullSource && !loading && !error && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 select-text">
               {fullSource.content}
             </p>
           </div>

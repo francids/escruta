@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
 import { CloseIcon } from "../icons";
+import { useModal } from "../../contexts/ModalContext";
 
 type ModalProps = {
   isOpen: boolean;
@@ -21,16 +22,21 @@ export default function Modal({
   width = "md",
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { openModal, closeModal, getModalZIndex } = useModal();
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      openModal();
     }
 
     return () => {
-      document.body.style.overflow = "";
+      if (isOpen) {
+        document.body.style.overflow = "";
+        closeModal();
+      }
     };
-  }, [isOpen]);
+  }, [isOpen, openModal, closeModal]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,12 +59,15 @@ export default function Modal({
     xl: "max-w-2xl",
   };
 
+  const modalZIndex = getModalZIndex();
+
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 z-50 bg-black/75 dark:bg-black/50"
+            className="fixed inset-0 bg-black/75 dark:bg-black/50"
+            style={{ zIndex: modalZIndex - 1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -67,7 +76,10 @@ export default function Modal({
             aria-hidden="true"
           />
 
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+          <div
+            className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none"
+            style={{ zIndex: modalZIndex }}
+          >
             <motion.div
               ref={modalRef}
               className={`${widthClasses[width]} w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 shadow-lg pointer-events-auto`}

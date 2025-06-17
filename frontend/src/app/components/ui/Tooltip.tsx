@@ -1,3 +1,5 @@
+import { useModal } from "../../contexts/ModalContext";
+
 export default function Tooltip({
   children,
   text,
@@ -7,6 +9,12 @@ export default function Tooltip({
   text: string;
   position?: "top" | "bottom" | "left" | "right";
 }) {
+  const { isAnyModalOpen } = useModal();
+
+  if (isAnyModalOpen) {
+    return <>{children}</>;
+  }
+
   const positionClasses = {
     top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
     bottom: "top-full left-1/2 -translate-x-1/2 mt-2",

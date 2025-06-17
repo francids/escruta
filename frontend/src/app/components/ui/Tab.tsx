@@ -51,7 +51,7 @@ export default function Tabs({
             )}
             <button
               onClick={() => handleTabClick(tab.id)}
-              className={`w-full px-6 py-1.5 text-sm font-medium rounded-xs transition-all duration-300 relative z-10 ${
+              className={`w-full px-6 py-1.5 text-sm font-medium rounded-xs transition-all duration-300 relative ${
                 activeTabId === tab.id
                   ? ""
                   : "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
@@ -71,7 +71,7 @@ export default function Tabs({
           </div>
         ))}
       </div>
-      <div className="h-[calc(100%-3.5rem)] absolute inset-x-0 bottom-0 flex-grow max-h-full overflow-hidden mt-2 z-0">
+      <div className="h-[calc(100%-3.5rem)] absolute inset-x-0 bottom-0 flex-grow max-h-full overflow-hidden mt-2">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTabId}
