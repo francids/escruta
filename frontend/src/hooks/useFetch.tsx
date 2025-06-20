@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import useCookie from "./useCookie";
 import backendClient from "../backend";
 import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from "axios";
@@ -51,29 +51,44 @@ function useFetch<T = unknown>(
   });
   const [token] = useCookie<Token>(AUTH_TOKEN_KEY);
 
-  const cacheTime = options?.cacheTime ?? 5 * 60 * 1000;
-  const cacheKey = useRef<string>(generateCacheKey(endpoint, options));
+  const memoizedCacheTime = useMemo(() => {
+    return options?.cacheTime ?? 5 * 60 * 1000;
+  }, [options?.cacheTime]);
 
+  const optionsRef = useRef(options);
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
+
+  const cacheKey = useRef<string>(generateCacheKey(endpoint, options));
   useEffect(() => {
     cacheKey.current = generateCacheKey(endpoint, options);
   }, [endpoint, options]);
 
   const fetchData = useCallback(
     async (forcedUpdate: boolean): Promise<void> => {
+      const currentOptions = optionsRef.current;
       const currentCacheKey = cacheKey.current;
-      const skipCache = forcedUpdate || options?.skipCache || cacheTime <= 0;
+      const effectiveCacheTime = memoizedCacheTime;
+
+      const skipCache =
+        forcedUpdate || currentOptions?.skipCache || effectiveCacheTime <= 0;
 
       const cachedItem = cache[currentCacheKey];
       const now = Date.now();
 
-      if (!skipCache && cachedItem && now - cachedItem.timestamp < cacheTime) {
+      if (
+        !skipCache &&
+        cachedItem &&
+        now - cachedItem.timestamp < effectiveCacheTime
+      ) {
         setState({
           data: cachedItem.data as T,
           loading: false,
           error: null,
         });
-        if (options?.onSuccess) {
-          options.onSuccess(cachedItem.data as T);
+        if (currentOptions?.onSuccess) {
+          currentOptions.onSuccess(cachedItem.data as T);
         }
         return;
       }
@@ -83,15 +98,16 @@ function useFetch<T = unknown>(
       try {
         const requestConfig: AxiosRequestConfig = {
           url: endpoint,
-          ...options,
+          ...currentOptions,
           headers: {
             Authorization: `Bearer ${token!.token}`,
+            ...(currentOptions?.headers || {}),
           },
         };
 
         const response: AxiosResponse<T> = await backendClient(requestConfig);
 
-        if (cacheTime > 0) {
+        if (effectiveCacheTime > 0) {
           cache[currentCacheKey] = {
             data: response.data,
             timestamp: now,
@@ -104,8 +120,8 @@ function useFetch<T = unknown>(
           error: null,
         });
 
-        if (options?.onSuccess) {
-          options.onSuccess(response.data);
+        if (currentOptions?.onSuccess) {
+          currentOptions.onSuccess(response.data);
         }
       } catch (error) {
         let errorObj: Error | AxiosError;
@@ -124,12 +140,12 @@ function useFetch<T = unknown>(
           error: errorObj,
         });
 
-        if (options?.onError) {
-          options.onError(errorObj);
+        if (currentOptions?.onError) {
+          currentOptions.onError(errorObj);
         }
       }
     },
-    [endpoint, options, token, cacheTime]
+    [endpoint, token, memoizedCacheTime]
   );
 
   useEffect(() => {
