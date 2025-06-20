@@ -222,7 +222,7 @@ export default function NotebookPage() {
         </div>
 
         {/* Chat */}
-        <ChatCard notebookId={notebookId} />
+        <ChatCard notebookId={notebookId} refreshTrigger={sourcesRefreshKey} />
 
         {/* Tools */}
         <Card className="col-span-1 h-full flex flex-col gap-2">

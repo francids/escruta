@@ -1,7 +1,7 @@
 import useFetch from "../../hooks/useFetch";
 import { FireIcon, SendIcon } from "./icons";
 import { Card, Divider, TextField, IconButton } from "./ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface Message {
@@ -12,13 +12,24 @@ interface Message {
 
 interface ChatCardProps {
   notebookId: string;
+  refreshTrigger?: number;
 }
 
-export default function ChatCard({ notebookId }: ChatCardProps) {
+export default function ChatCard({
+  notebookId,
+  refreshTrigger,
+}: ChatCardProps) {
+  useEffect(() => {
+    if (refreshTrigger !== undefined) {
+      refetchSummary(true);
+    }
+  }, [refreshTrigger]);
+
   const {
     data: chatSummary,
     loading: isSummaryLoading,
     error: summaryError,
+    refetch: refetchSummary,
   } = useFetch<string>(`notebooks/${notebookId}/chat/summary`);
 
   const [messages, setMessages] = useState<Message[]>([]);
