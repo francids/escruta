@@ -2,6 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import { SendIcon } from "./icons";
 import { Card, Divider, TextField, IconButton } from "./ui";
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 interface Message {
   id: string;
@@ -62,35 +63,52 @@ export default function ChatCard({ notebookId }: ChatCardProps) {
       <h2 className="text-lg font-sans font-normal mb-2">Chat</h2>
       <Divider className="mb-0" />
       {messages.length > 0 ? (
-        <div className="flex-grow overflow-y-auto p-0 space-y-4">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg select-text ${
-                  msg.sender === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
+        <div className="flex-grow overflow-y-auto p-4 space-y-2">
+          <AnimatePresence>
+            {messages.map((msg) => (
+              <motion.div
+                key={msg.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className={`flex mb-3 ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {msg.text}
-              </div>
-            </div>
-          ))}
+                <div
+                  className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
+                    msg.sender === "user"
+                      ? "bg-blue-500 text-white ml-12"
+                      : "bg-gray-100/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 mr-12"
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed">{msg.text}</p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-muted select-text">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex justify-start"
+            >
+              <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-xs bg-muted select-text">
                 Thinking...
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       ) : (
-        <div className="flex-grow flex items-center justify-start p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="flex-grow flex items-center justify-start p-8"
+        >
           <div className="text-muted-foreground select-text">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
@@ -104,7 +122,7 @@ export default function ChatCard({ notebookId }: ChatCardProps) {
               transaction records analyzed using machine learning algorithms.
             </p>
           </div>
-        </div>
+        </motion.div>
       )}
       <Divider className="mt-0" />
       <div className="py-4">
