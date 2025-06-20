@@ -16,3 +16,4 @@ export { default as SearchIcon } from "./SearchIcon";
 export { default as StarsIcon } from "./StarsIcon";
 export { default as SaveIcon } from "./SaveIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
+export { default as FireIcon } from "./FireIcon";

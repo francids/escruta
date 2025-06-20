@@ -1,5 +1,5 @@
 import useFetch from "../../hooks/useFetch";
-import { SendIcon } from "./icons";
+import { FireIcon, SendIcon } from "./icons";
 import { Card, Divider, TextField, IconButton } from "./ui";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -132,6 +132,18 @@ export default function ChatCard({ notebookId }: ChatCardProps) {
       <Divider className="mt-0" />
       <div className="py-4">
         <div className="flex items-center gap-2">
+          {messages.length > 0 ? (
+            <IconButton
+              icon={<FireIcon />}
+              ariaLabel="Clear chat"
+              onClick={() => {
+                setMessages([]);
+                setInput("");
+              }}
+              disabled={messages.length === 0 && !isLoading}
+              variant="ghost"
+            />
+          ) : null}
           <TextField
             id="chat-input"
             type="text"
