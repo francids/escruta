@@ -10,18 +10,26 @@ import {
   TextField,
   Tooltip,
 } from "./ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
 interface SourcesCardProps {
   notebookId: string;
   onSourceSelect?: (source: Source) => void;
+  refreshTrigger?: number;
 }
 
 export default function SourcesCard({
   notebookId,
   onSourceSelect,
+  refreshTrigger,
 }: SourcesCardProps) {
+  useEffect(() => {
+    if (refreshTrigger !== undefined) {
+      refetchSources(true);
+    }
+  }, [refreshTrigger]);
+
   const {
     data: sources,
     loading,

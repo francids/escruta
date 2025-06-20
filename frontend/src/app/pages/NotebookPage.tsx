@@ -36,6 +36,7 @@ export default function NotebookPage() {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [selectedSource, setSelectedSource] = useState<Source | null>(null);
   const [notesRefreshKey, setNotesRefreshKey] = useState<number>(0);
+  const [sourcesRefreshKey, setSourcesRefreshKey] = useState<number>(0);
 
   useEffect(() => {
     if (notebook?.title) {
@@ -136,8 +137,12 @@ export default function NotebookPage() {
                           <SourceViewer
                             notebookId={notebookId}
                             source={selectedSource}
-                            className="h-full"
                             handleCloseSource={() => setSelectedSource(null)}
+                            onSourceDelete={() => {
+                              setSelectedSource(null);
+                              setSourcesRefreshKey((prev) => prev + 1);
+                            }}
+                            className="h-full"
                           />
                         </motion.div>
                       ) : null}
@@ -155,6 +160,7 @@ export default function NotebookPage() {
                         onSourceSelect={(source: Source) =>
                           setSelectedSource(source)
                         }
+                        refreshTrigger={sourcesRefreshKey}
                       />
                     </motion.div>
                   </div>

@@ -8,7 +8,7 @@ interface NoteEditorProps {
   notebookId: string;
   note: Note;
   handleCloseNote: () => void;
-  onNoteDeleted?: () => void;
+  onNoteDeleted: () => void;
   className?: string;
 }
 
@@ -111,7 +111,7 @@ export default function NoteEditor({
       method: "DELETE",
       onSuccess: () => {
         setIsDeleteModalOpen(false);
-        onNoteDeleted?.();
+        onNoteDeleted();
         handleCloseNote();
       },
       onError: (error) => {

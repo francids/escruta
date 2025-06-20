@@ -8,6 +8,7 @@ interface SourceViewerProps {
   notebookId: string;
   source: Source;
   handleCloseSource: () => void;
+  onSourceDelete: () => void;
   className?: string;
 }
 
@@ -15,6 +16,7 @@ export default function SourceViewer({
   notebookId,
   source,
   handleCloseSource,
+  onSourceDelete,
   className,
 }: SourceViewerProps) {
   const {
@@ -47,6 +49,7 @@ export default function SourceViewer({
       method: "DELETE",
       onSuccess: () => {
         setIsDeleteModalOpen(false);
+        onSourceDelete();
         handleCloseSource();
       },
       onError: (error) => {
