@@ -53,6 +53,13 @@ public class SourceService {
         return null;
     }
 
+    public List<SourceWithContentDTO> getSourcesWithContent(UUID notebookId) {
+        if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            return sourceRepository.findByNotebookId(notebookId).stream().map(SourceWithContentDTO::new).toList();
+        }
+        return null;
+    }
+
     public SourceWithContentDTO getSource(UUID notebookId, UUID sourceId) {
         if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
             return null;

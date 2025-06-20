@@ -216,7 +216,7 @@ export default function NotebookPage() {
         </div>
 
         {/* Chat */}
-        <ChatCard />
+        <ChatCard notebookId={notebookId} />
 
         {/* Tools */}
         <Card className="col-span-1 h-full flex flex-col gap-2">

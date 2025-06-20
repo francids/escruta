@@ -1,3 +1,4 @@
+import useFetch from "../../hooks/useFetch";
 import { SendIcon } from "./icons";
 import { Card, Divider, TextField, IconButton } from "./ui";
 import { useState } from "react";
@@ -8,14 +9,14 @@ interface Message {
   sender: "user" | "ai";
 }
 
-export default function ChatCard() {
+interface ChatCardProps {
+  notebookId: string;
+}
+
+export default function ChatCard({ notebookId }: ChatCardProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -26,25 +27,35 @@ export default function ChatCard() {
       sender: "user",
     };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
-    setInput("");
     setIsLoading(true);
-
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: Date.now().toString(),
-        text: `AI response to: "${newMessage.text}"`,
-        sender: "ai",
-      };
-      setMessages((prevMessages) => [...prevMessages, aiResponse]);
-      setIsLoading(false);
-    }, 1000);
+    await fetchChatResponse(true);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !isLoading && input.trim()) {
-      handleSendMessage();
-    }
-  };
+  const { refetch: fetchChatResponse } = useFetch<string>(
+    `notebooks/${notebookId}/chat`,
+    {
+      method: "POST",
+      data: {
+        userInput: input,
+        // messages,
+      },
+      onSuccess: (response) => {
+        const aiResponse: Message = {
+          id: Date.now().toString(),
+          text: response,
+          sender: "ai",
+        };
+        setMessages((prevMessages) => [...prevMessages, aiResponse]);
+        setIsLoading(false);
+        setInput("");
+      },
+      onError: (error) => {
+        setIsLoading(false);
+        console.error("Error fetching chat response:", error);
+      },
+    },
+    false
+  );
 
   return (
     <Card className="col-span-6 flex flex-col h-full">
@@ -102,8 +113,12 @@ export default function ChatCard() {
             id="chat-input"
             type="text"
             value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter" && !isLoading && input.trim()) {
+                handleSendMessage();
+              }
+            }}
             placeholder="Type your message..."
             className="flex-grow"
             disabled={isLoading}
