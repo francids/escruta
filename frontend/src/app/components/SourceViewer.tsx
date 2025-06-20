@@ -107,7 +107,7 @@ export default function SourceViewer({
         )}
         {fullSource && !loading && !error && (
           <div className="flex-1">
-            <div className="h-auto min-h-[80%] w-full pb-4 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words">
+            <div className="h-auto min-h-[80%] w-full pb-4 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
               {fullSource.content}
             </div>
           </div>
