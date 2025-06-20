@@ -43,6 +43,33 @@ class ChatController {
                 .collect(Collectors.joining("\n\n"));
     }
 
+    @GetMapping("summary")
+    ResponseEntity<String> summary(@PathVariable String notebookId) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            var sources = sourceService.getSourcesWithContent(notebookUuid);
+            if (sources == null || sources.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            String summary = this.chatClient.prompt()
+                    .system(sp -> sp.param("sources", sourcesContent(sources)))
+                    .user("Generate a comprehensive single paragraph summary of the sources available in this notebook.")
+                    .call()
+                    .content();
+
+            if (summary == null || summary.trim().isEmpty()) {
+                return ResponseEntity.ok("I can't summarize the sources available in this notebook.");
+            }
+
+            return ResponseEntity.ok(summary);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.ok("I can't summarize the sources available in this notebook.");
+        }
+    }
+
     @PostMapping
     ResponseEntity<String> generation(
             @PathVariable String notebookId,

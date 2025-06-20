@@ -15,6 +15,12 @@ interface ChatCardProps {
 }
 
 export default function ChatCard({ notebookId }: ChatCardProps) {
+  const {
+    data: chatSummary,
+    loading: isSummaryLoading,
+    error: summaryError,
+  } = useFetch<string>(`notebooks/${notebookId}/chat/summary`);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -114,12 +120,11 @@ export default function ChatCard({ notebookId }: ChatCardProps) {
               Summary of the notebook
             </h3>
             <p className="text-sm leading-relaxed">
-              This notebook contains analysis of customer behavior patterns
-              across different product categories. Key findings include a 23%
-              increase in mobile purchases, seasonal trends in electronics
-              sales, and correlation between user demographics and purchasing
-              preferences. The data spans Q1-Q3 2024 with over 50,000
-              transaction records analyzed using machine learning algorithms.
+              {isSummaryLoading
+                ? "Loading summary..."
+                : summaryError
+                ? `Error: ${summaryError.message}`
+                : chatSummary || "No summary available."}
             </p>
           </div>
         </motion.div>
