@@ -1,3 +1,5 @@
+<img src="./resources/Logo.svg" width="100">
+
 # Escruta
 
 _"Think, ask, learn"_
