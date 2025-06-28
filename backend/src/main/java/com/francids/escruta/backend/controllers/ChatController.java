@@ -54,7 +54,7 @@ class ChatController {
 
             String summary = this.chatClient.prompt()
                     .system(sp -> sp.param("sources", sourcesContent(sources)))
-                    .user("Generate a comprehensive single paragraph summary of the sources available in this notebook.")
+                    .user("Generate a short and concise summary of the sources available in this notebook.")
                     .call()
                     .content();
 
