@@ -1,0 +1,30 @@
+{
+  "name": "escruta",
+  "version": "0.0.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "expo": "~53.0.13",
+    "expo-constants": "~17.1.6",
+    "expo-linking": "~7.1.5",
+    "expo-router": "~5.1.1",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-native": "0.79.4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.1",
+    "twrnc": "^4.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.0.10",
+    "prettier": "3.6.2",
+    "typescript": "~5.8.3"
+  },
+  "private": true
+}

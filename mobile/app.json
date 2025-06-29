@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Escruta",
+    "slug": "escruta",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a1a"
+    },
+    "platforms": ["android", "ios"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.francids.escruta"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1a1a"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.francids.escruta"
+    },
+    "plugins": ["expo-router"]
+  }
+}
