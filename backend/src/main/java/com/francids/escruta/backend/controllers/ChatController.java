@@ -3,7 +3,6 @@ package com.francids.escruta.backend.controllers;
 import com.francids.escruta.backend.dtos.ChatRequest;
 import com.francids.escruta.backend.dtos.source.SourceWithContentDTO;
 import com.francids.escruta.backend.services.SourceService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,17 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("notebooks/{notebookId}/chat")
-@RequiredArgsConstructor
 class ChatController {
-    private final ChatClient chatClient;
     private final SourceService sourceService;
+    private final ChatClient chatClient;
+
+    public ChatController(
+            ChatClient.Builder chatClientBuilder,
+            SourceService sourceService
+    ) {
+        this.chatClient = chatClientBuilder.build();
+        this.sourceService = sourceService;
+    }
 
     private UUID parseUUID(String id) {
         try {
@@ -28,11 +34,15 @@ class ChatController {
     }
 
     private String sourceTemplate(SourceWithContentDTO source) {
-        return "=== SOURCE " + source.title() + " ===" + "\n" +
-                "Title: " + source.title() + "\n" +
-                "URL: " + source.link() + "\n" +
-                "Content: " + source.content() + "\n" +
-                "=== END OF THE SOURCE " + source.title() + " ===" + "\n\n";
+        String title = source.title() != null ? source.title().replace("{", "\\{").replace("}", "\\}") : "";
+        String link = source.link() != null ? source.link().replace("{", "\\{").replace("}", "\\}") : "";
+        String content = source.content() != null ? source.content().replace("{", "\\{").replace("}", "\\}") : "";
+
+        return "=== SOURCE " + title + " ===" + "\n" +
+                "Title: " + title + "\n" +
+                "URL: " + link + "\n" +
+                "Content: " + content + "\n" +
+                "=== END OF THE SOURCE " + title + " ===" + "\n\n";
     }
 
     private String sourcesContent(List<SourceWithContentDTO> sources) {
@@ -52,8 +62,10 @@ class ChatController {
                 return ResponseEntity.noContent().build();
             }
 
+            String systemMessage = "You have access to the following sources of information:\n\n" + sourcesContent(sources);
+
             String summary = this.chatClient.prompt()
-                    .system(sp -> sp.param("sources", sourcesContent(sources)))
+                    .system(systemMessage)
                     .user("Generate a short and concise summary of the sources available in this notebook.")
                     .call()
                     .content();
@@ -83,8 +95,10 @@ class ChatController {
                 return ResponseEntity.noContent().build();
             }
 
+            String systemMessage = "You have access to the following sources of information:\n\n" + sourcesContent(sources);
+
             String response = this.chatClient.prompt()
-                    .system(sp -> sp.param("sources", sourcesContent(sources)))
+                    .system(systemMessage)
                     .user("User question: " + request.getUserInput() +
                             "\n\nRemember: Only use the provided sources and always cite the specific source.")
                     .call()
