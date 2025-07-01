@@ -5,9 +5,10 @@ import tw from "../lib/tailwind";
 
 interface HeaderProps {
   title: string | React.ReactNode;
+  action?: React.ReactNode;
 }
 
-export default function Header({ title }: HeaderProps) {
+export default function Header({ title, action }: HeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -16,6 +17,7 @@ export default function Header({ title }: HeaderProps) {
     >
       <Text style={tw`text-white text-xl font-medium`}>{title}</Text>
       <StatusBar style="light" />
+      {action}
     </View>
   );
 }

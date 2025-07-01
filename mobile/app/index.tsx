@@ -5,6 +5,8 @@ import Logo from "../components/Logo";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Notebook from "../interfaces/Notebook";
 import NotebookCard from "../components/NotebookCard";
+import { IconButton } from "../components/ui";
+import { AddIcon } from "../components/icons";
 
 export default function HomePage() {
   const insets = useSafeAreaInsets();
@@ -56,7 +58,10 @@ export default function HomePage() {
 
   return (
     <View style={tw`flex flex-1`}>
-      <Header title={<Logo style="w-28 h-8 text-white" />} />
+      <Header
+        title={<Logo style="w-28 h-8 text-white" />}
+        action={<IconButton icon={<AddIcon />} variant="primary" size="sm" />}
+      />
       <ScrollView
         style={tw`bg-neutral-950`}
         contentContainerStyle={{
