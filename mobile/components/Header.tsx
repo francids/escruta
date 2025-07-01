@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import tw from "twrnc";
+import tw from "../lib/tailwind";
 
 interface HeaderProps {
   title: string | React.ReactNode;

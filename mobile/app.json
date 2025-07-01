@@ -24,6 +24,64 @@
       "edgeToEdgeEnabled": true,
       "package": "com.francids.escruta"
     },
-    "plugins": ["expo-router"]
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Raleway-Black.ttf",
+            "./assets/fonts/Raleway-Bold.ttf",
+            "./assets/fonts/Raleway-ExtraBold.ttf",
+            "./assets/fonts/Raleway-ExtraLight.ttf",
+            "./assets/fonts/Raleway-Light.ttf",
+            "./assets/fonts/Raleway-Medium.ttf",
+            "./assets/fonts/Raleway-Regular.ttf",
+            "./assets/fonts/Raleway-Thin.ttf"
+          ],
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Raleway",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/Raleway-Black.ttf",
+                    "weight": 900
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-Bold.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-ExtraBold.ttf",
+                    "weight": 800
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-ExtraLight.ttf",
+                    "weight": 200
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-Light.ttf",
+                    "weight": 300
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-Medium.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/Raleway-Thin.ttf",
+                    "weight": 100
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    ]
   }
 }

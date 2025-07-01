@@ -1,5 +1,5 @@
 import Svg, { Path } from "react-native-svg";
-import tw from "twrnc";
+import tw from "../lib/tailwind";
 
 export default function Logo({ style }: { style?: string }) {
   return (
