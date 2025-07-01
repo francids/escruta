@@ -1,22 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import tw from "../lib/tailwind";
 import type Notebook from "../interfaces/Notebook";
+import { formatDate } from "../utils";
 
 interface NotebookCardProps {
   notebook: Notebook;
 }
 
 export default function NotebookCard({ notebook }: NotebookCardProps) {
-  const formatDate = (date: Date) => {
-    return new Date(date)
-      .toLocaleDateString("es-ES", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-      .replace(".", "");
-  };
-
   return (
     <TouchableOpacity
       style={tw`flex flex-row items-center bg-neutral-800 border border-neutral-700 rounded-xs p-4 h-16`}
