@@ -8,9 +8,9 @@ import { ArrowRightIcon } from "../components/icons";
 export default function LandingPage() {
   return (
     <ImageBackground
-      source={require("../assets/PatternBackground.webp")}
+      source={require("../assets/PatternBackground.png")}
       style={tw`flex-1 justify-end`}
-      resizeMode="cover"
+      resizeMode="stretch"
     >
       <View
         style={[
