@@ -22,8 +22,7 @@ export default function Button({
 }: ButtonProps) {
   const baseStyles = tw`
                 relative flex-row items-center justify-center
-                h-10 px-4 rounded-sm
-                transition-colors select-none
+                h-12 px-4 rounded-sm
         `;
 
   const variantStyles = {
@@ -33,9 +32,9 @@ export default function Button({
   };
 
   const textVariantStyles = {
-    primary: tw`text-white font-medium`,
-    secondary: tw`text-gray-800 font-medium`,
-    danger: tw`text-white font-medium`,
+    primary: tw`text-white font-normal text-lg`,
+    secondary: tw`text-gray-800 font-normal text-lg`,
+    danger: tw`text-white font-normal text-lg`,
   };
 
   const disabledStyles = tw`opacity-50`;

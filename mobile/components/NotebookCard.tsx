@@ -10,12 +10,12 @@ interface NotebookCardProps {
 export default function NotebookCard({ notebook }: NotebookCardProps) {
   return (
     <TouchableOpacity
-      style={tw`flex flex-row items-center bg-neutral-800 border border-neutral-700 rounded-xs p-4 h-16`}
+      style={tw`flex flex-row items-center bg-neutral-800 border border-neutral-700 rounded-sm p-4 h-16`}
       onPress={() => console.log(`Open notebook: ${notebook.title}`)}
       activeOpacity={0.8}
     >
       <View
-        style={tw`w-8 h-8 bg-neutral-700 rounded-xs mr-3 items-center justify-center`}
+        style={tw`w-8 h-8 bg-neutral-700 rounded-sm mr-3 items-center justify-center`}
       >
         <Text style={tw`text-white text-lg`}>{notebook.icon || "📓"}</Text>
       </View>
@@ -27,7 +27,7 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
         >
           {notebook.title}
         </Text>
-        <Text style={tw`text-neutral-400 text-xs`}>
+        <Text style={tw`text-neutral-400 text-sm`}>
           {formatDate(notebook.updatedAt)}
         </Text>
       </View>

@@ -1,88 +1,36 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
+import { router } from "expo-router";
 import tw from "../lib/tailwind";
-import Header from "../components/Header";
 import Logo from "../components/Logo";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Notebook from "../interfaces/Notebook";
-import NotebookCard from "../components/NotebookCard";
-import { IconButton } from "../components/ui";
-import { AddIcon } from "../components/icons";
+import { Button } from "../components/ui";
+import { ArrowRightIcon } from "../components/icons";
 
-export default function HomePage() {
-  const insets = useSafeAreaInsets();
-
-  const dummyNotebooks: Notebook[] = [
-    {
-      id: "1",
-      // icon: "📚",
-      title:
-        "My Extremely Comprehensive and Overly Detailed Personal Notes Collection for All Life Matters",
-      createdAt: new Date("2024-01-15"),
-      updatedAt: new Date("2024-01-20"),
-    },
-    {
-      id: "2",
-      icon: "💼",
-      title: "Work Projects",
-      createdAt: new Date("2024-01-10"),
-      updatedAt: new Date("2024-01-18"),
-    },
-    {
-      id: "3",
-      icon: "🎓",
-      title: "Study Materials",
-      createdAt: new Date("2024-01-05"),
-      updatedAt: new Date("2024-01-15"),
-    },
-    {
-      id: "4",
-      title: "Daily Journal",
-      createdAt: new Date("2024-01-01"),
-      updatedAt: new Date("2024-01-12"),
-    },
-    {
-      id: "5",
-      icon: "💡",
-      title: "Ideas & Inspiration",
-      createdAt: new Date("2023-12-20"),
-      updatedAt: new Date("2024-01-08"),
-    },
-    {
-      id: "6",
-      icon: "🏠",
-      title: "Home Organization",
-      createdAt: new Date("2023-12-15"),
-      updatedAt: new Date("2024-01-03"),
-    },
-  ];
-
+export default function LandingPage() {
   return (
-    <View style={tw`flex flex-1`}>
-      <Header
-        title={<Logo style="w-28 h-8 text-white" />}
-        action={<IconButton icon={<AddIcon />} variant="primary" size="sm" />}
-      />
-      <ScrollView
-        style={tw`bg-neutral-950`}
-        contentContainerStyle={{
-          paddingBottom: insets.bottom,
-          ...(dummyNotebooks.length === 0 && { flexGrow: 1 }),
-        }}
+    <ImageBackground
+      source={require("../assets/PatternBackground.webp")}
+      style={tw`flex-1 justify-end`}
+      resizeMode="cover"
+    >
+      <View
+        style={[
+          tw`w-full max-w-md bg-neutral-900 pt-12 px-4 rounded-sm`,
+          {
+            paddingBottom: 64,
+          },
+        ]}
       >
-        {dummyNotebooks.length > 0 ? (
-          <View style={tw`flex flex-col gap-4 p-4`}>
-            {dummyNotebooks.map((notebook) => (
-              <NotebookCard notebook={notebook} key={notebook.id} />
-            ))}
-          </View>
-        ) : (
-          <View style={tw`flex flex-1 items-center justify-center`}>
-            <Text style={tw`text-neutral-400 text-center text-lg`}>
-              No notebooks yet. Create your first one!
-            </Text>
-          </View>
-        )}
-      </ScrollView>
-    </View>
+        <Text style={tw`text-3xl font-bold text-white mb-8 flex`}>
+          Welcome to <Logo style="w-24 h-5 text-white" />
+        </Text>
+
+        <Button
+          text="Get Started"
+          onPress={() => router.replace("/login")}
+          fullWidth
+          icon={<ArrowRightIcon color="white" width={20} height={20} />}
+        />
+      </View>
+    </ImageBackground>
   );
 }

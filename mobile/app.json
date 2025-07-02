@@ -22,7 +22,9 @@
         "backgroundColor": "#1a1a1a"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.francids.escruta"
+      "package": "com.francids.escruta",
+      "backgroundColor": "#121212",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "plugins": [
       "expo-router",
