@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import tw from "../lib/tailwind";
-import type Notebook from "../interfaces/Notebook";
-import { formatDate } from "../utils";
+import tw from "lib/tailwind";
+import type Notebook from "interfaces/Notebook";
+import { formatDate } from "utils";
+import { router } from "expo-router";
 
 interface NotebookCardProps {
   notebook: Notebook;
@@ -11,7 +12,7 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
   return (
     <TouchableOpacity
       style={tw`flex flex-row items-center bg-neutral-800 border border-neutral-700 rounded-sm p-4 h-16`}
-      onPress={() => console.log(`Open notebook: ${notebook.title}`)}
+      onPress={() => router.push(`/notebook/${notebook.id}`)}
       activeOpacity={0.8}
     >
       <View

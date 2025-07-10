@@ -1,12 +1,12 @@
 import { View, Text, ScrollView } from "react-native";
-import tw from "../../lib/tailwind";
-import Header from "../../components/Header";
-import Logo from "../../components/Logo";
+import tw from "lib/tailwind";
+import Header from "components/Header";
+import Logo from "components/Logo";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Notebook from "../../interfaces/Notebook";
-import NotebookCard from "../../components/NotebookCard";
-import { IconButton } from "../../components/ui";
-import { AddIcon } from "../../components/icons";
+import Notebook from "interfaces/Notebook";
+import NotebookCard from "components/NotebookCard";
+import { IconButton } from "components/ui";
+import { AddIcon } from "components/icons";
 
 export default function AppPage() {
   const insets = useSafeAreaInsets();
@@ -57,13 +57,12 @@ export default function AppPage() {
   ];
 
   return (
-    <View style={tw`flex flex-1`}>
+    <View style={tw`flex flex-1 bg-neutral-950`}>
       <Header
         title={<Logo style="w-28 h-8 text-white" />}
         action={<IconButton icon={<AddIcon />} variant="primary" size="sm" />}
       />
       <ScrollView
-        style={tw`bg-neutral-950`}
         contentContainerStyle={{
           paddingBottom: insets.bottom,
           ...(dummyNotebooks.length === 0 && { flexGrow: 1 }),
