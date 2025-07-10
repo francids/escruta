@@ -11,16 +11,13 @@ export default function NotebookPage() {
   return (
     <View style={tw`flex flex-1 bg-neutral-950`}>
       <Header
-        title={`Notebook ${id}`}
-        action={
-          <IconButton
-            icon={<DotsVerticalIcon />}
-            variant="secondary"
-            size="sm"
-          />
-        }
+        title={`Notebook`}
+        action={<IconButton icon={<DotsVerticalIcon />} variant="ghost" />}
+        showBackButton
       />
-      <View style={tw`flex-1`}></View>
+      <View style={tw`flex-1 p-4`}>
+        <Text style={tw`text-white text-xl`}>Notebook ID: {id}</Text>
+      </View>
     </View>
   );
 }

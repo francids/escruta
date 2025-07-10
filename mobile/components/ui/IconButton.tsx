@@ -6,7 +6,7 @@ interface IconButtonProps {
   icon: React.JSX.Element | React.ReactNode;
   onPress?: () => void;
   style?: object;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger" | "ghost";
   disabled?: boolean;
   size?: "sm" | "md" | "lg";
 }
@@ -31,12 +31,14 @@ export default function IconButton({
     primary: tw`bg-blue-500`,
     secondary: tw`bg-gray-200`,
     danger: tw`bg-red-500`,
+    ghost: tw`bg-transparent`,
   };
 
   const iconColors = {
     primary: "white",
     secondary: "black",
     danger: "white",
+    ghost: "white",
   };
 
   const disabledStyles = tw`opacity-50`;
@@ -58,8 +60,8 @@ export default function IconButton({
         {React.isValidElement(icon)
           ? React.cloneElement(icon, {
               color: iconColors[variant],
-              width: size === "sm" ? 16 : size === "md" ? 20 : 24,
-              height: size === "sm" ? 16 : size === "md" ? 20 : 24,
+              width: size === "sm" ? 20 : size === "md" ? 24 : 28,
+              height: size === "sm" ? 20 : size === "md" ? 24 : 28,
             } as any)
           : icon}
       </View>
