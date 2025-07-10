@@ -14,7 +14,8 @@
     "platforms": ["android", "ios"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.francids.escruta"
+      "bundleIdentifier": "com.francids.escruta",
+      "backgroundColor": "#121212"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,8 +24,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.francids.escruta",
-      "backgroundColor": "#121212",
-      "softwareKeyboardLayoutMode": "pan"
+      "backgroundColor": "#121212"
     },
     "plugins": [
       "expo-router",

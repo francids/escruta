@@ -17,6 +17,7 @@ export default function RootLayout() {
         {/* Landing/Auth Routes */}
         <Stack.Screen name="index" />
         <Stack.Screen name="login" />
+        <Stack.Screen name="register" />
 
         {/* App Routes - Nested */}
         <Stack.Screen name="(app)" />

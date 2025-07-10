@@ -1,20 +1,23 @@
-import { useState, useRef } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Button, Divider, TextField } from "components/ui";
-import tw from "lib/tailwind";
 import { router } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useKeyboard } from "hooks/useKeyboard";
+import tw from "lib/tailwind";
+import { useState, useRef } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const insets = useSafeAreaInsets();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleRegister = () => {
+    router.back();
     router.replace("(app)");
   };
 
@@ -45,7 +48,18 @@ export default function LoginPage() {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <Text style={tw`text-3xl font-bold text-white mb-8`}>Login</Text>
+      <Text style={tw`text-3xl font-bold text-white mb-8`}>Register</Text>
+
+      <TextField
+        label="Full Name"
+        value={name}
+        onChangeText={setName}
+        autoCapitalize="words"
+        autoComplete="name"
+        autoCorrect={false}
+        style={tw`mb-5`}
+        onFocus={() => handleFieldFocus(0)}
+      />
 
       <TextField
         label="Email"
@@ -56,7 +70,7 @@ export default function LoginPage() {
         autoComplete="email"
         autoCorrect={false}
         style={tw`mb-5`}
-        onFocus={() => handleFieldFocus(0)}
+        onFocus={() => handleFieldFocus(1)}
       />
 
       <TextField
@@ -66,17 +80,29 @@ export default function LoginPage() {
         secureTextEntry
         autoCapitalize="none"
         style={tw`mb-5`}
-        onFocus={() => handleFieldFocus(1)}
+        onFocus={() => handleFieldFocus(2)}
       />
 
-      <Button text="Login" onPress={handleLogin} fullWidth />
+      <TextField
+        label="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+        autoCapitalize="none"
+        style={tw`mb-5`}
+        onFocus={() => handleFieldFocus(3)}
+      />
+
+      <Button text="Register" onPress={handleRegister} fullWidth />
 
       <Divider />
 
       <View style={tw`flex-row justify-center items-center w-full`}>
-        <Text style={tw`text-gray-400 text-base`}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => router.push("/register")}>
-          <Text style={tw`text-blue-500 text-base`}>Register</Text>
+        <Text style={tw`text-gray-400 text-base`}>
+          Already have an account?{" "}
+        </Text>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Text style={tw`text-blue-500 text-base`}>Login</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

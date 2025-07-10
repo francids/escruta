@@ -38,8 +38,10 @@ export default function TextField({
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         editable={editable}
+        numberOfLines={1}
         autoFocus={autoFocus}
         placeholderTextColor={tw.color("text-gray-400")}
+        selectionColor={tw.color("text-blue-400")}
         {...rest}
       />
     </View>
