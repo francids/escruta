@@ -19,18 +19,20 @@ export default function ChatCard({
   notebookId,
   refreshTrigger,
 }: ChatCardProps) {
-  useEffect(() => {
-    if (refreshTrigger !== undefined) {
-      refetchSummary(true);
-    }
-  }, [refreshTrigger]);
-
   const {
     data: chatSummary,
     loading: isSummaryLoading,
     error: summaryError,
     refetch: refetchSummary,
-  } = useFetch<string>(`notebooks/${notebookId}/chat/summary`);
+  } = useFetch<string>(
+    `notebooks/${notebookId}/chat/summary`,
+    undefined,
+    false
+  );
+
+  useEffect(() => {
+    refetchSummary(true);
+  }, [refreshTrigger]);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");

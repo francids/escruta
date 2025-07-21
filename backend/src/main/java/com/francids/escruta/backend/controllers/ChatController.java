@@ -14,6 +14,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("notebooks/{notebookId}/chat")
 class ChatController {
+    private static final String UNIFIED_SYSTEM_MESSAGE = """
+            You are a helpful AI assistant and expert summarizer. Your primary goal is to provide accurate and relevant information based on the context provided. Follow these instructions carefully:
+            1. You will be given a set of sources. Use only the information from these sources to answer questions or generate summaries.
+            2. Never use any external knowledge or information you might have. Your responses must be based solely on the provided text.
+            3. When you use information from a source, you must cite it by mentioning the source title (e.g., "Source: [title]").
+            4. If the provided sources do not contain enough information to answer a question, you must clearly state that and explain why. Do not try to guess or infer answers.
+            5. If you are asked to perform a task that is not related to the provided sources, politely decline and remind the user that you can only work with the given information.
+            6. If no sources are provided, you must state that you cannot answer the question without them.
+            7. When asked to summarize, create a concise summary of the text provided. The summary should be a single paragraph of 2-3 sentences.
+            8. IMPORTANT: Do not include any thinking process or reasoning in your response. Do not use <think> tags. Provide only the final answer or summary.""";
+
     private final SourceService sourceService;
     private final ChatClient chatClient;
 
@@ -21,7 +32,8 @@ class ChatController {
             ChatClient.Builder chatClientBuilder,
             SourceService sourceService
     ) {
-        this.chatClient = chatClientBuilder.build();
+        this.chatClient = chatClientBuilder
+                .build();
         this.sourceService = sourceService;
     }
 
@@ -34,18 +46,21 @@ class ChatController {
     }
 
     private String sourceTemplate(SourceWithContentDTO source) {
-        String title = source.title() != null ? source.title().replace("{", "\\{").replace("}", "\\}") : "";
-        String link = source.link() != null ? source.link().replace("{", "\\{").replace("}", "\\}") : "";
-        String content = source.content() != null ? source.content().replace("{", "\\{").replace("}", "\\}") : "";
+        String title = source.title() != null ? source.title() : "";
+        String link = source.link() != null ? source.link() : "";
+        String content = source.content() != null ? source.content() : "";
 
-        return "=== SOURCE " + title + " ===" + "\n" +
+        return "### SOURCE: " + title + " ###\n" +
                 "Title: " + title + "\n" +
                 "URL: " + link + "\n" +
                 "Content: " + content + "\n" +
-                "=== END OF THE SOURCE " + title + " ===" + "\n\n";
+                "### END SOURCE: " + title + " ###\n\n";
     }
 
     private String sourcesContent(List<SourceWithContentDTO> sources) {
+        if (sources == null || sources.isEmpty()) {
+            return "No sources provided.";
+        }
         return sources
                 .stream()
                 .map(source -> source != null ? sourceTemplate(source) : "")
@@ -58,19 +73,25 @@ class ChatController {
         try {
             UUID notebookUuid = parseUUID(notebookId);
             var sources = sourceService.getSourcesWithContent(notebookUuid);
-            if (sources == null || sources.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
 
-            String systemMessage = "You have access to the following sources of information:\n\n" + sourcesContent(sources);
+            String sourcesText = sourcesContent(sources);
 
-            String summary = this.chatClient.prompt()
-                    .system(systemMessage)
-                    .user("Generate a short and concise summary of the sources available in this notebook.")
+            String userMessage = "Please generate a summary of the following sources:\n\n" +
+                    "--- BEGINNING OF SOURCES ---\n" +
+                    sourcesText +
+                    "--- END OF SOURCES ---\n\n" +
+                    "Task: Generate a single paragraph summary (2-3 sentences) of the key information from the sources above. " +
+                    "Be extremely concise and direct. Focus only on the most essential points. " +
+                    "Do not add any extra information or explanations.";
+
+            String summary = chatClient
+                    .prompt()
+                    .system(UNIFIED_SYSTEM_MESSAGE)
+                    .user(userMessage)
                     .call()
                     .content();
 
-            if (summary == null || summary.trim().isEmpty()) {
+            if (summary == null || summary.trim().isEmpty() || summary.toLowerCase().contains("provide me with the sources")) {
                 return ResponseEntity.ok("I can't summarize the sources available in this notebook.");
             }
 
@@ -90,17 +111,22 @@ class ChatController {
         try {
             UUID notebookUuid = parseUUID(notebookId);
             var sources = sourceService.getSourcesWithContent(notebookUuid);
+            String sourcesText = sourcesContent(sources);
 
-            if (sources == null || sources.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
+            String systemMessageWithSources = UNIFIED_SYSTEM_MESSAGE + "\n\n" +
+                    "Here are the sources for our conversation:\n" +
+                    "\n" +
+                    "--- BEGINNING OF SOURCES ---\n" +
+                    "\n" +
+                    sourcesText +
+                    "\n" +
+                    "--- END OF SOURCES ---\n";
 
-            String systemMessage = "You have access to the following sources of information:\n\n" + sourcesContent(sources);
+            String userMessage = "Using the sources provided in the system context, please answer the following question: " + request.getUserInput();
 
             String response = this.chatClient.prompt()
-                    .system(systemMessage)
-                    .user("User question: " + request.getUserInput() +
-                            "\n\nRemember: Only use the provided sources and always cite the specific source.")
+                    .system(systemMessageWithSources)
+                    .user(userMessage)
                     .call()
                     .content();
 
