@@ -126,10 +126,9 @@ export default function ChatCard({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="flex-grow flex items-center justify-start p-8 overflow-y-auto"
-          style={{ minHeight: 0, maxHeight: "100%" }}
+          className="flex flex-col flex-grow min-h-0 max-h-full overflow-y-auto"
         >
-          <div className="text-muted-foreground select-text max-w-full overflow-x-auto">
+          <div className="text-muted-foreground select-text w-full max-w-lg mx-auto my-auto p-8">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
             </h3>
