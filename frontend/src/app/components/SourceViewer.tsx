@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import type Source from "../interfaces/Source";
-import { CloseIcon, DeleteIcon, LinkIcon } from "./icons";
-import { Button, Card, IconButton, Modal, Tooltip, Divider } from "./ui";
+import { CloseIcon, DeleteIcon, LinkIcon, CopyIcon } from "./icons";
+import { Button, Card, IconButton, Modal, Tooltip, Divider, Toast } from "./ui";
 import Markdown from "react-markdown";
 
 interface SourceViewerProps {
@@ -29,6 +29,7 @@ export default function SourceViewer({
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [currentSourceId, setCurrentSourceId] = useState<string>(source.id);
+  const [showCopyToast, setShowCopyToast] = useState(false);
 
   useEffect(() => {
     if (source.id !== currentSourceId) {
@@ -62,9 +63,28 @@ export default function SourceViewer({
 
   return (
     <>
+      <Toast
+        isVisible={showCopyToast}
+        onClose={() => setShowCopyToast(false)}
+        message="Source content copied to clipboard"
+        type="success"
+        position="bottom-right"
+        duration={1500}
+      />
       <Card className={`${className} flex flex-col overflow-y-auto`}>
         <div className="flex justify-end items-center flex-shrink-0 mb-2 px-2">
           <div className="flex gap-2">
+            <Tooltip text="Copy source content" position="bottom">
+              <IconButton
+                icon={<CopyIcon />}
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  navigator.clipboard.writeText(fullSource?.content || "");
+                  setShowCopyToast(true);
+                }}
+              />
+            </Tooltip>
             <Tooltip text="Open source" position="bottom">
               <IconButton
                 icon={<LinkIcon />}
