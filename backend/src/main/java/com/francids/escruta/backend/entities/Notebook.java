@@ -31,6 +31,9 @@ public class Notebook {
     @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp createdAt;

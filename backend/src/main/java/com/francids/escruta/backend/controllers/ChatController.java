@@ -1,6 +1,7 @@
 package com.francids.escruta.backend.controllers;
 
 import com.francids.escruta.backend.dtos.ChatRequest;
+import com.francids.escruta.backend.repositories.NotebookRepository;
 import com.francids.escruta.backend.services.SourceService;
 import com.francids.escruta.backend.services.RetrievalService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("notebooks/{notebookId}/chat")
+@RequestMapping("notebooks/{notebookId}")
 @RequiredArgsConstructor
 class ChatController {
     private static final String UNIFIED_SYSTEM_MESSAGE = """
@@ -49,6 +50,7 @@ class ChatController {
     private final SourceService sourceService;
     private final RetrievalService retrievalService;
     private final ChatModel chatModel;
+    private final NotebookRepository notebookRepository;
 
     private UUID parseUUID(String id) {
         try {
@@ -73,8 +75,8 @@ class ChatController {
         return sources.stream().map(source -> source != null ? toSourceTemplate(source) : "").filter(content -> !content.isEmpty()).collect(Collectors.joining("\n\n"));
     }
 
-    @GetMapping("summary")
-    ResponseEntity<String> summary(@PathVariable String notebookId) {
+    @PostMapping("summary")
+    ResponseEntity<String> generateSummary(@PathVariable String notebookId) {
         try {
             UUID notebookUuid = parseUUID(notebookId);
             var sources = sourceService.getSourcesWithContent(notebookUuid);
@@ -97,7 +99,27 @@ class ChatController {
                 return ResponseEntity.ok("Could not generate a summary with the available sources.");
             }
 
+            notebookRepository.updateSummary(notebookUuid, summary);
+
             return ResponseEntity.ok(summary);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("summary")
+    ResponseEntity<String> getSummary(@PathVariable String notebookId) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            var notebook = notebookRepository.findById(notebookUuid).orElse(null);
+
+            if (notebook == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(notebook.getSummary());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
@@ -107,24 +129,22 @@ class ChatController {
 
     private static Prompt getSummaryPrompt(String sourcesText) {
         String systemMessageText = UNIFIED_SYSTEM_MESSAGE + """
-                
-                
                 Here are the sources you must summarize:
                 --- BEGINNING OF SOURCES ---
                 """ + sourcesText + """
                 --- END OF SOURCES ---
                 
-                Generate a comprehensive summary based on the sources provided above.""";
+                Generate a short summary based on the sources provided above.""";
 
         String userMessage = """
-                Generate a comprehensive summary of all the sources provided above.
-                The summary should be 3-4 sentences that capture the key information and main points from all sources.
-                Be concise but informative. Start your response directly with the summary.""";
+                Generate a short summary of all the sources provided above.
+                The summary should be 1-2 sentences that capture the essential information from all sources.
+                Be very concise. Start your response directly with the summary.""";
 
         return new Prompt(List.of(new SystemMessage(systemMessageText), new UserMessage(userMessage)));
     }
 
-    @PostMapping
+    @PostMapping("chat")
     ResponseEntity<String> generation(@PathVariable String notebookId, @RequestBody ChatRequest request) {
         try {
             UUID notebookUuid = parseUUID(notebookId);

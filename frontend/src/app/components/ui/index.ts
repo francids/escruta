@@ -9,3 +9,4 @@ export { default as Tab } from "./Tab";
 export { default as Card } from "./Card";
 export { default as Toast } from "./Toast";
 export { default as Divider } from "./Divider";
+export { default as Spinner } from "./Spinner";

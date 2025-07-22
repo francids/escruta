@@ -72,7 +72,8 @@ export default function SourceViewer({
         duration={1500}
       />
       <Card className={`${className} flex flex-col overflow-y-auto`}>
-        <div className="flex justify-end items-center flex-shrink-0 mb-2 px-2">
+        <div className="flex justify-between items-center flex-shrink-0 mb-2 px-2">
+          <h2 className="truncate">{source.title || "Source viewer"}</h2>
           <div className="flex gap-2">
             <Tooltip text="Copy source content" position="bottom">
               <IconButton

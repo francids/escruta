@@ -30,7 +30,7 @@ export default function IconButton({
     danger:
       "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
     ghost:
-      "bg-transparent text-gray-800 hover:bg-gray-200 dark:text-gray-200 dark:hover:bg-gray-600",
+      "bg-transparent text-gray-800 hover:bg-gray-200/60 dark:text-gray-200 dark:hover:bg-gray-600",
   };
 
   const sizeStyles = {

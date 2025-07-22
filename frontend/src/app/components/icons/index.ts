@@ -18,3 +18,4 @@ export { default as SaveIcon } from "./SaveIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
 export { default as FireIcon } from "./FireIcon";
 export { default as CopyIcon } from "./CopyIcon";
+export { default as RestartIcon } from "./RestartIcon";

@@ -39,12 +39,12 @@ export default function Button({
       type="button"
       disabled={disabled}
     >
-      {children}
       {icon && (
-        <span className="ml-2 flex items-center justify-center w-4 h-4">
+        <span className="mr-2 flex items-center justify-center w-4 h-4">
           {icon}
         </span>
       )}
+      {children}
     </button>
   );
 }

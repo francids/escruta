@@ -84,7 +84,7 @@ export default function SourcesCard({
             <Tooltip text="Find sources" position="bottom">
               <IconButton
                 icon={<StarsIcon />}
-                variant="secondary"
+                variant="ghost"
                 size="sm"
                 className="flex-shrink-0"
               />

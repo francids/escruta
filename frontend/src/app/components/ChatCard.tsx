@@ -1,6 +1,14 @@
 import useFetch from "../../hooks/useFetch";
-import { FireIcon, SendIcon } from "./icons";
-import { Card, Divider, TextField, IconButton, Tooltip } from "./ui";
+import { FireIcon, RestartIcon, SendIcon } from "./icons";
+import {
+  Card,
+  Divider,
+  TextField,
+  IconButton,
+  Tooltip,
+  Button,
+  Spinner,
+} from "./ui";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -25,10 +33,30 @@ export default function ChatCard({
     error: summaryError,
     refetch: refetchSummary,
   } = useFetch<string>(
-    `notebooks/${notebookId}/chat/summary`,
-    undefined,
+    `notebooks/${notebookId}/summary`,
+    {
+      method: "GET",
+      onError: (error) => {
+        console.error("Error fetching summary:", error);
+      },
+    },
     false
   );
+
+  const { loading: isRegenerating, refetch: regenerateSummary } =
+    useFetch<string>(
+      `notebooks/${notebookId}/summary`,
+      {
+        method: "POST",
+        onSuccess: () => {
+          refetchSummary(true);
+        },
+        onError: (error) => {
+          console.error("Error refreshing summary:", error);
+        },
+      },
+      false
+    );
 
   useEffect(() => {
     refetchSummary(true);
@@ -36,7 +64,6 @@ export default function ChatCard({
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -48,38 +75,62 @@ export default function ChatCard({
     };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     setInput("");
-    setIsLoading(true);
     await fetchChatResponse(true);
   };
 
-  const { refetch: fetchChatResponse } = useFetch<string>(
-    `notebooks/${notebookId}/chat`,
-    {
-      method: "POST",
-      data: {
-        userInput: input,
-        // messages,
+  const { loading: isChatLoading, refetch: fetchChatResponse } =
+    useFetch<string>(
+      `notebooks/${notebookId}/chat`,
+      {
+        method: "POST",
+        data: {
+          userInput: input,
+          // messages,
+        },
+        onSuccess: (response) => {
+          const aiResponse: Message = {
+            id: Date.now().toString(),
+            text: response,
+            sender: "ai",
+          };
+          setMessages((prevMessages) => [...prevMessages, aiResponse]);
+        },
+        onError: (error) => {
+          console.error("Error fetching chat response:", error);
+        },
       },
-      onSuccess: (response) => {
-        const aiResponse: Message = {
-          id: Date.now().toString(),
-          text: response,
-          sender: "ai",
-        };
-        setMessages((prevMessages) => [...prevMessages, aiResponse]);
-        setIsLoading(false);
-      },
-      onError: (error) => {
-        setIsLoading(false);
-        console.error("Error fetching chat response:", error);
-      },
-    },
-    false
-  );
+      false
+    );
 
   return (
     <Card className="col-span-6 flex flex-col h-full">
-      <h2 className="text-lg font-sans font-normal mb-2">Chat</h2>
+      <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
+        <h2 className="text-lg font-sans font-normal">Chat</h2>
+        <div className="flex gap-3">
+          {messages.length == 0 &&
+          !isChatLoading &&
+          !isSummaryLoading &&
+          chatSummary ? (
+            <Tooltip
+              text={
+                isRegenerating
+                  ? "Regenerating summary..."
+                  : "Regenerate summary"
+              }
+              position="bottom"
+            >
+              <IconButton
+                icon={isRegenerating ? <Spinner /> : <RestartIcon />}
+                variant="ghost"
+                size="sm"
+                className="flex-shrink-0"
+                onClick={regenerateSummary}
+                disabled={isRegenerating}
+              />
+            </Tooltip>
+          ) : null}
+        </div>
+      </div>
       <Divider className="mb-0" />
       {messages.length > 0 ? (
         <div className="flex-grow overflow-y-auto p-4 space-y-2">
@@ -100,7 +151,7 @@ export default function ChatCard({
                   className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
                     msg.sender === "user"
                       ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
+                      : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
                   }`}
                 >
                   <p className="text-base leading-relaxed">{msg.text}</p>
@@ -108,7 +159,7 @@ export default function ChatCard({
               </motion.div>
             ))}
           </AnimatePresence>
-          {isLoading && (
+          {isChatLoading && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -128,7 +179,7 @@ export default function ChatCard({
           transition={{ delay: 0.2, duration: 0.5 }}
           className="flex flex-col flex-grow min-h-0 max-h-full overflow-y-auto"
         >
-          <div className="text-muted-foreground select-text w-full max-w-lg mx-auto my-auto p-8">
+          <div className="text-muted-foreground select-text w-full max-w-lg mx-auto my-auto py-8">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
             </h3>
@@ -137,7 +188,17 @@ export default function ChatCard({
                 ? "Loading summary..."
                 : summaryError
                 ? `Error: ${summaryError.message}`
-                : chatSummary || "No summary available."}
+                : chatSummary || (
+                    <Button
+                      onClick={regenerateSummary}
+                      icon={isRegenerating ? <Spinner /> : null}
+                      disabled={isRegenerating}
+                    >
+                      {isRegenerating
+                        ? "Generating summary..."
+                        : "Generate summary"}
+                    </Button>
+                  )}
             </p>
           </div>
         </motion.div>
@@ -154,7 +215,7 @@ export default function ChatCard({
                   setMessages([]);
                   setInput("");
                 }}
-                disabled={messages.length === 0 && !isLoading}
+                disabled={messages.length === 0 && !isChatLoading}
                 variant="ghost"
               />
             </Tooltip>
@@ -165,19 +226,19 @@ export default function ChatCard({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === "Enter" && !isLoading && input.trim()) {
+              if (e.key === "Enter" && !isChatLoading && input.trim()) {
                 handleSendMessage();
               }
             }}
             placeholder="Type your message..."
             className="flex-grow"
-            disabled={isLoading}
+            disabled={isChatLoading}
             autoFocus
           />
           <IconButton
             icon={<SendIcon />}
             onClick={handleSendMessage}
-            disabled={isLoading || !input.trim()}
+            disabled={isChatLoading || !input.trim()}
             aria-label="Send message"
           />
         </div>
