@@ -1,41 +1,54 @@
 package com.francids.escruta.backend.controllers;
 
 import com.francids.escruta.backend.dtos.ChatRequest;
-import com.francids.escruta.backend.dtos.source.SourceWithContentDTO;
 import com.francids.escruta.backend.services.SourceService;
-import org.springframework.ai.chat.client.ChatClient;
+import com.francids.escruta.backend.services.RetrievalService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.document.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("notebooks/{notebookId}/chat")
+@RequiredArgsConstructor
 class ChatController {
     private static final String UNIFIED_SYSTEM_MESSAGE = """
             You are a helpful AI assistant and expert summarizer. Your primary goal is to provide accurate and relevant information based on the context provided. Follow these instructions carefully:
-            1. You will be given a set of sources. Use only the information from these sources to answer questions or generate summaries.
-            2. Never use any external knowledge or information you might have. Your responses must be based solely on the provided text.
-            3. When you use information from a source, you must cite it by mentioning the source title (e.g., "Source: [title]").
-            4. If the provided sources do not contain enough information to answer a question, you must clearly state that and explain why. Do not try to guess or infer answers.
-            5. If you are asked to perform a task that is not related to the provided sources, politely decline and remind the user that you can only work with the given information.
-            6. If no sources are provided, you must state that you cannot answer the question without them.
+            1. You will be given a set of sources between "--- BEGINNING OF SOURCES ---" and "--- END OF SOURCES ---" markers.
+            2. Use only the information from these provided sources to answer questions or generate summaries.
+            3. Never use any external knowledge or information you might have. Your responses must be based solely on the provided text.
+            4. When you use information from a source, you must cite it by mentioning the source title (e.g., "According to [title]").
+            5. If the provided sources do not contain enough information to answer a specific question, you must clearly state that and explain what information is missing.
+            6. If you are asked to perform a task that is not related to the provided sources, politely decline and remind the user that you can only work with the given information.
             7. When asked to summarize, create a concise summary of the text provided. The summary should be a single paragraph of 2-3 sentences.
-            8. IMPORTANT: Do not include any thinking process or reasoning in your response. Do not use <think> tags. Provide only the final answer or summary.""";
+            8. IMPORTANT: Do not include any thinking process or reasoning in your response. Do not use <think> tags. Provide only the final answer or summary.
+            9. Always work with the sources provided to you in this conversation. Sources are available unless explicitly stated otherwise.""";
+
+    private static final String RAG_PROMPT_TEMPLATE = """
+            {system}
+            
+            Here are the sources for our conversation:
+            --- BEGINNING OF SOURCES ---
+            {documents}
+            --- END OF SOURCES ---
+            
+            Please use the sources above to answer the user's question.
+            """;
 
     private final SourceService sourceService;
-    private final ChatClient chatClient;
-
-    public ChatController(
-            ChatClient.Builder chatClientBuilder,
-            SourceService sourceService
-    ) {
-        this.chatClient = chatClientBuilder
-                .build();
-        this.sourceService = sourceService;
-    }
+    private final RetrievalService retrievalService;
+    private final ChatModel chatModel;
 
     private UUID parseUUID(String id) {
         try {
@@ -45,27 +58,19 @@ class ChatController {
         }
     }
 
-    private String sourceTemplate(SourceWithContentDTO source) {
-        String title = source.title() != null ? source.title() : "";
-        String link = source.link() != null ? source.link() : "";
-        String content = source.content() != null ? source.content() : "";
+    private String toSourceTemplate(Document source) {
+        String title = (String) source.getMetadata().get("title");
+        String link = (String) source.getMetadata().get("link");
+        String content = source.getFormattedContent();
 
-        return "### SOURCE: " + title + " ###\n" +
-                "Title: " + title + "\n" +
-                "URL: " + link + "\n" +
-                "Content: " + content + "\n" +
-                "### END SOURCE: " + title + " ###\n\n";
+        return "### SOURCE: " + title + " ###\n" + "Title: " + title + "\n" + "URL: " + link + "\n" + "Content: " + content + "\n" + "### END SOURCE: " + title + " ###\n\n";
     }
 
-    private String sourcesContent(List<SourceWithContentDTO> sources) {
+    private String sourcesContent(List<Document> sources) {
         if (sources == null || sources.isEmpty()) {
-            return "No sources provided.";
+            return "No sources are available for this request.";
         }
-        return sources
-                .stream()
-                .map(source -> source != null ? sourceTemplate(source) : "")
-                .filter(content -> !content.isEmpty())
-                .collect(Collectors.joining("\n\n"));
+        return sources.stream().map(source -> source != null ? toSourceTemplate(source) : "").filter(content -> !content.isEmpty()).collect(Collectors.joining("\n\n"));
     }
 
     @GetMapping("summary")
@@ -74,71 +79,81 @@ class ChatController {
             UUID notebookUuid = parseUUID(notebookId);
             var sources = sourceService.getSourcesWithContent(notebookUuid);
 
-            String sourcesText = sourcesContent(sources);
+            if (sources == null || sources.isEmpty()) {
+                return ResponseEntity.ok("No sources available for summary.");
+            }
 
-            String userMessage = "Please generate a summary of the following sources:\n\n" +
-                    "--- BEGINNING OF SOURCES ---\n" +
-                    sourcesText +
-                    "--- END OF SOURCES ---\n\n" +
-                    "Task: Generate a single paragraph summary (2-3 sentences) of the key information from the sources above. " +
-                    "Be extremely concise and direct. Focus only on the most essential points. " +
-                    "Do not add any extra information or explanations.";
+            String sourcesText = sources.stream().map(source -> source != null ? toSourceTemplate(new Document(source.content(), Map.of("title", source.title(), "link", source.link()))) : "").filter(content -> !content.isEmpty()).collect(Collectors.joining("\n\n"));
 
-            String summary = chatClient
-                    .prompt()
-                    .system(UNIFIED_SYSTEM_MESSAGE)
-                    .user(userMessage)
-                    .call()
-                    .content();
+            if (sourcesText.trim().isEmpty()) {
+                return ResponseEntity.ok("The sources are empty, cannot generate a summary.");
+            }
 
-            if (summary == null || summary.trim().isEmpty() || summary.toLowerCase().contains("provide me with the sources")) {
-                return ResponseEntity.ok("I can't summarize the sources available in this notebook.");
+            Prompt prompt = getSummaryPrompt(sourcesText);
+            ChatResponse chatResponse = chatModel.call(prompt);
+            String summary = chatResponse.getResult().getOutput().getText();
+
+            if (summary == null || summary.trim().isEmpty()) {
+                return ResponseEntity.ok("Could not generate a summary with the available sources.");
             }
 
             return ResponseEntity.ok(summary);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            return ResponseEntity.ok("I can't summarize the sources available in this notebook.");
+            return ResponseEntity.internalServerError().build();
         }
     }
 
+    private static Prompt getSummaryPrompt(String sourcesText) {
+        String systemMessageText = UNIFIED_SYSTEM_MESSAGE + """
+                
+                
+                Here are the sources you must summarize:
+                --- BEGINNING OF SOURCES ---
+                """ + sourcesText + """
+                --- END OF SOURCES ---
+                
+                Generate a comprehensive summary based on the sources provided above.""";
+
+        String userMessage = """
+                Generate a comprehensive summary of all the sources provided above.
+                The summary should be 3-4 sentences that capture the key information and main points from all sources.
+                Be concise but informative. Start your response directly with the summary.""";
+
+        return new Prompt(List.of(new SystemMessage(systemMessageText), new UserMessage(userMessage)));
+    }
+
     @PostMapping
-    ResponseEntity<String> generation(
-            @PathVariable String notebookId,
-            @RequestBody ChatRequest request
-    ) {
+    ResponseEntity<String> generation(@PathVariable String notebookId, @RequestBody ChatRequest request) {
         try {
             UUID notebookUuid = parseUUID(notebookId);
-            var sources = sourceService.getSourcesWithContent(notebookUuid);
-            String sourcesText = sourcesContent(sources);
+            List<Document> relevantDocuments = retrievalService.retrieveRelevantDocuments(notebookUuid, request.getUserInput());
 
-            String systemMessageWithSources = UNIFIED_SYSTEM_MESSAGE + "\n\n" +
-                    "Here are the sources for our conversation:\n" +
-                    "\n" +
-                    "--- BEGINNING OF SOURCES ---\n" +
-                    "\n" +
-                    sourcesText +
-                    "\n" +
-                    "--- END OF SOURCES ---\n";
+            if (relevantDocuments == null || relevantDocuments.isEmpty()) {
+                return ResponseEntity.ok("No relevant sources found in this notebook to answer your question.");
+            }
 
-            String userMessage = "Using the sources provided in the system context, please answer the following question: " + request.getUserInput();
+            String sourcesText = sourcesContent(relevantDocuments);
 
-            String response = this.chatClient.prompt()
-                    .system(systemMessageWithSources)
-                    .user(userMessage)
-                    .call()
-                    .content();
+            var systemPromptTemplate = new SystemPromptTemplate(RAG_PROMPT_TEMPLATE);
+            var systemMessage = systemPromptTemplate.createMessage(Map.of("system", UNIFIED_SYSTEM_MESSAGE, "documents", sourcesText));
+            UserMessage userMessage = new UserMessage(request.getUserInput());
+
+            var prompt = new Prompt(List.of(systemMessage, userMessage));
+            var generation = chatModel.call(prompt).getResult();
+
+            String response = generation.getOutput().getText();
 
             if (response == null || response.trim().isEmpty()) {
-                return ResponseEntity.ok("I can't answer that question with the sources available in this notebook.");
+                return ResponseEntity.ok("Could not generate a response based on the available sources.");
             }
 
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            return ResponseEntity.ok("I can't answer that question with the sources available in this notebook.");
+            return ResponseEntity.ok("Could not generate a response based on the available sources.");
         }
     }
 }

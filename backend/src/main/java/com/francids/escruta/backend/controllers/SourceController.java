@@ -63,9 +63,11 @@ public class SourceController {
         try {
             UUID uuid = parseUUID(notebookId);
             var source = sourceService.addSource(uuid, sourceCreationDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(source);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return source != null
+                    ? ResponseEntity.status(HttpStatus.CREATED).body(source)
+                    : ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -93,8 +95,8 @@ public class SourceController {
             UUID sourceUuid = parseUUID(sourceId);
             var source = sourceService.deleteSource(notebookUuid, sourceUuid);
             return source != null ? ResponseEntity.ok(source) : ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
