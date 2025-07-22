@@ -1,0 +1,39 @@
+server:
+  port: ${ESCRUTA_BACKEND_PORT:${PORT:8080}}
+spring:
+  application:
+    name: Escruta Backend
+  datasource:
+    url: ${ESCRUTA_DATABASE_URL:jdbc:postgresql://localhost:5432/escruta}
+    username: ${ESCRUTA_DATABASE_USERNAME:postgres}
+    password: ${ESCRUTA_DATABASE_PASSWORD:1234}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  data:
+    jdbc:
+      dialect: postgresql
+  ai:
+    openai:
+      base-url: ${ESCRUTA_AI_BASE_URL}
+      api-key: ${ESCRUTA_AI_API_KEY}
+      chat:
+        options:
+          model: ${ESCRUTA_AI_MODEL}
+          temperature: 0.5
+      embedding:
+        options:
+          model: ${ESCRUTA_AI_EMBEDDING_MODEL}
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        index-type: hnsw
+        distance-type: cosine_distance
+        dimensions: 768
+        remove-existing-vector-store-table: false
+        max-document-batch-size: 1000
+security:
+  jwt:
+    secret-key: ${ESCRUTA_JWT_SECRET}
+    expiration-time: 3600000
