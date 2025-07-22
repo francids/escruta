@@ -24,7 +24,7 @@ _"Think, ask, learn"_
 
 ## Screenshots
 
-![Escruta Screenshot](./resources/AppScreenshot.webp)
+![Escruta Screenshot](./resources/AppScreenshot.png)
 
 ## Tech Stack
 
