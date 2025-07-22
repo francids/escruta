@@ -1,6 +1,6 @@
 import useFetch from "../../hooks/useFetch";
 import { FireIcon, SendIcon } from "./icons";
-import { Card, Divider, TextField, IconButton } from "./ui";
+import { Card, Divider, TextField, IconButton, Tooltip } from "./ui";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -99,11 +99,11 @@ export default function ChatCard({
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
                     msg.sender === "user"
-                      ? "bg-blue-500 text-white ml-12"
-                      : "bg-gray-100/50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 mr-12"
+                      ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{msg.text}</p>
+                  <p className="text-base leading-relaxed">{msg.text}</p>
                 </div>
               </motion.div>
             ))}
@@ -126,13 +126,14 @@ export default function ChatCard({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="flex-grow flex items-center justify-start p-8"
+          className="flex-grow flex items-center justify-start p-8 overflow-y-auto"
+          style={{ minHeight: 0, maxHeight: "100%" }}
         >
-          <div className="text-muted-foreground select-text">
+          <div className="text-muted-foreground select-text max-w-full overflow-x-auto">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
             </h3>
-            <p className="text-sm leading-relaxed">
+            <p className="mt-1 mb-1 text-base font-medium leading-6">
               {isSummaryLoading
                 ? "Loading summary..."
                 : summaryError
@@ -146,16 +147,18 @@ export default function ChatCard({
       <div className="py-4">
         <div className="flex items-center gap-2">
           {messages.length > 0 ? (
-            <IconButton
-              icon={<FireIcon />}
-              ariaLabel="Clear chat"
-              onClick={() => {
-                setMessages([]);
-                setInput("");
-              }}
-              disabled={messages.length === 0 && !isLoading}
-              variant="ghost"
-            />
+            <Tooltip text="Clear chat" position="top">
+              <IconButton
+                icon={<FireIcon />}
+                ariaLabel="Clear chat"
+                onClick={() => {
+                  setMessages([]);
+                  setInput("");
+                }}
+                disabled={messages.length === 0 && !isLoading}
+                variant="ghost"
+              />
+            </Tooltip>
           ) : null}
           <TextField
             id="chat-input"
