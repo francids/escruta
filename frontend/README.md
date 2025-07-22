@@ -2,13 +2,13 @@
 
 ## Getting Started
 
-To run the Escruta frontend, you need to have **Node.js** and **pnpm** installed. Follow these steps to set up the project:
+To run the Escruta frontend, you need to have **Bun** installed. Follow these steps to set up the project:
 
 ```bash
 git clone git@github.com:francids/escruta.git
 cd escruta/frontend
-pnpm i
-pnpm dev
+bun i
+bun dev
 ```
 
 ## Project Structure
@@ -30,11 +30,11 @@ src/
 ## Building for Production
 
 ```bash
-pnpm build
+bun run build
 ```
 
 ## Environment Variables
 
 The application uses the following environment variables:
 
-- `VITE_BACKEND_URL`: Backend API URL (defaults to `http://localhost:8080`)
+- `VITE_ESCRUTA_BACKEND_URL`: Backend API URL (defaults to `http://localhost:8080`)
