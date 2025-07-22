@@ -47,6 +47,7 @@ export default function ChatCard({
       sender: "user",
     };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
+    setInput("");
     setIsLoading(true);
     await fetchChatResponse(true);
   };
@@ -67,7 +68,6 @@ export default function ChatCard({
         };
         setMessages((prevMessages) => [...prevMessages, aiResponse]);
         setIsLoading(false);
-        setInput("");
       },
       onError: (error) => {
         setIsLoading(false);
