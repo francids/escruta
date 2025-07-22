@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import type Source from "../interfaces/Source";
 import { CloseIcon, DeleteIcon, LinkIcon } from "./icons";
-import { Button, Card, IconButton, Modal, Tooltip } from "./ui";
+import { Button, Card, IconButton, Modal, Tooltip, Divider } from "./ui";
+import Markdown from "react-markdown";
 
 interface SourceViewerProps {
   notebookId: string;
@@ -62,10 +63,7 @@ export default function SourceViewer({
   return (
     <>
       <Card className={`${className} flex flex-col overflow-y-auto`}>
-        <div className="flex justify-between items-center flex-shrink-0 mb-2">
-          <h2 className="text-lg font-sans font-semibold truncate">
-            {source.title}
-          </h2>
+        <div className="flex justify-end items-center flex-shrink-0 mb-2 px-2">
           <div className="flex gap-2">
             <Tooltip text="Open source" position="bottom">
               <IconButton
@@ -95,6 +93,7 @@ export default function SourceViewer({
             </Tooltip>
           </div>
         </div>
+        <Divider className="mb-2" />
         {loading && (
           <div className="text-center text-gray-500 text-sm">
             Loading source...
@@ -107,8 +106,10 @@ export default function SourceViewer({
         )}
         {fullSource && !loading && !error && (
           <div className="flex-1">
-            <div className="h-auto min-h-[80%] w-full pb-4 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
-              {fullSource.content}
+            <div className="h-auto min-h-[80%] w-full py-4 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+              <div className="prose dark:prose-invert max-w-none text-base">
+                <Markdown>{fullSource.content}</Markdown>
+              </div>
             </div>
           </div>
         )}
