@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 export default function Card({
   children,
   className,
@@ -7,7 +9,10 @@ export default function Card({
 }) {
   return (
     <div
-      className={`bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600 ${className}`}
+      className={twMerge(
+        `bg-gray-50 dark:bg-gray-800 p-6 rounded-xs border border-gray-200 dark:border-gray-600`,
+        className
+      )}
     >
       {children}
     </div>

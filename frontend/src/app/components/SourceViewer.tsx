@@ -71,63 +71,68 @@ export default function SourceViewer({
         position="bottom-right"
         duration={1500}
       />
-      <Card className={`${className} flex flex-col overflow-y-auto`}>
-        <div className="flex justify-between items-center flex-shrink-0 mb-2 px-2">
-          <h2 className="truncate">{source.title || "Source viewer"}</h2>
-          <div className="flex gap-2">
-            <Tooltip text="Copy source content" position="bottom">
-              <IconButton
-                icon={<CopyIcon />}
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  navigator.clipboard.writeText(fullSource?.content || "");
-                  setShowCopyToast(true);
-                }}
-              />
-            </Tooltip>
-            <Tooltip text="Open source" position="bottom">
-              <IconButton
-                icon={<LinkIcon />}
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  window.open(source.link, "_blank", "noopener noreferrer");
-                }}
-              />
-            </Tooltip>
-            <Tooltip text="Delete source" position="bottom">
-              <IconButton
-                icon={<DeleteIcon />}
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsDeleteModalOpen(true)}
-              />
-            </Tooltip>
-            <Tooltip text="Close source" position="bottom">
-              <IconButton
-                icon={<CloseIcon />}
-                variant="ghost"
-                size="sm"
-                onClick={handleCloseSource}
-              />
-            </Tooltip>
+      <Card className={`${className} flex flex-col overflow-y-auto p-0`}>
+        <div className="sticky h-20 top-0 z-10 ">
+          <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
+          <div className="h-14 px-6 bg-gray-50 dark:bg-gray-800">
+            <div className="h-12 px-2 flex justify-between items-center flex-shrink-0">
+              <h2 className="truncate">{source.title || "Source viewer"}</h2>
+              <div className="flex gap-2">
+                <Tooltip text="Copy source content" position="bottom">
+                  <IconButton
+                    icon={<CopyIcon />}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(fullSource?.content || "");
+                      setShowCopyToast(true);
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip text="Open source" position="bottom">
+                  <IconButton
+                    icon={<LinkIcon />}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      window.open(source.link, "_blank", "noopener noreferrer");
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip text="Delete source" position="bottom">
+                  <IconButton
+                    icon={<DeleteIcon />}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsDeleteModalOpen(true)}
+                  />
+                </Tooltip>
+                <Tooltip text="Close source" position="bottom">
+                  <IconButton
+                    icon={<CloseIcon />}
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCloseSource}
+                  />
+                </Tooltip>
+              </div>
+            </div>
+            <Divider />
           </div>
         </div>
-        <Divider className="mb-2" />
         {loading && (
-          <div className="text-center text-gray-500 text-sm">
+          <div className="text-center text-gray-500 text-sm px-6">
             Loading source...
           </div>
         )}
         {error && (
-          <div className="text-red-500 text-sm">
+          <div className="text-red-500 text-sm px-6">
             Error loading source: {error.message}
           </div>
         )}
         {fullSource && !loading && !error && (
           <div className="flex-1">
-            <div className="h-auto min-h-[80%] w-full py-4 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+            <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
               <div className="prose dark:prose-invert max-w-none text-base">
                 <Markdown>{fullSource.content}</Markdown>
               </div>
