@@ -9,6 +9,7 @@ import {
   Modal,
   TextField,
   Tooltip,
+  Switch,
 } from "./ui";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
@@ -39,6 +40,8 @@ export default function SourcesCard({
 
   const [isAddSourceModalOpen, setIsAddSourceModalOpen] =
     useState<boolean>(false);
+  const [isAIConverterEnabled, setIsAIConverterEnabled] =
+    useState<boolean>(false);
   const [newSourceLink, setNewSourceLink] = useState<string>("");
   const [newSourceLinkError, setNewSourceLinkError] = useState<string>("");
 
@@ -47,7 +50,7 @@ export default function SourcesCard({
     error: addingSourceError,
     refetch: addSource,
   } = useFetch<Source>(
-    `notebooks/${notebookId}/sources`,
+    `notebooks/${notebookId}/sources?aiConverter=${isAIConverterEnabled}`,
     {
       method: "POST",
       data: {
@@ -143,21 +146,29 @@ export default function SourcesCard({
         onClose={() => setIsAddSourceModalOpen(false)}
         title="Add source"
         actions={
-          <>
-            <Button
-              variant="secondary"
-              onClick={() => setIsAddSourceModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleAddSource}
-              disabled={!newSourceLink.trim() || addingSource}
-            >
-              {addingSource ? "Adding..." : "Add"}
-            </Button>
-          </>
+          <div className="flex justify-between w-full">
+            <Switch
+              checked={isAIConverterEnabled}
+              onChange={setIsAIConverterEnabled}
+              label="Enable AI Converter"
+              disabled={addingSource}
+            />
+            <div className="flex gap-3">
+              <Button
+                variant="secondary"
+                onClick={() => setIsAddSourceModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={handleAddSource}
+                disabled={!newSourceLink.trim() || addingSource}
+              >
+                {addingSource ? "Adding..." : "Add"}
+              </Button>
+            </div>
+          </div>
         }
       >
         <div className="space-y-4">
