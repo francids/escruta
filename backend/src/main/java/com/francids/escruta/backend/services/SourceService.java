@@ -86,18 +86,14 @@ public class SourceService {
 
     public List<SourceResponseDTO> getSources(UUID notebookId) {
         if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return sourceRepository.findByNotebookId(notebookId).stream()
-                    .map(SourceResponseDTO::new)
-                    .toList();
+            return sourceRepository.findByNotebookId(notebookId).stream().map(SourceResponseDTO::new).toList();
         }
         return List.of();
     }
 
     public List<SourceWithContentDTO> getSourcesWithContent(UUID notebookId) {
         if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return sourceRepository.findByNotebookId(notebookId).stream()
-                    .map(SourceWithContentDTO::new)
-                    .toList();
+            return sourceRepository.findByNotebookId(notebookId).stream().map(SourceWithContentDTO::new).toList();
         }
         return List.of();
     }
@@ -106,13 +102,11 @@ public class SourceService {
         if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
             return null;
         }
-        return sourceRepository.findById(sourceId)
-                .map(SourceWithContentDTO::new)
-                .orElse(null);
+        return sourceRepository.findById(sourceId).map(SourceWithContentDTO::new).orElse(null);
     }
 
     @Transactional
-    public SourceWithContentDTO addSource(UUID notebookId, SourceCreationDTO newSourceDto) {
+    public SourceWithContentDTO addSource(UUID notebookId, SourceCreationDTO newSourceDto, boolean aiConverter) {
         var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
 
@@ -122,12 +116,18 @@ public class SourceService {
 
         try {
             WebContent webContent = fetchWebContent(newSourceDto.link());
-            String markdownContent = formatContentAsMarkdown(webContent.content());
+            String content;
+
+            if (aiConverter) {
+                content = formatContentAsMarkdown(webContent.content());
+            } else {
+                content = webContent.content();
+            }
 
             var textSplitter = new TokenTextSplitter(500, 100, 5, 10000, true);
-            List<Document> chunks = textSplitter.apply(List.of(new Document(markdownContent)));
+            List<Document> chunks = textSplitter.apply(List.of(new Document(content)));
 
-            Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), markdownContent);
+            Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content);
             if (source.getTitle() == null || source.getTitle().trim().isEmpty()) {
                 source.setTitle(webContent.title());
             }

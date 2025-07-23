@@ -58,11 +58,12 @@ public class SourceController {
     @PostMapping
     public ResponseEntity<SourceWithContentDTO> createNotebookSource(
             @PathVariable String notebookId,
-            @Valid @RequestBody SourceCreationDTO sourceCreationDTO
+            @Valid @RequestBody SourceCreationDTO sourceCreationDTO,
+            @RequestParam(name = "aiConverter", defaultValue = "false") boolean aiConverter
     ) {
         try {
             UUID uuid = parseUUID(notebookId);
-            var source = sourceService.addSource(uuid, sourceCreationDTO);
+            var source = sourceService.addSource(uuid, sourceCreationDTO, aiConverter);
             return source != null
                     ? ResponseEntity.status(HttpStatus.CREATED).body(source)
                     : ResponseEntity.badRequest().build();
