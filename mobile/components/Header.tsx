@@ -1,17 +1,23 @@
 import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import tw from "../lib/tailwind";
+import tw from "lib/tailwind";
 import { IconButton } from "./ui";
 import { BackIcon } from "./icons";
 import { router } from "expo-router";
 
 interface HeaderProps {
   title: string | React.ReactNode;
+  centerTitle?: boolean;
   action?: React.ReactNode;
   showBackButton?: boolean;
 }
 
-export default function Header({ title, action, showBackButton }: HeaderProps) {
+export default function Header({
+  title,
+  centerTitle,
+  action,
+  showBackButton,
+}: HeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -25,13 +31,15 @@ export default function Header({ title, action, showBackButton }: HeaderProps) {
           onPress={() => router.back()}
         />
       ) : null}
-      <Text
-        style={tw`text-white text-xl font-medium flex-1 ${showBackButton ? "text-center" : ""}`}
-        numberOfLines={1}
-        ellipsizeMode="tail"
-      >
-        {title}
-      </Text>
+      <View style={tw`${centerTitle ? "flex-1 items-center" : "flex-1"}`}>
+        <Text
+          style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {title}
+        </Text>
+      </View>
       {action}
     </View>
   );
