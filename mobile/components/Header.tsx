@@ -30,7 +30,10 @@ export default function Header({
           variant="ghost"
           onPress={() => router.back()}
         />
+      ) : centerTitle && action && !showBackButton ? (
+        <View style={tw`w-10`} />
       ) : null}
+
       <View style={tw`${centerTitle ? "flex-1 items-center" : "flex-1"}`}>
         <Text
           style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
@@ -40,7 +43,12 @@ export default function Header({
           {title}
         </Text>
       </View>
-      {action}
+
+      {action ? (
+        action
+      ) : centerTitle && showBackButton && !action ? (
+        <View style={tw`w-10`} />
+      ) : null}
     </View>
   );
 }
