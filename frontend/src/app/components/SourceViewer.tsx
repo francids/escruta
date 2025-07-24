@@ -75,7 +75,7 @@ export default function SourceViewer({
         <div className="sticky h-20 top-0 z-10 ">
           <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
           <div className="h-14 px-6 bg-gray-50 dark:bg-gray-800">
-            <div className="h-12 px-2 flex justify-between items-center flex-shrink-0">
+            <div className="h-12 px-2 gap-3 flex justify-between items-center flex-shrink-0">
               <h2 className="truncate">{source.title || "Source viewer"}</h2>
               <div className="flex gap-2">
                 <Tooltip text="Copy source content" position="bottom">
