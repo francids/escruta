@@ -1,9 +1,9 @@
 import { View, Text, ImageBackground } from "react-native";
 import { router } from "expo-router";
-import tw from "../lib/tailwind";
-import Logo from "../components/Logo";
-import { Button } from "../components/ui";
-import { ArrowRightIcon } from "../components/icons";
+import tw from "lib/tailwind";
+import Logo from "components/Logo";
+import { Button } from "components/ui";
+import { ArrowRightIcon } from "components/icons";
 
 export default function LandingPage() {
   return (

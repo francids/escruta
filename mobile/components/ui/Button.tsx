@@ -1,5 +1,5 @@
-import { TouchableOpacity, Text, View } from "react-native";
-import tw from "../../lib/tailwind";
+import { Text, View, Pressable } from "react-native";
+import tw from "lib/tailwind";
 
 interface ButtonProps {
   text: string;
@@ -26,37 +26,43 @@ export default function Button({
         `;
 
   const variantStyles = {
-    primary: tw`bg-blue-500`,
-    secondary: tw`bg-gray-200`,
-    danger: tw`bg-red-500`,
+    primary: tw`bg-blue-500 border border-blue-600`,
+    secondary: tw`bg-gray-800 border border-gray-700`,
+    danger: tw`bg-red-500 border border-red-600`,
   };
 
   const textVariantStyles = {
-    primary: tw`text-white font-normal text-lg`,
-    secondary: tw`text-gray-800 font-normal text-lg`,
-    danger: tw`text-white font-normal text-lg`,
+    primary: tw`text-white font-medium text-lg`,
+    secondary: tw`text-gray-100 font-medium text-lg`,
+    danger: tw`text-white font-medium text-lg`,
   };
 
   const disabledStyles = tw`opacity-50`;
   const fullWidthStyles = tw`w-full`;
 
+  const pressedStyles = {
+    primary: tw`bg-blue-600`,
+    secondary: tw`bg-gray-800/80`,
+    danger: tw`bg-red-600`,
+  };
+
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={[
+      style={({ pressed }) => [
         baseStyles,
         variantStyles[variant],
         disabled && disabledStyles,
         fullWidth && fullWidthStyles,
         style,
+        pressed && pressedStyles[variant],
       ]}
       disabled={disabled}
-      activeOpacity={0.8}
     >
       <Text style={textVariantStyles[variant]}>{text}</Text>
       {icon && (
         <View style={tw`ml-2 w-4 h-4 items-center justify-center`}>{icon}</View>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }

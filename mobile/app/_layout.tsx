@@ -1,7 +1,11 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import tw from "lib/tailwind";
+import { useDeviceContext } from "twrnc";
 
 export default function RootLayout() {
+  useDeviceContext(tw);
+
   return (
     <>
       <Stack
