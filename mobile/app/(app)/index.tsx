@@ -58,41 +58,34 @@ export default function AppPage() {
 
   return (
     <View style={tw`flex flex-1 bg-neutral-950`}>
-      <Header
-        title={<Logo style="w-24 h-8 text-white" />}
-        centerTitle
-        action={<IconButton icon={<DotsVerticalIcon />} variant="ghost" />}
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + 86,
+          ...(dummyNotebooks.length === 0 && { flexGrow: 1 }),
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {dummyNotebooks.length > 0 ? (
+          <View style={tw`flex flex-col gap-4 p-4 pb-2`}>
+            {dummyNotebooks.map((notebook) => (
+              <NotebookCard notebook={notebook} key={notebook.id} />
+            ))}
+          </View>
+        ) : (
+          <View style={tw`flex flex-1 items-center justify-center`}>
+            <Text style={tw`text-neutral-400 text-center text-lg`}>
+              No notebooks yet. Create your first one!
+            </Text>
+          </View>
+        )}
+      </ScrollView>
+      <FAB
+        icon={<AddIcon />}
+        variant="primary"
+        onPress={() => {
+          console.log("FAB pressed");
+        }}
       />
-      <View style={tw`flex-1`}>
-        <ScrollView
-          contentContainerStyle={{
-            paddingBottom: insets.bottom + 86,
-            ...(dummyNotebooks.length === 0 && { flexGrow: 1 }),
-          }}
-          showsVerticalScrollIndicator={false}
-        >
-          {dummyNotebooks.length > 0 ? (
-            <View style={tw`flex flex-col gap-4 p-4 pb-2`}>
-              {dummyNotebooks.map((notebook) => (
-                <NotebookCard notebook={notebook} key={notebook.id} />
-              ))}
-            </View>
-          ) : (
-            <View style={tw`flex flex-1 items-center justify-center`}>
-              <Text style={tw`text-neutral-400 text-center text-lg`}>
-                No notebooks yet. Create your first one!
-              </Text>
-            </View>
-          )}
-        </ScrollView>
-        <FAB
-          icon={<AddIcon />}
-          variant="primary"
-          onPress={() => {
-            console.log("FAB pressed");
-          }}
-        />
-      </View>
     </View>
   );
 }

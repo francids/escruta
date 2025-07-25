@@ -1,16 +1,10 @@
 // import { useLocalSearchParams } from "expo-router";
 import { ScrollView, Text, View, Pressable } from "react-native";
-import Header from "components/Header";
 import tw from "lib/tailwind";
-import { Divider, IconButton, Tab, Button } from "components/ui";
+import { Divider, Tab, Button } from "components/ui";
 import SourceCard from "components/SourceCard";
 import NoteCard from "components/NoteCard";
-import {
-  AddIcon,
-  DotsVerticalIcon,
-  SendIcon,
-  ToolIcon,
-} from "components/icons";
+import { AddIcon, SendIcon, ToolIcon } from "components/icons";
 import type { Source, Note } from "interfaces";
 
 export default function NotebookPage() {
@@ -95,12 +89,6 @@ export default function NotebookPage() {
 
   return (
     <View style={tw`flex flex-1 bg-neutral-950`}>
-      <Header
-        title={`Notebook`}
-        centerTitle
-        action={<IconButton icon={<DotsVerticalIcon />} variant="ghost" />}
-        showBackButton
-      />
       <ScrollView style={tw`flex-1 px-4`} contentContainerStyle={tw`py-6`}>
         {/* Notebook Title */}
         <Text style={tw`text-white text-2xl font-bold`}>

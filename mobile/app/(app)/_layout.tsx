@@ -1,17 +1,44 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
-import tw from "lib/tailwind";
+import Logo from "components/Logo";
+import Header from "components/Header";
+import { IconButton } from "components/ui";
+import { DotsVerticalIcon } from "components/icons";
 
 export default function AppLayout() {
   return (
-    <View style={tw`flex-1`}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
+    <Stack
+      screenOptions={{
+        header: ({ back, options }) => (
+          <Header
+            title={options.headerTitle}
+            centerTitle={options.headerTitleAlign === "center"}
+            showBackButton={back ? true : false}
+            action={
+              typeof options.headerRight === "function"
+                ? options.headerRight({})
+                : options.headerRight
+            }
+          />
+        ),
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{
+          headerTitle: () => <Logo style="w-24 h-8 text-white" />,
+          headerTitleAlign: "center",
         }}
-      >
-        <Stack.Screen name="index" />
-      </Stack>
-    </View>
+      />
+      <Stack.Screen
+        name="notebook/[id]"
+        options={{
+          headerTitle: "Notebook",
+          headerTitleAlign: "center",
+          headerRight: () => (
+            <IconButton icon={<DotsVerticalIcon />} variant="ghost" />
+          ),
+        }}
+      />
+    </Stack>
   );
 }

@@ -31,7 +31,7 @@ export default function IconButton({
     primary: tw`bg-blue-500`,
     secondary: tw`bg-gray-200`,
     danger: tw`bg-red-500`,
-    ghost: tw`bg-transparent`,
+    ghost: tw``,
   };
 
   const iconColors = {

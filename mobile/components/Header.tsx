@@ -5,8 +5,13 @@ import { IconButton } from "./ui";
 import { BackIcon } from "./icons";
 import { router } from "expo-router";
 
+type HeaderTitleType =
+  | string
+  | React.ReactNode
+  | ((props?: { children?: string; tintColor?: string }) => React.ReactNode);
+
 interface HeaderProps {
-  title: string | React.ReactNode;
+  title: HeaderTitleType;
   centerTitle?: boolean;
   action?: React.ReactNode;
   showBackButton?: boolean;
@@ -35,13 +40,19 @@ export default function Header({
       ) : null}
 
       <View style={tw`${centerTitle ? "flex-1 items-center" : "flex-1"}`}>
-        <Text
-          style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
-          {title}
-        </Text>
+        {typeof title === "string" ? (
+          <Text
+            style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {title}
+          </Text>
+        ) : typeof title === "function" ? (
+          title({})
+        ) : (
+          title
+        )}
       </View>
 
       {action ? (
