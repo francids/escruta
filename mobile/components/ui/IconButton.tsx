@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, View } from "react-native";
 import tw from "../../lib/tailwind";
 import React from "react";
 
@@ -28,15 +28,22 @@ export default function IconButton({
   };
 
   const variantStyles = {
-    primary: tw`bg-blue-500`,
-    secondary: tw`bg-gray-200`,
-    danger: tw`bg-red-500`,
+    primary: tw`bg-blue-500 border border-blue-600`,
+    secondary: tw`bg-gray-800 border border-gray-700`,
+    danger: tw`bg-red-500 border border-red-600`,
     ghost: tw``,
+  };
+
+  const pressedVariantStyles = {
+    primary: tw`bg-blue-600`,
+    secondary: tw`bg-gray-800/80`,
+    danger: tw`bg-red-600`,
+    ghost: tw`bg-gray-500/10`,
   };
 
   const iconColors = {
     primary: "white",
-    secondary: "black",
+    secondary: "white",
     danger: "white",
     ghost: "white",
   };
@@ -44,17 +51,17 @@ export default function IconButton({
   const disabledStyles = tw`opacity-50`;
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={[
+      style={({ pressed }) => [
         baseStyles,
         sizeStyles[size],
         variantStyles[variant],
+        pressed && pressedVariantStyles[variant],
         disabled && disabledStyles,
         style,
       ]}
       disabled={disabled}
-      activeOpacity={0.8}
     >
       <View style={tw`items-center justify-center`}>
         {React.isValidElement(icon)
@@ -65,6 +72,6 @@ export default function IconButton({
             } as any)
           : icon}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

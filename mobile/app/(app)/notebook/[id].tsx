@@ -1,14 +1,19 @@
-// import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, Text, View, Pressable } from "react-native";
 import tw from "lib/tailwind";
-import { Divider, Tab, Button } from "components/ui";
+import { Divider, Tab, Button, MenuButton, IconButton } from "components/ui";
 import SourceCard from "components/SourceCard";
 import NoteCard from "components/NoteCard";
-import { AddIcon, SendIcon, ToolIcon } from "components/icons";
+import {
+  AddIcon,
+  DotsVerticalIcon,
+  SendIcon,
+  ToolIcon,
+} from "components/icons";
 import type { Source, Note } from "interfaces";
 
 export default function NotebookPage() {
-  // const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
 
   const dummySources: Source[] = [
     {
@@ -89,6 +94,37 @@ export default function NotebookPage() {
 
   return (
     <View style={tw`flex flex-1 bg-neutral-950`}>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <MenuButton
+              menuItems={[
+                {
+                  text: "Edit title",
+                  onPress: () => console.log("Edit title pressed"),
+                },
+                {
+                  text: "Regenerate summary",
+                  onPress: () => console.log("Regenerate summary pressed"),
+                },
+                {
+                  text: "Delete notebook",
+                  onPress: () =>
+                    console.log(`Delete notebook pressed for ID: ${id}`),
+                },
+              ]}
+              position="bottom-right"
+              button={({ onPress }) => (
+                <IconButton
+                  icon={<DotsVerticalIcon />}
+                  variant="ghost"
+                  onPress={onPress}
+                />
+              )}
+            />
+          ),
+        }}
+      />
       <ScrollView style={tw`flex-1 px-4`} contentContainerStyle={tw`py-6`}>
         {/* Notebook Title */}
         <Text style={tw`text-white text-2xl font-bold`}>

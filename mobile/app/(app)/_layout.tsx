@@ -1,8 +1,6 @@
 import { Stack } from "expo-router";
 import Logo from "components/Logo";
 import Header from "components/Header";
-import { IconButton } from "components/ui";
-import { DotsVerticalIcon } from "components/icons";
 
 export default function AppLayout() {
   return (
@@ -34,9 +32,6 @@ export default function AppLayout() {
         options={{
           headerTitle: "Notebook",
           headerTitleAlign: "center",
-          headerRight: () => (
-            <IconButton icon={<DotsVerticalIcon />} variant="ghost" />
-          ),
         }}
       />
     </Stack>
