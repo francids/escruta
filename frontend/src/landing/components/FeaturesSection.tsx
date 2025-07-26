@@ -2,8 +2,9 @@ import { motion } from "motion/react";
 
 const features = [
   {
-    title: "Interactive Notebooks",
-    description: "Create notebooks to organize your thoughts and learnings.",
+    title: "Centralized Notebooks",
+    description:
+      "Organize your research into distinct projects or topics. Each notebook acts as a self-contained workspace for your sources, notes, and AI conversations.",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +22,9 @@ const features = [
     ),
   },
   {
-    title: "Idea Exploration",
-    description: "Ask complex questions and get detailed answers.",
+    title: "Source Management",
+    description:
+      "Upload and manage your documents. Web links are processed into clean, readable documents for analysis. Escruta uses these materials as the sole knowledge base for its AI.",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -40,9 +42,9 @@ const features = [
     ),
   },
   {
-    title: "Intuitive Visualization",
+    title: "Context-Aware AI Chat",
     description:
-      "Visualize the connection between ideas with a clean and elegant design.",
+      "Engage in a dialogue with an AI that understands your documents. Ask complex questions, clarify concepts, and get answers based only on the sources you've provided.",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +58,65 @@ const features = [
       >
         <rect width="18" height="18" x="3" y="3" rx="2"></rect>
         <path d="M9 9h.01M15 15h.01M9 15h6M15 9h-6"></path>
+      </svg>
+    ),
+  },
+  {
+    title: "Integrated Note-Taking",
+    description:
+      "Capture your thoughts and summaries directly within your notebooks. Keep your insights connected to your source material.",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 md:h-10 md:w-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 2 21l1.5-5L16.5 3.5z"></path>
+      </svg>
+    ),
+  },
+  {
+    title: "Audio Summaries",
+    description:
+      "Generate and play audio summaries from your notebook's sources, perfect for on-the-go learning and revision.",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 md:h-10 md:w-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    ),
+  },
+  {
+    title: "Mind Maps",
+    description:
+      "Automatically generate mind maps that illustrate the connections and hierarchies between topics in your sources.",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-8 w-8 md:h-10 md:w-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 6v6l4 2"></path>
       </svg>
     ),
   },

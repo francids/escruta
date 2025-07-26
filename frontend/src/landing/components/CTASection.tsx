@@ -10,13 +10,13 @@ export default function CTASection() {
       <div className="container mx-auto px-4 md:px-6 relative z-20">
         <div className="max-w-2xl mx-auto backdrop-blur-sm p-6 md:p-12 rounded-xs border border-gray-200 dark:border-gray-800 text-center bg-white/80 dark:bg-gray-900/80">
           <motion.h2
-            className="text-3xl md:text-4xl font-light mb-4 text-gray-900 dark:text-white"
+            className="text-3xl md:text-4xl font-bold mb-4 text-blue-600 dark:text-blue-400"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Think, ask, learn
+            Ready to streamline your research?
           </motion.h2>
 
           <motion.p
@@ -26,8 +26,8 @@ export default function CTASection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Start exploring ideas and organizing your knowledge in an elegant
-            and effective way with Escruta.
+            Start exploring, organizing, and learning with Escruta—your
+            AI-powered research assistant.
           </motion.p>
 
           <motion.div
