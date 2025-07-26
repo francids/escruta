@@ -28,7 +28,7 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
-        name="notebook/[id]"
+        name="notebook/[notebookId]/index"
         options={{
           headerTitle: "Notebook",
           headerTitleAlign: "center",

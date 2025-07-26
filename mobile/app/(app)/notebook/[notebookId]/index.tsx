@@ -13,7 +13,7 @@ import {
 import type { Source, Note } from "interfaces";
 
 export default function NotebookPage() {
-  const { id } = useLocalSearchParams();
+  const { notebookId } = useLocalSearchParams();
 
   const dummySources: Source[] = [
     {
@@ -110,7 +110,9 @@ export default function NotebookPage() {
                 {
                   text: "Delete notebook",
                   onPress: () =>
-                    console.log(`Delete notebook pressed for ID: ${id}`),
+                    console.log(
+                      `Delete notebook pressed for ID: ${notebookId}`
+                    ),
                 },
               ]}
               position="bottom-right"
