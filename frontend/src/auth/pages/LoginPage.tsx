@@ -79,7 +79,7 @@ export default function LoginPage() {
       passwordValidation.isValid && password.trim() !== "";
 
     setAllowSubmit(isEmailValid && isPasswordValid);
-  }, [email, password]);
+  }, [email, password, savedEmail]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -192,6 +192,7 @@ export default function LoginPage() {
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
               required
               ref={emailInputRef}
+              autoComplete="email"
             />
           </motion.div>
           <motion.div
@@ -218,6 +219,7 @@ export default function LoginPage() {
               } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
               required
               ref={passwordInputRef}
+              autoComplete="current-password"
             />
             <AnimatePresence mode="wait">
               {passwordError && (
