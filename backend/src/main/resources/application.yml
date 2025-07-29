@@ -30,7 +30,7 @@ spring:
         initialize-schema: true
         index-type: hnsw
         distance-type: cosine_distance
-        dimensions: 768
+        dimensions: ${ESCRUTA_AI_EMBEDDING_DIMENSIONS:768}
         remove-existing-vector-store-table: false
         max-document-batch-size: 1000
 security:
