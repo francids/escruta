@@ -1,12 +1,10 @@
-<img src="./resources/Logo.svg" width="100">
+![Escruta Screenshot](./resources/AppScreenshot.png)
 
 # Escruta
 
 _"Think, ask, learn"_
 
 **Escruta** is an open-source, AI-powered research assistant designed to streamline your personal knowledge management and learning workflow. It provides a private and extensible alternative to proprietary research platforms.
-
-![Escruta Screenshot](./resources/AppScreenshot.png)
 
 ## Features
 
@@ -19,11 +17,12 @@ _"Think, ask, learn"_
 
 ## Technology Stack
 
-The project is organized into three main directories: `frontend/`, `backend/` and `mobile/`.
+The project is organized into three main directories: [`frontend/`](./frontend/), [`backend/`](./backend/) and [`mobile/`](./mobile/).
 
-- **Frontend**: Vite, React, React Router, Tailwind CSS, and Framer Motion.
-- **Backend**: Java (with Spring Boot), Spring Web, Spring Security, and PostgreSQL.
-- **Mobile**: React Native (with Expo).
+- **Backend**: Java, Spring Boot, Spring Web, Spring Security, Spring AI (OpenAI Starter).
+- **Frontend**: Bun, TypeScript, Vite, React, React Router, Tailwind CSS, Motion.
+- **Mobile**: Bun, TypeScript, React Native, Expo, twrnc.
+- **Database**: PostgreSQL, pgvector.
 
 ## Containerization
 
