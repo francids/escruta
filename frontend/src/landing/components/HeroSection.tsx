@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
-import Logo from "../../shared/Logo";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function HeroSection() {
@@ -8,27 +7,20 @@ export default function HeroSection() {
 
   return (
     <section className="relative h-[80vh] md:h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-900">
-      {/* Grid background */}
-      <div className="absolute inset-0 z-0">
-        <div className="w-full h-full border border-gray-200 dark:border-gray-800 rounded-xs grid grid-cols-[repeat(8,1fr)] md:grid-cols-[repeat(14,1fr)] grid-rows-[repeat(6,1fr)] md:grid-rows-[repeat(8,1fr)]">
-          {Array.from({ length: 14 * 8 }).map((_, index) => (
-            <div
-              key={index}
-              className="border border-gray-200/50 dark:border-gray-800/50"
-            />
-          ))}
-        </div>
-      </div>
+      <div className="absolute inset-0 z-0">{/*  */}</div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="text-center max-w-4xl mx-auto px-0 md:px-36">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="mb-6"
           >
-            <Logo className="h-8 md:h-10 w-auto fill-gray-900 dark:fill-white mx-auto" />
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+              Think, ask,{" "}
+              <span className="text-blue-700 dark:text-blue-400">learn</span>
+            </h1>
           </motion.div>
 
           <motion.div
@@ -37,9 +29,11 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h2 className="text-2xl md:text-3xl font-light text-blue-600 dark:text-blue-400">
-              Think, ask, learn
-            </h2>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400">
+              Organize, analyze, and learn from your own knowledge. Ask
+              questions, take notes, and get insights—all in a private,
+              open-source platform.
+            </p>
           </motion.div>
 
           <motion.div
