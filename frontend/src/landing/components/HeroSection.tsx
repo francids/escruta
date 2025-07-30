@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 import { useAuth } from "../../hooks/useAuth";
 
+import AppDesktopImage from "../assets/AppDesktop.png";
+
 export default function HeroSection() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <section className="relative h-[80vh] md:h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-900">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900 py-12">
       <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 -z-10 h-full w-full dark:hidden"
@@ -21,15 +23,15 @@ export default function HeroSection() {
           className="absolute inset-0 -z-10 h-full w-full hidden dark:block"
           style={{
             background:
-              "linear-gradient(180deg, var(--color-blue-950) 0%, var(--color-gray-900) 70%, var(--color-gray-900) 100%)",
-            filter: "blur(2px)",
-            opacity: 0.35,
+              "linear-gradient(180deg, var(--color-blue-900) 0%, var(--color-gray-900) 70%, var(--color-gray-900) 100%)",
+            filter: "blur(0.5px)",
+            opacity: 0.08,
           }}
         />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="text-center max-w-4xl mx-auto px-0 md:px-36">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
+        <div className="mt-32 w-full max-w-4xl text-center flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,26 +63,33 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex justify-center"
           >
-            <Link
-              to={"/app"}
-              className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 md:px-8 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
-            >
-              <span className="group-hover:pl-2 transition-all duration-200">
+            <div className="flex gap-4">
+              <Link
+                to={"/app"}
+                className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 md:px-8 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
+              >
                 {isAuthenticated() ? "Go to app" : "Get started"}
-              </span>
-              <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path>
-                </svg>
-              </div>
-            </Link>
+              </Link>
+              <Link
+                to="https://github.com/francids/escruta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-transparent px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 select-none"
+              >
+                Source code
+              </Link>
+            </div>
           </motion.div>
         </div>
+        <motion.img
+          src={AppDesktopImage}
+          alt="App screenshot"
+          className="mt-16 w-full max-w-5xl rounded-xs shadow-lg border border-gray-200 dark:border-gray-700"
+          style={{ objectFit: "contain" }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        />
       </div>
     </section>
   );
