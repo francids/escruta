@@ -34,6 +34,9 @@ These Dockerfiles allow you to build and run the application components in isola
 docker compose up --build -d
 ```
 
+> [!NOTE]
+> By default, `docker-compose.yaml` is configured to use Ollama on your computer. You can change the environment variables to use any OpenAI-compatible provider. The backend supports any provider that implements the OpenAI API.
+
 Once the command completes, the application services will be running in the background. You can access to the frontend at [localhost:6543](http://localhost:6543).
 
 ## Getting Started
