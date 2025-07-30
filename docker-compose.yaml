@@ -1,0 +1,53 @@
+services:
+  database:
+    build:
+      context: ./database
+    container_name: escruta-database
+    environment:
+      POSTGRES_DB: escruta
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: escruta-backend
+    depends_on:
+      database:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      ESCRUTA_BACKEND_PORT: 6542
+      ESCRUTA_DATABASE_URL: jdbc:postgresql://database:5432/escruta
+      ESCRUTA_DATABASE_USERNAME: postgres
+      ESCRUTA_DATABASE_PASSWORD: 1234
+      ESCRUTA_JWT_SECRET: YWxnby1leHRyZW1hZGFtZW50ZS1pbnRlcmVzYW50ZS15LXNlY3JldG8tbm8tc2UK # This is something extremely interesting and secret, idk (base64)
+      ESCRUTA_AI_BASE_URL: http://host.docker.internal:11434
+      ESCRUTA_AI_API_KEY: ollama
+      ESCRUTA_AI_MODEL: llama3.2:latest
+      ESCRUTA_AI_EMBEDDING_MODEL: nomic-embed-text
+      ESCRUTA_AI_EMBEDDING_DIMENSIONS: 768
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: escruta-frontend
+    environment:
+      VITE_ESCRUTA_BACKEND_URL: http://backend:6542
+    ports:
+      - "6543:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  db_data:

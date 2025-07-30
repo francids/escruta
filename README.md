@@ -25,6 +25,18 @@ The project is organized into three main directories: `frontend/`, `backend/` an
 - **Backend**: Java (with Spring Boot), Spring Web, Spring Security, and PostgreSQL.
 - **Mobile**: React Native (with Expo).
 
+## Containerization
+
+This repository includes `Dockerfile`s for each main component ([`frontend/`](./frontend/Dockerfile), [`backend/`](./backend/Dockerfile), [`database/`](./database/Dockerfile)).
+
+These Dockerfiles allow you to build and run the application components in isolated containers, ensuring consistency across different environments. You can use [`docker-compose.yaml`](./docker-compose.yaml) to orchestrate the entire stack.
+
+```shell
+docker compose up --build -d
+```
+
+Once the command completes, the application services will be running in the background. You can access to the frontend at [localhost:6543](http://localhost:6543).
+
 ## Getting Started
 
 To get a local copy up and running, please follow the setup instructions in the `README.md` file within each directory: [`frontend`](frontend/README.md), [`backend`](backend/README.md), and [`mobile`](mobile/README.md).
