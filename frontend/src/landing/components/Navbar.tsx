@@ -47,8 +47,20 @@ export default function Navbar() {
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <Link
+              to="/blog"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            >
+              Blog
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.65 }}
+          >
+            <Link
               to="/pricing"
-              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               Pricing
             </Link>
