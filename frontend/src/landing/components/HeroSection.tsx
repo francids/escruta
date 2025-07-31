@@ -2,30 +2,12 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
+import SimpleBackground from "./SimpleBackground";
 
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900 py-12">
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 -z-10 h-full w-full dark:hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, var(--color-blue-50) 0%, var(--color-white) 70%, var(--color-white) 100%)",
-            filter: "blur(2px)",
-            opacity: 0.35,
-          }}
-        />
-        <div
-          className="absolute inset-0 -z-10 h-full w-full hidden dark:block"
-          style={{
-            background:
-              "linear-gradient(180deg, var(--color-blue-900) 0%, var(--color-gray-900) 70%, var(--color-gray-900) 100%)",
-            filter: "blur(0.5px)",
-            opacity: 0.08,
-          }}
-        />
-      </div>
+      <SimpleBackground />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
         <div className="mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
