@@ -20,7 +20,7 @@ function PricingOption({
   isComingSoon,
 }: PricingOption) {
   return (
-    <div className="relative p-8 md:p-10 rounded-xs bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg border border-gray-200 dark:border-gray-800 flex flex-col items-start transition hover:shadow-xl">
+    <div className="relative p-8 md:p-10 rounded-xs bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 flex flex-col items-start transition">
       <div className="flex items-center mb-4 w-full">
         <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 tracking-tight flex items-center gap-2">
           {title}
@@ -44,7 +44,7 @@ function PricingOption({
           to={buttonLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto group relative inline-flex h-11 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none shadow"
+          className="mt-auto group relative inline-flex h-11 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
         >
           {buttonText}
         </Link>

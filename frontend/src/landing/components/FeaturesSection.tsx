@@ -151,7 +151,7 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className="p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 shadow-sm dark:shadow-none border border-gray-200 dark:border-gray-800"
+              className="p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 * index }}

@@ -11,7 +11,7 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-xs px-8 py-4 flex items-center justify-between shadow-lg backdrop-blur-lg"
+      className="fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-xs px-8 py-4 flex items-center justify-between backdrop-blur-lg"
     >
       <motion.div
         initial={{ opacity: 0, x: -30 }}
@@ -36,7 +36,7 @@ export default function Navbar() {
           >
             <Link
               to="/about"
-              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none focus:outline-none"
             >
               About
             </Link>
@@ -48,7 +48,7 @@ export default function Navbar() {
           >
             <Link
               to="/blog"
-              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none focus:outline-none"
             >
               Blog
             </Link>
@@ -60,7 +60,7 @@ export default function Navbar() {
           >
             <Link
               to="/pricing"
-              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none shadow focus:outline-none"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-colors select-none focus:outline-none"
             >
               Pricing
             </Link>
@@ -72,7 +72,7 @@ export default function Navbar() {
           >
             <Link
               to="/app"
-              className="px-4 py-2 text-sm font-medium rounded-xs bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors select-none border border-transparent shadow"
+              className="px-4 py-2 text-sm font-medium rounded-xs bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors select-none"
             >
               {isAuthenticated() ? "Go to app" : "Get started"}
             </Link>
