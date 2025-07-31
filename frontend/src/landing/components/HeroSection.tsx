@@ -37,18 +37,7 @@ export default function HeroSection() {
           >
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white">
               Think, ask,{" "}
-              <motion.span
-                initial={{ color: "#1d4ed8" }}
-                animate={{ color: ["#1d4ed8", "#38bdf8", "#1d4ed8"] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-                className="text-blue-700 dark:text-blue-400"
-              >
-                learn
-              </motion.span>
+              <span className="text-blue-700 dark:text-blue-400">learn</span>
             </h1>
           </motion.div>
 
