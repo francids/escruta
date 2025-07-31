@@ -7,8 +7,8 @@ export default function LandingLayout() {
 
   return (
     <div className="min-h-screen text-black dark:text-white bg-gray-100 dark:bg-gray-900">
+      <Navbar />
       <PageTransition key={location.pathname}>
-        <Navbar />
         <Outlet />
       </PageTransition>
     </div>
