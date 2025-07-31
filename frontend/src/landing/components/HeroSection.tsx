@@ -82,7 +82,7 @@ export default function HeroSection() {
                   to="https://github.com/francids/escruta"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/80 text-gray-900 hover:bg-blue-100 focus:ring-blue-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-blue-950 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-200 dark:border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 select-none"
+                  className="bg-white/80 text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-200 dark:border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 select-none"
                 >
                   Source code
                 </Link>
