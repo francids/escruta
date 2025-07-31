@@ -1,11 +1,15 @@
 import type { RouteObject } from "react-router";
-import LandingPage from "./LandingPage";
 
-const landingRoutes: RouteObject[] = [
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+
+export default [
   {
     path: "/",
-    Component: LandingPage,
+    Component: HomePage,
   },
-];
-
-export default landingRoutes;
+  {
+    path: "/about",
+    Component: AboutPage,
+  },
+] satisfies RouteObject[];
