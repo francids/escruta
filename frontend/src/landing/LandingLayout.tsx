@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router";
 import PageTransition from "../shared/PageTransition";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export default function LandingLayout() {
   const location = useLocation();
@@ -11,6 +12,7 @@ export default function LandingLayout() {
       <PageTransition key={location.pathname}>
         <Outlet />
       </PageTransition>
+      <Footer />
     </div>
   );
 }

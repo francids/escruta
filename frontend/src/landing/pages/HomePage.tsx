@@ -1,6 +1,5 @@
 import CTASection from "../components/CTASection";
 import FeaturesSection from "../components/FeaturesSection";
-import Footer from "../components/Footer";
 import HeroSection from "../components/HeroSection";
 
 export default function HomePage() {
@@ -9,7 +8,6 @@ export default function HomePage() {
       <HeroSection />
       <FeaturesSection />
       <CTASection />
-      <Footer />
     </div>
   );
 }
