@@ -6,9 +6,10 @@ export default function CTASection() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <section className="py-12 md:py-20 relative bg-transparent border-t border-gray-200 dark:border-gray-800">
-      <div className="container mx-auto px-4 md:px-6 relative z-20">
-        <div className="max-w-2xl mx-auto backdrop-blur-sm p-6 md:p-12 rounded-xs border border-gray-200 dark:border-gray-800 text-center bg-white/80 dark:bg-gray-900/80">
+    <section className="py-12 md:py-20 relative bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 flex items-center justify-center">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(180,180,180,0.3)_1px,transparent_1px),linear-gradient(to_bottom,rgba(180,180,180,0.3)_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,rgba(144,144,144,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(144,144,144,0.1)_1px,transparent_1px)]"></div>
+      <div className="container mx-auto px-4 md:px-6 relative z-20 max-w-screen-xl">
+        <div className="max-w-2xl mx-auto backdrop-blur-sm p-8 md:p-14 rounded-xs border border-gray-200 dark:border-gray-800 text-center bg-white/80 dark:bg-gray-900/80">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-4 text-blue-600 dark:text-blue-400"
             initial={{ opacity: 0, y: 20 }}
@@ -39,21 +40,9 @@ export default function CTASection() {
           >
             <Link
               to="/app"
-              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 md:px-8 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
+              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-semibold text-white hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-offset-gray-900 select-none"
             >
-              <span className="group-hover:pl-2 transition-all duration-200">
-                {isAuthenticated() ? "Go to app" : "Get started"}
-              </span>
-              <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path>
-                </svg>
-              </div>
+              {isAuthenticated() ? "Go to app" : "Get started"}
             </Link>
           </motion.div>
         </div>
