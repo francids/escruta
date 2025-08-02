@@ -3,11 +3,13 @@ import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
 import SimpleBackground from "./SimpleBackground";
+import GradientAnimationBackground from "./GradientAnimationBackground";
 
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900 py-12">
       <SimpleBackground />
+      <GradientAnimationBackground />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
         <div className="mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
