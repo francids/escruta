@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "dev": "vite",
+    "dev:landing": "VITE_JUST_LANDING=true bun run dev",
     "build": "tsc -b && vite build",
+    "build:landing": "VITE_JUST_LANDING=true bun run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

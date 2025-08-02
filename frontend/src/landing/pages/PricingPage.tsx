@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import SimpleBackground from "../components/SimpleBackground";
+import { repoUrl } from "../../config";
 
 interface PricingOption {
   title: string;
@@ -89,7 +90,7 @@ export default function PricingPage() {
                   "No subscription fees",
                 ]}
                 buttonText="Get started"
-                buttonLink="https://github.com/francids/escruta"
+                buttonLink={repoUrl}
               />
               <PricingOption
                 title="Cloud"

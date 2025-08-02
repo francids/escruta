@@ -13,29 +13,43 @@ import ProtectedRoute from "./auth/ProtectedRoute.tsx";
 import NotFound from "./NotFound.tsx";
 
 import "./index.css";
+import { justLanding } from "./config.ts";
 
-const router = createBrowserRouter([
-  {
-    Component: LandingLayout,
-    children: LandingRoutes,
-  },
-  {
-    path: "login",
-    Component: LoginPage,
-  },
-  {
-    path: "register",
-    Component: RegisterPage,
-  },
-  {
-    Component: ProtectedRoute,
-    children: AppRoutes,
-  },
-  {
-    path: "*",
-    Component: NotFound,
-  },
-]);
+const router = createBrowserRouter(
+  justLanding
+    ? [
+        {
+          Component: LandingLayout,
+          children: LandingRoutes,
+        },
+        {
+          path: "*",
+          Component: NotFound,
+        },
+      ]
+    : [
+        {
+          Component: LandingLayout,
+          children: LandingRoutes,
+        },
+        {
+          path: "login",
+          Component: LoginPage,
+        },
+        {
+          path: "register",
+          Component: RegisterPage,
+        },
+        {
+          Component: ProtectedRoute,
+          children: AppRoutes,
+        },
+        {
+          path: "*",
+          Component: NotFound,
+        },
+      ]
+);
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>

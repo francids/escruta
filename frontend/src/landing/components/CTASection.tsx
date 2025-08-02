@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { useAuth } from "../../hooks/useAuth";
+import { justLanding, repoUrl } from "../../config";
 
 export default function CTASection() {
   const { isAuthenticated } = useAuth();
@@ -39,7 +40,7 @@ export default function CTASection() {
             className="w-full flex justify-center"
           >
             <Link
-              to="/app"
+              to={justLanding ? repoUrl : "/app"}
               className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-semibold text-white hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-offset-gray-900 select-none"
             >
               {isAuthenticated() ? "Go to app" : "Get started"}

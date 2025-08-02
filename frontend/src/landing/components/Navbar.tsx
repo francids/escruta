@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import Logo from "../../shared/Logo";
 import { useAuth } from "../../hooks/useAuth";
 import { motion } from "motion/react";
+import { justLanding, repoUrl } from "../../config";
 
 export default function Navbar() {
   const { isAuthenticated } = useAuth();
@@ -71,7 +72,7 @@ export default function Navbar() {
             transition={{ duration: 0.5, delay: 0.7 }}
           >
             <Link
-              to="/app"
+              to={justLanding ? repoUrl : "/app"}
               className="px-4 py-2 text-sm font-medium rounded-xs bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors select-none"
             >
               {isAuthenticated() ? "Go to app" : "Get started"}
