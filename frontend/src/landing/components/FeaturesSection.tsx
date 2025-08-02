@@ -42,26 +42,6 @@ const features = [
     ),
   },
   {
-    title: "Context-Aware AI Chat",
-    description:
-      "Engage in a dialogue with an AI that understands your documents. Ask complex questions, clarify concepts, and get answers based only on the sources you've provided.",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-8 w-8 md:h-10 md:w-10"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-        <path d="M9 9h.01M15 15h.01M9 15h6M15 9h-6"></path>
-      </svg>
-    ),
-  },
-  {
     title: "Integrated Note-Taking",
     description:
       "Capture your thoughts and summaries directly within your notebooks. Keep your insights connected to your source material.",
@@ -128,7 +108,7 @@ export default function FeaturesSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10 md:mb-16">
           <motion.h2
-            className="text-3xl md:text-4xl font-light mb-3 md:mb-4 text-gray-900 dark:text-white"
+            className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -137,7 +117,7 @@ export default function FeaturesSection() {
             Features
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4"
+            className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto px-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -147,11 +127,23 @@ export default function FeaturesSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 mx-4 lg:mx-32">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 mx-4 lg:mx-32">
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className="p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800"
+              className={`p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 ${
+                index === 0
+                  ? "md:col-span-2 lg:col-span-3"
+                  : index === 1
+                  ? "md:col-span-2 lg:col-span-3"
+                  : index === 2
+                  ? "md:col-span-2 lg:col-span-2"
+                  : index === 3
+                  ? "md:col-span-2 lg:col-span-2"
+                  : index === 4
+                  ? "md:col-span-2 lg:col-span-2"
+                  : "md:col-span-2 lg:col-span-2"
+              }`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 * index }}
