@@ -1,14 +1,12 @@
 import { View, Text, ScrollView } from "react-native";
 import tw from "lib/tailwind";
-import Header from "components/Header";
-import Logo from "components/Logo";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Notebook } from "interfaces";
 import NotebookCard from "components/NotebookCard";
-import { FAB, IconButton } from "components/ui";
-import { AddIcon, DotsVerticalIcon } from "components/icons";
+import { FAB } from "components/ui";
+import { AddIcon } from "components/icons";
 
-export default function AppPage() {
+export default function AppScreen() {
   const insets = useSafeAreaInsets();
 
   const dummyNotebooks: Notebook[] = [

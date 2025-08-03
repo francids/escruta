@@ -12,7 +12,7 @@ import {
 } from "components/icons";
 import type { Source, Note } from "interfaces";
 
-export default function NotebookPage() {
+export default function NotebookScreen() {
   const { notebookId } = useLocalSearchParams();
 
   const dummySources: Source[] = [

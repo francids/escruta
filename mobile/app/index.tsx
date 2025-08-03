@@ -5,7 +5,7 @@ import Logo from "components/Logo";
 import { Button } from "components/ui";
 import { ArrowRightIcon } from "components/icons";
 
-export default function LandingPage() {
+export default function LandingScreen() {
   return (
     <ImageBackground
       source={require("../assets/PatternBackground.png")}
