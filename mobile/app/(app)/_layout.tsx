@@ -34,6 +34,13 @@ export default function AppLayout() {
           headerTitleAlign: "center",
         }}
       />
+      <Stack.Screen
+        name="notebook/[notebookId]/chat"
+        options={{
+          headerTitle: "Chat",
+          headerTitleAlign: "center",
+        }}
+      />
     </Stack>
   );
 }

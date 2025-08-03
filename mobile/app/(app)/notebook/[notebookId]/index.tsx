@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, Text, View, Pressable } from "react-native";
 import tw from "lib/tailwind";
 import { Divider, Tab, Button, MenuButton, IconButton } from "components/ui";
@@ -151,6 +151,9 @@ export default function NotebookScreen() {
             text="Chat"
             icon={<SendIcon width={16} height={16} />}
             fullWidth
+            onPress={() => {
+              router.push(`/notebook/${notebookId}/chat`);
+            }}
           />
           <Button
             text="Tools"
