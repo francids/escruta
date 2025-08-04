@@ -19,7 +19,7 @@ export default function CTASection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Ready to streamline your research?
+            Ready to revolutionize your research workflow?
           </motion.h2>
 
           <motion.p
@@ -29,8 +29,10 @@ export default function CTASection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Start exploring, organizing, and learning with Escruta—your
-            AI-powered research assistant.
+            Transform your research experience with Escruta—your intelligent,
+            AI-powered research companion designed to help you explore,
+            organize, and gain deeper insights as you dive into your areas of
+            interest.
           </motion.p>
 
           <motion.div

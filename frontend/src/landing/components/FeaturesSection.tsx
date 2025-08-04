@@ -222,7 +222,7 @@ export default function FeaturesSection() {
       onMouseLeave={handleMouseLeave}
     >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-10 md:mb-16">
+        <div className="text-center mb-12">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
@@ -230,7 +230,7 @@ export default function FeaturesSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Features
+            Comprehensive Research Tools at Your Fingertips
           </motion.h2>
           <motion.p
             className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto px-4"
@@ -239,7 +239,8 @@ export default function FeaturesSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Powerful tools to enhance your critical thinking and learning.
+            Powerful and intuitive features designed to transform how you
+            conduct research and organize information.
           </motion.p>
         </div>
 
