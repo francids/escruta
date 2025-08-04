@@ -103,12 +103,14 @@ function FeatureCard({
     if (cardRef.current) {
       const updatePosition = () => {
         const rect = cardRef.current!.getBoundingClientRect();
-        const parentRect =
-          cardRef.current!.parentElement!.getBoundingClientRect();
-        setCardPosition({
-          x: rect.left - parentRect.left,
-          y: rect.top - parentRect.top,
-        });
+        const sectionElement = cardRef.current!.closest("section");
+        const sectionRect = sectionElement?.getBoundingClientRect();
+        if (sectionRect) {
+          setCardPosition({
+            x: rect.left - sectionRect.left,
+            y: rect.top - sectionRect.top,
+          });
+        }
       };
 
       updatePosition();
@@ -214,7 +216,11 @@ export default function FeaturesSection() {
   };
 
   return (
-    <section className="py-12 md:py-20 relative bg-gray-50 dark:bg-gray-900">
+    <section
+      className="py-12 md:py-20 relative bg-gray-50 dark:bg-gray-900"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10 md:mb-16">
           <motion.h2
@@ -243,8 +249,6 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
         >
           {features.map((feature, index) => {
             const getClassName = (index: number) => {
