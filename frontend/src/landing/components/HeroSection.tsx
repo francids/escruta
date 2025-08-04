@@ -2,8 +2,8 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
-import ScrollingGridBackground from "./ScrollingGridBackground";
-import GradientAnimationBackground from "./GradientAnimationBackground";
+import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
+import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
 import { justLanding, repoUrl } from "../../config";
 
 export default function HeroSection() {
