@@ -8,7 +8,7 @@ import { justLanding, repoUrl } from "../../config";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900 py-12">
+    <section className="relative pt-40 pb-16 md:pt-8 md:min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
@@ -17,7 +17,7 @@ export default function HeroSection() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
-        <div className="mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
+        <div className="md:mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -82,7 +82,7 @@ export default function HeroSection() {
         <motion.img
           src={AppDesktopImage}
           alt="App screenshot"
-          className="mt-16 w-full max-w-5xl rounded-xs border border-gray-200 dark:border-gray-700 select-none pointer-events-none"
+          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-700 dark:outline-blue-400 select-none pointer-events-none"
           style={{ objectFit: "contain" }}
           initial={{ opacity: 0, y: 60, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
