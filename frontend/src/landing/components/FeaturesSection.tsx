@@ -1,10 +1,10 @@
 import { motion } from "motion/react";
-import { useState, type JSX } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 
 interface Feature {
   title: string;
   description: string;
-  icon: JSX.Element;
+  icon: ReactNode;
 }
 
 const features: Feature[] = [
@@ -88,38 +88,89 @@ const features: Feature[] = [
 function FeatureCard({
   feature,
   className,
+  mousePosition,
+  isMouseInArea,
 }: {
   feature: Feature;
   className: string;
+  mousePosition: { x: number; y: number };
+  isMouseInArea: boolean;
 }) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+  useEffect(() => {
+    if (cardRef.current) {
+      const updatePosition = () => {
+        const rect = cardRef.current!.getBoundingClientRect();
+        const parentRect =
+          cardRef.current!.parentElement!.getBoundingClientRect();
+        setCardPosition({
+          x: rect.left - parentRect.left,
+          y: rect.top - parentRect.top,
+        });
+      };
+
+      updatePosition();
+      window.addEventListener("resize", updatePosition);
+      return () => window.removeEventListener("resize", updatePosition);
+    }
+  }, []);
+
+  const relativeMouseX = mousePosition.x - cardPosition.x;
+  const relativeMouseY = mousePosition.y - cardPosition.y;
+
+  const isNearCard = (
+    mouseX: number,
+    mouseY: number,
+    cardX: number,
+    cardY: number,
+    cardWidth: number,
+    cardHeight: number,
+    threshold: number = 100
+  ) => {
+    return (
+      mouseX >= cardX - threshold &&
+      mouseX <= cardX + cardWidth + threshold &&
+      mouseY >= cardY - threshold &&
+      mouseY <= cardY + cardHeight + threshold
+    );
   };
+
+  const showEffect =
+    isMouseInArea && cardRef.current
+      ? isNearCard(
+          mousePosition.x,
+          mousePosition.y,
+          cardPosition.x,
+          cardPosition.y,
+          cardRef.current.offsetWidth,
+          cardRef.current.offsetHeight
+        )
+      : false;
 
   return (
     <div
+      ref={cardRef}
       className={`group relative p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${className}`}
-      onMouseMove={handleMouseMove}
     >
       {/* Background glow effect */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
+          showEffect ? "opacity-100" : "opacity-0"
+        }`}
         style={{
-          background: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
+          background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
         }}
       />
 
       {/* Glowing border effect */}
       <div
-        className="absolute inset-0 rounded-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        className={`absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none ${
+          showEffect ? "opacity-100" : "opacity-0"
+        }`}
         style={{
-          background: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
+          background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
           padding: "1px",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "xor",
@@ -146,6 +197,22 @@ function FeatureCard({
 }
 
 export default function FeaturesSection() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMouseInArea, setIsMouseInArea] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+    setIsMouseInArea(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMouseInArea(false);
+  };
+
   return (
     <section className="py-12 md:py-20 relative bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
@@ -176,6 +243,8 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
           {features.map((feature, index) => {
             const getClassName = (index: number) => {
@@ -192,6 +261,8 @@ export default function FeaturesSection() {
                 key={index}
                 feature={feature}
                 className={getClassName(index)}
+                mousePosition={mousePosition}
+                isMouseInArea={isMouseInArea}
               />
             );
           })}
