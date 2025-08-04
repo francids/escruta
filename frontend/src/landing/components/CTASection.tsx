@@ -11,7 +11,7 @@ export default function CTASection() {
     <section className="relative bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 flex items-center justify-center">
       <ScrollingGridBackground />
       <div className="container h-full py-16 mx-auto relative z-20 max-w-screen-xl">
-        <div className="w-full md:max-w-4xl h-full p-16 md:p-24 mx-auto backdrop-blur-sm rounded-xs border-x border-gray-200 dark:border-gray-800 text-center bg-white dark:bg-gray-900">
+        <div className="w-full md:max-w-4xl h-full p-16 md:p-24 mx-auto backdrop-blur-sm rounded-xs border border-gray-200 dark:border-gray-800 text-center bg-white dark:bg-gray-900">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
