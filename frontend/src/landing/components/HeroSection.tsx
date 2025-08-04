@@ -2,15 +2,19 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
-import SimpleBackground from "./SimpleBackground";
+import ScrollingGridBackground from "./ScrollingGridBackground";
 import GradientAnimationBackground from "./GradientAnimationBackground";
 import { justLanding, repoUrl } from "../../config";
 
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900 py-12">
-      <SimpleBackground />
+      <ScrollingGridBackground />
       <GradientAnimationBackground />
+
+      <div className="absolute inset-0 z-[9] overflow-hidden">
+        <div className="h-full w-full bg-linear-0 from-gray-50 dark:from-gray-900 via-transparent via-80% to-transparent" />
+      </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
         <div className="mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
@@ -34,8 +38,8 @@ export default function HeroSection() {
           >
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400">
               Organize, analyze, and learn from your own knowledge. Ask
-              questions, take notes, and get insights—all in a private,
-              open-source platform.
+              questions, take notes, and get insights—all in a open-source
+              platform.
             </p>
           </motion.div>
 
@@ -52,9 +56,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.7, delay: 0.7 }}
               >
                 <Link
-                  to={
-                    justLanding ? repoUrl : "/app"
-                  }
+                  to={justLanding ? repoUrl : "/app"}
                   className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 md:px-8 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
                 >
                   Start exploring
@@ -80,7 +82,7 @@ export default function HeroSection() {
         <motion.img
           src={AppDesktopImage}
           alt="App screenshot"
-          className="mt-16 w-full max-w-5xl rounded-xs border border-gray-200 dark:border-gray-700"
+          className="mt-16 w-full max-w-5xl rounded-xs border border-gray-200 dark:border-gray-700 select-none pointer-events-none"
           style={{ objectFit: "contain" }}
           initial={{ opacity: 0, y: 60, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
