@@ -97,6 +97,7 @@ function FeatureCard({
   isMouseInArea: boolean;
 }) {
   const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 });
+  const [isPressed, setIsPressed] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -151,10 +152,25 @@ function FeatureCard({
         )
       : false;
 
+  const handleMouseDown = () => {
+    setIsPressed(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsPressed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPressed(false);
+  };
+
   return (
     <div
       ref={cardRef}
       className={`group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${className}`}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Background glow effect */}
       <div
@@ -173,6 +189,22 @@ function FeatureCard({
         }`}
         style={{
           background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
+          padding: "1px",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMask:
+            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "exclude",
+        }}
+      />
+
+      {/* Pressed border effect */}
+      <div
+        className={`absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none ${
+          isPressed ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background: `linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 64, 175, 0.6))`,
           padding: "1px",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "exclude",
@@ -243,7 +275,7 @@ export default function FeaturesSection() {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 mx-4 lg:mx-32 relative"
+          className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 mx-4 lg:mx-24 relative"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
