@@ -58,36 +58,36 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
-            className="flex justify-center"
+            className="flex flex-col md:flex-row w-full justify-center items-center gap-4 px-8"
           >
-            <div className="flex gap-2">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.9 }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.9 }}
+              className="w-full md:w-auto"
+            >
+              <Link
+                to={justLanding ? repoUrl : "/app"}
+                className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
               >
-                <Link
-                  to={justLanding ? repoUrl : "/app"}
-                  className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none"
-                >
-                  Start exploring
-                </Link>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 1 }}
+                Start exploring
+              </Link>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 1 }}
+              className="w-full md:w-auto"
+            >
+              <Link
+                to={repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-900 text-white hover:bg-gray-800 group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
               >
-                <Link
-                  to={repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-900/80 text-white hover:bg-gray-800 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 select-none"
-                >
-                  Source code
-                </Link>
-              </motion.div>
-            </div>
+                Source code
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
         <div className="flex justify-center mt-16 w-full max-w-5xl">
