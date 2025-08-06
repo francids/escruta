@@ -4,7 +4,7 @@ import HeroSection from "../components/HeroSection";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen text-gray-900 dark:text-white bg-white dark:bg-gray-900">
+    <div className="min-h-screen text-white bg-gray-900">
       <HeroSection />
       <FeaturesSection />
       <CTASection />

@@ -19,10 +19,8 @@ export default function Navbar() {
         padding: isScrolled ? "12px 24px" : "16px 32px",
       }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 rounded-xs flex items-center justify-between backdrop-blur-lg transition-all duration-300 ease-out ${
-        isScrolled
-          ? "bg-white/95 dark:bg-gray-900/95 shadow-lg border-gray-300 dark:border-gray-700"
-          : "bg-white/80 dark:bg-gray-900/80"
+      className={`fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-gray-900/80 border border-gray-800 rounded-xs flex items-center justify-between backdrop-blur-lg transition-all duration-300 ease-out ${
+        isScrolled ? "bg-gray-900/95 border-gray-700" : "bg-gray-900/80"
       }`}
     >
       <motion.div
@@ -32,7 +30,7 @@ export default function Navbar() {
       >
         <Link to="/" className="flex items-center group">
           <Logo
-            className={`w-auto fill-gray-900 dark:fill-white transition-all duration-300 group-hover:fill-blue-600 dark:group-hover:fill-blue-400 ${
+            className={`w-auto fill-white transition-all duration-300 group-hover:fill-blue-400 ${
               isScrolled ? "h-3" : "h-4"
             }`}
           />
@@ -52,7 +50,7 @@ export default function Navbar() {
           >
             <Link
               to="/about"
-              className={`text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-all duration-300 select-none focus:outline-none ${
+              className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
                 isScrolled ? "px-3 py-1.5" : "px-4 py-2"
               }`}
             >
@@ -66,7 +64,7 @@ export default function Navbar() {
           >
             <Link
               to="/blog"
-              className={`text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-all duration-300 select-none focus:outline-none ${
+              className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
                 isScrolled ? "px-3 py-1.5" : "px-4 py-2"
               }`}
             >
@@ -80,7 +78,7 @@ export default function Navbar() {
           >
             <Link
               to="/pricing"
-              className={`text-sm font-medium rounded-xs bg-white/80 text-gray-900 hover:bg-gray-100 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative border border-gray-200 dark:border-gray-800 transition-all duration-300 select-none focus:outline-none ${
+              className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
                 isScrolled ? "px-3 py-1.5" : "px-4 py-2"
               }`}
             >
@@ -94,7 +92,7 @@ export default function Navbar() {
           >
             <Link
               to={justLanding ? repoUrl : "/app"}
-              className={`text-sm font-medium rounded-xs bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300 select-none ${
+              className={`text-sm font-medium rounded-xs bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition-all duration-300 select-none ${
                 isScrolled ? "px-3 py-1.5" : "px-4 py-2"
               }`}
             >
@@ -109,7 +107,7 @@ export default function Navbar() {
           className="md:hidden"
         >
           <button
-            className="p-2 rounded-xs bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors"
+            className="p-2 rounded-xs bg-gray-700 text-gray-200 hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 transition-colors"
             aria-label="Open menu"
           >
             <svg

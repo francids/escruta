@@ -8,12 +8,12 @@ import { justLanding, repoUrl } from "../../config";
 
 export default function HeroSection() {
   return (
-    <section className="relative pt-40 pb-16 md:pt-8 md:min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900">
+    <section className="relative pt-40 pb-16 md:pt-8 md:min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
       <div className="absolute inset-0 z-[9] overflow-hidden">
-        <div className="h-full w-full bg-linear-0 from-gray-50 dark:from-gray-900 via-transparent via-80% to-transparent" />
+        <div className="h-full w-full bg-linear-0 from-gray-900 via-transparent via-80% to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
@@ -24,9 +24,8 @@ export default function HeroSection() {
             transition={{ duration: 0.9, ease: "easeOut" }}
             className="mb-6"
           >
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              Think, ask,{" "}
-              <span className="text-blue-700 dark:text-blue-400">learn</span>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+              Think, ask, <span className="text-blue-400">learn</span>
             </h1>
           </motion.div>
 
@@ -36,7 +35,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
           >
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-lg md:text-xl text-gray-400">
               Organize, analyze, and learn from your own knowledge. Ask
               questions, take notes, and get insights—all in a open-source
               platform.
@@ -57,7 +56,7 @@ export default function HeroSection() {
               >
                 <Link
                   to={justLanding ? repoUrl : "/app"}
-                  className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-500 px-6 md:px-8 font-medium text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900 select-none"
+                  className="group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none"
                 >
                   Start exploring
                 </Link>
@@ -71,7 +70,7 @@ export default function HeroSection() {
                   to={repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/80 text-gray-900 hover:bg-gray-100 focus:ring-gray-400 dark:bg-gray-900/80 dark:text-white dark:hover:bg-gray-800 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-200 dark:border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 select-none"
+                  className="bg-gray-900/80 text-white hover:bg-gray-800 group relative inline-flex h-10 md:h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 select-none"
                 >
                   Source code
                 </Link>
@@ -82,7 +81,7 @@ export default function HeroSection() {
         <motion.img
           src={AppDesktopImage}
           alt="App screenshot"
-          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-700 dark:outline-blue-400 select-none pointer-events-none"
+          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-400 select-none pointer-events-none"
           style={{ objectFit: "contain" }}
           initial={{ opacity: 0, y: 60, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

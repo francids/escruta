@@ -154,7 +154,7 @@ function FeatureCard({
   return (
     <div
       ref={cardRef}
-      className={`group relative p-6 md:p-8 rounded-xs bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${className}`}
+      className={`group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${className}`}
     >
       {/* Background glow effect */}
       <div
@@ -184,13 +184,11 @@ function FeatureCard({
 
       {/* Content */}
       <div className="relative z-10">
-        <div className="text-blue-600 dark:text-blue-500 mb-4 md:mb-6">
-          {feature.icon}
-        </div>
-        <h3 className="text-lg md:text-xl font-medium mb-2 md:mb-3 text-gray-900 dark:text-white">
+        <div className="text-blue-500 mb-4 md:mb-6">{feature.icon}</div>
+        <h3 className="text-lg md:text-xl font-medium mb-2 md:mb-3 text-white">
           {feature.title}
         </h3>
-        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+        <p className="text-sm md:text-base text-gray-400">
           {feature.description}
         </p>
       </div>
@@ -217,14 +215,14 @@ export default function FeaturesSection() {
 
   return (
     <section
-      className="py-12 md:py-20 relative bg-gray-50 dark:bg-gray-900"
+      className="py-12 md:py-20 relative bg-gray-900"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white"
+            className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -233,7 +231,7 @@ export default function FeaturesSection() {
             Comprehensive Research Tools at Your Fingertips
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto px-4"
+            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}

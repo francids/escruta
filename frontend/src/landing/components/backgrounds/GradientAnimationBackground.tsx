@@ -52,15 +52,7 @@ export default function GradientAnimationBackground() {
                 }
             `}</style>
 
-      {/* Light mode gradient */}
-      <div className="absolute inset-0 opacity-100 dark:opacity-0 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-blue-100 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-200/30 to-blue-300/40 animate-gradient-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-bl from-neutral-50/80 via-transparent to-blue-100/60 animate-gradient-float" />
-      </div>
-
-      {/* Dark mode gradient */}
-      <div className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-500">
+      <div className="absolute inset-0 opacity-100 transition-opacity duration-500">
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-blue-950 animate-gradient-shift" />
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-900/20 to-blue-800/30 animate-gradient-pulse" />
         <div className="absolute inset-0 bg-gradient-to-bl from-neutral-900/80 via-transparent to-blue-900/40 animate-gradient-float" />
