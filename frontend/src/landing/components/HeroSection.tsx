@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
+import AppMobileImage from "../assets/AppMobile.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
 import { justLanding, repoUrl } from "../../config";
@@ -78,15 +79,26 @@ export default function HeroSection() {
             </div>
           </motion.div>
         </div>
-        <motion.img
-          src={AppDesktopImage}
-          alt="App screenshot"
-          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
-          style={{ objectFit: "contain" }}
-          initial={{ opacity: 0, y: 60, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-        />
+        <div className="flex justify-center mt-16 w-full max-w-5xl">
+          <motion.img
+            src={AppDesktopImage}
+            alt="App screenshot"
+            className="hidden md:block w-full rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
+            style={{ objectFit: "contain" }}
+            initial={{ opacity: 0, y: 60, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 1, ease: "easeOut" }}
+          />
+          <motion.img
+            src={AppMobileImage}
+            alt="App screenshot"
+            className="block md:hidden w-5/6 rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
+            style={{ objectFit: "contain" }}
+            initial={{ opacity: 0, y: 60, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, delay: 1, ease: "easeOut" }}
+          />
+        </div>
       </div>
     </section>
   );
