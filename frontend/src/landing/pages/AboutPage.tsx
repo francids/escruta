@@ -5,7 +5,7 @@ export default function AboutPage() {
   return (
     <>
       <SimpleBackground />
-      <div className="min-h-screen text-white bg-gray-900 flex flex-col pt-20">
+      <div className="min-h-screen text-white flex flex-col pt-20 relative z-10">
         <section className="py-16 md:py-24 relative flex-1">
           <div className="container mx-auto px-4 md:px-8 max-w-5xl">
             <motion.div

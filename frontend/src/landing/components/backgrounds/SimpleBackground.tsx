@@ -1,13 +1,12 @@
 export default function SimpleBackground() {
   return (
-    <div className="absolute inset-0 -z-10">
+    <div className="fixed inset-0 z-0">
       <div
-        className="absolute inset-0 -z-10 h-full w-full"
+        className="absolute inset-0 h-full w-full"
         style={{
           background:
-            "linear-gradient(180deg, var(--color-blue-900) 0%, var(--color-gray-900) 70%, var(--color-gray-900) 100%)",
-          filter: "blur(0.5px)",
-          opacity: 0.08,
+            "linear-gradient(180deg, #3b82f6 0%, #1e40af 50%, #1f2937 100%)",
+          opacity: 0.05,
         }}
       />
     </div>
