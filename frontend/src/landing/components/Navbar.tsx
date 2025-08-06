@@ -20,7 +20,9 @@ export default function Navbar() {
       }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className={`fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-gray-900/80 border border-gray-800 rounded-xs flex items-center justify-between backdrop-blur-lg transition-all duration-300 ease-out ${
-        isScrolled ? "bg-gray-900/95 border-gray-700" : "bg-gray-900/80"
+        isScrolled
+          ? "bg-gray-900/95 border-gray-700 outline outline-blue-400/30"
+          : "bg-gray-900/80 outline outline-blue-400/60"
       }`}
     >
       <motion.div

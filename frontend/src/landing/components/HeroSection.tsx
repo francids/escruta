@@ -81,7 +81,7 @@ export default function HeroSection() {
         <motion.img
           src={AppDesktopImage}
           alt="App screenshot"
-          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-400 select-none pointer-events-none"
+          className="mt-16 w-full max-w-5xl rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
           style={{ objectFit: "contain" }}
           initial={{ opacity: 0, y: 60, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
