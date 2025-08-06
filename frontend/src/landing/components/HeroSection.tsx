@@ -20,9 +20,20 @@ export default function HeroSection() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
         <div className="md:mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
           <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="mb-6"
+          >
+            <span className="px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none">
+              Under development
+            </span>
+          </motion.div>
+
+          <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
+            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
             className="mb-6"
           >
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
@@ -34,7 +45,7 @@ export default function HeroSection() {
             className="relative mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
             <p className="text-lg md:text-xl text-gray-400">
               Organize, analyze, and learn from your own knowledge. Ask
@@ -46,14 +57,14 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
             className="flex justify-center"
           >
             <div className="flex gap-2">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.7 }}
+                transition={{ duration: 0.7, delay: 0.9 }}
               >
                 <Link
                   to={justLanding ? repoUrl : "/app"}
@@ -65,7 +76,7 @@ export default function HeroSection() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.8 }}
+                transition={{ duration: 0.7, delay: 1 }}
               >
                 <Link
                   to={repoUrl}
