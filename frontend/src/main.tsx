@@ -3,6 +3,9 @@ import { AuthProvider } from "./auth/AuthProvider.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ModalProvider } from "./app/contexts/ModalContext.tsx";
 
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
+
 import LandingLayout from "./landing/LandingLayout.tsx";
 import LandingRoutes from "./landing/LandingRoutes.tsx";
 import LoginPage from "./auth/pages/LoginPage.tsx";
@@ -55,6 +58,8 @@ createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <ModalProvider>
       <RouterProvider router={router} />
+      <SpeedInsights />
+      <Analytics />
     </ModalProvider>
   </AuthProvider>
 );
