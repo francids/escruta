@@ -29,11 +29,11 @@ public class JwtService {
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
-    public String extractUsername(String token) {
+    public String extractUserEmail(String token) {
         try {
             return extractClaim(token, Claims::getSubject);
         } catch (Exception e) {
-            logger.debug("Error extracting username from token: {}", e.getMessage());
+            logger.debug("Error extracting user email from token: {}", e.getMessage());
             return null;
         }
     }
@@ -75,8 +75,8 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         try {
-            final String username = extractUsername(token);
-            return (username != null && username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+            final String email = extractUserEmail(token);
+            return (email != null && email.equals(userDetails.getUsername())) && !isTokenExpired(token);
         } catch (Exception e) {
             logger.debug("Error checking if token is valid: {}", e.getMessage());
             return false;

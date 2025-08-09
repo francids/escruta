@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             String userEmail;
             try {
-                userEmail = jwtService.extractUsername(jwt);
+                userEmail = jwtService.extractUserEmail(jwt);
             } catch (Exception e) {
                 logger.debug("Failed to extract user email from JWT {}", e.getMessage());
                 filterChain.doFilter(request, response);
