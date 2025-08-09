@@ -26,6 +26,7 @@ spring:
       embedding:
         options:
           model: ${ESCRUTA_AI_EMBEDDING_MODEL}
+        embeddings-path: ${ESCRUTA_AI_EMBEDDING_PATH:/v1/embeddings}
     vectorstore:
       pgvector:
         initialize-schema: true
