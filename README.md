@@ -6,6 +6,9 @@ _"Think, ask, learn"_
 
 **Escruta** is an open-source, AI-powered research assistant designed to streamline your personal knowledge management and learning workflow. It provides a private and extensible alternative to proprietary research platforms.
 
+> [!NOTE]
+> This project is currently under active development and should be considered a work in progress. While the core functionality is operational, you may encounter incomplete features, bugs, or breaking changes.
+
 ## Features
 
 - **Centralized Notebooks**: Organize your research into distinct projects or topics. Each notebook acts as a self-contained workspace for your sources, notes, and AI conversations.
