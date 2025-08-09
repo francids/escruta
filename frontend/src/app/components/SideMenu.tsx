@@ -1,13 +1,48 @@
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
-import { Tooltip, Button, Modal, IconButton } from "./ui";
+import { Tooltip, Button, Modal } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import { useState } from "react";
 import AppIcon from "../../shared/AppIcon";
 
+type SideItemMenuProps = {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  isActive?: boolean;
+};
+
+function SideItemMenu({
+  icon,
+  label,
+  onClick,
+  isActive = false,
+}: SideItemMenuProps) {
+  return (
+    <Tooltip text={label} position="right">
+      <button
+        onClick={onClick}
+        className={`
+          w-10 h-10 p-2.5 rounded-xs flex items-center justify-center transition-all duration-300 select-none
+          ${
+            isActive
+              ? "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+              : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+          }
+        `}
+        aria-label={label}
+        type="button"
+      >
+        {icon}
+      </button>
+    </Tooltip>
+  );
+}
+
 export default function SideMenu() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuth();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -24,33 +59,24 @@ export default function SideMenu() {
       </NavLink>
 
       <div className="mb-6 flex flex-col items-center justify-center gap-3">
-        <Tooltip text="Notebooks" position="right">
-          <IconButton
-            icon={<HomeIcon />}
-            size="md"
-            ariaLabel="See notebooks"
-            variant="secondary"
-            onClick={() => navigate("/app")}
-          />
-        </Tooltip>
-        <Tooltip text="Settings" position="right">
-          <IconButton
-            icon={<SettingsIcon />}
-            size="md"
-            ariaLabel="See settings"
-            variant="secondary"
-            onClick={() => navigate("/app/settings")}
-          />
-        </Tooltip>
-        <Tooltip text="Logout" position="right">
-          <IconButton
-            icon={<LogoutIcon />}
-            size="md"
-            ariaLabel="Logout"
-            variant="secondary"
-            onClick={() => setShowLogoutModal(true)}
-          />
-        </Tooltip>
+        <SideItemMenu
+          icon={<HomeIcon />}
+          label="Notebooks"
+          onClick={() => navigate("/app")}
+          isActive={location.pathname === "/app"}
+        />
+        <SideItemMenu
+          icon={<SettingsIcon />}
+          label="Settings"
+          onClick={() => navigate("/app/settings")}
+          isActive={location.pathname === "/app/settings"}
+        />
+        <SideItemMenu
+          icon={<LogoutIcon />}
+          label="Logout"
+          onClick={() => setShowLogoutModal(true)}
+          isActive={location.pathname === "/app/logout"}
+        />
       </div>
 
       <Modal
