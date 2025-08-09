@@ -145,6 +145,7 @@ export default function SourcesCard({
         isOpen={isAddSourceModalOpen}
         onClose={() => setIsAddSourceModalOpen(false)}
         title="Add source"
+        closeOnOutsideClick={!addingSource}
         actions={
           <div className="flex justify-between w-full">
             <Switch

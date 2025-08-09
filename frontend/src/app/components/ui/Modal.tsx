@@ -11,6 +11,7 @@ type ModalProps = {
   children: React.ReactNode;
   actions?: React.ReactNode;
   width?: "sm" | "md" | "lg" | "xl";
+  closeOnOutsideClick?: boolean;
 };
 
 export default function Modal({
@@ -20,6 +21,7 @@ export default function Modal({
   children,
   actions,
   width = "md",
+  closeOnOutsideClick = true,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const { openModal, closeModal, getModalZIndex, isTopModal, modalCount } =
@@ -78,7 +80,9 @@ export default function Modal({
               duration: shouldShowOverlay ? 0.15 : 0.1,
               ease: "easeInOut",
             }}
-            onClick={shouldShowOverlay ? onClose : undefined}
+            onClick={
+              shouldShowOverlay && closeOnOutsideClick ? onClose : undefined
+            }
             aria-hidden="true"
           />
 
