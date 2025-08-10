@@ -1,0 +1,61 @@
+.ql-container,
+.ql-editor {
+  height: auto;
+  min-height: 360px;
+  outline: none;
+}
+
+.ql-editor strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+.ql-editor em {
+  font-style: italic;
+  color: inherit;
+}
+
+.ql-editor u {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.ql-editor ul,
+.ql-editor ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.ql-editor ul {
+  list-style-type: disc;
+}
+
+.ql-editor ol {
+  list-style-type: decimal;
+}
+
+.ql-editor li {
+  margin-bottom: 0.25em;
+  line-height: 1.5;
+}
+
+.ql-editor .ql-code-block {
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 2px;
+  padding: 0.75em;
+  margin: 0.5em 0;
+  font-family: "Courier New", Consolas, monospace;
+  font-size: 0.9em;
+  line-height: 1.4;
+  overflow-x: auto;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ql-editor .ql-code-block {
+    background-color: #2a2a2a;
+    border-color: #4a4a4a;
+    color: #e5e5e5;
+  }
+}

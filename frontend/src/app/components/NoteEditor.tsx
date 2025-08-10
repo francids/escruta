@@ -3,6 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import type Note from "../interfaces/Note";
 import { CloseIcon, DeleteIcon, EditIcon, SaveIcon } from "./icons";
 import { Button, Card, IconButton, Modal, TextField, Tooltip } from "./ui";
+import Editor from "./Editor";
 
 interface NoteEditorProps {
   notebookId: string;
@@ -45,6 +46,7 @@ export default function NoteEditor({
 
   useEffect(() => {
     refetchNote(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note.id]);
 
   useEffect(() => {
@@ -186,15 +188,9 @@ export default function NoteEditor({
         )}
         {fullNote && !loading && !error && (
           <div className="flex-1">
-            <textarea
-              className="h-auto min-h-[80%] w-full pb-4 resize-none border-none outline-none bg-transparent text-gray-700 dark:text-gray-300 overflow-hidden"
-              value={content}
-              onChange={(e) => {
-                const target = e.target as HTMLTextAreaElement;
-                target.style.height = "auto";
-                target.style.height = target.scrollHeight + "px";
-                setContent(target.value);
-              }}
+            <Editor
+              initialContent={fullNote.content || ""}
+              onContentChange={setContent}
               placeholder="Write your note content here..."
               autoFocus
             />
