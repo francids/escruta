@@ -1,18 +1,19 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { repoUrl } from "../../config";
-import GradientBackground from "../assets/Gradient.png";
+import GradientBackgroundImage from "../assets/Gradient.png";
 
 export default function OpenSourceSection() {
   return (
     <section className="relative py-24 md:py-32 bg-gray-900 border-t border-gray-800 overflow-hidden">
       <div className="absolute inset-0 z-0 overflow-hidden ">
         <img
-          src={GradientBackground}
+          src={GradientBackgroundImage}
           alt="Background"
-          className="select-none object-cover w-full h-full"
+          className="select-none pointer-events-none object-cover w-full h-full"
         />
       </div>
+      GradientBackgroundImage
       <div className="container mx-auto mt-8 px-4 md:px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
@@ -57,7 +58,7 @@ export default function OpenSourceSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="group relative p-6 rounded-xs bg-gray-900/50 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
+            <div className="group relative p-6 rounded-xs bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative z-10">
@@ -80,7 +81,7 @@ export default function OpenSourceSection() {
               </div>
             </div>
 
-            <div className="group relative p-6 rounded-xs bg-gray-900/50 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
+            <div className="group relative p-6 rounded-xs bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative z-10">
