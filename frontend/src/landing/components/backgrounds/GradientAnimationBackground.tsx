@@ -15,11 +15,11 @@ export default function GradientAnimationBackground() {
 
                 @keyframes gradient-pulse {
                     0%, 100% {
-                        opacity: 0.3;
+                        opacity: 0.6;
                         transform: scale(1);
                     }
                     50% {
-                        opacity: 0.6;
+                        opacity: 0.9;
                         transform: scale(1.05);
                     }
                 }
@@ -27,15 +27,15 @@ export default function GradientAnimationBackground() {
                 @keyframes gradient-float {
                     0%, 100% {
                         transform: translateY(0px) rotate(0deg);
-                        opacity: 0.4;
+                        opacity: 0.6;
                     }
                     33% {
                         transform: translateY(-10px) rotate(1deg);
-                        opacity: 0.7;
+                        opacity: 0.9;
                     }
                     66% {
                         transform: translateY(5px) rotate(-1deg);
-                        opacity: 0.5;
+                        opacity: 0.6;
                     }
                 }
 
