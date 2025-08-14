@@ -5,7 +5,7 @@ import GradientBackground from "../assets/Gradient.png";
 
 export default function OpenSourceSection() {
   return (
-    <section className="relative py-24 md:py-32 bg-gray-900 border-y border-gray-800 overflow-hidden">
+    <section className="relative py-24 md:py-32 bg-gray-900 border-t border-gray-800 overflow-hidden">
       <div className="absolute inset-0 z-0 overflow-hidden ">
         <img
           src={GradientBackground}
@@ -13,11 +13,6 @@ export default function OpenSourceSection() {
           className="select-none object-cover w-full h-full"
         />
       </div>
-
-      <div className="absolute inset-0 z-[9] overflow-hidden">
-        <div className="h-full w-full bg-linear-0 from-gray-900/40 via-transparent via-50% to-gray-900/40" />
-      </div>
-
       <div className="container mx-auto mt-8 px-4 md:px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div

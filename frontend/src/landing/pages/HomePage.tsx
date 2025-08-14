@@ -1,4 +1,3 @@
-import CTASection from "../components/CTASection";
 import FeaturesSection from "../components/FeaturesSection";
 import HeroSection from "../components/HeroSection";
 import OpenSourceSection from "../components/OpenSourceSection";
@@ -9,7 +8,6 @@ export default function HomePage() {
       <HeroSection />
       <FeaturesSection />
       <OpenSourceSection />
-      <CTASection />
     </div>
   );
 }
