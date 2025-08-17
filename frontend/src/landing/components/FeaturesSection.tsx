@@ -9,7 +9,7 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: "Centralized Notebooks",
+    title: "Centralized notebooks",
     description:
       "Organize your research into distinct projects or topics. Each notebook acts as a self-contained workspace for your sources, notes, and AI conversations.",
     icon: (
@@ -24,7 +24,7 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Source Management",
+    title: "Source management",
     description:
       "Upload and manage your documents. Web links are processed into clean, readable documents for analysis. Escruta uses these materials as the sole knowledge base for its AI.",
     icon: (
@@ -39,7 +39,7 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Integrated Note-Taking",
+    title: "Integrated note-taking",
     description:
       "Capture your thoughts and summaries directly within your notebooks. Keep your insights connected to your source material.",
     icon: (
@@ -54,7 +54,7 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Audio Summaries",
+    title: "Audio summaries",
     description:
       "Generate and play audio summaries from your notebook's sources, perfect for on-the-go learning and revision.",
     icon: (
@@ -69,7 +69,7 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Mind Maps",
+    title: "Mind maps",
     description:
       "Automatically generate mind maps that illustrate the connections and hierarchies between topics in your sources.",
     icon: (
@@ -260,7 +260,7 @@ export default function FeaturesSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Comprehensive Research Tools at Your Fingertips
+            Comprehensive research tools at your fingertips
           </motion.h2>
           <motion.p
             className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4"
