@@ -3,6 +3,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 *::selection {
   background-color: var(--color-blue-500);
   color: var(--color-white);
@@ -110,46 +112,59 @@
 }
 
 @supports (scrollbar-color: auto) {
-  @media (prefers-color-scheme: dark) {
-    html {
-      scrollbar-color: var(--color-neutral-700) var(--color-neutral-900);
-      scrollbar-width: thin;
-    }
+  html {
+    scrollbar-color: var(--color-neutral-300) var(--color-neutral-100);
+    scrollbar-width: thin;
   }
 
-  @media (prefers-color-scheme: light) {
-    html {
-      scrollbar-color: var(--color-neutral-300) var(--color-neutral-100);
+  html.dark {
+    scrollbar-color: var(--color-neutral-700) var(--color-neutral-900);
+    scrollbar-width: thin;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not(.dark):not(.light) {
+      scrollbar-color: var(--color-neutral-700) var(--color-neutral-900);
       scrollbar-width: thin;
     }
   }
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+  -webkit-text-fill-color: var(--color-gray-900) !important;
+  color: var(--color-gray-900) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--color-gray-900) !important;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:focus,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-gray-900) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-gray-900) inset !important;
+  -webkit-text-fill-color: var(--color-white) !important;
+  color: var(--color-white) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--color-white) !important;
+}
+
 @media (prefers-color-scheme: dark) {
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:active {
+  html:not(.dark):not(.light) input:-webkit-autofill,
+  html:not(.dark):not(.light) input:-webkit-autofill:focus,
+  html:not(.dark):not(.light) input:-webkit-autofill:hover,
+  html:not(.dark):not(.light) input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px var(--color-gray-900) inset !important;
     box-shadow: 0 0 0 1000px var(--color-gray-900) inset !important;
     -webkit-text-fill-color: var(--color-white) !important;
     color: var(--color-white) !important;
     transition: background-color 5000s ease-in-out 0s;
     caret-color: var(--color-white) !important;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset !important;
-    box-shadow: 0 0 0 1000px var(--color-white) inset !important;
-    -webkit-text-fill-color: var(--color-gray-900) !important;
-    color: var(--color-gray-900) !important;
-    transition: background-color 5000s ease-in-out 0s;
-    caret-color: var(--color-gray-900) !important;
   }
 }
 
