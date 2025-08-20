@@ -63,10 +63,4 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(loginResponse);
     }
-
-    @GetMapping("/user")
-    public ResponseEntity<BasicUser> getUser() {
-        var basicUser = userService.getCurrentBasicUser();
-        return ResponseEntity.ok(basicUser);
-    }
 }

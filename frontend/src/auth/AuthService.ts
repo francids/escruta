@@ -18,7 +18,7 @@ export const authService = {
   },
   getUser: async () => {
     const token = JSON.parse(Cookies.get(AUTH_TOKEN_KEY) || "{}");
-    const response: AxiosResponse = await backendClient.get("/user", {
+    const response: AxiosResponse = await backendClient.get("/users/me", {
       headers: {
         Authorization: `Bearer ${token.token}`,
       },
