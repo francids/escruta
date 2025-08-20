@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, TextField } from "../../components/ui";
+import { Button, Modal, TextField } from "../ui";
 import type User from "../../../auth/interfaces/User";
 import CommonBar from "../CommonBar";
 

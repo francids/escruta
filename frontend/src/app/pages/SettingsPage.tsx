@@ -1,6 +1,10 @@
 import useCookie from "../../hooks/useCookie";
 import type User from "../../auth/interfaces/User";
-import { AccountSection, AppearanceSection } from "../components/settings";
+import {
+  AccountSection,
+  AppearanceSection,
+  DataSection,
+} from "../components/settings";
 import CommonBar from "../components/CommonBar";
 
 export default function SettingsPage() {
@@ -12,6 +16,7 @@ export default function SettingsPage() {
         <h1 className="text-3xl font-sans font-normal">Settings</h1>
       </CommonBar>
       <AppearanceSection />
+      <DataSection />
       <AccountSection user={user!} />
     </div>
   );
