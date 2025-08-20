@@ -1,21 +1,23 @@
 package com.francids.escruta.backend.services;
 
 import com.francids.escruta.backend.dtos.BasicUser;
+import com.francids.escruta.backend.dtos.ChangePasswordDto;
 import com.francids.escruta.backend.entities.User;
 import com.francids.escruta.backend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public UUID getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,5 +43,17 @@ public class UserService {
             return userRepository.findByEmail(authentication.getName()).orElse(null);
         }
         return null;
+    }
+
+    public void changePassword(ChangePasswordDto changePasswordDto) {
+        User currentUser = getCurrentFullUser();
+        if (currentUser == null) {
+            throw new BadCredentialsException("User not authenticated");
+        }
+        if (!passwordEncoder.matches(changePasswordDto.getCurrentPassword(), currentUser.getPassword())) {
+            throw new BadCredentialsException("Current password is incorrect");
+        }
+        currentUser.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
+        userRepository.save(currentUser);
     }
 }
