@@ -12,6 +12,7 @@ type TextFieldProps = {
   required?: boolean;
   disabled?: boolean;
   autoFocus?: boolean;
+  autoComplete?: string;
 };
 
 export default function TextField({
@@ -26,6 +27,7 @@ export default function TextField({
   required = false,
   disabled = false,
   autoFocus = false,
+  autoComplete,
 }: TextFieldProps) {
   return (
     <div className={label ? twMerge(`mb-4 ${className}`) : className}>
@@ -48,6 +50,7 @@ export default function TextField({
         required={required}
         disabled={disabled}
         autoFocus={autoFocus}
+        autoComplete={autoComplete}
       />
     </div>
   );
