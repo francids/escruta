@@ -12,10 +12,6 @@ interface AccountSectionProps {
 export default function AccountSection({ user }: AccountSectionProps) {
   const { logout } = useAuth();
 
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [email, setEmail] = useState(user?.email || "");
-  const [errorEmailMessage, setErrorEmailMessage] = useState("");
-
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -83,27 +79,6 @@ export default function AccountSection({ user }: AccountSectionProps) {
       setErrorPasswordMessage(validationResult.errorMessage);
     }
   }, [newPassword, passwordTouched]);
-
-  const handleEmailChange = () => {
-    if (!email) {
-      setErrorEmailMessage("Email cannot be empty");
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setErrorEmailMessage("Invalid email format");
-      return;
-    }
-
-    console.log("Changing email");
-    setIsEmailModalOpen(false);
-    resetEmailFields();
-  };
-
-  const resetEmailFields = () => {
-    setEmail(user?.email || "");
-    setErrorEmailMessage("");
-  };
 
   const handlePasswordChange = () => {
     if (!currentPassword.trim()) {
@@ -175,9 +150,6 @@ export default function AccountSection({ user }: AccountSectionProps) {
           </div>
         )}
         <div className="flex gap-4">
-          <Button variant="secondary" onClick={() => setIsEmailModalOpen(true)}>
-            Change email
-          </Button>
           <Button
             variant="secondary"
             onClick={() => setIsPasswordModalOpen(true)}
@@ -186,50 +158,6 @@ export default function AccountSection({ user }: AccountSectionProps) {
           </Button>
         </div>
       </div>
-
-      {/* Email Change Modal */}
-      <Modal
-        isOpen={isEmailModalOpen}
-        onClose={() => {
-          setIsEmailModalOpen(false);
-          resetEmailFields();
-        }}
-        title="Change Email"
-        actions={
-          <>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setIsEmailModalOpen(false);
-                resetEmailFields();
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleEmailChange}
-              disabled={!email}
-            >
-              Change email
-            </Button>
-          </>
-        }
-      >
-        <div className="space-y-4">
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-          />
-          {errorEmailMessage && (
-            <div className="text-red-500 text-sm">{errorEmailMessage}</div>
-          )}
-        </div>
-      </Modal>
 
       {/* Password Change Modal */}
       <Modal
