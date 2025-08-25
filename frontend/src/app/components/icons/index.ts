@@ -21,3 +21,4 @@ export { default as CopyIcon } from "./CopyIcon";
 export { default as RestartIcon } from "./RestartIcon";
 export { default as FileIcon } from "./FileIcon";
 export { default as YouTubeIcon } from "./YouTubeIcon";
+export { default as CheckIcon } from "./CheckIcon";
