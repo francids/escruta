@@ -1,6 +1,7 @@
 package com.francids.escruta.backend.controllers;
 
 import com.francids.escruta.backend.dtos.source.SourceCreationDTO;
+import com.francids.escruta.backend.dtos.source.SourceFileCreationDTO;
 import com.francids.escruta.backend.dtos.source.SourceResponseDTO;
 import com.francids.escruta.backend.dtos.source.SourceUpdateDTO;
 import com.francids.escruta.backend.dtos.source.SourceWithContentDTO;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -68,6 +70,41 @@ public class SourceController {
                     ? ResponseEntity.status(HttpStatus.CREATED).body(source)
                     : ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<SourceWithContentDTO> createNotebookSourceFromFile(
+            @PathVariable String notebookId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam(name = "icon", required = false) String icon,
+            @RequestParam(name = "aiConverter", defaultValue = "false") boolean aiConverter
+    ) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            if (title == null || title.trim().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            var sourceFileCreationDTO = new SourceFileCreationDTO(icon, title.trim());
+
+            UUID uuid = parseUUID(notebookId);
+            var source = sourceService.addSourceFromFile(uuid, sourceFileCreationDTO, file, aiConverter);
+            return source != null
+                    ? ResponseEntity.status(HttpStatus.CREATED).body(source)
+                    : ResponseEntity.badRequest().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (RuntimeException e) {
+            System.err.println("Error adding source from file: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        } catch (Exception e) {
+            System.err.println("Unexpected error adding source from file: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

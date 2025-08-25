@@ -1,6 +1,7 @@
 package com.francids.escruta.backend.services;
 
 import com.francids.escruta.backend.dtos.source.SourceCreationDTO;
+import com.francids.escruta.backend.dtos.source.SourceFileCreationDTO;
 import com.francids.escruta.backend.dtos.source.SourceResponseDTO;
 import com.francids.escruta.backend.dtos.source.SourceUpdateDTO;
 import com.francids.escruta.backend.dtos.source.SourceWithContentDTO;
@@ -14,10 +15,11 @@ import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.document.Document;
-import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -28,6 +30,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class SourceService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SourceService.class);
+
     private final SourceRepository sourceRepository;
     private final NotebookRepository notebookRepository;
     private final UserService userService;
@@ -35,6 +40,8 @@ public class SourceService {
     private final NotebookOwnershipService notebookOwnershipService;
     private final RetrievalService retrievalService;
     private final ChatModel chatModel;
+    private final FileTextExtractionService fileTextExtractionService;
+    private final AsyncVectorIndexingService asyncVectorIndexingService;
 
     private record WebContent(String title, String content) {
     }
@@ -60,11 +67,11 @@ public class SourceService {
 
     private String formatContentAsMarkdown(String rawContent) {
         String systemPrompt = """
-            You are an expert content processor. Your task is to convert the provided raw text from a webpage into a clean, well-structured Markdown format.
-            - Focus exclusively on the main article or primary content.
-            - Omit all headers, footers, navigation menus, sidebars, advertisements, and other boilerplate text.
-            - The output must be only the formatted Markdown content, without any introductory phrases like "Here is the markdown content:".
-            """;
+                You are an expert content processor. Your task is to convert the provided raw text from a webpage into a clean, well-structured Markdown format.
+                - Focus exclusively on the main article or primary content.
+                - Omit all headers, footers, navigation menus, sidebars, advertisements, and other boilerplate text.
+                - The output must be only the formatted Markdown content, without any introductory phrases like "Here is the markdown content:".
+                """;
 
         try {
             UserMessage userMessage = new UserMessage(rawContent);
@@ -124,9 +131,6 @@ public class SourceService {
                 content = webContent.content();
             }
 
-            var textSplitter = new TokenTextSplitter(500, 100, 5, 10000, true);
-            List<Document> chunks = textSplitter.apply(List.of(new Document(content)));
-
             Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content);
             if (source.getTitle() == null || source.getTitle().trim().isEmpty()) {
                 source.setTitle(webContent.title());
@@ -134,13 +138,7 @@ public class SourceService {
 
             source = sourceRepository.save(source);
 
-            for (int i = 0; i < chunks.size(); i++) {
-                try {
-                    retrievalService.indexSourceChunk(notebookId, source, chunks.get(i), i);
-                } catch (Exception e) {
-                    // Fail silently for a single chunk to not interrupt the whole process.
-                }
-            }
+            asyncVectorIndexingService.indexSourceInVectorStore(notebookId, source, content);
 
             return new SourceWithContentDTO(source);
 
@@ -178,5 +176,63 @@ public class SourceService {
             }
         }
         throw new SecurityException("User cannot delete this source.");
+    }
+
+    @Transactional
+    public SourceWithContentDTO addSourceFromFile(
+            UUID notebookId,
+            SourceFileCreationDTO newSourceDto,
+            MultipartFile file,
+            boolean aiConverter
+    ) {
+        logger.info("Adding source from file: {} to notebook: {}", file.getOriginalFilename(), notebookId);
+
+        var currentUser = userService.getCurrentFullUser();
+        Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
+
+        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            throw new SecurityException("User does not have permission to add a source to this notebook.");
+        }
+
+        if (!fileTextExtractionService.isSupportedFileType(file.getContentType())) {
+            throw new RuntimeException("Unsupported file type: " + file.getContentType());
+        }
+
+        String content;
+        try {
+            content = fileTextExtractionService.extractTextFromFile(file);
+            if (content == null || content.trim().isEmpty()) {
+                throw new RuntimeException("No text content could be extracted from the file");
+            }
+
+            if (aiConverter) {
+                logger.info("Converting content to markdown using AI");
+                content = formatContentAsMarkdown(content);
+            }
+        } catch (Exception e) {
+            logger.error("Error processing file: {}", e.getMessage(), e);
+            throw new RuntimeException("Error processing file: " + e.getMessage(), e);
+        }
+
+        Source source;
+        try {
+            source = new Source();
+            source.setNotebook(notebookOptional.get());
+            source.setIcon(newSourceDto.icon());
+            source.setTitle(newSourceDto.title());
+            source.setLink("file://" + file.getOriginalFilename());
+            source.setContent(content);
+
+            source = sourceRepository.save(source);
+            logger.info("Successfully saved source with ID: {}", source.getId());
+        } catch (Exception e) {
+            logger.error("Error while saving the source: {}", e.getMessage(), e);
+            throw new RuntimeException("Error while saving the source: " + e.getMessage(), e);
+        }
+
+        asyncVectorIndexingService.indexSourceInVectorStore(notebookId, source, content);
+
+        logger.info("Successfully added source from file: {}", file.getOriginalFilename());
+        return new SourceWithContentDTO(source);
     }
 }

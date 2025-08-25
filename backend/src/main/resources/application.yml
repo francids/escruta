@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: Escruta Backend
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      enabled: true
   datasource:
     url: ${ESCRUTA_DATABASE_URL:jdbc:postgresql://localhost:5432/escruta}
     username: ${ESCRUTA_DATABASE_USERNAME:postgres}

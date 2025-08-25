@@ -56,16 +56,28 @@ export default function SourcesCard({
     error: addingSourceError,
     refetch: addSource,
   } = useFetch<Source>(
-    `notebooks/${notebookId}/sources?aiConverter=${isAIConverterEnabled}`,
+    sourceType === "File"
+      ? `notebooks/${notebookId}/sources/upload?aiConverter=${isAIConverterEnabled}`
+      : `notebooks/${notebookId}/sources?aiConverter=${isAIConverterEnabled}`,
     {
       method: "POST",
-      data: {
-        link: newSourceLink,
-      },
-      // data:
-      //   sourceType === "File"
-      //     ? { file: newSourceFile, type: sourceType.toLowerCase() }
-      //     : { link: newSourceLink, type: sourceType.toLowerCase() },
+      data:
+        sourceType === "File"
+          ? (() => {
+              const formData = new FormData();
+              if (newSourceFile) {
+                formData.append("file", newSourceFile);
+                formData.append("title", newSourceFile.name);
+              }
+              return formData;
+            })()
+          : {
+              link: newSourceLink,
+            },
+      headers:
+        sourceType === "File"
+          ? { "Content-Type": "multipart/form-data" }
+          : { "Content-Type": "application/json" },
       onSuccess: () => {
         setNewSourceLink("");
         setNewSourceFile(null);
@@ -194,7 +206,7 @@ export default function SourcesCard({
         closeOnOutsideClick={!addingSource}
         actions={
           <div className="flex justify-between w-full">
-            {sourceType === "Website" ? (
+            {sourceType === "Website" || sourceType === "File" ? (
               <Switch
                 checked={isAIConverterEnabled}
                 onChange={setIsAIConverterEnabled}
@@ -227,7 +239,7 @@ export default function SourcesCard({
           <Dropdown
             label="Source type"
             // options={["Website", "YouTube Video", "File"]}
-            options={["Website", "YouTube Video"]}
+            options={["Website", "File"]}
             selectedOption={sourceType}
             onSelect={setSourceType}
           />
@@ -238,8 +250,8 @@ export default function SourcesCard({
               label="Select file"
               onChange={setNewSourceFile}
               value={newSourceFile}
-              accept=".pdf,.doc,.docx,.txt,.md"
-              placeholder="PDF, DOC, DOCX, TXT, or MD files"
+              accept=".pdf,.docx,.txt,.md"
+              placeholder="PDF, DOCX, TXT, or Markdown files"
             />
           ) : (
             <TextField
