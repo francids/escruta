@@ -10,9 +10,12 @@ import {
   TextField,
   Tooltip,
   Switch,
+  Dropdown,
+  FilePicker,
 } from "./ui";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import type { SourceType } from "../utils";
 
 interface SourcesCardProps {
   notebookId: string;
@@ -29,6 +32,7 @@ export default function SourcesCard({
     if (refreshTrigger !== undefined) {
       refetchSources(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const {
@@ -42,7 +46,9 @@ export default function SourcesCard({
     useState<boolean>(false);
   const [isAIConverterEnabled, setIsAIConverterEnabled] =
     useState<boolean>(false);
+  const [sourceType, setSourceType] = useState<SourceType>("Website");
   const [newSourceLink, setNewSourceLink] = useState<string>("");
+  const [newSourceFile, setNewSourceFile] = useState<File | null>(null);
   const [newSourceLinkError, setNewSourceLinkError] = useState<string>("");
 
   const {
@@ -56,8 +62,14 @@ export default function SourcesCard({
       data: {
         link: newSourceLink,
       },
+      // data:
+      //   sourceType === "File"
+      //     ? { file: newSourceFile, type: sourceType.toLowerCase() }
+      //     : { link: newSourceLink, type: sourceType.toLowerCase() },
       onSuccess: () => {
         setNewSourceLink("");
+        setNewSourceFile(null);
+        setSourceType("Website");
         setIsAddSourceModalOpen(false);
         refetchSources(true);
       },
@@ -70,12 +82,46 @@ export default function SourcesCard({
 
   async function handleAddSource() {
     setNewSourceLinkError("");
-    if (!newSourceLink.trim()) return;
-    if (!/^https?:\/\/.+/i.test(newSourceLink)) {
-      setNewSourceLinkError("Please enter a valid URL starting with https://");
-      return;
+
+    if (sourceType === "File") {
+      if (!newSourceFile) {
+        setNewSourceLinkError("Please select a file");
+        return;
+      }
+    } else {
+      if (!newSourceLink.trim()) {
+        setNewSourceLinkError("Please enter a valid URL");
+        return;
+      }
+
+      if (sourceType === "Website" && !/^https?:\/\/.+/i.test(newSourceLink)) {
+        setNewSourceLinkError(
+          "Please enter a valid URL starting with https://"
+        );
+        return;
+      }
+
+      if (sourceType === "YouTube Video") {
+        const youtubeRegex =
+          /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)/i;
+        if (!youtubeRegex.test(newSourceLink)) {
+          setNewSourceLinkError("Please enter a valid YouTube URL");
+          return;
+        }
+      }
     }
+
     await addSource();
+  }
+
+  function handleModalClose() {
+    if (!addingSource) {
+      setIsAddSourceModalOpen(false);
+      setNewSourceLink("");
+      setNewSourceFile(null);
+      setSourceType("Website");
+      setNewSourceLinkError("");
+    }
   }
 
   return (
@@ -143,28 +189,33 @@ export default function SourcesCard({
       {/* Add Source Modal */}
       <Modal
         isOpen={isAddSourceModalOpen}
-        onClose={() => setIsAddSourceModalOpen(false)}
+        onClose={handleModalClose}
         title="Add source"
         closeOnOutsideClick={!addingSource}
         actions={
           <div className="flex justify-between w-full">
-            <Switch
-              checked={isAIConverterEnabled}
-              onChange={setIsAIConverterEnabled}
-              label="Enable AI Converter"
-              disabled={addingSource}
-            />
+            {sourceType === "Website" ? (
+              <Switch
+                checked={isAIConverterEnabled}
+                onChange={setIsAIConverterEnabled}
+                label="Enable AI converter"
+                disabled={addingSource}
+              />
+            ) : (
+              <div className="flex-1"></div>
+            )}
             <div className="flex gap-3">
-              <Button
-                variant="secondary"
-                onClick={() => setIsAddSourceModalOpen(false)}
-              >
+              <Button variant="secondary" onClick={handleModalClose}>
                 Cancel
               </Button>
               <Button
                 variant="primary"
                 onClick={handleAddSource}
-                disabled={!newSourceLink.trim() || addingSource}
+                disabled={
+                  (sourceType === "File"
+                    ? !newSourceFile
+                    : !newSourceLink.trim()) || addingSource
+                }
               >
                 {addingSource ? "Adding..." : "Add"}
               </Button>
@@ -173,15 +224,41 @@ export default function SourcesCard({
         }
       >
         <div className="space-y-4">
-          <TextField
-            id="source-link"
-            label="Source Link"
-            type="url"
-            value={newSourceLink}
-            onChange={(e) => setNewSourceLink(e.target.value)}
-            placeholder="https://example.com"
-            autoFocus
+          <Dropdown
+            label="Source type"
+            // options={["Website", "YouTube Video", "File"]}
+            options={["Website", "YouTube Video"]}
+            selectedOption={sourceType}
+            onSelect={setSourceType}
           />
+
+          {sourceType === "File" ? (
+            <FilePicker
+              id="source-file"
+              label="Select file"
+              onChange={setNewSourceFile}
+              value={newSourceFile}
+              accept=".pdf,.doc,.docx,.txt,.md"
+              placeholder="PDF, DOC, DOCX, TXT, or MD files"
+            />
+          ) : (
+            <TextField
+              id="source-link"
+              label={
+                sourceType === "YouTube Video" ? "YouTube URL" : "Website URL"
+              }
+              type="url"
+              value={newSourceLink}
+              onChange={(e) => setNewSourceLink(e.target.value)}
+              placeholder={
+                sourceType === "YouTube Video"
+                  ? "https://www.youtube.com/watch?v=..."
+                  : "https://example.com"
+              }
+              autoFocus
+            />
+          )}
+
           {newSourceLinkError && (
             <div className="text-red-500 text-sm">{newSourceLinkError}</div>
           )}

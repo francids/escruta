@@ -19,3 +19,5 @@ export { default as DeleteIcon } from "./DeleteIcon";
 export { default as FireIcon } from "./FireIcon";
 export { default as CopyIcon } from "./CopyIcon";
 export { default as RestartIcon } from "./RestartIcon";
+export { default as FileIcon } from "./FileIcon";
+export { default as YouTubeIcon } from "./YouTubeIcon";

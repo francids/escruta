@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import type Source from "../interfaces/Source";
-import { CloseIcon, DeleteIcon, LinkIcon, CopyIcon } from "./icons";
+import { CloseIcon, DeleteIcon, LinkIcon, CopyIcon, FileIcon } from "./icons";
 import { Button, Card, IconButton, Modal, Tooltip, Divider, Toast } from "./ui";
 import Markdown from "react-markdown";
+import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
 
 interface SourceViewerProps {
   notebookId: string;
@@ -31,6 +32,10 @@ export default function SourceViewer({
   const [currentSourceId, setCurrentSourceId] = useState<string>(source.id);
   const [showCopyToast, setShowCopyToast] = useState(false);
 
+  const sourceType = getSourceType(source);
+  const youtubeVideoId =
+    sourceType === "YouTube Video" ? getYouTubeVideoId(source.link) : null;
+
   useEffect(() => {
     if (source.id !== currentSourceId) {
       setCurrentSourceId(source.id);
@@ -39,6 +44,7 @@ export default function SourceViewer({
 
   useEffect(() => {
     refetchSource(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source.id]);
 
   const {
@@ -66,7 +72,11 @@ export default function SourceViewer({
       <Toast
         isVisible={showCopyToast}
         onClose={() => setShowCopyToast(false)}
-        message="Source content copied to clipboard"
+        message={
+          sourceType === "YouTube Video"
+            ? "Video URL copied to clipboard"
+            : "Source content copied to clipboard"
+        }
         type="success"
         position="bottom-right"
         duration={1500}
@@ -76,15 +86,31 @@ export default function SourceViewer({
           <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
           <div className="h-14 px-6 bg-gray-50 dark:bg-gray-800">
             <div className="h-12 px-2 gap-3 flex justify-between items-center flex-shrink-0">
-              <h2 className="truncate">{source.title || "Source viewer"}</h2>
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <div className="text-gray-600 dark:text-gray-300 flex-shrink-0 w-5 h-5">
+                  {getSourceTypeIcon(sourceType)}
+                </div>
+                <h2 className="truncate">{source.title || "Source viewer"}</h2>
+              </div>
               <div className="flex gap-2">
-                <Tooltip text="Copy source content" position="bottom">
+                <Tooltip
+                  text={
+                    sourceType === "YouTube Video"
+                      ? "Copy video URL"
+                      : "Copy source content"
+                  }
+                  position="bottom"
+                >
                   <IconButton
                     icon={<CopyIcon />}
                     variant="ghost"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(fullSource?.content || "");
+                      const textToCopy =
+                        sourceType === "YouTube Video"
+                          ? source.link
+                          : fullSource?.content || "";
+                      navigator.clipboard.writeText(textToCopy);
                       setShowCopyToast(true);
                     }}
                   />
@@ -132,11 +158,68 @@ export default function SourceViewer({
         )}
         {fullSource && !loading && !error && (
           <div className="flex-1">
-            <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
-              <div className="prose dark:prose-invert max-w-none text-base">
-                <Markdown>{fullSource.content}</Markdown>
+            {sourceType === "YouTube Video" && youtubeVideoId ? (
+              <div className="h-auto min-h-[80%] w-full px-6 py-8">
+                <div className="aspect-video w-full mb-6">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                    title={fullSource.title || "YouTube Video"}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full rounded-lg"
+                  />
+                </div>
+                {fullSource.content && (
+                  <div className="overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+                    <div className="prose dark:prose-invert max-w-none text-base">
+                      <Markdown>{fullSource.content}</Markdown>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            ) : sourceType === "File" ? (
+              <div className="h-auto min-h-[80%] w-full px-6 py-8">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6 border-2 border-dashed border-gray-300 dark:border-gray-600">
+                  <div className="text-center">
+                    <div className="text-gray-400 dark:text-gray-500 w-12 h-12 mx-auto mb-4">
+                      <FileIcon />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                      {fullSource.title || "Document"}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                      This is a file source. Click "Open source" to view the
+                      original file.
+                    </p>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        window.open(
+                          source.link,
+                          "_blank",
+                          "noopener noreferrer"
+                        );
+                      }}
+                    >
+                      Open File
+                    </Button>
+                  </div>
+                </div>
+                {fullSource.content && (
+                  <div className="overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+                    <div className="prose dark:prose-invert max-w-none text-base">
+                      <Markdown>{fullSource.content}</Markdown>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+                <div className="prose dark:prose-invert max-w-none text-base">
+                  <Markdown>{fullSource.content}</Markdown>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </Card>

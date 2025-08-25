@@ -1,5 +1,5 @@
 import type Source from "../interfaces/Source";
-import { LinkIcon } from "./icons";
+import { getSourceIcon } from "../utils";
 
 interface SourceChipProps {
   source: Source;
@@ -22,7 +22,7 @@ export default function SourceChip({
       onClick={handleChipClick}
     >
       <div className="text-gray-600 dark:text-gray-300 flex-shrink-0 w-5 h-5">
-        <LinkIcon />
+        {getSourceIcon(source)}
       </div>
       <div className="flex-1 min-w-0">
         <h2 className="text-sm font-medium text-gray-800 dark:text-gray-200 line-clamp-1">
