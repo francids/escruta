@@ -1,4 +1,6 @@
+import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "../../contexts/ModalContext";
+import { useState } from "react";
 
 export default function Tooltip({
   children,
@@ -10,6 +12,7 @@ export default function Tooltip({
   position?: "top" | "bottom" | "left" | "right";
 }) {
   const { isAnyModalOpen } = useModal();
+  const [isVisible, setIsVisible] = useState(false);
 
   if (isAnyModalOpen) {
     return <>{children}</>;
@@ -23,13 +26,28 @@ export default function Tooltip({
   };
 
   return (
-    <div className="relative group">
+    <div
+      className="relative"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
       {children}
-      <div
-        className={`absolute ${positionClasses[position]} hidden group-hover:block whitespace-normal break-words rounded-xs bg-black dark:bg-white py-1.5 px-3 text-center text-sm text-white dark:text-black z-30`}
-      >
-        {text}
-      </div>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{
+              duration: 0.15,
+              ease: "easeOut",
+            }}
+            className={`absolute ${positionClasses[position]} select-text whitespace-normal break-words rounded-xs bg-black dark:bg-white py-1.5 px-3 text-center text-sm text-white dark:text-black z-30`}
+          >
+            {text}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
