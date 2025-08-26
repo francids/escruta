@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router";
 import useFetch from "../../hooks/useFetch";
 import type NotebookContent from "../interfaces/NotebookContent";
-import { EditIcon, WaveIcon, MindMapIcon } from "../components/icons";
+import { EditIcon } from "../components/icons";
 import {
   Tooltip,
   IconButton,
@@ -11,7 +11,6 @@ import {
   Modal,
 } from "../components/ui";
 import { motion, AnimatePresence } from "motion/react";
-import Card from "../components/ui/Card";
 import CommonBar from "../components/CommonBar";
 import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
@@ -22,6 +21,7 @@ import type Source from "../interfaces/Source";
 import ChatCard from "../components/ChatCard";
 import NoteEditor from "../components/NoteEditor";
 import SourceViewer from "../components/SourceViewer";
+import ToolsCard from "../components/ToolsCard";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -225,15 +225,7 @@ export default function NotebookPage() {
         <ChatCard notebookId={notebookId} refreshTrigger={sourcesRefreshKey} />
 
         {/* Tools */}
-        <Card className="col-span-1 h-full flex flex-col gap-2">
-          <h2 className="text-lg font-sans font-normal mb-2">Tools</h2>
-          <Tooltip text="Audio Summary" position="left">
-            <IconButton icon={<WaveIcon />} size="lg" />
-          </Tooltip>
-          <Tooltip text="Mind Map" position="left">
-            <IconButton icon={<MindMapIcon />} size="lg" className="mt-2" />
-          </Tooltip>
-        </Card>
+        <ToolsCard />
       </section>
 
       {/* Rename Modal */}
