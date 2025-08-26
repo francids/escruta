@@ -4,6 +4,7 @@ export default interface Source {
   icon?: string;
   title: string;
   content?: string;
+  summary?: string;
   link: string;
   createdAt: Date;
   updatedAt: Date;

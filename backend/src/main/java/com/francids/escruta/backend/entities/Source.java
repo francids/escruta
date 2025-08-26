@@ -32,6 +32,9 @@ public class Source {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
     @Column()
     private String link;
 

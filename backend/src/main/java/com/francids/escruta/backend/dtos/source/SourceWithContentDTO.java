@@ -11,6 +11,7 @@ public record SourceWithContentDTO(
         String icon,
         String title,
         String content,
+        String summary,
         String link,
         Timestamp createdAt,
         Timestamp updatedAt
@@ -22,6 +23,7 @@ public record SourceWithContentDTO(
                 source.getIcon(),
                 source.getTitle(),
                 source.getContent(),
+                source.getSummary(),
                 source.getLink(),
                 source.getCreatedAt(),
                 source.getUpdatedAt()

@@ -1,8 +1,23 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import type Source from "../interfaces/Source";
-import { CloseIcon, DeleteIcon, LinkIcon, CopyIcon } from "./icons";
-import { Button, Card, IconButton, Modal, Tooltip, Divider, Toast } from "./ui";
+import {
+  CloseIcon,
+  DeleteIcon,
+  LinkIcon,
+  CopyIcon,
+  RestartIcon,
+} from "./icons";
+import {
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  Tooltip,
+  Divider,
+  Toast,
+  Spinner,
+} from "./ui";
 import Markdown from "react-markdown";
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
 
@@ -66,6 +81,56 @@ export default function SourceViewer({
     },
     false
   );
+
+  const {
+    data: sourceSummary,
+    loading: isSummaryLoading,
+    error: summaryError,
+    refetch: refetchSummary,
+  } = useFetch<string>(
+    `notebooks/${notebookId}/sources/${source.id}/summary`,
+    {
+      method: "GET",
+      onError: (error) => {
+        console.error("Error fetching source summary:", error);
+      },
+    },
+    false
+  );
+
+  const { loading: isRegenerating, refetch: regenerateSummary } =
+    useFetch<string>(
+      `notebooks/${notebookId}/sources/${source.id}/summary`,
+      {
+        method: "POST",
+        onSuccess: () => {
+          refetchSummary(true);
+        },
+        onError: (error) => {
+          console.error("Error regenerating source summary:", error);
+        },
+      },
+      false
+    );
+
+  const { loading: isDeletingSummary, refetch: deleteSummary } = useFetch<void>(
+    `notebooks/${notebookId}/sources/${source.id}/summary`,
+    {
+      method: "DELETE",
+      onSuccess: () => {
+        refetchSummary(true);
+      },
+      onError: (error) => {
+        console.error("Error deleting source summary:", error);
+      },
+    },
+    false
+  );
+
+  useEffect(() => {
+    refetchSummary(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source.id]);
 
   return (
     <>
@@ -163,33 +228,92 @@ export default function SourceViewer({
           </div>
         )}
         {fullSource && !loading && !error && (
-          <div className="flex-1">
-            {sourceType === "YouTube Video" && youtubeVideoId ? (
-              <div className="h-auto min-h-[80%] w-full px-6 py-8">
-                <div className="aspect-video w-full mb-6">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-                    title={fullSource.title || "YouTube Video"}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    className="w-full h-full rounded-lg"
-                  />
+          <div className="flex-1 flex flex-col">
+            <div className="px-6 pt-4">
+              <Card className="bg-gray-100 dark:bg-gray-700">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">Summary</h3>
+                  <div className="flex gap-2">
+                    {sourceSummary && (
+                      <Tooltip text="Delete summary" position="bottom">
+                        <IconButton
+                          icon={<DeleteIcon />}
+                          variant="ghost"
+                          size="sm"
+                          onClick={deleteSummary}
+                          disabled={isDeletingSummary}
+                        />
+                      </Tooltip>
+                    )}
+                    {sourceSummary && (
+                      <Tooltip text="Regenerate summary" position="bottom">
+                        <IconButton
+                          icon={isRegenerating ? <Spinner /> : <RestartIcon />}
+                          variant="ghost"
+                          size="sm"
+                          onClick={regenerateSummary}
+                          disabled={isRegenerating}
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
                 </div>
-                {fullSource.content && (
-                  <div className="overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
-                    <div className="prose dark:prose-invert max-w-none text-base">
-                      <Markdown>{fullSource.content}</Markdown>
+                {isSummaryLoading ? (
+                  <div className="text-center py-4 text-gray-500">
+                    <div className="flex items-center justify-center gap-2">
+                      <Spinner />
+                      <span>Loading summary...</span>
                     </div>
                   </div>
+                ) : summaryError ? (
+                  <div className="text-red-500 text-sm">
+                    Error: {summaryError.message}
+                  </div>
+                ) : sourceSummary && sourceSummary.trim() ? (
+                  <div className="prose dark:prose-invert prose-sm max-w-none select-text">
+                    <Markdown>{sourceSummary}</Markdown>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={regenerateSummary}
+                    icon={isRegenerating ? <Spinner /> : null}
+                    disabled={isRegenerating}
+                  >
+                    {isRegenerating
+                      ? "Generating summary..."
+                      : "Generate summary"}
+                  </Button>
                 )}
-              </div>
-            ) : (
-              <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
-                <div className="prose dark:prose-invert max-w-none text-base">
-                  <Markdown>{fullSource.content}</Markdown>
+              </Card>
+            </div>
+            <div className="flex-1">
+              {sourceType === "YouTube Video" && youtubeVideoId ? (
+                <div className="h-auto min-h-[80%] w-full px-6 py-8">
+                  <div className="aspect-video w-full mb-6">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                      title={fullSource.title || "YouTube Video"}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full rounded-lg"
+                    />
+                  </div>
+                  {fullSource.content && (
+                    <div className="overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+                      <div className="prose dark:prose-invert max-w-none text-base">
+                        <Markdown>{fullSource.content}</Markdown>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
+                  <div className="prose dark:prose-invert max-w-none text-base">
+                    <Markdown>{fullSource.content}</Markdown>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </Card>

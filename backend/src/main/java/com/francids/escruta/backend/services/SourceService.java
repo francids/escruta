@@ -138,6 +138,8 @@ public class SourceService {
 
             source = sourceRepository.save(source);
 
+            generateAndSetSummary(source);
+
             asyncVectorIndexingService.indexSourceInVectorStore(notebookId, source, content);
 
             return new SourceWithContentDTO(source);
@@ -230,9 +232,92 @@ public class SourceService {
             throw new RuntimeException("Error while saving the source: " + e.getMessage(), e);
         }
 
+        generateAndSetSummary(source);
+
         asyncVectorIndexingService.indexSourceInVectorStore(notebookId, source, content);
 
         logger.info("Successfully added source from file: {}", file.getOriginalFilename());
         return new SourceWithContentDTO(source);
+    }
+
+    private void generateAndSetSummary(Source source) {
+        try {
+            Prompt prompt = getPrompt(source);
+            var response = chatModel.call(prompt);
+            String summary = response.getResult().getOutput().getText();
+
+            source.setSummary(summary);
+            sourceRepository.save(source);
+        } catch (Exception e) {
+            logger.error("Error generating summary for source {}: {}", source.getId(), e.getMessage(), e);
+        }
+    }
+
+    private static Prompt getPrompt(Source source) {
+        String systemPrompt = """
+                You are an expert content summarizer. Your task is to create a concise summary of the provided content.
+                The summary should be 2-3 sentences that capture the essential information and main points.
+                Focus on the key concepts, findings, or conclusions presented in the content.
+                """;
+
+        UserMessage userMessage = new UserMessage(source.getContent());
+        return new Prompt(List.of(new SystemMessage(systemPrompt), userMessage));
+    }
+
+    public String generateSummary(UUID notebookId, UUID sourceId) {
+        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            throw new SecurityException("User cannot access this source.");
+        }
+
+        Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
+        if (sourceOptional.isEmpty()) {
+            return null;
+        }
+
+        Source source = sourceOptional.get();
+        if (!source.getNotebook().getId().equals(notebookId)) {
+            throw new SecurityException("Source does not belong to this notebook.");
+        }
+
+        generateAndSetSummary(source);
+        return source.getSummary();
+    }
+
+    public String getSummary(UUID notebookId, UUID sourceId) {
+        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            throw new SecurityException("User cannot access this source.");
+        }
+
+        Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
+        if (sourceOptional.isEmpty()) {
+            return "";
+        }
+
+        Source source = sourceOptional.get();
+        if (!source.getNotebook().getId().equals(notebookId)) {
+            throw new SecurityException("Source does not belong to this notebook.");
+        }
+
+        return source.getSummary() != null ? source.getSummary() : "";
+    }
+
+    public boolean deleteSummary(UUID notebookId, UUID sourceId) {
+        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            throw new SecurityException("User cannot access this source.");
+        }
+
+        Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
+        if (sourceOptional.isEmpty()) {
+            return false;
+        }
+
+        Source source = sourceOptional.get();
+        if (!source.getNotebook().getId().equals(notebookId)) {
+            throw new SecurityException("Source does not belong to this notebook.");
+        }
+
+        source.setSummary(null);
+        sourceRepository.save(source);
+        return true;
     }
 }

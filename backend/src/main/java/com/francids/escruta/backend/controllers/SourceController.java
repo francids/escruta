@@ -137,4 +137,61 @@ public class SourceController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PostMapping("{sourceId}/summary")
+    public ResponseEntity<String> generateSourceSummary(
+            @PathVariable String notebookId,
+            @PathVariable String sourceId
+    ) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            UUID sourceUuid = parseUUID(sourceId);
+            String summary = sourceService.generateSummary(notebookUuid, sourceUuid);
+            return summary != null ? ResponseEntity.ok(summary) : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("{sourceId}/summary")
+    public ResponseEntity<String> getSourceSummary(
+            @PathVariable String notebookId,
+            @PathVariable String sourceId
+    ) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            UUID sourceUuid = parseUUID(sourceId);
+            String summary = sourceService.getSummary(notebookUuid, sourceUuid);
+            return ResponseEntity.ok(summary);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("{sourceId}/summary")
+    public ResponseEntity<Void> deleteSourceSummary(
+            @PathVariable String notebookId,
+            @PathVariable String sourceId
+    ) {
+        try {
+            UUID notebookUuid = parseUUID(notebookId);
+            UUID sourceUuid = parseUUID(sourceId);
+            boolean deleted = sourceService.deleteSummary(notebookUuid, sourceUuid);
+            return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
