@@ -58,7 +58,7 @@ export default function Dropdown<T extends string>({
   return (
     <div className={twMerge("flex items-center gap-3", className)}>
       {label && (
-        <label className="text-base font-medium text-gray-700 dark:text-gray-300 select-none">
+        <label className="text-base font-medium text-gray-700 dark:text-gray-200 select-none">
           {label}
         </label>
       )}
@@ -75,14 +75,14 @@ export default function Dropdown<T extends string>({
             "bg-white dark:bg-gray-700",
             "border border-gray-300 dark:border-gray-600",
             "rounded-xs",
-            "text-gray-900 dark:text-white",
+            "text-gray-900 dark:text-gray-100",
             "focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400",
             "transition-all duration-200 ease-in-out",
             "select-none",
             !disabled && "hover:border-blue-500 dark:hover:border-blue-400",
             !disabled && "cursor-pointer",
             disabled &&
-              "opacity-50 cursor-not-allowed bg-gray-50 dark:bg-gray-800",
+              "opacity-50 cursor-not-allowed bg-gray-50 dark:bg-gray-900",
             isOpen &&
               !disabled &&
               "ring-2 ring-blue-500 dark:ring-blue-400 border-blue-500 dark:border-blue-400"
@@ -99,7 +99,7 @@ export default function Dropdown<T extends string>({
               viewBox="0 0 24 24"
               fill="currentColor"
               className={twMerge(
-                "h-4 w-4 text-gray-400 dark:text-gray-500 transition-transform duration-200",
+                "h-4 w-4 text-gray-400 dark:text-gray-400 transition-transform duration-200",
                 isOpen && "rotate-180"
               )}
             >
@@ -121,9 +121,9 @@ export default function Dropdown<T extends string>({
               }}
               className={twMerge(
                 "absolute z-50 w-full mt-1.5",
-                "bg-white dark:bg-gray-700",
+                "bg-white dark:bg-gray-800",
                 "border border-gray-300 dark:border-gray-600",
-                "rounded-xs shadow-lg",
+                "rounded-xs shadow-lg dark:shadow-gray-900/20",
                 "max-h-60 overflow-auto"
               )}
             >
@@ -142,13 +142,13 @@ export default function Dropdown<T extends string>({
                     onClick={() => handleSelect(option)}
                     className={twMerge(
                       "relative w-full px-3 py-2 text-left",
-                      "text-gray-900 dark:text-white",
+                      "text-gray-900 dark:text-gray-100",
                       "transition-colors duration-150",
-                      "hover:bg-blue-50 dark:hover:bg-blue-900/20",
-                      "focus:outline-none focus:bg-blue-50 dark:focus:bg-blue-900/20",
+                      "hover:bg-blue-50 dark:hover:bg-gray-700",
+                      "focus:outline-none focus:bg-blue-50 dark:focus:bg-gray-700",
                       "cursor-pointer select-none",
                       selectedOption === option &&
-                        "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        "bg-blue-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300"
                     )}
                   >
                     <span className="block truncate">{option}</span>
