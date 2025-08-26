@@ -210,7 +210,7 @@ export default function SourcesCard({
               <Switch
                 checked={isAIConverterEnabled}
                 onChange={setIsAIConverterEnabled}
-                label="Enable AI converter"
+                label="AI converter"
                 disabled={addingSource}
               />
             ) : (
@@ -256,9 +256,7 @@ export default function SourcesCard({
           ) : (
             <TextField
               id="source-link"
-              label={
-                sourceType === "YouTube Video" ? "YouTube URL" : "Website URL"
-              }
+              label="URL"
               type="url"
               value={newSourceLink}
               onChange={(e) => setNewSourceLink(e.target.value)}
