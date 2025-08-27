@@ -230,7 +230,7 @@ export default function SourceViewer({
         {fullSource && !loading && !error && (
           <div className="flex-1 flex flex-col">
             <div className="px-6 pt-4">
-              <Card className="bg-gray-100 dark:bg-gray-700">
+              <Card className="bg-gray-100/60 dark:bg-gray-700">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold">Summary</h3>
                   <div className="flex gap-2">

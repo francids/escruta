@@ -42,7 +42,7 @@ export default function Tabs({
           <div key={index} className="relative w-full">
             {activeTabId === tab.id && (
               <motion.div
-                className="absolute inset-0 bg-gray-100 dark:bg-gray-700 rounded-xs"
+                className="absolute inset-0 bg-gray-100/60 dark:bg-gray-700 rounded-xs"
                 layoutId="activeTab"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
