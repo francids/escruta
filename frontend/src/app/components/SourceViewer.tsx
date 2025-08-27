@@ -19,6 +19,7 @@ import {
   Spinner,
 } from "./ui";
 import Markdown from "react-markdown";
+import CodeBlock from "./CodeBlock";
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
 
 interface SourceViewerProps {
@@ -271,7 +272,21 @@ export default function SourceViewer({
                   </div>
                 ) : sourceSummary && sourceSummary.trim() ? (
                   <div className="prose dark:prose-invert prose-sm max-w-none select-text">
-                    <Markdown>{sourceSummary}</Markdown>
+                    <Markdown
+                      components={{
+                        code: ({ className, children }) => {
+                          const match = /language-(\w+)/.exec(className || "");
+                          const inline = !match;
+                          return (
+                            <CodeBlock inline={inline} className={className}>
+                              {String(children).replace(/\n$/, "")}
+                            </CodeBlock>
+                          );
+                        },
+                      }}
+                    >
+                      {sourceSummary}
+                    </Markdown>
                   </div>
                 ) : (
                   <Button
@@ -301,7 +316,26 @@ export default function SourceViewer({
                   {fullSource.content && (
                     <div className="overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
                       <div className="prose dark:prose-invert max-w-none text-base">
-                        <Markdown>{fullSource.content}</Markdown>
+                        <Markdown
+                          components={{
+                            code: ({ className, children }) => {
+                              const match = /language-(\w+)/.exec(
+                                className || ""
+                              );
+                              const inline = !match;
+                              return (
+                                <CodeBlock
+                                  inline={inline}
+                                  className={className}
+                                >
+                                  {String(children).replace(/\n$/, "")}
+                                </CodeBlock>
+                              );
+                            },
+                          }}
+                        >
+                          {fullSource.content}
+                        </Markdown>
                       </div>
                     </div>
                   )}
@@ -309,7 +343,21 @@ export default function SourceViewer({
               ) : (
                 <div className="h-auto min-h-[80%] w-full px-6 py-8 overflow-auto text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words select-text">
                   <div className="prose dark:prose-invert max-w-none text-base">
-                    <Markdown>{fullSource.content}</Markdown>
+                    <Markdown
+                      components={{
+                        code: ({ className, children }) => {
+                          const match = /language-(\w+)/.exec(className || "");
+                          const inline = !match;
+                          return (
+                            <CodeBlock inline={inline} className={className}>
+                              {String(children).replace(/\n$/, "")}
+                            </CodeBlock>
+                          );
+                        },
+                      }}
+                    >
+                      {fullSource.content}
+                    </Markdown>
                   </div>
                 </div>
               )}

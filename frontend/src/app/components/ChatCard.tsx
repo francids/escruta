@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Markdown from "react-markdown";
+import CodeBlock from "./CodeBlock";
 
 interface Message {
   id: string;
@@ -195,7 +196,21 @@ export default function ChatCard({
               </p>
             ) : notebookSummary ? (
               <div className="prose dark:prose-invert prose-sm max-w-none select-text">
-                <Markdown>{notebookSummary}</Markdown>
+                <Markdown
+                  components={{
+                    code: ({ className, children }) => {
+                      const match = /language-(\w+)/.exec(className || "");
+                      const inline = !match;
+                      return (
+                        <CodeBlock inline={inline} className={className}>
+                          {String(children).replace(/\n$/, "")}
+                        </CodeBlock>
+                      );
+                    },
+                  }}
+                >
+                  {notebookSummary}
+                </Markdown>
               </div>
             ) : (
               <Button
