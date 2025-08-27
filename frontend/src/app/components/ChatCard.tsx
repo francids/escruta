@@ -11,6 +11,7 @@ import {
 } from "./ui";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import Markdown from "react-markdown";
 
 interface Message {
   id: string;
@@ -28,7 +29,7 @@ export default function ChatCard({
   refreshTrigger,
 }: ChatCardProps) {
   const {
-    data: chatSummary,
+    data: notebookSummary,
     loading: isSummaryLoading,
     error: summaryError,
     refetch: refetchSummary,
@@ -60,6 +61,7 @@ export default function ChatCard({
 
   useEffect(() => {
     refetchSummary(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -110,7 +112,7 @@ export default function ChatCard({
           {messages.length == 0 &&
           !isChatLoading &&
           !isSummaryLoading &&
-          chatSummary ? (
+          notebookSummary ? (
             <Tooltip
               text={
                 isRegenerating
@@ -179,27 +181,31 @@ export default function ChatCard({
           transition={{ delay: 0.2, duration: 0.5 }}
           className="flex flex-col flex-grow min-h-0 max-h-full overflow-y-auto"
         >
-          <div className="text-muted-foreground select-text w-full max-w-lg mx-auto my-auto py-8">
+          <div className="text-muted-foreground w-full max-w-lg mx-auto my-auto py-8">
             <h3 className="text-xl font-semibold mb-3 text-foreground">
               Summary of the notebook
             </h3>
-            <p className="mt-1 mb-1 text-base font-medium leading-6">
-              {isSummaryLoading
-                ? "Loading summary..."
-                : summaryError
-                ? `Error: ${summaryError.message}`
-                : chatSummary || (
-                    <Button
-                      onClick={regenerateSummary}
-                      icon={isRegenerating ? <Spinner /> : null}
-                      disabled={isRegenerating}
-                    >
-                      {isRegenerating
-                        ? "Generating summary..."
-                        : "Generate summary"}
-                    </Button>
-                  )}
-            </p>
+            {isSummaryLoading ? (
+              <p className="mt-1 mb-1 text-base font-medium leading-6">
+                Loading summary...
+              </p>
+            ) : summaryError ? (
+              <p className="mt-1 mb-1 text-base font-medium leading-6">
+                Error: {summaryError.message}
+              </p>
+            ) : notebookSummary ? (
+              <div className="prose dark:prose-invert prose-sm max-w-none select-text">
+                <Markdown>{notebookSummary}</Markdown>
+              </div>
+            ) : (
+              <Button
+                onClick={regenerateSummary}
+                icon={isRegenerating ? <Spinner /> : null}
+                disabled={isRegenerating}
+              >
+                {isRegenerating ? "Generating summary..." : "Generate summary"}
+              </Button>
+            )}
           </div>
         </motion.div>
       )}
