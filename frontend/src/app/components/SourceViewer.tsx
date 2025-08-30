@@ -233,7 +233,9 @@ export default function SourceViewer({
             <div className="px-6 pt-4">
               <Card className="bg-gray-100/60 dark:bg-gray-700">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold">Summary</h3>
+                  <h3 className="text-lg font-semibold">
+                    Summary of this source
+                  </h3>
                   <div className="flex gap-2">
                     {sourceSummary && (
                       <Tooltip text="Delete summary" position="bottom">
