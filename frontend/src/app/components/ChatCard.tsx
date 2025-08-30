@@ -169,9 +169,7 @@ export default function ChatCard({
               transition={{ duration: 0.2 }}
               className="flex justify-start"
             >
-              <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-xs bg-muted select-text">
-                Thinking...
-              </div>
+              <Spinner />
             </motion.div>
           )}
         </div>
