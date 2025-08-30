@@ -31,6 +31,7 @@ spring:
       embedding:
         options:
           model: ${ESCRUTA_AI_EMBEDDING_MODEL}
+          dimensions: ${ESCRUTA_AI_EMBEDDING_DIMENSIONS:768}
         embeddings-path: ${ESCRUTA_AI_EMBEDDING_PATH:/v1/embeddings}
     vectorstore:
       pgvector:
