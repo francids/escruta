@@ -18,8 +18,6 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -30,9 +28,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class SourceService {
-
-    private static final Logger logger = LoggerFactory.getLogger(SourceService.class);
-
     private final SourceRepository sourceRepository;
     private final NotebookRepository notebookRepository;
     private final UserService userService;
@@ -187,8 +182,6 @@ public class SourceService {
             MultipartFile file,
             boolean aiConverter
     ) {
-        logger.info("Adding source from file: {} to notebook: {}", file.getOriginalFilename(), notebookId);
-
         var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
 
@@ -208,11 +201,9 @@ public class SourceService {
             }
 
             if (aiConverter) {
-                logger.info("Converting content to markdown using AI");
                 content = formatContentAsMarkdown(content);
             }
         } catch (Exception e) {
-            logger.error("Error processing file: {}", e.getMessage(), e);
             throw new RuntimeException("Error processing file: " + e.getMessage(), e);
         }
 
@@ -226,9 +217,7 @@ public class SourceService {
             source.setContent(content);
 
             source = sourceRepository.save(source);
-            logger.info("Successfully saved source with ID: {}", source.getId());
         } catch (Exception e) {
-            logger.error("Error while saving the source: {}", e.getMessage(), e);
             throw new RuntimeException("Error while saving the source: " + e.getMessage(), e);
         }
 
@@ -236,7 +225,6 @@ public class SourceService {
 
         asyncVectorIndexingService.indexSourceInVectorStore(notebookId, source, content);
 
-        logger.info("Successfully added source from file: {}", file.getOriginalFilename());
         return new SourceWithContentDTO(source);
     }
 
@@ -248,8 +236,7 @@ public class SourceService {
 
             source.setSummary(summary);
             sourceRepository.save(source);
-        } catch (Exception e) {
-            logger.error("Error generating summary for source {}: {}", source.getId(), e.getMessage(), e);
+        } catch (Exception ignored) {
         }
     }
 

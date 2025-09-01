@@ -75,7 +75,7 @@ public class SourceController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<SourceWithContentDTO> createNotebookSourceFromFile(
+    public ResponseEntity<?> createNotebookSourceFromFile(
             @PathVariable String notebookId,
             @RequestParam("file") MultipartFile file,
             @RequestParam("title") String title,
@@ -98,13 +98,9 @@ public class SourceController {
                     : ResponseEntity.badRequest().build();
         } catch (SecurityException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
         } catch (RuntimeException e) {
-            System.err.println("Error adding source from file: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            System.err.println("Unexpected error adding source from file: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

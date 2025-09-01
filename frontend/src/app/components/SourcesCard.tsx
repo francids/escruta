@@ -51,11 +51,7 @@ export default function SourcesCard({
   const [newSourceFile, setNewSourceFile] = useState<File | null>(null);
   const [newSourceLinkError, setNewSourceLinkError] = useState<string>("");
 
-  const {
-    loading: addingSource,
-    error: addingSourceError,
-    refetch: addSource,
-  } = useFetch<Source>(
+  const { loading: addingSource, refetch: addSource } = useFetch<Source>(
     sourceType === "File"
       ? `notebooks/${notebookId}/sources/upload?aiConverter=${isAIConverterEnabled}`
       : `notebooks/${notebookId}/sources?aiConverter=${isAIConverterEnabled}`,
@@ -87,6 +83,9 @@ export default function SourcesCard({
       },
       onError: (error) => {
         console.error("Error adding source:", error);
+        const errorMessage =
+          "response" in error ? error.response?.data : error.message;
+        setNewSourceLinkError("Failed to add source. " + errorMessage);
       },
     },
     false
@@ -98,6 +97,14 @@ export default function SourcesCard({
     if (sourceType === "File") {
       if (!newSourceFile) {
         setNewSourceLinkError("Please select a file");
+        return;
+      }
+
+      const maxFileSize = 50 * 1024 * 1024;
+      if (newSourceFile.size > maxFileSize) {
+        setNewSourceLinkError(
+          "File size exceeds the 50MB limit. Please select a smaller file."
+        );
         return;
       }
     } else {
@@ -245,14 +252,17 @@ export default function SourcesCard({
           />
 
           {sourceType === "File" ? (
-            <FilePicker
-              id="source-file"
-              label="Select file"
-              onChange={setNewSourceFile}
-              value={newSourceFile}
-              accept=".pdf,.docx,.txt,.md"
-              placeholder="PDF, DOCX, TXT, or Markdown files"
-            />
+            <>
+              <FilePicker
+                id="source-file"
+                label="Select file"
+                onChange={setNewSourceFile}
+                value={newSourceFile}
+                accept=".pdf,.docx,.txt,.md"
+                placeholder="PDF, DOCX, TXT, or Markdown files"
+              />
+              <div className="text-gray-500">Maximum file size: 50 MB</div>
+            </>
           ) : (
             <TextField
               id="source-link"
@@ -271,11 +281,6 @@ export default function SourcesCard({
 
           {newSourceLinkError && (
             <div className="text-red-500 text-sm">{newSourceLinkError}</div>
-          )}
-          {addingSourceError && (
-            <div className="text-red-500 text-sm">
-              Error: {addingSourceError.message}
-            </div>
           )}
         </div>
       </Modal>
