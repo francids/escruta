@@ -34,7 +34,9 @@ class ChatController {
             6. If you are asked to perform a task that is not related to the provided sources, politely decline and remind the user that you can only work with the given information.
             7. When asked to summarize, create a concise summary of the text provided. The summary should be a single paragraph of 2-3 sentences.
             8. IMPORTANT: Do not include any thinking process or reasoning in your response. Do not use <think> tags. Provide only the final answer or summary.
-            9. Always work with the sources provided to you in this conversation. Sources are available unless explicitly stated otherwise.""";
+            9. Always work with the sources provided to you in this conversation. Sources are available unless explicitly stated otherwise.
+            10. Format your responses using only basic markdown: **bold**, *italic*, `inline code`, ```code blocks```, and simple lists (- or 1.). You may use bold and italics to highlight important information, depending on the question. Do not use headers, tables, links, or other complex markdown elements.
+        """;
 
     private static final String RAG_PROMPT_TEMPLATE = """
             {system}

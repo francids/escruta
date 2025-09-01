@@ -220,6 +220,15 @@ html.dark input:-webkit-autofill:active {
   font-size: 1rem;
   line-height: 1.5;
 }
+.prose strong {
+  font-weight: 700;
+}
+.prose em {
+  font-style: italic;
+}
+.prose u {
+  text-decoration: underline;
+}
 .prose ul,
 .prose ol {
   margin-top: 0.2em;

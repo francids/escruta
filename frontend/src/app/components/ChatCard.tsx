@@ -151,13 +151,44 @@ export default function ChatCard({
                 }`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
+                  className={`max-w-xs lg:max-w-md flex flex-col gap-3 px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
                     msg.sender === "user"
                       ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
                       : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
                   }`}
                 >
-                  <p className="text-base leading-relaxed">{msg.text}</p>
+                  <Markdown
+                    allowedElements={[
+                      "p",
+                      "strong",
+                      "em",
+                      "u",
+                      "code",
+                      "pre",
+                      "ul",
+                      "ol",
+                      "li",
+                      "br",
+                    ]}
+                    components={{
+                      code: ({ className, children }) => {
+                        const match = /language-(\w+)/.exec(className || "");
+                        const inline = !match;
+                        return (
+                          <CodeBlock inline={inline} className={className}>
+                            {String(children).replace(/\n$/, "")}
+                          </CodeBlock>
+                        );
+                      },
+                      ul: ({ children }) => {
+                        return (
+                          <ul className="list-disc list-inside">{children}</ul>
+                        );
+                      },
+                    }}
+                  >
+                    {msg.text}
+                  </Markdown>
                 </div>
               </motion.div>
             ))}
@@ -195,6 +226,18 @@ export default function ChatCard({
             ) : notebookSummary ? (
               <div className="prose dark:prose-invert prose-sm max-w-none select-text">
                 <Markdown
+                  allowedElements={[
+                    "p",
+                    "strong",
+                    "em",
+                    "u",
+                    "code",
+                    "pre",
+                    "ul",
+                    "ol",
+                    "li",
+                    "br",
+                  ]}
                   components={{
                     code: ({ className, children }) => {
                       const match = /language-(\w+)/.exec(className || "");
