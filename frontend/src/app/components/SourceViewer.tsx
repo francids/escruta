@@ -47,6 +47,7 @@ export default function SourceViewer({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [currentSourceId, setCurrentSourceId] = useState<string>(source.id);
   const [showCopyToast, setShowCopyToast] = useState(false);
+  const [copyToastMessage, setCopyToastMessage] = useState("");
 
   const sourceType = getSourceType(source);
   const youtubeVideoId =
@@ -140,11 +141,7 @@ export default function SourceViewer({
       <Toast
         isVisible={showCopyToast}
         onClose={() => setShowCopyToast(false)}
-        message={
-          sourceType === "YouTube Video"
-            ? "Video URL copied to clipboard"
-            : "Source content copied to clipboard"
-        }
+        message={copyToastMessage}
         type="success"
         position="bottom-right"
         duration={1500}
@@ -180,7 +177,12 @@ export default function SourceViewer({
                         sourceType === "YouTube Video"
                           ? fullSource?.link || source.link
                           : fullSource?.content || "";
+                      const message =
+                        sourceType === "YouTube Video"
+                          ? "Video URL copied to clipboard"
+                          : "Source content copied to clipboard";
                       navigator.clipboard.writeText(textToCopy);
+                      setCopyToastMessage(message);
                       setShowCopyToast(true);
                     }}
                   />
@@ -241,6 +243,20 @@ export default function SourceViewer({
                     Summary of this source
                   </h3>
                   <div className="flex gap-2">
+                    {sourceSummary && (
+                      <Tooltip text="Copy summary" position="bottom">
+                        <IconButton
+                          icon={<CopyIcon />}
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            navigator.clipboard.writeText(sourceSummary);
+                            setCopyToastMessage("Summary copied to clipboard");
+                            setShowCopyToast(true);
+                          }}
+                        />
+                      </Tooltip>
+                    )}
                     {sourceSummary && (
                       <Tooltip text="Delete summary" position="bottom">
                         <IconButton
