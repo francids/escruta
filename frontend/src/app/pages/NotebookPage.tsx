@@ -10,11 +10,12 @@ import {
   Button,
   Modal,
 } from "../components/ui";
+import type { TabsRef } from "../components/ui/Tab";
 import { motion, AnimatePresence } from "motion/react";
 import CommonBar from "../components/CommonBar";
 import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type Notebook from "../interfaces/Notebook";
 import type Note from "../interfaces/Note";
 import type Source from "../interfaces/Source";
@@ -37,6 +38,20 @@ export default function NotebookPage() {
   const [selectedSource, setSelectedSource] = useState<Source | null>(null);
   const [notesRefreshKey, setNotesRefreshKey] = useState<number>(0);
   const [sourcesRefreshKey, setSourcesRefreshKey] = useState<number>(0);
+  const tabsRef = useRef<TabsRef>(null);
+
+  const handleSourceSelectFromChat = (sourceId: string) => {
+    const tempSource: Source = {
+      id: sourceId,
+      notebookId: notebookId,
+      title: "",
+      link: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    setSelectedSource(tempSource);
+    tabsRef.current?.setActiveTab("1");
+  };
 
   useEffect(() => {
     if (notebook?.title) {
@@ -112,6 +127,7 @@ export default function NotebookPage() {
       <section className="grid grid-cols-12 grid-rows-1 gap-4 h-full max-h-full overflow-hidden relative">
         <div className="col-span-5 relative">
           <Tab
+            ref={tabsRef}
             className="h-full"
             items={[
               {
@@ -222,7 +238,11 @@ export default function NotebookPage() {
         </div>
 
         {/* Chat */}
-        <ChatCard notebookId={notebookId} refreshTrigger={sourcesRefreshKey} />
+        <ChatCard
+          notebookId={notebookId}
+          refreshTrigger={sourcesRefreshKey}
+          onSourceSelect={handleSourceSelectFromChat}
+        />
 
         {/* Tools */}
         <ToolsCard />

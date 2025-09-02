@@ -50,7 +50,9 @@ export default function SourceViewer({
 
   const sourceType = getSourceType(source);
   const youtubeVideoId =
-    sourceType === "YouTube Video" ? getYouTubeVideoId(source.link) : null;
+    sourceType === "YouTube Video"
+      ? getYouTubeVideoId(fullSource?.link || source.link)
+      : null;
 
   useEffect(() => {
     if (source.id !== currentSourceId) {
@@ -156,7 +158,9 @@ export default function SourceViewer({
                 <div className="text-gray-600 dark:text-gray-300 flex-shrink-0 w-5 h-5">
                   {getSourceTypeIcon(sourceType)}
                 </div>
-                <h2 className="truncate">{source.title || "Source viewer"}</h2>
+                <h2 className="truncate">
+                  {fullSource?.title || source.title || "Source viewer"}
+                </h2>
               </div>
               <div className="flex gap-2">
                 <Tooltip
@@ -174,7 +178,7 @@ export default function SourceViewer({
                     onClick={() => {
                       const textToCopy =
                         sourceType === "YouTube Video"
-                          ? source.link
+                          ? fullSource?.link || source.link
                           : fullSource?.content || "";
                       navigator.clipboard.writeText(textToCopy);
                       setShowCopyToast(true);
@@ -189,7 +193,7 @@ export default function SourceViewer({
                       size="sm"
                       onClick={() => {
                         window.open(
-                          source.link,
+                          fullSource?.link,
                           "_blank",
                           "noopener noreferrer"
                         );

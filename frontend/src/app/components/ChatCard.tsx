@@ -9,25 +9,172 @@ import {
   Button,
   Spinner,
 } from "./ui";
+import CodeBlock from "./CodeBlock";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import Markdown from "react-markdown";
-import CodeBlock from "./CodeBlock";
 
 interface Message {
   id: string;
   text: string;
   sender: "user" | "ai";
+  citedSources?: CitedSource[];
+}
+
+interface CitedSource {
+  id: string;
+  title: string;
+}
+
+interface ChatApiResponse {
+  content: string;
+  citedSources: CitedSource[];
 }
 
 interface ChatCardProps {
   notebookId: string;
   refreshTrigger?: number;
+  onSourceSelect?: (sourceId: string) => void;
+}
+
+function processMarkdownText(text: string, isUserMessage: boolean = false) {
+  if (!text) return [];
+
+  const isSystemMessage = [
+    "I don't have any relevant sources",
+    "The available sources don't contain",
+    "I couldn't generate a response",
+    "No sources are available",
+    "The sources in this notebook",
+    "Unable to generate",
+    "An error occurred",
+  ].some((phrase) => text.startsWith(phrase));
+
+  if (isSystemMessage && !isUserMessage) {
+    return [
+      <div
+        key="system-message"
+        className="italic text-gray-600 dark:text-gray-400"
+      >
+        {text}
+      </div>,
+    ];
+  }
+
+  const codeBlockRegex = /```(\w+)?\n?([\s\S]*?)```/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = codeBlockRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      const beforeCode = text.slice(lastIndex, match.index);
+      if (beforeCode.trim()) {
+        parts.push({ type: "text", content: beforeCode });
+      }
+    }
+
+    parts.push({
+      type: "code",
+      language: match[1] || "",
+      content: match[2],
+    });
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    const remaining = text.slice(lastIndex);
+    if (remaining.trim()) {
+      parts.push({ type: "text", content: remaining });
+    }
+  }
+
+  if (parts.length === 0) {
+    parts.push({ type: "text", content: text });
+  }
+
+  return parts.map((part, index) => {
+    if (part.type === "code") {
+      return (
+        <CodeBlock
+          key={index}
+          className={part.language ? `language-${part.language}` : ""}
+        >
+          {part.content}
+        </CodeBlock>
+      );
+    }
+
+    return (
+      <div key={index}>{processTextContent(part.content, isUserMessage)}</div>
+    );
+  });
+}
+
+function processTextContent(text: string, isUserMessage: boolean) {
+  const linkColorClass = isUserMessage
+    ? "text-blue-300 hover:text-blue-200"
+    : "text-blue-500 hover:text-blue-400";
+
+  const processed = text
+    .replace(
+      /`([^`]+)`/g,
+      '<code class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-1.5 py-0.5 rounded-xs text-sm font-mono">$1</code>'
+    )
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(
+      /\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,
+      `<a href="$2" target="_blank" rel="noopener noreferrer" class="${linkColorClass} underline">$1</a>`
+    );
+
+  const paragraphs = processed.split(/\n\s*\n/).filter((p) => p.trim());
+
+  return paragraphs.map((paragraph, idx) => {
+    if (paragraph.match(/^\s*[-*]\s/m)) {
+      const items = paragraph
+        .split(/\n(?=\s*[-*]\s)/)
+        .map((item) => item.replace(/^\s*[-*]\s/, "").trim())
+        .filter((item) => item);
+
+      return (
+        <ul key={idx} className="list-disc pl-5 my-2 space-y-1">
+          {items.map((item, itemIdx) => (
+            <li key={itemIdx} dangerouslySetInnerHTML={{ __html: item }} />
+          ))}
+        </ul>
+      );
+    }
+
+    if (paragraph.match(/^\s*\d+\.\s/m)) {
+      const items = paragraph
+        .split(/\n(?=\s*\d+\.\s)/)
+        .map((item) => item.replace(/^\s*\d+\.\s/, "").trim())
+        .filter((item) => item);
+
+      return (
+        <ol key={idx} className="list-decimal pl-5 my-2 space-y-1">
+          {items.map((item, itemIdx) => (
+            <li key={itemIdx} dangerouslySetInnerHTML={{ __html: item }} />
+          ))}
+        </ol>
+      );
+    }
+
+    return (
+      <p
+        key={idx}
+        className="my-2"
+        dangerouslySetInnerHTML={{ __html: paragraph.trim() }}
+      />
+    );
+  });
 }
 
 export default function ChatCard({
   notebookId,
   refreshTrigger,
+  onSourceSelect,
 }: ChatCardProps) {
   const {
     data: notebookSummary,
@@ -68,38 +215,63 @@ export default function ChatCard({
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
 
+  const handleSourceClick = (sourceId: string) => {
+    if (
+      !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(
+        sourceId
+      )
+    ) {
+      console.warn("Invalid source ID format:", sourceId);
+      return;
+    }
+    onSourceSelect?.(sourceId);
+  };
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
+    const userInput = input.trim();
     const newMessage: Message = {
       id: Date.now().toString(),
-      text: input,
+      text: userInput,
       sender: "user",
     };
+
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     setInput("");
-    await fetchChatResponse(true);
+
+    try {
+      await fetchChatResponse(true);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   const { loading: isChatLoading, refetch: fetchChatResponse } =
-    useFetch<string>(
+    useFetch<ChatApiResponse>(
       `notebooks/${notebookId}/chat`,
       {
         method: "POST",
         data: {
-          userInput: input,
-          // messages,
+          userInput: input.trim(),
         },
         onSuccess: (response) => {
           const aiResponse: Message = {
-            id: Date.now().toString(),
-            text: response,
+            id: (Date.now() + 1).toString(),
+            text: response.content,
             sender: "ai",
+            citedSources: response.citedSources,
           };
           setMessages((prevMessages) => [...prevMessages, aiResponse]);
         },
         onError: (error) => {
           console.error("Error fetching chat response:", error);
+          const errorResponse: Message = {
+            id: (Date.now() + 1).toString(),
+            text: "Sorry, I encountered an error while processing your request. Please try again.",
+            sender: "ai",
+          };
+          setMessages((prevMessages) => [...prevMessages, errorResponse]);
         },
       },
       false
@@ -157,38 +329,29 @@ export default function ChatCard({
                       : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
                   }`}
                 >
-                  <Markdown
-                    allowedElements={[
-                      "p",
-                      "strong",
-                      "em",
-                      "u",
-                      "code",
-                      "pre",
-                      "ul",
-                      "ol",
-                      "li",
-                      "br",
-                    ]}
-                    components={{
-                      code: ({ className, children }) => {
-                        const match = /language-(\w+)/.exec(className || "");
-                        const inline = !match;
-                        return (
-                          <CodeBlock inline={inline} className={className}>
-                            {String(children).replace(/\n$/, "")}
-                          </CodeBlock>
-                        );
-                      },
-                      ul: ({ children }) => {
-                        return (
-                          <ul className="list-disc list-inside">{children}</ul>
-                        );
-                      },
-                    }}
-                  >
-                    {msg.text}
-                  </Markdown>
+                  {processMarkdownText(msg.text, msg.sender === "user")}
+                  {msg.sender === "ai" &&
+                    msg.citedSources &&
+                    msg.citedSources.length > 0 && (
+                      <div className="pt-3 border-t border-gray-200 dark:border-gray-600">
+                        <div className="flex flex-wrap gap-2">
+                          {msg.citedSources.map((source, index) => (
+                            <button
+                              key={source.id}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleSourceClick(source.id);
+                              }}
+                              className="text-xs bg-gray-200/50 dark:bg-gray-600 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-xs hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors cursor-pointer"
+                              title={source.title}
+                            >
+                              {source.title || `Source ${index + 1}`}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                 </div>
               </motion.div>
             ))}
@@ -225,33 +388,7 @@ export default function ChatCard({
               </p>
             ) : notebookSummary ? (
               <div className="prose dark:prose-invert prose-sm max-w-none select-text">
-                <Markdown
-                  allowedElements={[
-                    "p",
-                    "strong",
-                    "em",
-                    "u",
-                    "code",
-                    "pre",
-                    "ul",
-                    "ol",
-                    "li",
-                    "br",
-                  ]}
-                  components={{
-                    code: ({ className, children }) => {
-                      const match = /language-(\w+)/.exec(className || "");
-                      const inline = !match;
-                      return (
-                        <CodeBlock inline={inline} className={className}>
-                          {String(children).replace(/\n$/, "")}
-                        </CodeBlock>
-                      );
-                    },
-                  }}
-                >
-                  {notebookSummary}
-                </Markdown>
+                {processMarkdownText(notebookSummary, false)}
               </div>
             ) : (
               <Button
