@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useModal } from "../../contexts/ModalContext";
+import { useModal } from "@/hooks";
 import { useState } from "react";
 
 export default function Tooltip({

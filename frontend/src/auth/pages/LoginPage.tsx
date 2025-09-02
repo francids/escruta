@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
-import useCookie from "../../hooks/useCookie";
-import PatternBackground from "../../shared/PatternBackground";
-import Logo from "../../shared/Logo";
+import { useAuth, useCookie } from "@/hooks";
+import PatternBackground from "@/shared/PatternBackground";
+import Logo from "@/shared/Logo";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function LoginPage() {

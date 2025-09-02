@@ -1,10 +1,9 @@
-import NotebookCard from "../components/NotebookCard";
-import type Notebook from "../interfaces/Notebook";
-import useFetch from "../../hooks/useFetch";
-import useCookie from "../../hooks/useCookie";
-import Logo from "../../shared/Logo";
-import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import { useState } from "react";
+import type { Notebook } from "@/interfaces";
+import { useCookie, useFetch } from "@/hooks";
+import Logo from "@/shared/Logo";
+import { Button, Dropdown, Modal, TextField } from "../components/ui";
+import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
 
 enum SortOptions {

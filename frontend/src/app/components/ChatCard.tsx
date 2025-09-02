@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "@/hooks";
 import { FireIcon, RestartIcon, SendIcon } from "./icons";
 import {
   Card,

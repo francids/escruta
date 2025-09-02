@@ -1,9 +1,8 @@
 import { Link } from "react-router";
-import Logo from "../../shared/Logo";
-import { useAuth } from "../../hooks/useAuth";
-import { useScroll } from "../../hooks/useScroll";
+import Logo from "@/shared/Logo";
+import { useAuth, useScroll } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
-import { justLanding, repoUrl } from "../../config";
+import { justLanding, repoUrl } from "@/config";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {

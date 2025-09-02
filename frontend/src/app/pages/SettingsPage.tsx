@@ -1,5 +1,5 @@
-import useCookie from "../../hooks/useCookie";
-import type User from "../../auth/interfaces/User";
+import { useCookie } from "@/hooks";
+import type { User } from "@/interfaces";
 import {
   AccountSection,
   AppearanceSection,

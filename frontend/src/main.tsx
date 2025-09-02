@@ -1,22 +1,21 @@
 import { createRoot } from "react-dom/client";
-import { AuthProvider } from "./auth/AuthProvider.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { ModalProvider } from "./app/contexts/ModalContext.tsx";
+import { AuthProvider, ModalProvider } from "./providers";
 
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 
-import LandingLayout from "./landing/LandingLayout.tsx";
-import LandingRoutes from "./landing/LandingRoutes.tsx";
-import LoginPage from "./auth/pages/LoginPage.tsx";
-import RegisterPage from "./auth/pages/RegisterPage.tsx";
-import AppRoutes from "./app/AppRoutes.tsx";
-import ProtectedRoute from "./auth/ProtectedRoute.tsx";
+import LandingLayout from "./landing/LandingLayout";
+import LandingRoutes from "./landing/LandingRoutes";
+import LoginPage from "./auth/pages/LoginPage";
+import RegisterPage from "./auth/pages/RegisterPage";
+import AppRoutes from "./app/AppRoutes";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
-import NotFound from "./NotFound.tsx";
+import NotFound from "./NotFound";
 
 import "./index.css";
-import { justLanding } from "./config.ts";
+import { justLanding } from "./config";
 
 const router = createBrowserRouter(
   justLanding

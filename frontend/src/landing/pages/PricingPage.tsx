@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import SimpleBackground from "../components/backgrounds/SimpleBackground";
-import { repoUrl } from "../../config";
+import { repoUrl } from "@/config";
 
 interface PricingOption {
   title: string;

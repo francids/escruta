@@ -1,10 +1,9 @@
-import { NavLink, useLocation } from "react-router";
-import { useNavigate } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
+import { NavLink, useLocation, useNavigate } from "react-router";
+import { useAuth } from "@/hooks";
 import { Tooltip, Button, Modal } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import { useState } from "react";
-import AppIcon from "../../shared/AppIcon";
+import AppIcon from "@/shared/AppIcon";
 
 type SideItemMenuProps = {
   icon: React.ReactNode;

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
-import { repoUrl } from "../../config";
+import { repoUrl } from "@/config";
 import GradientBackgroundImage from "../assets/Gradient.png";
 
 export default function OpenSourceSection() {

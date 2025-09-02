@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import { Modal, Button } from "../../app/components/ui";
-import { useAuth } from "../../hooks/useAuth";
+import { Modal, Button } from "@/app/components/ui";
+import { useAuth } from "@/hooks";
 
 type TokenExpirationModalProps = {
   isOpen: boolean;

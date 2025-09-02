@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type User from "./interfaces/User";
+import type { User } from "../interfaces";
 import type { AxiosError, AxiosResponse } from "axios";
 
 interface AuthContextType {
@@ -18,4 +18,4 @@ interface AuthContextType {
   fetchUserData: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export default createContext<AuthContextType | null>(null);

@@ -1,11 +1,10 @@
-import { useAuth } from "../../hooks/useAuth";
-import SideMenu from "../components/SideMenu";
-import { Outlet, useLocation } from "react-router";
 import { useEffect } from "react";
-import useCookie from "../../hooks/useCookie";
-import type User from "../../auth/interfaces/User";
+import { Outlet, useLocation } from "react-router";
 import { AnimatePresence } from "motion/react";
-import PageTransition from "../../shared/PageTransition";
+import { useAuth, useCookie } from "@/hooks";
+import type { User } from "@/interfaces";
+import PageTransition from "@/shared/PageTransition";
+import SideMenu from "../components/SideMenu";
 
 export default function AppLayout() {
   const { currentUser, fetchUserData } = useAuth();

@@ -1,17 +1,11 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { useCallback, useState } from "react";
+import { ModalContext } from "@/contexts";
 
-interface ModalContextType {
-  isAnyModalOpen: boolean;
-  modalCount: number;
-  openModal: (id: string) => void;
-  closeModal: (id: string) => void;
-  getModalZIndex: (id: string) => number;
-  isTopModal: (id: string) => boolean;
-}
-
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
-
-export function ModalProvider({ children }: { children: React.ReactNode }) {
+export default function ModalProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [modalStack, setModalStack] = useState<string[]>([]);
 
   const openModal = useCallback((id: string) => {
@@ -49,13 +43,4 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
   );
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function useModal() {
-  const context = useContext(ModalContext);
-  if (context === undefined) {
-    throw new Error("useModal must be used within a ModalProvider");
-  }
-  return context;
 }

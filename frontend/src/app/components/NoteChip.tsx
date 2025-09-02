@@ -1,4 +1,4 @@
-import type Note from "../interfaces/Note";
+import type { Note } from "@/interfaces";
 
 interface NoteChipProps {
   note: Note;

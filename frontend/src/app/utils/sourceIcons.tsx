@@ -1,6 +1,6 @@
 import { LinkIcon, FileIcon, YouTubeIcon } from "../components/icons";
 import type { SourceType } from "./sourceUtils";
-import type Source from "../interfaces/Source";
+import type { Source } from "@/interfaces";
 import { getSourceType } from "./sourceUtils";
 
 export function getSourceTypeIcon(sourceType: SourceType) {

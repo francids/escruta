@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import useCookie from "./useCookie";
-import backendClient from "../backend";
+import backendClient from "@/backend";
 import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from "axios";
-import { AUTH_TOKEN_KEY } from "../config";
-import type Token from "../auth/interfaces/Token";
+import { AUTH_TOKEN_KEY } from "@/config";
+import type { Token } from "@/interfaces";
 
 interface UseFetchState<T> {
   data: T | null;
@@ -39,7 +39,7 @@ function generateCacheKey(
   )}:${JSON.stringify(data || {})}`;
 }
 
-function useFetch<T = unknown>(
+export default function useFetch<T = unknown>(
   endpoint: string,
   options?: UseFetchOptions<T>,
   immediate: boolean = true
@@ -167,5 +167,3 @@ useFetch.clearCache = (cacheKey?: string) => {
     Object.keys(cache).forEach((key) => delete cache[key]);
   }
 };
-
-export default useFetch;

@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
-import { useAuth } from "../../hooks/useAuth";
-import { justLanding, repoUrl } from "../../config";
+import { useAuth } from "@/hooks";
+import { justLanding, repoUrl } from "@/config";
 
 export default function CTASection() {
   const { isAuthenticated } = useAuth();

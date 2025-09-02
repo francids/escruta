@@ -1,4 +1,4 @@
-import type User from "../../auth/interfaces/User";
+import type User from "./User";
 import type Note from "./Note";
 import type Source from "./Source";
 

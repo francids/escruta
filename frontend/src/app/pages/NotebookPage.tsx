@@ -1,6 +1,7 @@
+import { useEffect, useState, useRef } from "react";
 import { useLoaderData } from "react-router";
-import useFetch from "../../hooks/useFetch";
-import type NotebookContent from "../interfaces/NotebookContent";
+import { useFetch } from "@/hooks";
+import type { Note, Source, Notebook, NotebookContent } from "@/interfaces";
 import { EditIcon } from "../components/icons";
 import {
   Tooltip,
@@ -15,10 +16,6 @@ import { motion, AnimatePresence } from "motion/react";
 import CommonBar from "../components/CommonBar";
 import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";
-import { useEffect, useState, useRef } from "react";
-import type Notebook from "../interfaces/Notebook";
-import type Note from "../interfaces/Note";
-import type Source from "../interfaces/Source";
 import ChatCard from "../components/ChatCard";
 import NoteEditor from "../components/NoteEditor";
 import SourceViewer from "../components/SourceViewer";

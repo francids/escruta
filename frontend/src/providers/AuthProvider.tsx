@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import authService from "./AuthService";
-import useCookie from "../hooks/useCookie";
-import { AUTH_TOKEN_KEY } from "../config";
-import { AuthContext } from "./AuthContext";
-import type User from "./interfaces/User";
-import type Token from "./interfaces/Token";
-import useFetch from "../hooks/useFetch";
+import { AuthService } from "@/services";
+import { useCookie, useFetch } from "@/hooks";
+import { AUTH_TOKEN_KEY } from "@/config";
+import { AuthContext } from "@/contexts";
+import type { Token, User } from "@/interfaces";
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [tokenCookie, setTokenCookie] = useCookie<Token>(AUTH_TOKEN_KEY, {
     token: null,
     expiresIn: 0,
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   ) as [User | null, (value: User | null) => void];
 
   const login = async (email: string, password: string) => {
-    const response = await authService.login(email, password);
+    const response = await AuthService.login(email, password);
     if (response.token) {
       setTokenCookie({
         token: response.token,
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     password: string,
     fullName: string
   ) => {
-    const response = await authService.register(email, password, fullName);
+    const response = await AuthService.register(email, password, fullName);
     if (response.status === 201 && response.data.token) {
       setTokenCookie({
         token: response.data.token,
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUserData = useCallback(async () => {
     if (tokenCookie!.token) {
       try {
-        const userData = await authService.getUser();
+        const userData = await AuthService.getUser();
         setCurrentUser(userData);
       } catch (err) {
         console.error("Error fetching user data:", err);
@@ -117,4 +119,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}

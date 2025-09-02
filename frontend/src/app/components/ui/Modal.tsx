@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
 import { CloseIcon } from "../icons";
-import { useModal } from "../../contexts/ModalContext";
+import { useModal } from "@/hooks";
 
 type ModalProps = {
   isOpen: boolean;

@@ -1,9 +1,8 @@
-import type Notebook from "../interfaces/Notebook";
-import { Button, Menu, Modal } from "./ui";
+import type { Notebook } from "@/interfaces";
+import { Button, Menu, Modal, IconButton } from "./ui";
 import { NotebookIcon, DotsVerticalIcon } from "./icons";
-import { IconButton } from "./ui";
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "@/hooks";
 import { useNavigate } from "react-router";
 
 export default function NotebookCard({ notebook }: { notebook: Notebook }) {

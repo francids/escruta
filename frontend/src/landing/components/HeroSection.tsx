@@ -5,7 +5,7 @@ import AppDesktopImage from "../assets/AppDesktop.png";
 import AppMobileImage from "../assets/AppMobile.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
-import { justLanding, repoUrl } from "../../config";
+import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (

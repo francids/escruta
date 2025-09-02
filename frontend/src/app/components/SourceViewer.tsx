@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import type Source from "../interfaces/Source";
+import { useFetch } from "@/hooks";
+import type { Source } from "@/interfaces";
 import {
   CloseIcon,
   DeleteIcon,

@@ -1,9 +1,16 @@
-import type Note from "../interfaces/Note";
-import Card from "./ui/Card";
+import type { Note } from "@/interfaces";
 import { AddIcon } from "./icons";
 import NoteChip from "./NoteChip";
-import { Button, Divider, IconButton, Modal, TextField, Tooltip } from "./ui";
-import useFetch from "../../hooks/useFetch";
+import {
+  Card,
+  Button,
+  Divider,
+  IconButton,
+  Modal,
+  TextField,
+  Tooltip,
+} from "./ui";
+import { useFetch } from "@/hooks";
 import { useState, useEffect } from "react";
 
 interface NotesCardProps {

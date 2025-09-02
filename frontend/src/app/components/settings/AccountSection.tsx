@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField } from "../ui";
-import type User from "../../../auth/interfaces/User";
+import type { User } from "@/interfaces";
 import CommonBar from "../CommonBar";
-import useFetch from "../../../hooks/useFetch";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth, useFetch } from "@/hooks";
 
 interface AccountSectionProps {
   user: User | null;

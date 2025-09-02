@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
-import PatternBackground from "../../shared/PatternBackground";
-import Logo from "../../shared/Logo";
+import { useAuth } from "@/hooks";
+import PatternBackground from "@/shared/PatternBackground";
+import Logo from "@/shared/Logo";
 import { motion, AnimatePresence } from "motion/react";
-import { Toast } from "../../app/components/ui";
+import { Toast } from "@/app/components/ui";
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");

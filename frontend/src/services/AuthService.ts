@@ -1,11 +1,14 @@
-import backendClient from "../backend";
+import backendClient from "@/backend";
 import Cookies from "js-cookie";
-import { AUTH_TOKEN_KEY } from "../config";
+import { AUTH_TOKEN_KEY } from "@/config";
 import type { AxiosResponse } from "axios";
 
-export const authService = {
+export default {
   login: async (email: string, password: string) => {
-    const response: AxiosResponse = await backendClient.post("/login", { email, password });
+    const response: AxiosResponse = await backendClient.post("/login", {
+      email,
+      password,
+    });
     return response.data;
   },
   register: async (email: string, password: string, fullName: string) => {
@@ -24,7 +27,5 @@ export const authService = {
       },
     });
     return response.data;
-  }
+  },
 };
-
-export default authService;

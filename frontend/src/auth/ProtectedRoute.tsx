@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import LoginPage from "./pages/LoginPage";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@/hooks";
 import { useCallback, useEffect, useState } from "react";
 import TokenExpirationModal from "./components/TokenExpirationModal";
 

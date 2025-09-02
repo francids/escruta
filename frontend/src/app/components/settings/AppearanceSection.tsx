@@ -1,4 +1,4 @@
-import useTheme from "../../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import CommonBar from "../CommonBar";
 import { Dropdown } from "../ui";
 

@@ -1,4 +1,4 @@
-import type Source from "../interfaces/Source";
+import type { Source } from "@/interfaces";
 import { AddIcon, StarsIcon } from "./icons";
 import SourceChip from "./SourceChip";
 import {
@@ -14,7 +14,7 @@ import {
   FilePicker,
 } from "./ui";
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "@/hooks";
 import type { SourceType } from "../utils";
 
 interface SourcesCardProps {

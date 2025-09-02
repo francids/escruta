@@ -1,4 +1,4 @@
-import type Source from "../interfaces/Source";
+import type Source from "../../interfaces/Source";
 
 export type SourceType = "Website" | "YouTube Video" | "File";
 

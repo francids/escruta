@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import SettingsPage from "./pages/SettingsPage";
 import NotebookPage from "./pages/NotebookPage";
 
-const appRoutes: RouteObject[] = [
+export default <RouteObject[]>[
   {
     path: "app",
     Component: AppLayout,
@@ -31,5 +31,3 @@ const appRoutes: RouteObject[] = [
     ],
   },
 ];
-
-export default appRoutes;
