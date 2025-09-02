@@ -51,20 +51,20 @@ export default function useTheme() {
   }, [themePreference]);
 
   useEffect(() => {
-    if (themePreference === ThemeOptions.System) {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-      const handleChange = (e: MediaQueryListEvent) => {
+    const handleChange = (e: MediaQueryListEvent) => {
+      if ((themePreference || ThemeOptions.System) === ThemeOptions.System) {
         const theme = e.matches ? "dark" : "light";
         applyTheme(theme);
-      };
+      }
+    };
 
-      mediaQuery.addEventListener("change", handleChange);
+    mediaQuery.addEventListener("change", handleChange);
 
-      return () => {
-        mediaQuery.removeEventListener("change", handleChange);
-      };
-    }
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, [themePreference]);
 
   const setTheme = (newTheme: ThemeOptions) => {
