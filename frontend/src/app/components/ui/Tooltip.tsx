@@ -1,20 +1,27 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "@/hooks";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
+
+interface TooltipProps {
+  children: React.ReactNode;
+  text: string;
+  position?: "top" | "bottom" | "left" | "right";
+  disabled?: boolean;
+  className?: string;
+}
 
 export default function Tooltip({
   children,
   text,
   position = "top",
-}: {
-  children: React.ReactNode;
-  text: string;
-  position?: "top" | "bottom" | "left" | "right";
-}) {
+  disabled = false,
+  className = "",
+}: TooltipProps) {
   const { isAnyModalOpen } = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  if (isAnyModalOpen) {
+  if (isAnyModalOpen || disabled) {
     return <>{children}</>;
   }
 
@@ -27,7 +34,7 @@ export default function Tooltip({
 
   return (
     <div
-      className="relative"
+      className={twMerge("relative", className)}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >
@@ -42,7 +49,7 @@ export default function Tooltip({
               duration: 0.15,
               ease: "easeOut",
             }}
-            className={`absolute ${positionClasses[position]} select-text whitespace-normal break-words rounded-xs bg-black dark:bg-white py-1.5 px-3 text-center text-sm text-white dark:text-black z-30`}
+            className={`absolute ${positionClasses[position]} select-text whitespace-normal break-normal rounded-xs bg-black dark:bg-white py-1.5 px-3 text-center text-sm text-white dark:text-black z-30`}
           >
             {text}
           </motion.div>

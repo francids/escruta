@@ -278,7 +278,7 @@ export default function ChatCard({
     );
 
   return (
-    <Card className="col-span-6 flex flex-col h-full">
+    <Card className="flex flex-col h-full">
       <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
         <h2 className="text-lg font-sans font-normal">Chat</h2>
         <div className="flex gap-3">

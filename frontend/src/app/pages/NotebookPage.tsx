@@ -121,118 +121,116 @@ export default function NotebookPage() {
           />
         </Tooltip>
       </CommonBar>
-      <section className="grid grid-cols-12 grid-rows-1 gap-4 h-full max-h-full overflow-hidden relative">
-        <div className="col-span-5 relative">
-          <Tab
-            ref={tabsRef}
-            className="h-full"
-            items={[
-              {
-                id: "1",
-                label: "Sources",
-                content: (
-                  <div className="relative h-full w-full">
-                    <AnimatePresence>
-                      {selectedSource ? (
-                        <motion.div
-                          key={selectedSource.id}
-                          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 30,
-                            duration: 0.3,
+      <section className="grid grid-cols-1  md:grid-cols-[1fr_1fr_96px] grid-rows-1 gap-4 h-full max-h-full overflow-hidden relative">
+        <Tab
+          ref={tabsRef}
+          className="h-full"
+          items={[
+            {
+              id: "1",
+              label: "Sources",
+              content: (
+                <div className="relative h-full w-full">
+                  <AnimatePresence>
+                    {selectedSource ? (
+                      <motion.div
+                        key={selectedSource.id}
+                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                          duration: 0.3,
+                        }}
+                        className="absolute inset-0 z-10 h-[96%] self-end"
+                      >
+                        <SourceViewer
+                          notebookId={notebookId}
+                          source={selectedSource}
+                          handleCloseSource={() => setSelectedSource(null)}
+                          onSourceDelete={() => {
+                            setSelectedSource(null);
+                            setSourcesRefreshKey((prev) => prev + 1);
                           }}
-                          className="absolute inset-0 z-10 h-[96%] self-end"
-                        >
-                          <SourceViewer
-                            notebookId={notebookId}
-                            source={selectedSource}
-                            handleCloseSource={() => setSelectedSource(null)}
-                            onSourceDelete={() => {
-                              setSelectedSource(null);
-                              setSourcesRefreshKey((prev) => prev + 1);
-                            }}
-                            className="h-full"
-                          />
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                    <motion.div
-                      animate={{
-                        opacity: selectedSource ? 0.5 : 1,
-                        scale: selectedSource ? 0.98 : 1,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="h-full"
-                    >
-                      <SourcesCard
-                        notebookId={notebookId}
-                        onSourceSelect={(source: Source) =>
-                          setSelectedSource(source)
-                        }
-                        refreshTrigger={sourcesRefreshKey}
-                      />
-                    </motion.div>
-                  </div>
-                ),
-              },
-              {
-                id: "2",
-                label: "Notes",
-                content: (
-                  <div className="relative h-full w-full">
-                    <AnimatePresence>
-                      {selectedNote ? (
-                        <motion.div
-                          key={selectedNote.id}
-                          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 30,
-                            duration: 0.3,
+                          className="h-full"
+                        />
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                  <motion.div
+                    animate={{
+                      opacity: selectedSource ? 0.5 : 1,
+                      scale: selectedSource ? 0.98 : 1,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full"
+                  >
+                    <SourcesCard
+                      notebookId={notebookId}
+                      onSourceSelect={(source: Source) =>
+                        setSelectedSource(source)
+                      }
+                      refreshTrigger={sourcesRefreshKey}
+                    />
+                  </motion.div>
+                </div>
+              ),
+            },
+            {
+              id: "2",
+              label: "Notes",
+              content: (
+                <div className="relative h-full w-full">
+                  <AnimatePresence>
+                    {selectedNote ? (
+                      <motion.div
+                        key={selectedNote.id}
+                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                          duration: 0.3,
+                        }}
+                        className="absolute inset-0 z-10 h-[96%] self-end"
+                      >
+                        <NoteEditor
+                          notebookId={notebookId}
+                          note={selectedNote}
+                          className="h-full"
+                          handleCloseNote={() => setSelectedNote(null)}
+                          onNoteDeleted={() => {
+                            setSelectedNote(null);
+                            setNotesRefreshKey((prev) => prev + 1);
                           }}
-                          className="absolute inset-0 z-10 h-[96%] self-end"
-                        >
-                          <NoteEditor
-                            notebookId={notebookId}
-                            note={selectedNote}
-                            className="h-full"
-                            handleCloseNote={() => setSelectedNote(null)}
-                            onNoteDeleted={() => {
-                              setSelectedNote(null);
-                              setNotesRefreshKey((prev) => prev + 1);
-                            }}
-                          />
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                    <motion.div
-                      animate={{
-                        opacity: selectedNote ? 0.5 : 1,
-                        scale: selectedNote ? 0.98 : 1,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="h-full"
-                    >
-                      <NotesCard
-                        notebookId={notebookId}
-                        onNoteSelect={(note: Note) => setSelectedNote(note)}
-                        refreshTrigger={notesRefreshKey}
-                      />
-                    </motion.div>
-                  </div>
-                ),
-              },
-            ]}
-            defaultActiveTab="1"
-          />
-        </div>
+                        />
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                  <motion.div
+                    animate={{
+                      opacity: selectedNote ? 0.5 : 1,
+                      scale: selectedNote ? 0.98 : 1,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full"
+                  >
+                    <NotesCard
+                      notebookId={notebookId}
+                      onNoteSelect={(note: Note) => setSelectedNote(note)}
+                      refreshTrigger={notesRefreshKey}
+                    />
+                  </motion.div>
+                </div>
+              ),
+            },
+          ]}
+          defaultActiveTab="1"
+        />
 
         {/* Chat */}
         <ChatCard
@@ -240,9 +238,10 @@ export default function NotebookPage() {
           refreshTrigger={sourcesRefreshKey}
           onSourceSelect={handleSourceSelectFromChat}
         />
-
         {/* Tools */}
-        <ToolsCard />
+        <div className="w-24 flex-shrink-0">
+          <ToolsCard />
+        </div>
       </section>
 
       {/* Rename Modal */}
