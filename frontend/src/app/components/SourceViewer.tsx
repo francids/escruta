@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "@/hooks";
+import { useFetch, useToast } from "@/hooks";
 import type { Source } from "@/interfaces";
 import {
   CloseIcon,
@@ -15,7 +15,6 @@ import {
   Modal,
   Tooltip,
   Divider,
-  Toast,
   Spinner,
 } from "./ui";
 import Markdown from "react-markdown";
@@ -46,8 +45,8 @@ export default function SourceViewer({
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [currentSourceId, setCurrentSourceId] = useState<string>(source.id);
-  const [showCopyToast, setShowCopyToast] = useState(false);
-  const [copyToastMessage, setCopyToastMessage] = useState("");
+
+  const { showToast } = useToast();
 
   const sourceType = getSourceType(source);
   const youtubeVideoId =
@@ -138,14 +137,6 @@ export default function SourceViewer({
 
   return (
     <>
-      <Toast
-        isVisible={showCopyToast}
-        onClose={() => setShowCopyToast(false)}
-        message={copyToastMessage}
-        type="success"
-        position="bottom-right"
-        duration={1500}
-      />
       <Card className={`${className} flex flex-col overflow-y-auto p-0`}>
         <div className="sticky h-20 top-0 z-10 ">
           <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
@@ -182,8 +173,7 @@ export default function SourceViewer({
                           ? "Video URL copied to clipboard"
                           : "Source content copied to clipboard";
                       navigator.clipboard.writeText(textToCopy);
-                      setCopyToastMessage(message);
-                      setShowCopyToast(true);
+                      showToast(message, "success", { duration: 1500 });
                     }}
                   />
                 </Tooltip>
@@ -251,8 +241,13 @@ export default function SourceViewer({
                           size="sm"
                           onClick={() => {
                             navigator.clipboard.writeText(sourceSummary);
-                            setCopyToastMessage("Summary copied to clipboard");
-                            setShowCopyToast(true);
+                            showToast(
+                              "Summary copied to clipboard",
+                              "success",
+                              {
+                                duration: 1500,
+                              }
+                            );
                           }}
                         />
                       </Tooltip>

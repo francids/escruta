@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
-import { useAuth } from "@/hooks";
+import { useAuth, useToast } from "@/hooks";
 import PatternBackground from "@/shared/PatternBackground";
 import Logo from "@/shared/Logo";
 import { motion, AnimatePresence } from "motion/react";
-import { Toast } from "@/app/components/ui";
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
@@ -16,8 +15,8 @@ export default function RegisterPage() {
   const [allowSubmit, setAllowSubmit] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
   const { register } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const fullNameInputRef = useRef<HTMLInputElement>(null);
@@ -114,9 +113,10 @@ export default function RegisterPage() {
     try {
       const response = await register(email, password, fullName);
       if (response.status === 201) {
-        setShowSuccessToast(true);
+        showToast("Registration successful! Redirecting...", "success", {
+          duration: 1500,
+        });
         setTimeout(() => {
-          setShowSuccessToast(false);
           navigate("/app");
         }, 1500);
       }
@@ -148,14 +148,6 @@ export default function RegisterPage() {
   return (
     <div className="relative h-screen w-full">
       <PatternBackground className="hidden sm:block" />
-      <Toast
-        isVisible={showSuccessToast}
-        onClose={() => setShowSuccessToast(false)}
-        message="Registration successful! Redirecting..."
-        type="success"
-        position="bottom-right"
-        duration={1500}
-      />
       <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -333,7 +325,7 @@ export default function RegisterPage() {
 
           <motion.button
             type="submit"
-            disabled={loading || !allowSubmit || showSuccessToast}
+            disabled={loading || !allowSubmit}
             className={`w-full ${
               allowSubmit
                 ? "bg-blue-500 hover:bg-blue-600"

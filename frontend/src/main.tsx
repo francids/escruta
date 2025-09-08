@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { AuthProvider, ModalProvider } from "./providers";
+import { AuthProvider, ModalProvider, ToastProvider } from "./providers";
 
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
@@ -56,9 +56,11 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <ModalProvider>
-      <RouterProvider router={router} />
-      <SpeedInsights />
-      <Analytics />
+      <ToastProvider>
+        <RouterProvider router={router} />
+        <SpeedInsights />
+        <Analytics />
+      </ToastProvider>
     </ModalProvider>
   </AuthProvider>
 );
