@@ -1,4 +1,5 @@
 import { Card } from "./ui";
+import { twMerge } from "tailwind-merge";
 
 export default function CommonBar({
   children,
@@ -7,5 +8,7 @@ export default function CommonBar({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <Card className={`flex mb-6 ${className}`}>{children}</Card>;
+  return (
+    <Card className={`${twMerge("flex mb-6", className)}`}>{children}</Card>
+  );
 }

@@ -107,9 +107,12 @@ export default function NotebookPage() {
 
   return (
     <div className="flex h-screen w-full flex-col p-6">
-      <CommonBar className="justify-between items-center gap-4">
-        <h1 className="text-2xl font-sans font-normal truncate">
-          Notebook: <span className="font-semibold">{notebook?.title}</span>
+      <CommonBar className="justify-between items-center gap-4 py-4 mb-4">
+        <h1 className="flex flex-col items-start gap-1 min-w-0">
+          <span className="text-sm font-normal">Notebook</span>
+          <span className="text-xl font-bold truncate w-full">
+            {notebook?.title}
+          </span>
         </h1>
         <Tooltip text="Edit title" position="bottom">
           <IconButton
