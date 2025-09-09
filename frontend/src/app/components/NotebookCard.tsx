@@ -56,7 +56,7 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
   return (
     <>
       <div
-        className="h-40 w-full rounded-xs border p-4 cursor-pointer hover:shadow-sx transition-shadow flex flex-col justify-between bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600"
+        className="h-40 w-full rounded-xs border p-4 cursor-pointer hover:shadow-sx transition-all flex flex-col justify-between bg-gray-50 hover:bg-gray-100/35 dark:bg-gray-800 dark:hover:bg-gray-700/35 border-gray-200 dark:border-gray-600 hover:scale-[102%] duration-200 ease-out"
         onClick={() => {
           navigate(`/app/notebook/${notebook.id}`);
           window.scrollTo(0, 0);
