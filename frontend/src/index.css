@@ -99,19 +99,19 @@
 }
 
 @supports (scrollbar-color: auto) {
-  html {
-    scrollbar-color: var(--color-gray-300) var(--color-gray-100);
+  * {
+    scrollbar-color: var(--color-gray-300) transparent;
     scrollbar-width: thin;
   }
 
-  html.dark {
-    scrollbar-color: var(--color-gray-700) var(--color-gray-900);
+  html.dark * {
+    scrollbar-color: var(--color-gray-500) transparent;
     scrollbar-width: thin;
   }
 
   @media (prefers-color-scheme: dark) {
-    html:not(.dark):not(.light) {
-      scrollbar-color: var(--color-gray-700) var(--color-gray-900);
+    html:not(.dark):not(.light) * {
+      scrollbar-color: var(--color-gray-500) transparent;
       scrollbar-width: thin;
     }
   }
