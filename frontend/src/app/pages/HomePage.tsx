@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { Notebook } from "@/interfaces";
-import { useCookie, useFetch } from "@/hooks";
-import Logo from "@/shared/Logo";
+import { useAuth, useCookie, useFetch } from "@/hooks";
 import { Button, Dropdown, Modal, TextField } from "../components/ui";
 import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
+import { motion } from "motion/react";
 
 enum SortOptions {
   Newest = "Newest",
@@ -14,6 +14,7 @@ enum SortOptions {
 }
 
 export default function HomePage() {
+  const { currentUser } = useAuth();
   const { data, loading, error, refetch } = useFetch<Notebook[]>("/notebooks");
   const [sortBy, setSortBy] = useCookie<SortOptions>(
     "notebookSortPreference",
@@ -79,82 +80,96 @@ export default function HomePage() {
   };
 
   return (
-    <div className="p-6">
-      <CommonBar className="justify-between items-center">
-        <h1 className="text-3xl font-sans font-normal flex flex-row gap-2 items-center">
-          <span className="leading-none mb-1">Welcome to </span>
-          <Logo className="h-4.5 w-auto" />
-        </h1>
-      </CommonBar>
-      <CommonBar className="justify-between items-center">
-        <Button onClick={() => setIsCreateModalOpen(true)}>
-          Create notebook
-        </Button>
-        {data && data.length > 0 ? (
-          <Dropdown<SortOptions>
-            options={Object.values(SortOptions)}
-            selectedOption={sortBy!}
-            onSelect={(option) => setSortBy(option as SortOptions)}
-            label="Sort by:"
-          />
-        ) : (
-          <span></span>
-        )}
-      </CommonBar>
-
-      {data && data.length > 0 ? (
-        <div className="flex flex-wrap gap-4">
-          {getSortedNotebooks().map((notebook) => (
-            <NotebookCard key={notebook.id} notebook={notebook} />
-          ))}
-        </div>
-      ) : (
-        <CommonBar className="text-center text-gray-500">
-          No notebooks available. Create one to get started!
-        </CommonBar>
-      )}
-
-      {/* Create Notebook Modal */}
-      <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        title="Create new notebook"
-        actions={
-          <>
-            <Button
-              variant="secondary"
-              onClick={() => setIsCreateModalOpen(false)}
-              disabled={creatingNotebook}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleCreateNotebook}
-              disabled={!newNotebookTitle.trim() || creatingNotebook}
-            >
-              {creatingNotebook ? "Creating..." : "Create"}
-            </Button>
-          </>
-        }
+    <div className="flex h-screen max-h-full w-full flex-col">
+      <motion.div
+        className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
       >
-        <div className="space-y-4">
-          <TextField
-            id="notebook-title"
-            label="Notebook Title"
-            type="text"
-            value={newNotebookTitle}
-            onChange={(e) => setNewNotebookTitle(e.target.value)}
-            placeholder="Enter notebook title"
-            autoFocus
-          />
-          {createError && (
-            <div className="text-red-500 text-sm">
-              Error: {createError.message}
-            </div>
-          )}
+        <div className="flex justify-between items-center gap-4">
+          <h1 className="flex flex-col items-start gap-1.5 min-w-0">
+            <span className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              Dashboard
+            </span>
+            <span className="text-2xl font-bold truncate w-full text-gray-900 dark:text-white select-text flex flex-row gap-2 items-center justify-center">
+              Welcome, {currentUser?.fullName || "User"}!
+            </span>
+          </h1>
         </div>
-      </Modal>
+      </motion.div>
+
+      <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-auto">
+        <CommonBar className="justify-between items-center">
+          <Button onClick={() => setIsCreateModalOpen(true)}>
+            Create notebook
+          </Button>
+          {data && data.length > 0 ? (
+            <Dropdown<SortOptions>
+              options={Object.values(SortOptions)}
+              selectedOption={sortBy!}
+              onSelect={(option) => setSortBy(option as SortOptions)}
+              label="Sort by:"
+            />
+          ) : (
+            <span></span>
+          )}
+        </CommonBar>
+
+        {data && data.length > 0 ? (
+          <div className="flex flex-wrap gap-4">
+            {getSortedNotebooks().map((notebook) => (
+              <NotebookCard key={notebook.id} notebook={notebook} />
+            ))}
+          </div>
+        ) : (
+          <CommonBar className="text-center text-gray-500">
+            No notebooks available. Create one to get started!
+          </CommonBar>
+        )}
+
+        {/* Create Notebook Modal */}
+        <Modal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          title="Create new notebook"
+          actions={
+            <>
+              <Button
+                variant="secondary"
+                onClick={() => setIsCreateModalOpen(false)}
+                disabled={creatingNotebook}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={handleCreateNotebook}
+                disabled={!newNotebookTitle.trim() || creatingNotebook}
+              >
+                {creatingNotebook ? "Creating..." : "Create"}
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <TextField
+              id="notebook-title"
+              label="Notebook Title"
+              type="text"
+              value={newNotebookTitle}
+              onChange={(e) => setNewNotebookTitle(e.target.value)}
+              placeholder="Enter notebook title"
+              autoFocus
+            />
+            {createError && (
+              <div className="text-red-500 text-sm">
+                Error: {createError.message}
+              </div>
+            )}
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 }

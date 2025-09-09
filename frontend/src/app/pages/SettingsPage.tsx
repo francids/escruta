@@ -5,19 +5,36 @@ import {
   AppearanceSection,
   DataSection,
 } from "../components/settings";
-import CommonBar from "../components/CommonBar";
+import { motion } from "motion/react";
 
 export default function SettingsPage() {
   const [user] = useCookie<User | null>("user", null);
 
   return (
-    <div className="p-6">
-      <CommonBar>
-        <h1 className="text-3xl font-sans font-normal">Settings</h1>
-      </CommonBar>
-      <AppearanceSection />
-      <DataSection />
-      <AccountSection user={user!} />
+    <div className="flex h-screen max-h-full w-full flex-col">
+      <motion.div
+        className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-between items-center gap-4">
+          <h1 className="flex flex-col items-start gap-1.5 min-w-0">
+            <span className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              Configuration
+            </span>
+            <span className="text-2xl font-bold truncate w-full text-gray-900 dark:text-white select-text">
+              Settings
+            </span>
+          </h1>
+        </div>
+      </motion.div>
+
+      <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-auto">
+        <AppearanceSection />
+        <DataSection />
+        <AccountSection user={user!} />
+      </div>
     </div>
   );
 }

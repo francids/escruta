@@ -171,7 +171,7 @@ export default function NotebookPage() {
     <div className="flex h-screen max-h-full w-full flex-col">
       <motion.div
         className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >

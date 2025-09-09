@@ -9,6 +9,6 @@ export default function CommonBar({
   className?: string;
 }) {
   return (
-    <Card className={`${twMerge("flex mb-6", className)}`}>{children}</Card>
+    <Card className={`${twMerge("flex mb-4", className)}`}>{children}</Card>
   );
 }
