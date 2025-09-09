@@ -5,7 +5,15 @@ import { useState } from "react";
 import { useFetch } from "@/hooks";
 import { useNavigate } from "react-router";
 
-export default function NotebookCard({ notebook }: { notebook: Notebook }) {
+interface NotebookCardProps {
+  notebook: Notebook;
+  viewMode?: "grid" | "list";
+}
+
+export default function NotebookCard({
+  notebook,
+  viewMode = "grid",
+}: NotebookCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -53,47 +61,103 @@ export default function NotebookCard({ notebook }: { notebook: Notebook }) {
     return null;
   }
 
+  const baseClasses =
+    "rounded-xs border cursor-pointer bg-gray-50 hover:bg-blue-50/50 dark:bg-gray-800 dark:hover:bg-gray-700/50 border-gray-200 dark:border-gray-600 transition-all duration-200 ease-out";
+
+  const gridClasses =
+    "h-40 w-full p-4 flex flex-col justify-between hover:scale-[101.5%]";
+  const listClasses =
+    "h-20 w-full p-4 flex flex-row items-center justify-between hover:scale-[100.25%]";
+
   return (
     <>
       <div
-        className="h-40 w-full rounded-xs border p-4 cursor-pointer hover:shadow-sx transition-all flex flex-col justify-between bg-gray-50 hover:bg-gray-100/35 dark:bg-gray-800 dark:hover:bg-gray-700/35 border-gray-200 dark:border-gray-600 hover:scale-[102%] duration-200 ease-out"
+        className={`${baseClasses} ${
+          viewMode === "grid" ? gridClasses : listClasses
+        }`}
         onClick={() => {
           navigate(`/app/notebook/${notebook.id}`);
           window.scrollTo(0, 0);
         }}
-        style={{ minWidth: "180px", maxWidth: "220px" }}
+        style={
+          viewMode === "grid" ? { minWidth: "180px", maxWidth: "220px" } : {}
+        }
       >
-        <div className="flex justify-between items-start">
-          <NotebookIcon />
-          <div onClick={handleMenuClick}>
-            <Menu
-              items={[
-                {
-                  label: "Delete",
-                  onClick: () => setIsDeleteModalOpen(true),
-                  variant: "danger",
-                },
-              ]}
-              trigger={
-                <IconButton
-                  icon={<DotsVerticalIcon />}
-                  size="sm"
-                  ariaLabel="More options"
-                  variant="ghost"
+        {viewMode === "grid" ? (
+          <>
+            <div className="flex justify-between items-start">
+              <div className="p-2 rounded-xs bg-blue-25 dark:bg-blue-900/30 text-blue-500 dark:text-blue-300">
+                <NotebookIcon />
+              </div>
+              <div onClick={handleMenuClick}>
+                <Menu
+                  items={[
+                    {
+                      label: "Delete",
+                      onClick: () => setIsDeleteModalOpen(true),
+                      variant: "danger",
+                    },
+                  ]}
+                  trigger={
+                    <IconButton
+                      icon={<DotsVerticalIcon />}
+                      size="sm"
+                      ariaLabel="More options"
+                      variant="ghost"
+                    />
+                  }
                 />
-              }
-            />
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div>
-          <h2 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-1 line-clamp-2">
-            {notebook.title}
-          </h2>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            {formatDate(notebook.updatedAt)}
-          </p>
-        </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
+                {notebook.title}
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {formatDate(notebook.updatedAt)}
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="p-2 rounded-xs bg-blue-25 dark:bg-blue-900/30 text-blue-500 dark:text-blue-300">
+                <div className="w-6 h-6 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full">
+                  <NotebookIcon />
+                </div>
+              </div>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+                  {notebook.title}
+                </h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {formatDate(notebook.updatedAt)}
+                </p>
+              </div>
+            </div>
+
+            <div onClick={handleMenuClick}>
+              <Menu
+                items={[
+                  {
+                    label: "Delete",
+                    onClick: () => setIsDeleteModalOpen(true),
+                    variant: "danger",
+                  },
+                ]}
+                trigger={
+                  <IconButton
+                    icon={<DotsVerticalIcon />}
+                    size="sm"
+                    ariaLabel="More options"
+                    variant="ghost"
+                  />
+                }
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Delete Modal */}

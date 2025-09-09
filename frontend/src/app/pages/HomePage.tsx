@@ -1,9 +1,16 @@
 import { useState } from "react";
 import type { Notebook } from "@/interfaces";
 import { useAuth, useCookie, useFetch } from "@/hooks";
-import { Button, Dropdown, Modal, TextField } from "../components/ui";
+import {
+  Button,
+  Dropdown,
+  Modal,
+  TextField,
+  SegmentedButtons,
+} from "../components/ui";
 import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
+import { GridIcon, ListIcon } from "../components/icons";
 import { motion } from "motion/react";
 
 enum SortOptions {
@@ -13,12 +20,18 @@ enum SortOptions {
   ReverseAlphabetical = "Reverse Alphabetical",
 }
 
+type ViewMode = "grid" | "list";
+
 export default function HomePage() {
   const { currentUser } = useAuth();
   const { data, loading, error, refetch } = useFetch<Notebook[]>("/notebooks");
   const [sortBy, setSortBy] = useCookie<SortOptions>(
     "notebookSortPreference",
     SortOptions.Newest
+  );
+  const [viewMode, setViewMode] = useCookie<ViewMode>(
+    "notebookViewMode",
+    "grid"
   );
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newNotebookTitle, setNewNotebookTitle] = useState("");
@@ -82,7 +95,7 @@ export default function HomePage() {
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
       <motion.div
-        className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
+        className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5 z-30"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -100,26 +113,59 @@ export default function HomePage() {
       </motion.div>
 
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-auto">
-        <CommonBar className="justify-between items-center sticky top-0 z-10 mb-4 backdrop-blur-2xl bg-gray-50/60 dark:bg-gray-800/70">
+        <div className="pointer-events-none blur-xl fixed w-full h-16 bg-gradient-to-b from-blue-50 dark:from-gray-950 to-transparent z-10"></div>
+
+        <CommonBar className="justify-between items-center sticky top-0 z-20 mb-4 backdrop-blur-2xl bg-gray-50/60 dark:bg-gray-800/70">
           <Button onClick={() => setIsCreateModalOpen(true)}>
             Create notebook
           </Button>
+
           {data && data.length > 0 ? (
-            <Dropdown<SortOptions>
-              options={Object.values(SortOptions)}
-              selectedOption={sortBy!}
-              onSelect={(option) => setSortBy(option as SortOptions)}
-              label="Sort by:"
-            />
+            <div className="flex items-center gap-4">
+              <SegmentedButtons
+                options={[
+                  {
+                    value: "grid" as const,
+                    icon: <GridIcon />,
+                    ariaLabel: "Grid view",
+                  },
+                  {
+                    value: "list" as const,
+                    icon: <ListIcon />,
+                    ariaLabel: "List view",
+                  },
+                ]}
+                value={viewMode || "grid"}
+                onChange={setViewMode}
+                size="sm"
+              />
+
+              <Dropdown<SortOptions>
+                options={Object.values(SortOptions)}
+                selectedOption={sortBy!}
+                onSelect={(option) => setSortBy(option as SortOptions)}
+                label="Sort by:"
+              />
+            </div>
           ) : (
             <span></span>
           )}
         </CommonBar>
 
         {data && data.length > 0 ? (
-          <div className="flex flex-wrap gap-4 mb-8">
+          <div
+            className={
+              viewMode === "grid"
+                ? "flex flex-wrap gap-4 mb-8"
+                : "flex flex-col gap-3 mb-8"
+            }
+          >
             {getSortedNotebooks().map((notebook) => (
-              <NotebookCard key={notebook.id} notebook={notebook} />
+              <NotebookCard
+                key={notebook.id}
+                notebook={notebook}
+                viewMode={viewMode}
+              />
             ))}
           </div>
         ) : (

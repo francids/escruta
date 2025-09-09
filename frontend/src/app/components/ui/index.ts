@@ -12,3 +12,4 @@ export { default as Divider } from "./Divider";
 export { default as Spinner } from "./Spinner";
 export { default as Switch } from "./Switch";
 export { default as FilePicker } from "./FilePicker";
+export { default as SegmentedButtons } from "./SegmentedButtons";
