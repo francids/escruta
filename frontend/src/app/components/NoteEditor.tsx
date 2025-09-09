@@ -125,7 +125,9 @@ export default function NoteEditor({
 
   return (
     <>
-      <Card className={`${className} flex flex-col overflow-y-auto`}>
+      <Card
+        className={`${className} flex flex-col overflow-y-auto dark:bg-gray-800`}
+      >
         <div className="flex justify-between items-center flex-shrink-0 mb-2">
           <h2 className="text-lg font-sans font-semibold truncate">
             {note.title}

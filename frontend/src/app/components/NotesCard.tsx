@@ -68,7 +68,7 @@ export default function NotesCard({
     <>
       <Card className="h-full overflow-y-auto">
         <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0 h-8">
-          <h2 className="text-lg font-sans font-normal">Notes</h2>
+          <h2 className="text-lg font-sans font-semibold">Notes</h2>
           <Tooltip text="Add note" position="bottom">
             <IconButton
               icon={<AddIcon />}

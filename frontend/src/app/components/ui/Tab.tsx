@@ -46,7 +46,7 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
 
     return (
       <div className={`w-full relative ${className}`}>
-        <div className="flex w-full justify-start p-1 bg-gray-50 dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600">
+        <div className="flex w-full justify-start p-1 bg-gray-50 dark:bg-gray-800/80 rounded-xs border border-gray-200 dark:border-gray-600">
           {items.map((tab, index) => (
             <div key={index} className="relative w-full">
               {activeTabId === tab.id && (
@@ -69,10 +69,10 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
                 <span
                   className={`${
                     activeTabId === tab.id
-                      ? "text-gray-800 dark:text-gray-200"
-                      : "text-gray-600 dark:text-gray-400"
+                      ? "text-gray-800 dark:text-gray-100 font-semibold"
+                      : "text-gray-600 dark:text-gray-400 font-medium"
                   }
-                  font-semibold text-sm transition-all duration-200`}
+                  text-sm transition-all duration-200`}
                 >
                   {tab.label}
                 </span>

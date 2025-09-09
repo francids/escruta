@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "./ui";
 import CodeBlock from "./CodeBlock";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface Message {
@@ -36,7 +36,10 @@ interface ChatCardProps {
   onSourceSelect?: (sourceId: string) => void;
 }
 
-function processMarkdownText(text: string, isUserMessage: boolean = false) {
+function processMarkdownText(
+  text: string,
+  isUserMessage: boolean = false
+): ReactNode {
   if (!text) return [];
 
   const isSystemMessage = [
@@ -278,9 +281,9 @@ export default function ChatCard({
     );
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full overflow-hidden">
       <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
-        <h2 className="text-lg font-sans font-normal">Chat</h2>
+        <h2 className="text-lg font-sans font-semibold">Chat</h2>
         <div className="flex gap-3">
           {messages.length == 0 &&
           !isChatLoading &&
@@ -308,7 +311,7 @@ export default function ChatCard({
       </div>
       <Divider className="mb-0" />
       {messages.length > 0 ? (
-        <div className="flex-grow overflow-y-auto p-4 space-y-2">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2 min-h-0">
           <AnimatePresence>
             {messages.map((msg) => (
               <motion.div
@@ -323,7 +326,7 @@ export default function ChatCard({
                 }`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md flex flex-col gap-3 px-4 py-3 rounded-xs select-text shadow-sm transition-all duration-200 ${
+                  className={`max-w-xs lg:max-w-md flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200 ${
                     msg.sender === "user"
                       ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
                       : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
@@ -333,7 +336,7 @@ export default function ChatCard({
                   {msg.sender === "ai" &&
                     msg.citedSources &&
                     msg.citedSources.length > 0 && (
-                      <div className="pt-3 border-t border-gray-200 dark:border-gray-600">
+                      <div className="py-3 border-t border-gray-200 dark:border-gray-600">
                         <div className="flex flex-wrap gap-2">
                           {msg.citedSources.map((source, index) => (
                             <button
@@ -403,7 +406,7 @@ export default function ChatCard({
         </motion.div>
       )}
       <Divider className="mt-0" />
-      <div className="py-4">
+      <div className="py-4 flex-shrink-0">
         <div className="flex items-center gap-2">
           {messages.length > 0 ? (
             <Tooltip text="Clear chat" position="top">

@@ -137,7 +137,9 @@ export default function SourceViewer({
 
   return (
     <>
-      <Card className={`${className} flex flex-col overflow-y-auto p-0`}>
+      <Card
+        className={`${className} flex flex-col overflow-y-auto p-0 dark:bg-gray-800`}
+      >
         <div className="sticky h-20 top-0 z-10 ">
           <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
           <div className="h-14 px-6 bg-gray-50 dark:bg-gray-800">
@@ -146,7 +148,7 @@ export default function SourceViewer({
                 <div className="text-gray-600 dark:text-gray-300 flex-shrink-0 w-5 h-5">
                   {getSourceTypeIcon(sourceType)}
                 </div>
-                <h2 className="truncate">
+                <h2 className="truncate font-semibold">
                   {fullSource?.title || source.title || "Source viewer"}
                 </h2>
               </div>

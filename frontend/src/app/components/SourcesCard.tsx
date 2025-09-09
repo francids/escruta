@@ -147,7 +147,7 @@ export default function SourcesCard({
     <>
       <Card className="h-full overflow-y-auto">
         <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
-          <h2 className="text-lg font-sans font-normal">Sources</h2>
+          <h2 className="text-lg font-sans font-semibold">Sources</h2>
           <div className="flex gap-3">
             <Tooltip text="Find sources" position="bottom">
               <IconButton
@@ -206,84 +206,86 @@ export default function SourcesCard({
       </Card>
 
       {/* Add Source Modal */}
-      <Modal
-        isOpen={isAddSourceModalOpen}
-        onClose={handleModalClose}
-        title="Add source"
-        closeOnOutsideClick={!addingSource}
-        actions={
-          <div className="flex justify-between w-full">
-            {sourceType === "Website" || sourceType === "File" ? (
-              <Switch
-                checked={isAIConverterEnabled}
-                onChange={setIsAIConverterEnabled}
-                label="AI converter"
-                disabled={addingSource}
-              />
-            ) : (
-              <div className="flex-1"></div>
-            )}
-            <div className="flex gap-3">
-              <Button variant="secondary" onClick={handleModalClose}>
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                onClick={handleAddSource}
-                disabled={
-                  (sourceType === "File"
-                    ? !newSourceFile
-                    : !newSourceLink.trim()) || addingSource
-                }
-              >
-                {addingSource ? "Adding..." : "Add"}
-              </Button>
+      {isAddSourceModalOpen && (
+        <Modal
+          isOpen={isAddSourceModalOpen}
+          onClose={handleModalClose}
+          title="Add source"
+          closeOnOutsideClick={!addingSource}
+          actions={
+            <div className="flex justify-between w-full">
+              {sourceType === "Website" || sourceType === "File" ? (
+                <Switch
+                  checked={isAIConverterEnabled}
+                  onChange={setIsAIConverterEnabled}
+                  label="AI converter"
+                  disabled={addingSource}
+                />
+              ) : (
+                <div className="flex-1"></div>
+              )}
+              <div className="flex gap-3">
+                <Button variant="secondary" onClick={handleModalClose}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={handleAddSource}
+                  disabled={
+                    (sourceType === "File"
+                      ? !newSourceFile
+                      : !newSourceLink.trim()) || addingSource
+                  }
+                >
+                  {addingSource ? "Adding..." : "Add"}
+                </Button>
+              </div>
             </div>
-          </div>
-        }
-      >
-        <div className="space-y-4">
-          <Dropdown
-            label="Source type"
-            // options={["Website", "YouTube Video", "File"]}
-            options={["Website", "File"]}
-            selectedOption={sourceType}
-            onSelect={setSourceType}
-          />
-
-          {sourceType === "File" ? (
-            <>
-              <FilePicker
-                id="source-file"
-                label="Select file"
-                onChange={setNewSourceFile}
-                value={newSourceFile}
-                accept=".pdf,.docx,.txt,.md"
-                placeholder="PDF, DOCX, TXT, or Markdown files"
-              />
-              <div className="text-gray-500">Maximum file size: 50 MB</div>
-            </>
-          ) : (
-            <TextField
-              id="source-link"
-              label="URL"
-              type="url"
-              value={newSourceLink}
-              onChange={(e) => setNewSourceLink(e.target.value)}
-              placeholder={
-                sourceType === "YouTube Video"
-                  ? "https://www.youtube.com/watch?v=..."
-                  : "https://example.com"
-              }
-              autoFocus
+          }
+        >
+          <div className="space-y-4">
+            <Dropdown
+              label="Source type"
+              // options={["Website", "YouTube Video", "File"]}
+              options={["Website", "File"]}
+              selectedOption={sourceType}
+              onSelect={setSourceType}
             />
-          )}
 
-          {newSourceLinkError && (
-            <div className="text-red-500 text-sm">{newSourceLinkError}</div>
-          )}
-        </div>
-      </Modal>
+            {sourceType === "File" ? (
+              <>
+                <FilePicker
+                  id="source-file"
+                  label="Select file"
+                  onChange={setNewSourceFile}
+                  value={newSourceFile}
+                  accept=".pdf,.docx,.txt,.md"
+                  placeholder="PDF, DOCX, TXT, or Markdown files"
+                />
+                <div className="text-gray-500">Maximum file size: 50 MB</div>
+              </>
+            ) : (
+              <TextField
+                id="source-link"
+                label="URL"
+                type="url"
+                value={newSourceLink}
+                onChange={(e) => setNewSourceLink(e.target.value)}
+                placeholder={
+                  sourceType === "YouTube Video"
+                    ? "https://www.youtube.com/watch?v=..."
+                    : "https://example.com"
+                }
+                autoFocus
+              />
+            )}
+
+            {newSourceLinkError && (
+              <div className="text-red-500 text-sm">{newSourceLinkError}</div>
+            )}
+          </div>
+        </Modal>
+      )}
     </>
   );
 }

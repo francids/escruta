@@ -4,7 +4,7 @@ import { Card, IconButton, Tooltip } from "./ui";
 export default function ToolsCard() {
   return (
     <Card className="h-full flex flex-col gap-2">
-      <h2 className="text-lg font-sans font-normal mb-2 text-center md:text-left">
+      <h2 className="text-lg font-sans font-semibold mb-2 text-center md:text-left">
         Tools
       </h2>
       <div className="flex flex-col gap-2">
