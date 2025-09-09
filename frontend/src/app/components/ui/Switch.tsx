@@ -68,7 +68,6 @@ export default function Switch({
           className={twMerge(
             "absolute rounded-full transition-all duration-200 ease-in-out",
             "bg-white dark:bg-gray-200",
-            "shadow-md",
             "border border-gray-200 dark:border-gray-300",
             "w-5 h-5 top-1 left-1",
             "peer-checked:translate-x-5",
