@@ -48,7 +48,7 @@ export default function SourceViewer({
 
   const { showToast } = useToast();
 
-  const sourceType = getSourceType(source);
+  const sourceType = getSourceType(fullSource || source);
   const youtubeVideoId =
     sourceType === "YouTube Video"
       ? getYouTubeVideoId(fullSource?.link || source.link)
