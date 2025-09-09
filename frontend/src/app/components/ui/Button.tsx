@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
@@ -20,7 +22,7 @@ export default function Button({
 
   const variantStyles = {
     primary:
-      "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700",
+      "bg-blue-500 text-white font-semibold hover:bg-blue-600 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700",
     secondary:
       "bg-gray-100 text-gray-800 hover:bg-gray-200 focus:ring-gray-400 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600",
     danger:
@@ -33,9 +35,11 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`${baseStyles} ${variantStyles[variant]} ${
-        disabled ? disabledStyles : ""
-      } ${className}`}
+      className={twMerge(
+        `${baseStyles} ${variantStyles[variant]} ${
+          disabled ? disabledStyles : ""
+        } ${className}`
+      )}
       type="button"
       disabled={disabled}
     >
