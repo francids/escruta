@@ -203,9 +203,9 @@ export default function NotebookPage() {
       </motion.div>
 
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-hidden">
-        <section className="grid grid-cols-[1fr_1fr_96px] gap-4 h-full overflow-hidden">
+        <section className="grid grid-cols-9 gap-4 h-full overflow-hidden">
           <motion.div
-            className="min-h-0 flex flex-col overflow-hidden"
+            className="min-h-0 col-span-3 flex flex-col overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.05 }}
@@ -316,6 +316,11 @@ export default function NotebookPage() {
                     </div>
                   ),
                 },
+                {
+                  id: "3",
+                  label: "Tools",
+                  content: <ToolsCard />,
+                },
               ]}
               defaultActiveTab="1"
             />
@@ -323,7 +328,7 @@ export default function NotebookPage() {
 
           {/* Chat */}
           <motion.div
-            className="min-h-0 flex flex-col overflow-hidden"
+            className="min-h-0 col-span-6 flex flex-col overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
@@ -333,16 +338,6 @@ export default function NotebookPage() {
               refreshTrigger={sourcesRefreshKey}
               onSourceSelect={handleSourceSelectFromChat}
             />
-          </motion.div>
-
-          {/* Tools */}
-          <motion.div
-            className="w-24 flex-shrink-0 flex flex-col overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.15 }}
-          >
-            <ToolsCard />
           </motion.div>
         </section>
       </div>

@@ -25,3 +25,4 @@ export { default as CheckIcon } from "./CheckIcon";
 export { default as StudyIcon } from "./StudyIcon";
 export { default as GridIcon } from "./GridIcon";
 export { default as ListIcon } from "./ListIcon";
+export { default as CardIcon } from "./CardIcon";
