@@ -215,12 +215,18 @@ export default function SourcesCard({
           actions={
             <div className="flex justify-between w-full">
               {sourceType === "Website" || sourceType === "File" ? (
-                <Switch
-                  checked={isAIConverterEnabled}
-                  onChange={setIsAIConverterEnabled}
-                  label="AI converter"
-                  disabled={addingSource}
-                />
+                <Tooltip
+                  text="Enable AI to improve source readability."
+                  position="bottom"
+                  className="grid"
+                >
+                  <Switch
+                    checked={isAIConverterEnabled}
+                    onChange={setIsAIConverterEnabled}
+                    label="AI converter"
+                    disabled={addingSource}
+                  />
+                </Tooltip>
               ) : (
                 <div className="flex-1"></div>
               )}
