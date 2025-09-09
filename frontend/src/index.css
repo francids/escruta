@@ -397,3 +397,9 @@ html.dark .hljs-template-variable,
 html.dark .hljs-attribute {
   color: #ffa657;
 }
+
+body.resizing,
+body.resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}

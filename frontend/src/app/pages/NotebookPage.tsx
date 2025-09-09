@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useLoaderData } from "react-router";
-import { useFetch } from "@/hooks";
+import { useFetch, useCookie } from "@/hooks";
 import type { Note, Source, Notebook, NotebookContent } from "@/interfaces";
 import { EditIcon, NotebookIcon, FireIcon } from "../components/icons";
 import {
@@ -34,6 +34,11 @@ export default function NotebookPage() {
   const [selectedSource, setSelectedSource] = useState<Source | null>(null);
   const [notesRefreshKey, setNotesRefreshKey] = useState<number>(0);
   const [sourcesRefreshKey, setSourcesRefreshKey] = useState<number>(0);
+  const [leftPanelWidth, setLeftPanelWidth] = useCookie<number>(
+    "notebookLeftPanelWidth",
+    33
+  );
+  const [isResizing, setIsResizing] = useState<boolean>(false);
   const tabsRef = useRef<TabsRef>(null);
 
   const handleSourceSelectFromChat = (sourceId: string) => {
@@ -55,6 +60,36 @@ export default function NotebookPage() {
     }
   }, [notebook]);
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+
+      const containerWidth = window.innerWidth - 32;
+      const newWidth = Math.min(
+        Math.max(((e.clientX - 16) / containerWidth) * 100, 30),
+        45
+      );
+      setLeftPanelWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      document.body.classList.remove("resizing");
+    };
+
+    if (isResizing) {
+      document.body.classList.add("resizing");
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.body.classList.remove("resizing");
+    };
+  }, [isResizing, setLeftPanelWidth]);
+
   const {
     loading: renamingNotebook,
     error: renameError,
@@ -70,6 +105,26 @@ export default function NotebookPage() {
     },
     false
   );
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  const handleDoubleClick = () => {
+    setLeftPanelWidth(33);
+  };
+
+  async function handleRenameNotebook() {
+    if (!newTitle.trim()) return;
+    try {
+      await renameNotebook();
+      notebook!.title = newTitle;
+      setIsRenameModalOpen(false);
+    } catch (error) {
+      console.error("Error renaming notebook:", error);
+    }
+  }
 
   if (error) {
     if ("status" in error && error.status === 404) {
@@ -156,17 +211,6 @@ export default function NotebookPage() {
     );
   }
 
-  async function handleRenameNotebook() {
-    if (!newTitle.trim()) return;
-    try {
-      await renameNotebook();
-      notebook!.title = newTitle;
-      setIsRenameModalOpen(false);
-    } catch (error) {
-      console.error("Error renaming notebook:", error);
-    }
-  }
-
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
       <motion.div
@@ -203,9 +247,12 @@ export default function NotebookPage() {
       </motion.div>
 
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-hidden">
-        <section className="grid grid-cols-9 gap-4 h-full overflow-hidden">
+        <section className="flex h-full overflow-hidden gap-1">
           <motion.div
-            className="min-h-0 col-span-3 flex flex-col overflow-hidden"
+            className={`min-h-0 flex flex-col overflow-hidden ${
+              isResizing ? "" : "transition-all duration-200 ease-out"
+            }`}
+            style={{ width: `${leftPanelWidth ?? 33}%` }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.05 }}
@@ -326,9 +373,29 @@ export default function NotebookPage() {
             />
           </motion.div>
 
-          {/* Chat */}
+          {/* Resizer */}
           <motion.div
-            className="min-h-0 col-span-6 flex flex-col overflow-hidden"
+            className="w-2 cursor-col-resize flex items-center justify-center group"
+            onMouseDown={handleMouseDown}
+            onDoubleClick={handleDoubleClick}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <div
+              className={`w-1 h-8 rounded-xs transition-all duration-150 ${
+                isResizing
+                  ? "bg-blue-500 dark:bg-blue-400"
+                  : "bg-gray-300/60 dark:bg-gray-600 group-hover:bg-blue-400 dark:group-hover:bg-blue-500"
+              }`}
+            />
+          </motion.div>
+
+          <motion.div
+            className={`min-h-0 flex flex-col overflow-hidden ${
+              isResizing ? "" : "transition-all duration-200 ease-out"
+            }`}
+            style={{ width: `${100 - (leftPanelWidth ?? 33)}%` }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
