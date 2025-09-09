@@ -53,9 +53,9 @@ export default function GradientAnimationBackground() {
             `}</style>
 
       <div className="absolute inset-0 opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-blue-950 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 animate-gradient-shift" />
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-900/20 to-blue-800/30 animate-gradient-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-bl from-neutral-900/80 via-transparent to-blue-900/40 animate-gradient-float" />
+        <div className="absolute inset-0 bg-gradient-to-bl from-gray-900/80 via-transparent to-blue-900/40 animate-gradient-float" />
       </div>
     </div>
   );
