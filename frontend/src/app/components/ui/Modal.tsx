@@ -93,7 +93,7 @@ export default function Modal({
           >
             <motion.div
               ref={modalRef}
-              className={`${widthClasses[width]} w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 shadow-lg pointer-events-auto`}
+              className={`${widthClasses[width]} w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 pointer-events-auto`}
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"

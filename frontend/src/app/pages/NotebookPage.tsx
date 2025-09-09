@@ -75,7 +75,7 @@ export default function NotebookPage() {
     if ("status" in error && error.status === 404) {
       return (
         <div className="flex justify-center h-screen w-full flex-col">
-          <div className="border-y border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-6 py-5">
+          <div className="border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5">
             <motion.div
               className="flex justify-center items-center py-12"
               initial={{ opacity: 0, y: 20 }}
@@ -104,7 +104,7 @@ export default function NotebookPage() {
 
     return (
       <div className="flex justify-center h-screen w-full flex-col">
-        <div className="border-y border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-6 py-5">
+        <div className="border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5">
           <motion.div
             className="flex justify-center items-center py-12"
             initial={{ opacity: 0, y: 20 }}
@@ -133,7 +133,7 @@ export default function NotebookPage() {
   if (loading) {
     return (
       <div className="flex justify-center h-screen w-full flex-col">
-        <div className="border-y border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-6 py-5">
+        <div className="border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5">
           <div className="flex justify-center items-center py-12">
             <motion.div
               className="text-center"
@@ -170,7 +170,7 @@ export default function NotebookPage() {
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
       <motion.div
-        className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-6 py-5"
+        className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -202,7 +202,7 @@ export default function NotebookPage() {
         </div>
       </motion.div>
 
-      <div className="flex-1 p-6 bg-gray-50 dark:bg-gray-950 overflow-hidden">
+      <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-hidden">
         <section className="grid grid-cols-[1fr_1fr_96px] gap-4 h-full overflow-hidden">
           <motion.div
             className="min-h-0 flex flex-col overflow-hidden"
