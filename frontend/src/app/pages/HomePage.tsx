@@ -100,7 +100,7 @@ export default function HomePage() {
       </motion.div>
 
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-auto">
-        <CommonBar className="justify-between items-center">
+        <CommonBar className="justify-between items-center sticky top-0 z-10 mb-4 backdrop-blur-2xl bg-gray-50/60 dark:bg-gray-800/70">
           <Button onClick={() => setIsCreateModalOpen(true)}>
             Create notebook
           </Button>
@@ -117,7 +117,7 @@ export default function HomePage() {
         </CommonBar>
 
         {data && data.length > 0 ? (
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mb-8">
             {getSortedNotebooks().map((notebook) => (
               <NotebookCard key={notebook.id} notebook={notebook} />
             ))}
