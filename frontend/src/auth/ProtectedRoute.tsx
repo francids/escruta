@@ -1,51 +1,69 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import LoginPage from "./pages/LoginPage";
 import { useAuth } from "@/hooks";
-import { useCallback, useEffect, useState } from "react";
-import TokenExpirationModal from "./components/TokenExpirationModal";
+import { useEffect, useState } from "react";
+import { Modal, Button } from "@/app/components/ui";
 
 export default function ProtectedRoute() {
-  const { isAuthenticated, checkTokenValidity } = useAuth();
-  const [showExpirationModal, setShowExpirationModal] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated, checkTokenValidity, logout } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const checkToken = useCallback(() => {
-    if (isAuthenticated()) {
-      const tokenValid = checkTokenValidity();
-
-      if (!tokenValid) {
-        setShowExpirationModal(true);
-      } else {
-        setShowExpirationModal(false);
-      }
-
-      return tokenValid;
-    }
-
-    setShowExpirationModal(false);
-    return true;
-  }, [isAuthenticated, checkTokenValidity]);
+  const handleLogout = () => {
+    setIsModalOpen(false);
+    logout();
+    navigate("/app", { replace: true });
+  };
 
   useEffect(() => {
-    checkToken();
+    let intervalId: NodeJS.Timeout;
 
-    const interval = setInterval(() => {
-      checkToken();
-    }, 3000);
+    const checkSession = () => {
+      if (isAuthenticated() && !checkTokenValidity()) {
+        setIsModalOpen(true);
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [checkToken]);
+    if (isAuthenticated()) {
+      checkSession();
+      intervalId = setInterval(checkSession, 3000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isAuthenticated, checkTokenValidity]);
 
   if (!isAuthenticated()) {
     return <LoginPage />;
   }
 
-  if (showExpirationModal) {
-    return (
-      <main className="bg-white dark:bg-black h-screen w-screen overflow-hidden">
-        <TokenExpirationModal isOpen={showExpirationModal} />
-      </main>
-    );
-  }
-
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleLogout}
+          closeOnOutsideClick={false}
+          title="Session expired"
+          width="sm"
+          actions={
+            <Button onClick={handleLogout} variant="primary">
+              Login again
+            </Button>
+          }
+        >
+          <div className="space-y-4">
+            <p className="text-gray-700 dark:text-gray-300">
+              Your session has expired due to inactivity. Please log in again to
+              continue using the application.
+            </p>
+          </div>
+        </Modal>
+      )}
+    </>
+  );
 }

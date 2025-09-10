@@ -57,7 +57,7 @@ export default function AuthProvider({
   };
 
   const fetchUserData = useCallback(async () => {
-    if (tokenCookie!.token) {
+    if (tokenCookie?.token) {
       try {
         const userData = await AuthService.getUser();
         setCurrentUser(userData);
@@ -69,21 +69,19 @@ export default function AuthProvider({
       setCurrentUser(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenCookie]);
+  }, [tokenCookie?.token]);
 
   const isAuthenticated = useCallback(() => {
-    return !!tokenCookie!.token;
+    return !!tokenCookie?.token;
   }, [tokenCookie]);
 
   const checkTokenValidity = useCallback(() => {
     if (
-      tokenCookie!.expiresIn &&
-      tokenCookie!.token &&
-      tokenCookie!.createdAt
+      tokenCookie?.expiresIn &&
+      tokenCookie?.token &&
+      tokenCookie?.createdAt
     ) {
-      return (
-        Date.now() - (tokenCookie!.createdAt || 0) < tokenCookie!.expiresIn
-      );
+      return Date.now() - (tokenCookie.createdAt || 0) < tokenCookie.expiresIn;
     }
     return false;
   }, [tokenCookie]);
@@ -105,7 +103,7 @@ export default function AuthProvider({
   return (
     <AuthContext.Provider
       value={{
-        token: tokenCookie!.token,
+        token: tokenCookie?.token || null,
         isAuthenticated,
         checkTokenValidity,
         login,

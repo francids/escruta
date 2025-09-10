@@ -14,21 +14,27 @@ export default function useCookie<T>(
   const [storedValue, setStoredValue] = useState<T | undefined>(() => {
     try {
       const value = Cookies.get(keyName);
-      if (value) {
+      if (value && value !== "undefined") {
         return JSON.parse(value) as T;
       } else {
-        Cookies.set(keyName, JSON.stringify(defaultValue), options);
+        if (defaultValue !== undefined) {
+          Cookies.set(keyName, JSON.stringify(defaultValue), options);
+        }
         return defaultValue;
       }
     } catch (err: unknown) {
       console.error("Error getting cookie:", err);
-      return undefined;
+      return defaultValue;
     }
   });
 
   const setValue = (newValue: T) => {
     try {
-      Cookies.set(keyName, JSON.stringify(newValue), options);
+      if (newValue !== undefined) {
+        Cookies.set(keyName, JSON.stringify(newValue), options);
+      } else {
+        Cookies.remove(keyName);
+      }
     } catch (err: unknown) {
       console.error("Error setting cookie:", err);
     }
