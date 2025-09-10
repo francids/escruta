@@ -45,6 +45,14 @@ export default function HomePage() {
     {
       method: "POST",
       data: { title: newNotebookTitle },
+      onSuccess: async () => {
+        await refetch(true);
+        setNewNotebookTitle("");
+        setIsCreateModalOpen(false);
+      },
+      onError: (error) => {
+        console.error("Error creating notebook:", error);
+      },
     },
     false
   );
@@ -80,17 +88,6 @@ export default function HomePage() {
         return sortedData;
     }
   }
-
-  const handleCreateNotebook = async () => {
-    try {
-      await createNotebook();
-      await refetch(true);
-      setNewNotebookTitle("");
-      setIsCreateModalOpen(false);
-    } catch (error) {
-      console.error("Error creating notebook:", error);
-    }
-  };
 
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
@@ -190,7 +187,7 @@ export default function HomePage() {
               </Button>
               <Button
                 variant="primary"
-                onClick={handleCreateNotebook}
+                onClick={async () => await createNotebook()}
                 disabled={!newNotebookTitle.trim() || creatingNotebook}
               >
                 {creatingNotebook ? "Creating..." : "Create"}
