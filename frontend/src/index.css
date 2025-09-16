@@ -5,6 +5,16 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-family: var(--font-sans);
+  background-color: var(--color-gray-900);
+  color: var(--color-gray-900);
+}
+
 *::selection {
   background-color: var(--color-blue-500);
   color: var(--color-white);
@@ -87,6 +97,8 @@
 
   /* Animations */
   --animate-scrolling-grid: scrolling-grid 3s linear infinite;
+  --animate-slow-pulse: ping 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-slow-bounce: bounce 4s infinite;
 }
 
 @keyframes scrolling-grid {
@@ -94,7 +106,7 @@
     background-position: 0 0, 0 0;
   }
   100% {
-    background-position: 35px 35px, 35px 35px;
+    background-position: 50px 50px, 50px 50px;
   }
 }
 

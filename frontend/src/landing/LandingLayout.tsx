@@ -9,7 +9,6 @@ export default function LandingLayout() {
   return (
     <div className="min-h-screen text-white bg-gray-900">
       <Navbar />
-      <div className="fixed top-0 left-0 right-0 h-24 bg-gradient-to-b from-gray-900 via-gray-900/60 to-transparent pointer-events-none z-40 opacity-30" />
       <PageTransition key={location.pathname}>
         <Outlet />
       </PageTransition>

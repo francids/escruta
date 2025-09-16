@@ -1,14 +1,14 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import Logo from "@/shared/Logo";
-import { useAuth, useScroll } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
 import { justLanding, repoUrl } from "@/config";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { isAuthenticated } = useAuth();
-  const isScrolled = useScroll(50);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -42,17 +42,10 @@ export default function Navbar() {
     <>
       <motion.nav
         initial={{ opacity: 0, y: -30 }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          scale: isScrolled ? 0.95 : 1,
-          padding: isScrolled ? "12px 24px" : "16px 32px",
-        }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className={`fixed top-6 left-6 right-6 md:left-20 md:right-20 xl:left-32 xl:right-32 z-50 bg-gray-900/80 border border-gray-800 rounded-xs flex items-center justify-between backdrop-blur-lg transition-all duration-300 ease-out ${
-          isScrolled
-            ? "bg-gray-900/95 border-gray-700 outline outline-blue-400/30"
-            : "bg-gray-900/80 outline outline-blue-400/60"
+        className={`px-16 py-4 bg-gray-900/85 border-b rounded-xs flex items-center justify-between backdrop-blur-md transition-all duration-300 ease-out relative z-50 ${
+          location.pathname === "/" ? "border-blue-700" : "border-gray-800"
         }`}
       >
         <motion.div
@@ -62,11 +55,7 @@ export default function Navbar() {
           className="flex items-center gap-6"
         >
           <Link to="/" className="flex items-center group">
-            <Logo
-              className={`w-auto fill-white transition-all duration-300 group-hover:fill-blue-400 ${
-                isScrolled ? "h-3" : "h-4"
-              }`}
-            />
+            <Logo className="w-auto h-12 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
           </Link>
           <div className="hidden lg:flex gap-2">
             <motion.div
@@ -75,12 +64,10 @@ export default function Navbar() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Link
-                to="/about"
-                className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
-                  isScrolled ? "px-3 py-1.5" : "px-4 py-2"
-                }`}
+                to="/features"
+                className="text-sm font-medium rounded-xs bg-gray-900 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 px-4 py-2"
               >
-                About
+                Features
               </Link>
             </motion.div>
             <motion.div
@@ -90,9 +77,7 @@ export default function Navbar() {
             >
               <Link
                 to="/blog"
-                className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
-                  isScrolled ? "px-3 py-1.5" : "px-4 py-2"
-                }`}
+                className="text-sm font-medium rounded-xs bg-gray-900 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 px-4 py-2"
               >
                 Blog
               </Link>
@@ -104,9 +89,7 @@ export default function Navbar() {
             >
               <Link
                 to="/pricing"
-                className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none ${
-                  isScrolled ? "px-3 py-1.5" : "px-4 py-2"
-                }`}
+                className="text-sm font-medium rounded-xs bg-gray-900 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 px-4 py-2"
               >
                 Pricing
               </Link>
@@ -129,9 +112,7 @@ export default function Navbar() {
                 to={repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-sm font-medium rounded-xs bg-gray-900/80 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none flex items-center gap-2 ${
-                  isScrolled ? "px-3 py-1.5" : "px-4 py-2"
-                }`}
+                className="text-sm font-medium rounded-xs bg-gray-900 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 px-4 py-2"
               >
                 <svg
                   className="size-3"
@@ -151,9 +132,7 @@ export default function Navbar() {
             >
               <Link
                 to={justLanding ? repoUrl : "/app"}
-                className={`text-sm font-medium rounded-xs bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition-all duration-300 select-none flex items-center ${
-                  isScrolled ? "px-3 py-1.5" : "px-4 py-2"
-                }`}
+                className="text-sm font-medium rounded-xs bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition-all duration-300 select-none flex items-center px-4 py-2"
               >
                 {isAuthenticated() ? "Go to app" : "Get started"}
               </Link>
@@ -167,13 +146,11 @@ export default function Navbar() {
           >
             <button
               onClick={toggleMobileMenu}
-              className={`p-2 rounded-xs bg-gray-800 text-gray-200 hover:bg-gray-700 focus:ring-2 focus:ring-blue-400 transition-all duration-300 ${
-                isScrolled ? "p-1.5" : "p-2"
-              }`}
+              className="p-2 rounded-xs bg-gray-800/90 text-gray-100 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-gray-900 transition-all duration-300"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               <motion.svg
-                className={isScrolled ? "w-4 h-4" : "w-5 h-5"}
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -197,16 +174,16 @@ export default function Navbar() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -10 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="absolute right-0 top-full mt-2 w-48 bg-gray-900/95 border border-gray-700 rounded-xs backdrop-blur-lg overflow-hidden"
+                  className="absolute right-0 top-full mt-2 w-56 bg-gray-900 border border-gray-600 rounded-xs overflow-hidden shadow-lg z-50"
                 >
-                  <div className="py-2">
+                  <div className="py-1">
                     <Link
                       to="/about"
                       onClick={closeMobileMenu}
-                      className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors border-b border-gray-800/50"
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800/80 active:bg-gray-700 transition-all duration-200 border-b border-gray-700/30"
                     >
                       <svg
-                        className="size-3"
+                        className="size-4 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
@@ -218,10 +195,10 @@ export default function Navbar() {
                     <Link
                       to="/blog"
                       onClick={closeMobileMenu}
-                      className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors border-b border-gray-800/50"
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800/80 active:bg-gray-700 transition-all duration-200 border-b border-gray-700/30"
                     >
                       <svg
-                        className="size-3"
+                        className="size-4 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
@@ -233,10 +210,10 @@ export default function Navbar() {
                     <Link
                       to="/pricing"
                       onClick={closeMobileMenu}
-                      className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors border-b border-gray-800/50"
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800/80 active:bg-gray-700 transition-all duration-200 border-b border-gray-700/30"
                     >
                       <svg
-                        className="size-3"
+                        className="size-4 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
@@ -250,10 +227,10 @@ export default function Navbar() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={closeMobileMenu}
-                      className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800 transition-colors border-b border-gray-800/50"
+                      className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800/80 active:bg-gray-700 transition-all duration-200 border-b border-gray-700/30"
                     >
                       <svg
-                        className="size-3"
+                        className="size-4 flex-shrink-0"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
@@ -262,13 +239,15 @@ export default function Navbar() {
                       </svg>
                       Star on GitHub
                     </Link>
-                    <Link
-                      to={justLanding ? repoUrl : "/app"}
-                      onClick={closeMobileMenu}
-                      className="block px-4 py-3 text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors mx-2 my-2 rounded-xs text-center"
-                    >
-                      {isAuthenticated() ? "Go to app" : "Get started"}
-                    </Link>
+                    <div className="px-3 py-2">
+                      <Link
+                        to={justLanding ? repoUrl : "/app"}
+                        onClick={closeMobileMenu}
+                        className="block w-full px-4 py-3 text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 rounded-xs text-center"
+                      >
+                        {isAuthenticated() ? "Go to app" : "Get started"}
+                      </Link>
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -277,18 +256,12 @@ export default function Navbar() {
         </motion.div>
       </motion.nav>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={closeMobileMenu}
-          />
-        )}
-      </AnimatePresence>
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={closeMobileMenu}
+        />
+      )}
     </>
   );
 }

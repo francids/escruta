@@ -247,6 +247,7 @@ export default function FeaturesSection() {
 
   return (
     <section
+      id="features"
       className="py-12 md:py-20 relative bg-gray-900"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

@@ -2,23 +2,43 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 
 import AppDesktopImage from "../assets/AppDesktop.png";
-import AppMobileImage from "../assets/AppMobile.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
 import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
-    <section className="relative pt-40 pb-16 md:pt-8 md:min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-900">
+    <section className="relative w-full md:h-min-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
-      <div className="absolute inset-0 z-[9] overflow-hidden">
-        <div className="h-full w-full bg-linear-0 from-gray-900 via-transparent via-80% to-transparent" />
+      {/* App Image */}
+      <motion.div
+        className="absolute w-full h-full inset-0 z-[8] overflow-hidden hidden md:block"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <div className="absolute -right-72 lg:-right-16 top-24 w-4xl h-auto rounded-xs shadow-2xl shadow-blue-500/10">
+          <div className="relative p-1 rounded-xs">
+            <img
+              src={AppDesktopImage}
+              alt="App Desktop"
+              className="relative z-10 w-full h-auto select-none pointer-events-none rounded-xs bg-gray-900 border border-blue-700"
+            />
+            <span className="animate-[var(--animate-slow-pulse)] blur-2xl absolute inset-2 rounded-lg bg-blue-500 opacity-10"></span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Background Overlay */}
+      <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none">
+        <div className="h-full w-full bg-linear-0 from-gray-900 via-gray-900 via-15% to-gray-900/5" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center justify-center">
-        <div className="md:mt-36 w-full max-w-4xl text-center flex flex-col items-center justify-center">
+      {/* Content */}
+      <div className="md:container z-10 relative flex flex-col justify-end size-full px-12 md:px-16 py-16 md:py-24">
+        <div className="w-full md:max-w-2xl text-left flex flex-col items-start justify-start">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -47,7 +67,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
-            <p className="text-lg md:text-xl text-gray-400">
+            <p className="text-lg md:text-xl text-gray-400 text-left">
               Organize, analyze, and learn from your own knowledge. Ask
               questions, take notes, and get insights—all in a open-source
               platform.
@@ -58,7 +78,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
-            className="flex flex-col md:flex-row w-full justify-center items-center gap-4 px-8"
+            className="flex flex-col md:flex-row w-full justify-start items-start gap-4"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -90,26 +110,24 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
         </div>
-        <div className="flex justify-center mt-16 w-full max-w-5xl">
-          <motion.img
-            src={AppDesktopImage}
-            alt="App screenshot"
-            className="hidden md:block w-full rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
-            style={{ objectFit: "contain" }}
-            initial={{ opacity: 0, y: 60, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-          />
-          <motion.img
-            src={AppMobileImage}
-            alt="App screenshot"
-            className="block md:hidden w-5/6 rounded-xs outline outline-blue-400/60 select-none pointer-events-none"
-            style={{ objectFit: "contain" }}
-            initial={{ opacity: 0, y: 60, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-          />
-        </div>
+      </div>
+
+      <div
+        onClick={() => {
+          document
+            .getElementById("features")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
+        className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-6 h-6"
+        >
+          <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+        </svg>
       </div>
     </section>
   );
