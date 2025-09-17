@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 interface NavbarOption {
   name: string;
   href: string;
-  icon: React.ReactNode;
+  icon: (className: string) => React.ReactNode;
 }
 
 export default function Navbar() {
@@ -16,9 +16,9 @@ export default function Navbar() {
     {
       name: "Features",
       href: "/features",
-      icon: (
+      icon: (className) => (
         <svg
-          className="size-4 flex-shrink-0"
+          className={className}
           fill="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -30,9 +30,9 @@ export default function Navbar() {
     {
       name: "Blog",
       href: "/blog",
-      icon: (
+      icon: (className) => (
         <svg
-          className="size-4 flex-shrink-0"
+          className={className}
           fill="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -44,9 +44,9 @@ export default function Navbar() {
     {
       name: "Pricing",
       href: "/pricing",
-      icon: (
+      icon: (className) => (
         <svg
-          className="size-4 flex-shrink-0"
+          className={className}
           fill="currentColor"
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -138,7 +138,7 @@ export default function Navbar() {
                 className="text-sm font-medium rounded-xs bg-gray-900 text-white hover:bg-gray-800 group relative border border-gray-800 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 flex items-center gap-2 px-4 py-2"
               >
                 <svg
-                  className="size-3"
+                  className="size-3 flex-shrink-0"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -207,7 +207,7 @@ export default function Navbar() {
                         onClick={closeMobileMenu}
                         className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-gray-800/80 active:bg-gray-700 transition-all duration-200 border-b border-gray-700/30"
                       >
-                        {option.icon}
+                        {option.icon("size-4 flex-shrink-0")}
                         {option.name}
                       </Link>
                     ))}
