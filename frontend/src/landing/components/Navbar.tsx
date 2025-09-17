@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import Logo from "@/shared/Logo";
 import { useAuth } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 export default function Navbar() {
   const { isAuthenticated } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -40,9 +39,7 @@ export default function Navbar() {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className={`px-16 py-4 bg-gray-900/85 border-b rounded-xs flex items-center justify-between backdrop-blur-md transition-all duration-300 ease-out relative z-50 ${
-          location.pathname === "/" ? "border-blue-700" : "border-gray-800"
-        }`}
+        className="px-16 py-4 bg-gray-900/85 border-b border-blue-700 rounded-xs flex items-center justify-between backdrop-blur-md transition-all duration-300 ease-out relative z-50"
       >
         <motion.div
           initial={{ opacity: 0, x: -30 }}

@@ -1,6 +1,12 @@
-export default function SimpleBackground() {
+import { twMerge } from "tailwind-merge";
+
+export default function SimpleBackground({
+  className,
+}: {
+  className?: string;
+}) {
   return (
-    <div className="fixed inset-0 z-0">
+    <div className={twMerge("fixed inset-0 z-0", className)}>
       <div
         className="absolute inset-0 h-full w-full"
         style={{

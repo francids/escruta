@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import AppDesktopImage from "../assets/AppDesktop.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
+import SimpleBackground from "./backgrounds/SimpleBackground";
 import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
@@ -11,6 +12,7 @@ export default function HeroSection() {
     <section className="relative w-full md:h-min-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
+      <SimpleBackground className="z-10" />
 
       {/* App Image */}
       <motion.div
@@ -33,7 +35,7 @@ export default function HeroSection() {
 
       {/* Background Overlay */}
       <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none">
-        <div className="h-full w-full bg-linear-0 from-gray-900 via-gray-900 via-15% to-gray-900/5" />
+        <div className="h-full w-full bg-linear-to-t from-gray-900 via-gray-900 via-15% to-gray-900/5" />
       </div>
 
       {/* Content */}
