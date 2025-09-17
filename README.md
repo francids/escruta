@@ -1,5 +1,3 @@
-![Escruta Screenshot](./resources/AppScreenshot.png)
-
 # Escruta
 
 _"Think, ask, learn"_
