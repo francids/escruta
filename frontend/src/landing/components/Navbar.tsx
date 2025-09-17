@@ -27,14 +27,10 @@ export default function Navbar() {
 
     if (isMobileMenuOpen) {
       document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset";
     };
   }, [isMobileMenuOpen]);
 
