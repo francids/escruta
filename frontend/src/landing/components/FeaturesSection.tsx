@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@/hooks";
 import { motion } from "motion/react";
 import { useState, useRef, useEffect, type ReactNode } from "react";
 
@@ -98,10 +99,12 @@ function FeatureCard({
 }) {
   const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 });
   const [isPressed, setIsPressed] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    if (cardRef.current) {
+    if (cardRef.current && isDesktop) {
       const updatePosition = () => {
         const rect = cardRef.current!.getBoundingClientRect();
         const sectionElement = cardRef.current!.closest("section");
@@ -118,7 +121,7 @@ function FeatureCard({
       window.addEventListener("resize", updatePosition);
       return () => window.removeEventListener("resize", updatePosition);
     }
-  }, []);
+  }, [isDesktop]);
 
   const relativeMouseX = mousePosition.x - cardPosition.x;
   const relativeMouseY = mousePosition.y - cardPosition.y;
@@ -140,8 +143,8 @@ function FeatureCard({
     );
   };
 
-  const showEffect =
-    isMouseInArea && cardRef.current
+  const showDesktopEffect =
+    isDesktop && isMouseInArea && cardRef.current
       ? isNearCard(
           mousePosition.x,
           mousePosition.y,
@@ -153,68 +156,91 @@ function FeatureCard({
       : false;
 
   const handleMouseDown = () => {
-    setIsPressed(true);
+    if (isDesktop) setIsPressed(true);
   };
 
   const handleMouseUp = () => {
-    setIsPressed(false);
+    if (isDesktop) setIsPressed(false);
   };
 
   const handleMouseLeave = () => {
-    setIsPressed(false);
+    if (isDesktop) setIsPressed(false);
+  };
+
+  const handleTouchStart = () => {
+    if (!isDesktop) {
+      setIsTouched(true);
+      setTimeout(() => setIsTouched(false), 200);
+    }
   };
 
   return (
     <div
       ref={cardRef}
-      className={`group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${className}`}
+      className={`group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${
+        !isDesktop
+          ? "active:ring-2 active:ring-offset-2 active:ring-offset-transparent active:outline-0 active:ring-blue-500"
+          : ""
+      } ${className}`}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
     >
-      {/* Background glow effect */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
-          showEffect ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
-        }}
-      />
+      {isDesktop && (
+        <>
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
+              showDesktopEffect ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
+            }}
+          />
 
-      {/* Glowing border effect */}
-      <div
-        className={`absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none ${
-          showEffect ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
-          padding: "1px",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "exclude",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "exclude",
-        }}
-      />
+          <div
+            className={`absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none ${
+              showDesktopEffect ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
+              padding: "1px",
+              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              maskComposite: "exclude",
+              WebkitMask:
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "exclude",
+            }}
+          />
 
-      {/* Pressed border effect */}
-      <div
-        className={`absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none ${
-          isPressed ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          background: `linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 64, 175, 0.6))`,
-          padding: "1px",
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "exclude",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          WebkitMaskComposite: "exclude",
-        }}
-      />
+          <div
+            className={`absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none ${
+              isPressed ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background: `linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 64, 175, 0.6))`,
+              padding: "1px",
+              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              maskComposite: "exclude",
+              WebkitMask:
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "exclude",
+            }}
+          />
+        </>
+      )}
 
-      {/* Content */}
+      {!isDesktop && (
+        <div
+          className={`absolute inset-0 rounded-xs transition-opacity duration-150 pointer-events-none ${
+            isTouched ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            background: `linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(30, 64, 175, 0.2))`,
+          }}
+        />
+      )}
+
       <div className="relative z-10">
         <div className="text-blue-500 mb-4 md:mb-6">{feature.icon}</div>
         <h3 className="text-lg md:text-xl font-medium mb-2 md:mb-3 text-white">
@@ -231,18 +257,23 @@ function FeatureCard({
 export default function FeaturesSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMouseInArea, setIsMouseInArea] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-    setIsMouseInArea(true);
+    if (isDesktop) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+      setIsMouseInArea(true);
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsMouseInArea(false);
+    if (isDesktop) {
+      setIsMouseInArea(false);
+    }
   };
 
   return (
