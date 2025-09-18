@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import {
@@ -10,12 +11,12 @@ import {
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 
-import LandingLayout from "./landing/LandingLayout";
+const LandingLayout = lazy(() => import("./landing/LandingLayout"));
 import LandingRoutes from "./landing/LandingRoutes";
-import LoginPage from "./auth/pages/LoginPage";
-import RegisterPage from "./auth/pages/RegisterPage";
+const LoginPage = lazy(() => import("./auth/pages/LoginPage"));
+const RegisterPage = lazy(() => import("./auth/pages/RegisterPage"));
 import AppRoutes from "./app/AppRoutes";
-import ProtectedRoute from "./auth/ProtectedRoute";
+const ProtectedRoute = lazy(() => import("./auth/ProtectedRoute"));
 
 import NotFound from "./NotFound";
 

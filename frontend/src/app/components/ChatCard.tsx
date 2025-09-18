@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { useFetch } from "@/hooks";
 import { FireIcon, RestartIcon, SendIcon } from "./icons";
 import {
@@ -9,7 +10,7 @@ import {
   Button,
   Spinner,
 } from "./ui";
-import CodeBlock from "./CodeBlock";
+const CodeBlock = lazy(() => import("./CodeBlock"));
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 

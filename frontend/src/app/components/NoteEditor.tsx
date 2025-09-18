@@ -1,9 +1,10 @@
+import { lazy } from "react";
 import { useEffect, useState } from "react";
 import { useFetch } from "@/hooks";
 import type { Note } from "@/interfaces";
 import { CloseIcon, DeleteIcon, EditIcon, SaveIcon } from "./icons";
 import { Button, Card, IconButton, Modal, TextField, Tooltip } from "./ui";
-import Editor from "./Editor";
+const Editor = lazy(() => import("./Editor"));
 
 interface NoteEditorProps {
   notebookId: string;

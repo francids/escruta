@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { useEffect, useState } from "react";
 import { useFetch, useToast } from "@/hooks";
 import type { Source } from "@/interfaces";
@@ -18,7 +19,7 @@ import {
   Spinner,
 } from "./ui";
 import Markdown from "react-markdown";
-import CodeBlock from "./CodeBlock";
+const CodeBlock = lazy(() => import("./CodeBlock"));
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
 
 interface SourceViewerProps {

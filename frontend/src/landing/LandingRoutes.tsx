@@ -1,9 +1,10 @@
+import { lazy } from "react";
 import type { RouteObject } from "react-router";
 
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import PricingPage from "./pages/PricingPage";
-import BlogPage from "./pages/BlogPage";
+const HomePage = lazy(() => import("./pages/HomePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
 
 export default [
   {

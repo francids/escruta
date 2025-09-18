@@ -1,8 +1,10 @@
+import { lazy } from "react";
 import { type RouteObject } from "react-router";
 import AppLayout from "./layouts/AppLayout";
-import HomePage from "./pages/HomePage";
-import SettingsPage from "./pages/SettingsPage";
-import NotebookPage from "./pages/NotebookPage";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const NotebookPage = lazy(() => import("./pages/NotebookPage"));
 
 export default <RouteObject[]>[
   {
