@@ -101,6 +101,7 @@ export default function useFetch<T = unknown>(
           ...currentOptions,
           headers: {
             Authorization: `Bearer ${token!.token}`,
+            "Content-Type": "application/json",
             ...(currentOptions?.headers || {}),
           },
         };

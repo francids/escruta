@@ -1,11 +1,7 @@
-import { useCookie } from "@/hooks";
-import type { User } from "@/interfaces";
 import { AccountSection, AppearanceSection } from "../components/settings";
 import { motion } from "motion/react";
 
 export default function SettingsPage() {
-  const [user] = useCookie<User | null>("user", null);
-
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
       <motion.div
@@ -28,7 +24,7 @@ export default function SettingsPage() {
 
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-auto">
         <AppearanceSection />
-        <AccountSection user={user!} />
+        <AccountSection />
       </div>
     </div>
   );

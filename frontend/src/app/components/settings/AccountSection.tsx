@@ -1,22 +1,37 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, TextField } from "../ui";
-import type { User } from "@/interfaces";
 import CommonBar from "../CommonBar";
 import { useAuth, useFetch } from "@/hooks";
 
-interface AccountSectionProps {
-  user: User | null;
-}
+export default function AccountSection() {
+  const { logout, currentUser: user, fetchUserData } = useAuth();
 
-export default function AccountSection({ user }: AccountSectionProps) {
-  const { logout } = useAuth();
-
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [newFullName, setNewFullName] = useState(user?.fullName || "");
+  const [errorNameMessage, setErrorNameMessage] = useState("");
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorPasswordMessage, setErrorPasswordMessage] = useState("");
   const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const { loading: isUpdatingName, refetch: updateName } = useFetch<string>(
+    "/users/change-name",
+    {
+      method: "POST",
+      params: { newFullName },
+      onSuccess: () => {
+        setIsNameModalOpen(false);
+        fetchUserData();
+      },
+      onError: (error) => {
+        setErrorNameMessage(error.message || "Unknown error");
+        console.error("Error updating name:", error);
+      },
+    },
+    false
+  );
 
   const { loading: isChangingPassword, refetch: changePassword } =
     useFetch<string>(
@@ -145,10 +160,21 @@ export default function AccountSection({ user }: AccountSectionProps) {
                   {new Date(user.createdAt).toLocaleDateString()}
                 </p>
               </div>
+              <div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Last updated
+                </p>
+                <p className="font-medium">
+                  {new Date(user.updatedAt).toLocaleDateString()}
+                </p>
+              </div>
             </div>
           </div>
         )}
         <div className="flex gap-4">
+          <Button variant="secondary" onClick={() => setIsNameModalOpen(true)}>
+            Change name
+          </Button>
           <Button
             variant="secondary"
             onClick={() => setIsPasswordModalOpen(true)}
@@ -157,6 +183,51 @@ export default function AccountSection({ user }: AccountSectionProps) {
           </Button>
         </div>
       </div>
+
+      {/* Name Change Modal */}
+      <Modal
+        isOpen={isNameModalOpen}
+        onClose={() => {
+          setIsNameModalOpen(false);
+          setNewFullName(user?.fullName || "");
+          setErrorNameMessage("");
+        }}
+        title="Change full name"
+        actions={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsNameModalOpen(false);
+                setNewFullName(user?.fullName || "");
+                setErrorNameMessage("");
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => updateName()}
+              disabled={!newFullName || isUpdatingName}
+            >
+              {isUpdatingName ? "Updating..." : "Update name"}
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <TextField
+            id="full-name"
+            label="Full name"
+            type="text"
+            value={newFullName}
+            onChange={(e) => setNewFullName(e.target.value)}
+          />
+          {errorNameMessage && (
+            <div className="text-red-500 text-sm">{errorNameMessage}</div>
+          )}
+        </div>
+      </Modal>
 
       {/* Password Change Modal */}
       <Modal

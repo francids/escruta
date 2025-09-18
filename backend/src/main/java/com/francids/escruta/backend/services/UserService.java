@@ -45,6 +45,15 @@ public class UserService {
         return null;
     }
 
+    public void changeName(String newName) {
+        User currentUser = getCurrentFullUser();
+        if (currentUser == null) {
+            throw new BadCredentialsException("User not authenticated");
+        }
+        currentUser.setFullName(newName);
+        userRepository.save(currentUser);
+    }
+
     public void changePassword(ChangePasswordDto changePasswordDto) {
         User currentUser = getCurrentFullUser();
         if (currentUser == null) {

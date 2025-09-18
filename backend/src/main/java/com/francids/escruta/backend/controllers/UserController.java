@@ -28,6 +28,18 @@ public class UserController {
         return ResponseEntity.ok(basicUser);
     }
 
+    @PostMapping("/change-name")
+    public ResponseEntity<?> changeName(@RequestParam String newFullName) {
+        try {
+            userService.changeName(newFullName);
+            return ResponseEntity.ok().build();
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
         try {
