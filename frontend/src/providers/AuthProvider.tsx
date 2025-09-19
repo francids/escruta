@@ -68,7 +68,6 @@ export default function AuthProvider({
     } else {
       setCurrentUser(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenCookie?.token]);
 
   const isAuthenticated = useCallback(() => {

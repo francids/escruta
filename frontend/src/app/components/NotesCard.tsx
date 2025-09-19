@@ -38,7 +38,6 @@ export default function NotesCard({
     if (refreshTrigger !== undefined) {
       refetchNotes(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const {

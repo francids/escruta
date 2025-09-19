@@ -32,7 +32,6 @@ export default function SourcesCard({
     if (refreshTrigger !== undefined) {
       refetchSources(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const {

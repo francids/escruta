@@ -47,7 +47,6 @@ export default function NoteEditor({
 
   useEffect(() => {
     refetchNote(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note.id]);
 
   useEffect(() => {

@@ -213,7 +213,6 @@ export default function ChatCard({
 
   useEffect(() => {
     refetchSummary(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const [messages, setMessages] = useState<Message[]>([]);

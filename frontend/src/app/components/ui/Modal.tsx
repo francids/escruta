@@ -37,7 +37,6 @@ export default function Modal({
     return () => {
       if (isOpen) {
         document.body.style.overflow = "";
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         closeModal(modalId.current);
       }
     };

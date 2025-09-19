@@ -63,7 +63,6 @@ export default function SourceViewer({
 
   useEffect(() => {
     refetchSource(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source.id]);
 
   const {
@@ -133,7 +132,6 @@ export default function SourceViewer({
 
   useEffect(() => {
     refetchSummary(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source.id]);
 
   return (
