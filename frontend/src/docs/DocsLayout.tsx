@@ -8,10 +8,13 @@ import "./docs.css";
 
 export default function DocsLayout() {
   const [title, setTitle] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { effectiveTheme } = useTheme();
 
   return (
-    <DocsContext.Provider value={{ title, setTitle }}>
+    <DocsContext.Provider
+      value={{ title, setTitle, sidebarOpen, setSidebarOpen }}
+    >
       <div className="h-screen flex flex-col">
         <NavTopBar />
         <div className="flex flex-grow overflow-hidden">

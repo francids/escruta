@@ -1,11 +1,36 @@
 import { Link } from "react-router";
+import { useContext } from "react";
+import { DocsContext } from "@/contexts";
 import Logo from "@/shared/Logo";
 import { repoUrl } from "@/config";
 
 export default function NavTopBar() {
+  const context = useContext(DocsContext);
+  if (!context) throw new Error("DocsContext not found");
+  const { setSidebarOpen } = context;
+
   return (
     <nav className="px-6 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
       <div className="flex items-center gap-4">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="md:hidden p-2 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Open sidebar"
+        >
+          <svg
+            className="size-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
         <Link to="/" className="flex items-center group">
           <Logo className="size-5.5 fill-gray-700 dark:fill-gray-200 group-hover:fill-blue-600 dark:group-hover:fill-blue-300 transition-all duration-300" />
         </Link>

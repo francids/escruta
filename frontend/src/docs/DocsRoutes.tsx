@@ -31,6 +31,10 @@ const JokePage = createDocsPage(
   lazy(() => import("./pages/joke.mdx")),
   "./pages/joke.mdx"
 );
+const DocsNotFoundPage = createDocsPage(
+  lazy(() => import("./pages/404.mdx")),
+  "./pages/404.mdx"
+);
 
 export default [
   {
@@ -44,10 +48,10 @@ export default [
         path: "joke",
         Component: JokePage,
       },
+      {
+        path: "*",
+        Component: DocsNotFoundPage,
+      },
     ],
-  },
-  {
-    path: "*",
-    Component: lazy(() => import("./DocsNotFoundPage")),
   },
 ] satisfies RouteObject[];
