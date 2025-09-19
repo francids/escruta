@@ -25,24 +25,24 @@
   line-height: 1.15;
 }
 .docs-prose h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-top: 1em;
   margin-bottom: 0.3em;
 }
 .docs-prose h2 {
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   margin-top: 0.8em;
   margin-bottom: 0.2em;
 }
 .docs-prose h3 {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-top: 0.7em;
   margin-bottom: 0.15em;
 }
 .docs-prose h4,
 .docs-prose h5,
 .docs-prose h6 {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   margin-top: 0.6em;
   margin-bottom: 0.1em;
 }
@@ -271,24 +271,24 @@ html.dark .docs-prose .hljs-attribute {
   color: var(--color-white);
 }
 .docs-prose-invert h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-top: 1em;
   margin-bottom: 0.3em;
 }
 .docs-prose-invert h2 {
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   margin-top: 0.8em;
   margin-bottom: 0.2em;
 }
 .docs-prose-invert h3 {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-top: 0.7em;
   margin-bottom: 0.15em;
 }
 .docs-prose-invert h4,
 .docs-prose-invert h5,
 .docs-prose-invert h6 {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   margin-top: 0.6em;
   margin-bottom: 0.1em;
 }
