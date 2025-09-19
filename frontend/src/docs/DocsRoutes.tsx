@@ -46,4 +46,8 @@ export default [
       },
     ],
   },
+  {
+    path: "*",
+    Component: lazy(() => import("./DocsNotFoundPage")),
+  },
 ] satisfies RouteObject[];
