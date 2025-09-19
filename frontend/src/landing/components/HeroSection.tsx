@@ -4,24 +4,22 @@ import { motion } from "motion/react";
 import AppDesktopImage from "../assets/AppDesktop.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
-import SimpleBackground from "./backgrounds/SimpleBackground";
 import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full md:h-min-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
+    <section className="relative pb-6 md:pb-0 w-full h-min-[calc(100vh-80px)] h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
-      <SimpleBackground className="z-10" />
 
       {/* App Image */}
       <motion.div
-        className="absolute w-full h-full inset-0 z-[8] overflow-hidden hidden md:block"
+        className="absolute w-full h-full inset-0 z-[8] overflow-hidden hidden lg:block"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <div className="absolute -right-72 lg:-right-16 top-24 w-4xl h-auto rounded-xs shadow-2xl shadow-blue-500/10">
+        <div className="absolute -right-16 top-24 w-4xl h-auto rounded-xs shadow-2xl shadow-blue-500/10">
           <div className="relative p-1 rounded-xs">
             <img
               src={AppDesktopImage}
@@ -39,8 +37,8 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="md:container z-10 relative flex flex-col justify-end size-full px-12 md:px-16 py-16 md:py-24">
-        <div className="w-full md:max-w-2xl text-left flex flex-col items-start justify-start">
+      <div className="mx-auto z-10 relative flex flex-col justify-end size-full px-6 md:px-12 lg:px-24 py-16 md:py-24">
+        <div className="w-full text-left flex flex-col items-start justify-start">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -55,7 +53,7 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="mb-6"
           >
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
@@ -67,9 +65,9 @@ export default function HeroSection() {
             className="relative mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
-            <p className="text-lg md:text-xl text-gray-400 text-left">
+            <p className="max-w-2xl text-lg md:text-xl text-gray-400 text-left font-medium">
               Organize, analyze, and learn from your own knowledge. Ask
               questions, take notes, and get insights—all in a open-source
               platform.
@@ -79,18 +77,18 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.7, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             className="flex flex-col md:flex-row w-full justify-start items-start gap-4"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.9 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
               className="w-full md:w-auto"
             >
               <Link
                 to={justLanding ? repoUrl : "/app"}
-                className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
+                className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-semibold text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
               >
                 Start exploring
               </Link>
@@ -98,7 +96,7 @@ export default function HeroSection() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 1 }}
+              transition={{ duration: 0.8, delay: 1 }}
               className="w-full md:w-auto"
             >
               <Link
@@ -120,14 +118,9 @@ export default function HeroSection() {
             .getElementById("features")
             ?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
+        className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6"
-        >
+        <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
           <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
         </svg>
       </div>

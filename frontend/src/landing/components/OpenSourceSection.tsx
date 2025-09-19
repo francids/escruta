@@ -1,124 +1,77 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { repoUrl } from "@/config";
-import GradientBackgroundImage from "../assets/Gradient.png";
+import LetterGlitchBackground from "./backgrounds/LetterGlitchBackground";
 
 export default function OpenSourceSection() {
   return (
-    <section className="relative py-24 md:py-32 bg-gray-900 border-t border-gray-800 overflow-hidden">
-      <div className="absolute inset-0 z-0 overflow-hidden ">
-        <img
-          src={GradientBackgroundImage}
-          alt="Background"
-          className="select-none pointer-events-none object-cover w-full h-full"
-        />
-      </div>
-      GradientBackgroundImage
-      <div className="container mx-auto mt-8 px-4 md:px-6 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
+    <section className="relative border-t border-gray-800 overflow-hidden">
+      <LetterGlitchBackground
+        className="absolute inset-0 opacity-25"
+        characters="ESCRUTA"
+      />
+      <div className="mx-auto py-24 md:py-32 relative z-10">
+        <div className="mx-auto text-center px-6 md:px-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
             className="mb-6"
           >
-            <span className="px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5.88401 18.6533C5.58404 18.4526 5.32587 18.1975 5.0239 17.8369C4.91473 17.7065 4.47283 17.1524 4.55811 17.2583C4.09533 16.6833 3.80296 16.417 3.50156 16.3089C2.9817 16.1225 2.7114 15.5499 2.89784 15.0301C3.08428 14.5102 3.65685 14.2399 4.17672 14.4263C4.92936 14.6963 5.43847 15.1611 6.12425 16.0143C6.03025 15.8974 6.46364 16.441 6.55731 16.5529C6.74784 16.7804 6.88732 16.9182 6.99629 16.9911C7.20118 17.1283 7.58451 17.1874 8.14709 17.1311C8.17065 16.7489 8.24136 16.3783 8.34919 16.0358C5.38097 15.3104 3.70116 13.3952 3.70116 9.63971C3.70116 8.40085 4.0704 7.28393 4.75917 6.3478C4.5415 5.45392 4.57433 4.37284 5.06092 3.15636C5.1725 2.87739 5.40361 2.66338 5.69031 2.57352C5.77242 2.54973 5.81791 2.53915 5.89878 2.52673C6.70167 2.40343 7.83573 2.69705 9.31449 3.62336C10.181 3.41879 11.0885 3.315 12.0012 3.315C12.9129 3.315 13.8196 3.4186 14.6854 3.62277C16.1619 2.69 17.2986 2.39649 18.1072 2.52651C18.1919 2.54013 18.2645 2.55783 18.3249 2.57766C18.6059 2.66991 18.8316 2.88179 18.9414 3.15636C19.4279 4.37256 19.4608 5.45344 19.2433 6.3472C19.9342 7.28337 20.3012 8.39208 20.3012 9.63971C20.3012 13.3968 18.627 15.3048 15.6588 16.032C15.7837 16.447 15.8496 16.9105 15.8496 17.4121C15.8496 18.0765 15.8471 18.711 15.8424 19.4225C15.8412 19.6127 15.8397 19.8159 15.8375 20.1281C16.2129 20.2109 16.5229 20.5077 16.6031 20.9089C16.7114 21.4504 16.3602 21.9773 15.8186 22.0856C14.6794 22.3134 13.8353 21.5538 13.8353 20.5611C13.8353 20.4708 13.836 20.3417 13.8375 20.1145C13.8398 19.8015 13.8412 19.599 13.8425 19.4094C13.8471 18.7019 13.8496 18.0716 13.8496 17.4121C13.8496 16.7148 13.6664 16.2602 13.4237 16.051C12.7627 15.4812 13.0977 14.3973 13.965 14.2999C16.9314 13.9666 18.3012 12.8177 18.3012 9.63971C18.3012 8.68508 17.9893 7.89571 17.3881 7.23559C17.1301 6.95233 17.0567 6.54659 17.199 6.19087C17.3647 5.77663 17.4354 5.23384 17.2941 4.57702L17.2847 4.57968C16.7928 4.71886 16.1744 5.0198 15.4261 5.5285C15.182 5.69438 14.8772 5.74401 14.5932 5.66413C13.7729 5.43343 12.8913 5.315 12.0012 5.315C11.111 5.315 10.2294 5.43343 9.40916 5.66413C9.12662 5.74359 8.82344 5.69492 8.57997 5.53101C7.8274 5.02439 7.2056 4.72379 6.71079 4.58376C6.56735 5.23696 6.63814 5.77782 6.80336 6.19087C6.94565 6.54659 6.87219 6.95233 6.61423 7.23559C6.01715 7.8912 5.70116 8.69376 5.70116 9.63971C5.70116 12.8116 7.07225 13.9683 10.023 14.2999C10.8883 14.3971 11.2246 15.4769 10.5675 16.0482C10.3751 16.2156 10.1384 16.7802 10.1384 17.4121V20.5611C10.1384 21.5474 9.30356 22.2869 8.17878 22.09C7.63476 21.9948 7.27093 21.4766 7.36613 20.9326C7.43827 20.5204 7.75331 20.2116 8.13841 20.1276V19.1381C7.22829 19.1994 6.47656 19.0498 5.88401 18.6533Z"></path>
+              </svg>
               Open source
             </span>
           </motion.div>
 
           <motion.h2
-            className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-6"
+            className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            Built for the <span className="text-blue-400">community</span>
+            Built in the <span className="text-blue-400">open</span>
           </motion.h2>
 
           <motion.p
-            className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed"
+            className="font-medium text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            Escruta is completely open source, ensuring transparency. Contribute
-            to the project, customize it to your needs, or simply explore its
-            inner workings. Your research tools should be as open as your own
-            research.
+            Transparent, community-driven, and open research tools foster
+            collaboration, innovation, and accessibility for the scientific
+            community.
           </motion.p>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="group relative p-6 rounded-xs bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10">
-                <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-600/20 rounded-xs group-hover:bg-blue-600/30 transition-all duration-300">
-                  <svg
-                    className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M13 21V23.5L10 21.5L7 23.5V21H6.5C4.567 21 3 19.433 3 17.5V5C3 3.34315 4.34315 2 6 2H20C20.5523 2 21 2.44772 21 3V20C21 20.5523 20.5523 21 20 21H13ZM13 19H19V16H6.5C5.67157 16 5 16.6716 5 17.5C5 18.3284 5.67157 19 6.5 19H7V17H13V19ZM19 14V4H6V14.0354C6.1633 14.0121 6.33024 14 6.5 14H19ZM7 5H9V7H7V5ZM7 8H9V10H7V8ZM7 11H9V13H7V11Z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-100 transition-colors duration-300">
-                  Transparent
-                </h3>
-                <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">
-                  Every line of code is open for inspection. No hidden
-                  algorithms or mysterious processes.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative p-6 rounded-xs bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all duration-300 cursor-pointer overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10">
-                <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-blue-600/20 rounded-xs group-hover:bg-blue-600/30 transition-all duration-300">
-                  <svg
-                    className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M11 6H7V20H17V6H13V4H11V6ZM9 4V3C9 2.44772 9.44772 2 10 2H14C14.5523 2 15 2.44772 15 3V4H18C18.5523 4 19 4.44772 19 5V21C19 21.5523 18.5523 22 18 22H6C5.44772 22 5 21.5523 5 21V5C5 4.44772 5.44772 4 6 4H9Z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-100 transition-colors duration-300">
-                  Customizable
-                </h3>
-                <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors duration-300">
-                  Fork, modify, and adapt Escruta to fit your specific research
-                  workflow and requirements.
-                </p>
-              </div>
-            </div>
-          </motion.div>
 
           <motion.div
             className="flex flex-col md:flex-row items-center justify-center gap-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             viewport={{ once: true }}
           >
             <Link
               to={repoUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs bg-blue-600 px-6 md:px-8 font-semibold text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
+            >
+              View source
+            </Link>
+
+            <Link
+              to={`${repoUrl}/blob/main/CONTRIBUTING.md`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-gray-900 text-white hover:bg-gray-800 group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
             >
-              Source code
+              Contribute
             </Link>
           </motion.div>
         </div>

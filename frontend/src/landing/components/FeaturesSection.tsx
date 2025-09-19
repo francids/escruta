@@ -283,13 +283,24 @@ export default function FeaturesSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-6 md:px-24">
         <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-6"
+          >
+            <span className="px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none">
+              Features
+            </span>
+          </motion.div>
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
           >
             Comprehensive research tools at your fingertips
@@ -298,7 +309,7 @@ export default function FeaturesSection() {
             className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true }}
           >
             Powerful and intuitive features designed to transform how you
@@ -307,10 +318,10 @@ export default function FeaturesSection() {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 mx-4 lg:mx-24 relative"
+          className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 relative"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           viewport={{ once: true }}
         >
           {features.map((feature, index) => {
