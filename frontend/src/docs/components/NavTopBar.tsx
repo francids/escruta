@@ -1,0 +1,39 @@
+import { Link } from "react-router";
+import Logo from "@/shared/Logo";
+import { repoUrl } from "@/config";
+
+export default function NavTopBar() {
+  return (
+    <nav className="px-6 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <Link to="/" className="flex items-center group">
+          <Logo className="size-5.5 fill-gray-700 dark:fill-gray-200 group-hover:fill-blue-600 dark:group-hover:fill-blue-300 transition-all duration-300" />
+        </Link>
+        <Link
+          to="/docs"
+          className="text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 flex items-center gap-2 px-3 py-1"
+        >
+          Docs
+        </Link>
+      </div>
+      <div className="flex items-center gap-2">
+        <Link
+          to={repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 flex items-center gap-2 px-3 py-1"
+        >
+          <svg
+            className="size-3 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"></path>
+          </svg>
+          Star
+        </Link>
+      </div>
+    </nav>
+  );
+}
