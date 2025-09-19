@@ -8,7 +8,7 @@ import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
-    <section className="relative pb-6 md:pb-0 w-full h-min-[calc(100vh-80px)] h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
+    <section className="relative pb-6 md:pb-0 w-full md:h-min-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
@@ -121,7 +121,7 @@ export default function HeroSection() {
             .getElementById("features")
             ?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
+        className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 hidden md:flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
       >
         <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
           <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
