@@ -11,8 +11,9 @@ import {
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 
-const LandingLayout = lazy(() => import("./landing/LandingLayout"));
+import MainLayout from "./MainLayout";
 import LandingRoutes from "./landing/LandingRoutes";
+import DocsRoutes from "./docs/DocsRoutes";
 const LoginPage = lazy(() => import("./auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("./auth/pages/RegisterPage"));
 import AppRoutes from "./app/AppRoutes";
@@ -27,8 +28,13 @@ const router = createBrowserRouter(
   justLanding
     ? [
         {
-          Component: LandingLayout,
+          Component: MainLayout,
           children: LandingRoutes,
+        },
+        {
+          path: "/docs",
+          Component: MainLayout,
+          children: DocsRoutes,
         },
         {
           path: "*",
@@ -37,8 +43,13 @@ const router = createBrowserRouter(
       ]
     : [
         {
-          Component: LandingLayout,
+          Component: MainLayout,
           children: LandingRoutes,
+        },
+        {
+          path: "/docs",
+          Component: MainLayout,
+          children: DocsRoutes,
         },
         {
           path: "login",
