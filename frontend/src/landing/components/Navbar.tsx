@@ -99,7 +99,7 @@ export default function Navbar() {
           className="flex items-center gap-6"
         >
           <Link to="/" className="flex items-center group">
-            <Logo className="w-auto h-12 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
+            <Logo className="size-12 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
           </Link>
           <div className="hidden lg:flex gap-2">
             {navbarOptions.map((option, index) => (
