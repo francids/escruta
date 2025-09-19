@@ -34,6 +34,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/eslint": "^9.6.1",
     "@types/js-cookie": "^3.0.6",
+    "@types/mdx": "^2.0.13",
     "@types/node": "^24.0.3",
     "@types/quill": "^2.0.14",
     "@types/react": "^19.1.2",

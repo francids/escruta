@@ -1,5 +1,6 @@
 export { default as useAuth } from "./useAuth";
 export { default as useCookie } from "./useCookie";
+export { default as useDocsContext } from "./useDocsContext";
 export { default as useFetch } from "./useFetch";
 export { default as useMediaQuery } from "./useMediaQuery";
 export { default as useModal } from "./useModal";

@@ -1,8 +1,36 @@
-import { lazy } from "react";
+import { lazy, useEffect, type JSX, type LazyExoticComponent } from "react";
 import type { RouteObject } from "react-router";
 import DocsLayout from "./DocsLayout";
+import type { MDXProps } from "mdx/types";
+import { useDocsContext } from "@/hooks";
 
-const DocsHomePage = lazy(() => import("./index.mdx"));
+interface MDXModuleProps {
+  title: string;
+}
+
+function createDocsPage(
+  LazyComponent: LazyExoticComponent<(props: MDXProps) => JSX.Element>,
+  importPath: string
+) {
+  return () => {
+    const { setTitle } = useDocsContext();
+    useEffect(() => {
+      import(importPath).then((module: MDXModuleProps) =>
+        setTitle(module.title)
+      );
+    }, [setTitle]);
+    return <LazyComponent />;
+  };
+}
+
+const DocsHomePage = createDocsPage(
+  lazy(() => import("./pages/index.mdx")),
+  "./pages/index.mdx"
+);
+const JokePage = createDocsPage(
+  lazy(() => import("./pages/joke.mdx")),
+  "./pages/joke.mdx"
+);
 
 export default [
   {
@@ -11,6 +39,10 @@ export default [
       {
         index: true,
         Component: DocsHomePage,
+      },
+      {
+        path: "joke",
+        Component: JokePage,
       },
     ],
   },
