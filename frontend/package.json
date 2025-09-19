@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:landing": "VITE_JUST_LANDING=true bun run dev",
+    "dev:landing": "VITE_JUST_LANDING=true npm run dev",
     "build": "tsc -b && vite build",
-    "build:landing": "VITE_JUST_LANDING=true bun run build",
+    "build:landing": "VITE_JUST_LANDING=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -21,7 +21,7 @@ _"Think, ask, learn"_
 The project is organized into three main directories: [`frontend/`](./frontend/), [`backend/`](./backend/) and [`mobile/`](./mobile/).
 
 - **Backend**: Java, Spring Boot, Spring Web, Spring Security, Spring AI (OpenAI Starter).
-- **Frontend**: Bun, TypeScript, Vite, React, React Router, Tailwind CSS, Motion.
+- **Frontend**: Node.js, TypeScript, Vite, React, React Router, Tailwind CSS, Motion.
 - **Mobile**: Bun, TypeScript, React Native, Expo, twrnc.
 - **Database**: PostgreSQL, pgvector.
 
