@@ -15,21 +15,18 @@ interface NavSection {
 const navSections: NavSection[] = [
   {
     title: "Get started",
-    items: [
-      { title: "Welcome", path: "/docs" },
-      { title: "Joke", path: "/docs/joke" },
-    ],
+    items: [{ title: "Welcome", path: "/docs" }],
   },
   {
     title: "Features",
     items: [
-      { title: "Notebooks", path: "/docs/notebooks" },
-      { title: "Notes", path: "/docs/notes" },
-      { title: "Sources", path: "/docs/sources" },
-      { title: "Audio Summary", path: "/docs/audio-summary" },
-      { title: "Mind Map", path: "/docs/mind-map" },
-      { title: "Study Guide", path: "/docs/study-guide" },
-      { title: "Flashcards", path: "/docs/flashcards" },
+      { title: "Notebooks", path: "/docs/features/notebooks" },
+      { title: "Notes", path: "/docs/features/notes" },
+      { title: "Sources", path: "/docs/features/sources" },
+      { title: "Audio Summary", path: "/docs/features/audio-summary" },
+      { title: "Mind Map", path: "/docs/features/mind-map" },
+      { title: "Study Guide", path: "/docs/features/study-guide" },
+      { title: "Flashcards", path: "/docs/features/flashcards" },
     ],
   },
 ];

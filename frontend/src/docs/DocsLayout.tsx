@@ -19,14 +19,15 @@ export default function DocsLayout() {
       <SimpleBackground className="opacity-60 dark:opacity-30" />
       <div className="h-screen flex flex-col">
         <NavTopBar />
-        <div className="flex flex-grow overflow-hidden">
+        <div className="flex flex-grow overflow-hidden pt-14">
           <NavSidePanel />
+          {/* Main content */}
           <article
-            className={`flex-grow overflow-hidden docs-prose ${
+            className={`flex flex-grow overflow-auto docs-prose ${
               effectiveTheme === "dark" ? "docs-prose-invert" : ""
-            } max-w-none bg-gray-50 dark:bg-gray-800`}
+            } max-w-none h-full bg-gray-50 dark:bg-gray-800`}
           >
-            <div className="h-full mx-6 md:mx-12 lg:mx-24 overflow-auto py-12 select-text">
+            <div className="h-full mx-8 md:mx-16 lg:mx-32 py-8 select-text">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-xs text-sm font-semibold bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-300 dark:border-blue-700 select-none">
                 <svg
                   className="size-3.5"
@@ -41,6 +42,8 @@ export default function DocsLayout() {
               <Outlet />
             </div>
           </article>
+          {/* Fake sidebar */}
+          <aside className="hidden lg:block w-32 min-w-32 max-w-32 xl:w-60 xl:min-w-60 xl:max-w-60 bg-gray-50 dark:bg-gray-800/60 border-l border-gray-100 dark:border-gray-700 overflow-auto"></aside>
         </div>
       </div>
     </DocsContext.Provider>
