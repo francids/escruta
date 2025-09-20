@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { DocsContext } from "@/contexts";
 
 interface NavItem {
-  name: string;
+  title: string;
   path: string;
 }
 
@@ -16,16 +16,20 @@ const navSections: NavSection[] = [
   {
     title: "Get started",
     items: [
-      { name: "Welcome", path: "/docs" },
-      { name: "Joke", path: "/docs/joke" },
+      { title: "Welcome", path: "/docs" },
+      { title: "Joke", path: "/docs/joke" },
     ],
   },
   {
     title: "Features",
     items: [
-      { name: "Notebooks", path: "/docs/notebooks" },
-      { name: "Notes", path: "/docs/notes" },
-      { name: "Sources", path: "/docs/sources" },
+      { title: "Notebooks", path: "/docs/notebooks" },
+      { title: "Notes", path: "/docs/notes" },
+      { title: "Sources", path: "/docs/sources" },
+      { title: "Audio Summary", path: "/docs/audio-summary" },
+      { title: "Mind Map", path: "/docs/mind-map" },
+      { title: "Study Guide", path: "/docs/study-guide" },
+      { title: "Flashcards", path: "/docs/flashcards" },
     ],
   },
 ];
@@ -39,12 +43,12 @@ export default function NavSidePanel() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:block w-60 min-w-60 max-w-60 bg-gray-50 dark:bg-gray-800/60 border-r border-gray-200 dark:border-gray-700 overflow-auto">
+      <aside className="hidden md:block w-60 min-w-60 max-w-60 bg-gray-50 dark:bg-gray-800/60 border-r border-gray-100 dark:border-gray-700 overflow-auto">
         <nav className="p-4">
           <ul className="space-y-6">
             {navSections.map((section) => (
               <li key={section.title}>
-                <h3 className="px-3 py-2 text-sm font-bold text-gray-900 dark:text-gray-200">
+                <h3 className="px-3 py-2 text-sm font-bold text-gray-600/60 dark:text-gray-200/60">
                   {section.title}
                 </h3>
                 <ul className="space-y-0.5">
@@ -52,13 +56,13 @@ export default function NavSidePanel() {
                     <li key={item.path}>
                       <Link
                         to={item.path}
-                        className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-gray-800/60 ${
+                        className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100/30 dark:hover:bg-gray-800/60 ${
                           location.pathname === item.path
-                            ? "bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-white"
+                            ? "bg-gray-100/60 dark:bg-gray-800 font-semibold text-gray-700 dark:text-white"
                             : ""
                         }`}
                       >
-                        {item.name}
+                        {item.title}
                       </Link>
                     </li>
                   ))}
@@ -76,7 +80,7 @@ export default function NavSidePanel() {
             className="md:hidden fixed inset-0 bg-black/50 z-40"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="md:hidden fixed inset-y-0 left-0 z-50 w-52 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-auto">
+          <aside className="md:hidden fixed inset-y-0 left-0 z-50 w-52 bg-gray-50 dark:bg-gray-800/60 border-r border-gray-100 dark:border-gray-700 overflow-auto">
             <div className="flex items-center justify-end p-3 border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -92,7 +96,7 @@ export default function NavSidePanel() {
               <ul className="space-y-6">
                 {navSections.map((section) => (
                   <li key={section.title}>
-                    <h3 className="px-3 py-2 text-sm font-bold text-gray-900 dark:text-gray-200">
+                    <h3 className="px-3 py-2 text-sm font-bold text-gray-600/60 dark:text-gray-200/60">
                       {section.title}
                     </h3>
                     <ul className="space-y-0.5">
@@ -101,13 +105,13 @@ export default function NavSidePanel() {
                           <Link
                             to={item.path}
                             onClick={() => setSidebarOpen(false)}
-                            className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2 ${
+                            className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100/30 dark:hover:bg-gray-800/60 ${
                               location.pathname === item.path
-                                ? "bg-gray-100 dark:bg-gray-800"
+                                ? "bg-gray-100/60 dark:bg-gray-800 font-semibold text-gray-700 dark:text-white"
                                 : ""
                             }`}
                           >
-                            {item.name}
+                            {item.title}
                           </Link>
                         </li>
                       ))}

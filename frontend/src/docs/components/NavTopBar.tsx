@@ -10,7 +10,7 @@ export default function NavTopBar() {
   const { setSidebarOpen } = context;
 
   return (
-    <nav className="px-6 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+    <nav className="px-6 py-3 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <button
           onClick={() => setSidebarOpen(true)}

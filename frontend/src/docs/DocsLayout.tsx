@@ -16,7 +16,7 @@ export default function DocsLayout() {
     <DocsContext.Provider
       value={{ title, setTitle, sidebarOpen, setSidebarOpen }}
     >
-      <SimpleBackground className="opacity-30" />
+      <SimpleBackground className="opacity-60 dark:opacity-30" />
       <div className="h-screen flex flex-col">
         <NavTopBar />
         <div className="flex flex-grow overflow-hidden">
