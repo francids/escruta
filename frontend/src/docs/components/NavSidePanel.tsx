@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useContext } from "react";
 import { DocsContext } from "@/contexts";
 
@@ -31,6 +31,7 @@ const navSections: NavSection[] = [
 ];
 
 export default function NavSidePanel() {
+  const location = useLocation();
   const context = useContext(DocsContext);
   if (!context) throw new Error("DocsContext not found");
   const { sidebarOpen, setSidebarOpen } = context;
@@ -38,7 +39,7 @@ export default function NavSidePanel() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:block w-64 bg-gray-50 dark:bg-gray-800/60 border-r border-gray-200 dark:border-gray-700 overflow-auto">
+      <aside className="hidden md:block w-60 min-w-60 max-w-60 bg-gray-50 dark:bg-gray-800/60 border-r border-gray-200 dark:border-gray-700 overflow-auto">
         <nav className="p-4">
           <ul className="space-y-6">
             {navSections.map((section) => (
@@ -51,7 +52,11 @@ export default function NavSidePanel() {
                     <li key={item.path}>
                       <Link
                         to={item.path}
-                        className="block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2"
+                        className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2 ${
+                          location.pathname === item.path
+                            ? "bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-white"
+                            : ""
+                        }`}
                       >
                         {item.name}
                       </Link>
@@ -96,7 +101,11 @@ export default function NavSidePanel() {
                           <Link
                             to={item.path}
                             onClick={() => setSidebarOpen(false)}
-                            className="block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2"
+                            className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2 ${
+                              location.pathname === item.path
+                                ? "bg-gray-100 dark:bg-gray-800"
+                                : ""
+                            }`}
                           >
                             {item.name}
                           </Link>
