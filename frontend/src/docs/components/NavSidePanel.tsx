@@ -52,7 +52,7 @@ export default function NavSidePanel() {
                     <li key={item.path}>
                       <Link
                         to={item.path}
-                        className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 active:outline-none active:ring-2 ${
+                        className={`block px-3 py-1 rounded-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-gray-800/60 ${
                           location.pathname === item.path
                             ? "bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-white"
                             : ""
