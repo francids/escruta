@@ -28,7 +28,7 @@ export default function OpenSourceSection() {
           </motion.div>
 
           <motion.h2
-            className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6"
+            className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -38,14 +38,14 @@ export default function OpenSourceSection() {
           </motion.h2>
 
           <motion.p
-            className="font-medium text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed"
+            className="font-medium text-lg md:text-xl text-gray-400 mb-6 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            Transparent, community-driven, and open research tools foster
-            collaboration, innovation, and accessibility for the scientific
+            Transparent, community-based, and open research tools foster
+            collaboration, innovation, and accessibility for the research
             community.
           </motion.p>
 

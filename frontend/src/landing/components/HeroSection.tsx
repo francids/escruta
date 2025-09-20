@@ -57,7 +57,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="mb-6"
+            className="mb-4"
           >
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
               Think, ask, <span className="text-blue-400">learn</span>
@@ -65,14 +65,14 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="relative mb-8"
+            className="relative mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
             <p className="max-w-2xl text-lg md:text-xl text-gray-400 text-left font-medium">
               Organize, analyze, and learn from your own knowledge. Ask
-              questions, take notes, and get insights—all in a open-source
+              questions, take notes, and gain valuable insights, all in one
               platform.
             </p>
           </motion.div>
