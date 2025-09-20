@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useContext } from "react";
 import { DocsContext } from "@/contexts";
-import Logo from "@/shared/Logo";
+import Logotype from "@/shared/Logotype";
 import { repoUrl } from "@/config";
 
 export default function NavTopBar() {
@@ -32,11 +32,11 @@ export default function NavTopBar() {
           </svg>
         </button>
         <Link to="/" className="flex items-center group">
-          <Logo className="size-5.5 fill-gray-700 dark:fill-gray-200 group-hover:fill-blue-600 dark:group-hover:fill-blue-300 transition-all duration-300" />
+          <Logotype className="md:mx-3.5 h-3.5 w-auto fill-gray-700 dark:fill-gray-200 group-hover:fill-blue-600 dark:group-hover:fill-blue-300 transition-all duration-300" />
         </Link>
         <Link
           to="/docs"
-          className="text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 flex items-center gap-2 px-3 py-1"
+          className="hidden md:flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
         >
           Docs
         </Link>
@@ -46,7 +46,7 @@ export default function NavTopBar() {
           to={repoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 flex items-center gap-2 px-3 py-1"
+          className="flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-xs bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 group relative border border-gray-100 dark:border-gray-700 transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
         >
           <svg
             className="size-3 flex-shrink-0"
