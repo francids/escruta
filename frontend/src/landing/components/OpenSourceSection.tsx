@@ -1,14 +1,16 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { repoUrl } from "@/config";
-import LetterGlitchBackground from "./backgrounds/LetterGlitchBackground";
+import GridLetterBackground from "./backgrounds/GridLetterBackground";
 
 export default function OpenSourceSection() {
   return (
     <section className="relative border-t border-gray-800 overflow-hidden">
-      <LetterGlitchBackground
+      <GridLetterBackground
         className="absolute inset-0 opacity-25"
         characters="ESCRUTA"
+        glitchFrequency="high"
+        gridSize={20}
       />
       <div className="mx-auto py-24 md:py-32 relative z-10">
         <div className="mx-auto text-center px-6 md:px-24">
