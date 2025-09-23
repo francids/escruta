@@ -1,12 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/home",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/docs",
@@ -39,6 +32,10 @@
     {
       "source": "/docs/features/study-guide",
       "destination": "/docs/features/study-guide/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/home"
     },
     {
       "source": "/home",
