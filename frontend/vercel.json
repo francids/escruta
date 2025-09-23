@@ -38,7 +38,7 @@
       "destination": "/home.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/(.+)",
       "destination": "/index.html"
     }
   ],
