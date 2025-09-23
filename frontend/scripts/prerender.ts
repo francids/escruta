@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer-core";
-// @ts-expect-error: No types available
 import chromium from "@sparticuz/chromium";
 import fs from "fs";
 import path from "path";
@@ -30,7 +29,6 @@ async function prerender() {
   const browser = await puppeteer.launch({
     executablePath: await chromium.executablePath(),
     args: chromium.args,
-    headless: chromium.headless,
   });
   const page = await browser.newPage();
 
@@ -40,13 +38,16 @@ async function prerender() {
       waitUntil: "networkidle0",
     });
     const content = await page.content();
-    const filePath = path.join(
+    let filePath = path.join(
       __dirname,
       "..",
       "dist",
       route.replace(/^\//, ""),
       "index.html"
     );
+    if (route === "/") {
+      filePath = path.join(__dirname, "..", "dist", "home.html");
+    }
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, content);
   }

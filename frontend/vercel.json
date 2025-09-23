@@ -34,6 +34,10 @@
       "destination": "/docs/features/study-guide/index.html"
     },
     {
+      "source": "/",
+      "destination": "/home.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
