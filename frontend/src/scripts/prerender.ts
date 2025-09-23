@@ -9,7 +9,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const baseUrl = "https://escruta.francids.com";
 
-const routesDict = {
+type RouteConfig = {
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+};
+
+const routesDict: Record<string, RouteConfig> = {
   "/home": {
     title: "Escruta - Think, ask, learn",
     description:
@@ -82,6 +89,11 @@ function updateOpenGraphTags(content: string, route: string): string {
   content = content.replace(
     /<title>.*?<\/title>/i,
     `<title>${config.title}</title>`
+  );
+
+  content = content.replace(
+    /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="description" content="${config.description}" />`
   );
 
   content = content.replace(
