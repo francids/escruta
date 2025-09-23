@@ -14,6 +14,10 @@ type RouteConfig = {
   description: string;
   url: string;
   image: string;
+  twitterCard: string;
+  twitterTitle: string;
+  twitterDescription: string;
+  twitterImage: string;
 };
 
 const routesDict: Record<string, RouteConfig> = {
@@ -23,6 +27,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
     url: `${baseUrl}/home`,
     image: `${baseUrl}/OpenGraphImage.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Escruta - Think, ask, learn",
+    twitterDescription:
+      "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
+    twitterImage: `${baseUrl}/OpenGraphImage.png`,
   },
   "/docs": {
     title: "Documentation - Escruta",
@@ -30,6 +39,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Complete documentation for Escruta, the open-source AI-powered platform for researchers, students, and knowledge workers.",
     url: `${baseUrl}/docs`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Documentation - Escruta",
+    twitterDescription:
+      "Complete documentation for Escruta, the open-source AI-powered platform for researchers, students, and knowledge workers.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/audio-summary": {
     title: "Audio Summary - Escruta Documentation",
@@ -37,6 +51,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Learn how to use Escruta's AI-powered audio summary feature to convert your research materials into spoken content.",
     url: `${baseUrl}/docs/features/audio-summary`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Audio Summary - Escruta Documentation",
+    twitterDescription:
+      "Learn how to use Escruta's AI-powered audio summary feature to convert your research materials into spoken content.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/flashcards": {
     title: "Flashcards - Escruta Documentation",
@@ -44,6 +63,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Create and study with AI-generated flashcards based on your research materials and notes in Escruta.",
     url: `${baseUrl}/docs/features/flashcards`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Flashcards - Escruta Documentation",
+    twitterDescription:
+      "Create and study with AI-generated flashcards based on your research materials and notes in Escruta.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/mind-map": {
     title: "Mind Maps - Escruta Documentation",
@@ -51,6 +75,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Generate interactive mind maps from your research content to visualize connections and concepts in Escruta.",
     url: `${baseUrl}/docs/features/mind-map`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Mind Maps - Escruta Documentation",
+    twitterDescription:
+      "Generate interactive mind maps from your research content to visualize connections and concepts in Escruta.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/notebooks": {
     title: "Notebooks - Escruta Documentation",
@@ -58,6 +87,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Organize your research into centralized notebooks. Learn how to manage projects and topics effectively in Escruta.",
     url: `${baseUrl}/docs/features/notebooks`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Notebooks - Escruta Documentation",
+    twitterDescription:
+      "Organize your research into centralized notebooks. Learn how to manage projects and topics effectively in Escruta.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/notes": {
     title: "Notes - Escruta Documentation",
@@ -65,6 +99,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Take and organize notes within your research projects. Discover Escruta's intelligent note-taking capabilities.",
     url: `${baseUrl}/docs/features/notes`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Notes - Escruta Documentation",
+    twitterDescription:
+      "Take and organize notes within your research projects. Discover Escruta's intelligent note-taking capabilities.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/sources": {
     title: "Sources - Escruta Documentation",
@@ -72,6 +111,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Upload and manage documents, web links, and research materials. Learn about Escruta's source management system.",
     url: `${baseUrl}/docs/features/sources`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Sources - Escruta Documentation",
+    twitterDescription:
+      "Upload and manage documents, web links, and research materials. Learn about Escruta's source management system.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
   "/docs/features/study-guide": {
     title: "Study Guides - Escruta Documentation",
@@ -79,6 +123,11 @@ const routesDict: Record<string, RouteConfig> = {
       "Generate comprehensive study guides from your research materials using Escruta's AI-powered study tools.",
     url: `${baseUrl}/docs/features/study-guide`,
     image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    twitterCard: "summary_large_image",
+    twitterTitle: "Study Guides - Escruta Documentation",
+    twitterDescription:
+      "Generate comprehensive study guides from your research materials using Escruta's AI-powered study tools.",
+    twitterImage: `${baseUrl}/OpenGraphImageDocumentation.png`,
   },
 };
 
@@ -114,6 +163,26 @@ function updateOpenGraphTags(content: string, route: string): string {
   content = content.replace(
     /<meta\s+name="og:image"\s+content="[^"]*"\s*\/?>/i,
     `<meta name="og:image" content="${config.image}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="twitter:card"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="twitter:card" content="${config.twitterCard}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="twitter:title" content="${config.twitterTitle}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="twitter:description" content="${config.twitterDescription}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="twitter:image" content="${config.twitterImage}" />`
   );
 
   return content;
