@@ -1,4 +1,6 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+// @ts-expect-error: No types available
+import chromium from "@sparticuz/chromium";
 import fs from "fs";
 import path from "path";
 import { exec } from "child_process";
@@ -24,7 +26,11 @@ async function prerender() {
 
   await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    executablePath: await chromium.executablePath(),
+    args: chromium.args,
+    headless: chromium.headless,
+  });
   const page = await browser.newPage();
 
   for (const route of routes) {
