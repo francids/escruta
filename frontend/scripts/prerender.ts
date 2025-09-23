@@ -7,17 +7,105 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const routes = [
-  "/home",
-  "/docs",
-  "/docs/features/audio-summary",
-  "/docs/features/flashcards",
-  "/docs/features/mind-map",
-  "/docs/features/notebooks",
-  "/docs/features/notes",
-  "/docs/features/sources",
-  "/docs/features/study-guide",
-];
+const baseUrl = "https://escruta.francids.com";
+
+const routesDict = {
+  "/home": {
+    title: "Escruta - Think, ask, learn",
+    description:
+      "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
+    url: `${baseUrl}/home`,
+    image: `${baseUrl}/OpenGraphImage.png`,
+  },
+  "/docs": {
+    title: "Documentation - Escruta",
+    description:
+      "Complete documentation for Escruta, the open-source AI-powered platform for researchers, students, and knowledge workers.",
+    url: `${baseUrl}/docs`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/audio-summary": {
+    title: "Audio Summary - Escruta Documentation",
+    description:
+      "Learn how to use Escruta's AI-powered audio summary feature to convert your research materials into spoken content.",
+    url: `${baseUrl}/docs/features/audio-summary`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/flashcards": {
+    title: "Flashcards - Escruta Documentation",
+    description:
+      "Create and study with AI-generated flashcards based on your research materials and notes in Escruta.",
+    url: `${baseUrl}/docs/features/flashcards`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/mind-map": {
+    title: "Mind Maps - Escruta Documentation",
+    description:
+      "Generate interactive mind maps from your research content to visualize connections and concepts in Escruta.",
+    url: `${baseUrl}/docs/features/mind-map`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/notebooks": {
+    title: "Notebooks - Escruta Documentation",
+    description:
+      "Organize your research into centralized notebooks. Learn how to manage projects and topics effectively in Escruta.",
+    url: `${baseUrl}/docs/features/notebooks`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/notes": {
+    title: "Notes - Escruta Documentation",
+    description:
+      "Take and organize notes within your research projects. Discover Escruta's intelligent note-taking capabilities.",
+    url: `${baseUrl}/docs/features/notes`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/sources": {
+    title: "Sources - Escruta Documentation",
+    description:
+      "Upload and manage documents, web links, and research materials. Learn about Escruta's source management system.",
+    url: `${baseUrl}/docs/features/sources`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+  "/docs/features/study-guide": {
+    title: "Study Guides - Escruta Documentation",
+    description:
+      "Generate comprehensive study guides from your research materials using Escruta's AI-powered study tools.",
+    url: `${baseUrl}/docs/features/study-guide`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+  },
+};
+
+function updateOpenGraphTags(content: string, route: string): string {
+  const config =
+    routesDict[route as keyof typeof routesDict] || routesDict["/home"];
+
+  content = content.replace(
+    /<title>.*?<\/title>/i,
+    `<title>${config.title}</title>`
+  );
+
+  content = content.replace(
+    /<meta\s+name="og:title"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="og:title" content="${config.title}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="og:description"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="og:description" content="${config.description}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="og:url"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="og:url" content="${config.url}" />`
+  );
+
+  content = content.replace(
+    /<meta\s+name="og:image"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="og:image" content="${config.image}" />`
+  );
+
+  return content;
+}
 
 async function prerender() {
   const server = exec("npx vite preview --port 4173", {
@@ -32,12 +120,13 @@ async function prerender() {
   });
   const page = await browser.newPage();
 
-  for (const route of routes) {
+  for (const route of Object.keys(routesDict)) {
     console.log(`Prerendering ${route}`);
     await page.goto(`http://localhost:4173${route}`, {
       waitUntil: "networkidle0",
     });
-    const content = await page.content();
+    let content = await page.content();
+    content = updateOpenGraphTags(content, route);
     const filePath = path.join(
       __dirname,
       "..",
