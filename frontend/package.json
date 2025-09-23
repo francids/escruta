@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:landing": "VITE_JUST_LANDING=true npm run dev",
-    "build": "tsc -b && vite build && tsx scripts/prerender.ts",
+    "build": "tsc -b && vite build && jiti scripts/prerender.ts",
     "build:landing": "VITE_JUST_LANDING=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -47,7 +47,6 @@
     "globals": "^16.0.0",
     "jiti": "^2.5.1",
     "puppeteer-core": "^24.22.0",
-    "tsx": "^4.20.5",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
