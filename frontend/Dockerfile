@@ -1,7 +1,11 @@
-FROM node:22-alpine3.21 AS base
+FROM node:22 AS base
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
+RUN apt-get update && \
+    apt-get install -y chromium && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY . .
 
 FROM base AS build

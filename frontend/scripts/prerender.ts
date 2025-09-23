@@ -138,8 +138,10 @@ async function prerender() {
     fs.writeFileSync(filePath, content);
   }
 
+  console.log("Prerendering complete.");
   await browser.close();
   server.kill();
+  process.exit(0);
 }
 
 prerender().catch(console.error);
