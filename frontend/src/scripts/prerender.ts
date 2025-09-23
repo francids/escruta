@@ -109,7 +109,7 @@ function updateOpenGraphTags(content: string, route: string): string {
 
 async function prerender() {
   const server = exec("npx vite preview --port 4173", {
-    cwd: path.join(__dirname, ".."),
+    cwd: path.join(__dirname, "..", ".."),
   });
 
   await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -129,6 +129,7 @@ async function prerender() {
     content = updateOpenGraphTags(content, route);
     const filePath = path.join(
       __dirname,
+      "..",
       "..",
       "dist",
       route.replace(/^\//, ""),

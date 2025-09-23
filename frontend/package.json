@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:landing": "VITE_JUST_LANDING=true npm run dev",
-    "build": "tsc -b && vite build && jiti scripts/prerender.ts",
+    "build": "tsc -b && vite build && jiti src/scripts/prerender.ts",
     "build:landing": "VITE_JUST_LANDING=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview"

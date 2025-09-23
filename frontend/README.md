@@ -36,6 +36,7 @@ src/
 ├── hooks/               # Custom React hooks for data fetching and state logic
 ├── landing/             # Public landing page and components
 ├── providers/           # Context providers and application-wide state management
+├── scripts/             # Build and deployment scripts
 ├── services/            # API services and external integrations
 └── shared/              # Common utilities, helpers, and cross-app components
 ```
