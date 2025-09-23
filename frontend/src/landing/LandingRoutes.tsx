@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { Navigate } from "react-router";
 import type { RouteObject } from "react-router";
 
 import LandingLayout from "./LandingLayout";
@@ -15,6 +16,10 @@ export default [
     children: [
       {
         index: true,
+        element: <Navigate to="home" replace />,
+      },
+      {
+        path: "home",
         Component: HomePage,
       },
       {

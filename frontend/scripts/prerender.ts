@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const routes = [
-  "/",
+  "/home",
   "/docs",
   "/docs/features/audio-summary",
   "/docs/features/flashcards",
@@ -38,16 +38,13 @@ async function prerender() {
       waitUntil: "networkidle0",
     });
     const content = await page.content();
-    let filePath = path.join(
+    const filePath = path.join(
       __dirname,
       "..",
       "dist",
       route.replace(/^\//, ""),
       "index.html"
     );
-    if (route === "/") {
-      filePath = path.join(__dirname, "..", "dist", "home.html");
-    }
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, content);
   }
