@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { exec } from "child_process";
 import { fileURLToPath } from "url";
+import { createSitemap } from "./generateSitemap.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -180,8 +181,10 @@ async function prerender() {
     fs.mkdirSync(path.dirname(filePath), { recursive: true });
     fs.writeFileSync(filePath, content);
   }
-
   console.log("Prerendering complete.");
+  console.log("Generating sitemap...");
+  createSitemap();
+
   await browser.close();
   server.kill();
   process.exit(0);
