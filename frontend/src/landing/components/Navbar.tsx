@@ -70,7 +70,7 @@ export default function Navbar() {
           transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
           className="flex items-center gap-6"
         >
-          <Link to="/" className="flex items-center group">
+          <Link to="/home" className="flex items-center group">
             <Logo className="size-12 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
           </Link>
           <div className="hidden lg:flex gap-2">

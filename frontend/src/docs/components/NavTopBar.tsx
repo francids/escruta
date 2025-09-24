@@ -31,7 +31,7 @@ export default function NavTopBar() {
             />
           </svg>
         </button>
-        <Link to="/" className="flex items-center group">
+        <Link to="/home" className="flex items-center group">
           <Logotype className="md:mx-3.5 h-3.5 w-auto fill-gray-700 dark:fill-gray-200 group-hover:fill-blue-600 dark:group-hover:fill-blue-300 transition-all duration-300" />
         </Link>
         <Link

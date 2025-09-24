@@ -145,7 +145,7 @@ export default function LoginPage() {
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <Link
-            to="/"
+            to="/home"
             className="flex items-center p-4 bg-[#f9f9f9] dark:bg-[#131313] rounded-xs"
           >
             <Logo className="h-4 w-auto fill-black dark:fill-white" />
