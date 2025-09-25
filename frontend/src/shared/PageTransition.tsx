@@ -11,10 +11,13 @@ export default function PageTransition({ children }: PageTransitionProps) {
   return (
     <motion.div
       key={location.pathname}
-      initial={{ y: 4 }}
-      animate={{ y: 0 }}
-      exit={{ y: -4 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        enter: { opacity: 1, y: 0 },
+      }}
+      initial="hidden"
+      animate="enter"
+      transition={{ duration: 0.4, ease: "easeInOut" }}
       className="h-full w-full"
     >
       {children}
