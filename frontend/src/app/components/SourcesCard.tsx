@@ -185,7 +185,7 @@ export default function SourcesCard({
           }
           if (sources && sources.length > 0) {
             return (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex flex-col gap-2">
                 {sources.map((source) => (
                   <SourceChip
                     key={source.id}
