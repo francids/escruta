@@ -13,12 +13,6 @@ const routes = [
     changefreq: "weekly",
     lastmod: new Date().toISOString().split("T")[0],
   },
-  {
-    url: "/docs",
-    priority: 0.9,
-    changefreq: "weekly",
-    lastmod: new Date().toISOString().split("T")[0],
-  },
 ];
 
 function generateSitemap(): string {

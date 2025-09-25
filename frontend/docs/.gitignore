@@ -1,0 +1,8 @@
+# Build outputs
+dist-docs/
+node_modules/
+.astro/
+
+# Temporary files
+.DS_Store
+*.log

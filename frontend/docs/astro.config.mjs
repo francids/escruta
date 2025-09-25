@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
   site: 'https://escruta.francids.com',
   base: '/docs',
-  outDir: '../dist/docs',
+  outDir: './dist-docs',
   integrations: [
     starlight({
       title: 'Escruta Documentation',

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "dev:landing": "VITE_JUST_LANDING=true npm run dev",
-    "build": "tsc -b && vite build && jiti src/scripts/prerender.ts",
+    "build": "npm run build:docs && tsc -b && vite build && npm run integrate:docs && jiti src/scripts/prerender.ts",
+    "build:docs": "cd docs && npm run build",
+    "integrate:docs": "mkdir -p dist/docs && cp -r docs/dist-docs/* dist/docs/",
     "build:landing": "VITE_JUST_LANDING=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
