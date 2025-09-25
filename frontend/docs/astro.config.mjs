@@ -24,19 +24,19 @@ export default defineConfig({
         {
           label: 'Get started',
           items: [
-            { label: 'Welcome', link: '/docs/' },
+            { label: 'Welcome', link: '/' },
           ],
         },
         {
           label: 'Features',
           items: [
-            { label: 'Notebooks', link: '/docs/features/notebooks/' },
-            { label: 'Notes', link: '/docs/features/notes/' },
-            { label: 'Sources', link: '/docs/features/sources/' },
-            { label: 'Audio Summary', link: '/docs/features/audio-summary/' },
-            { label: 'Mind Map', link: '/docs/features/mind-map/' },
-            { label: 'Study Guide', link: '/docs/features/study-guide/' },
-            { label: 'Flashcards', link: '/docs/features/flashcards/' },
+            { label: 'Notebooks', link: '/features/notebooks/' },
+            { label: 'Notes', link: '/features/notes/' },
+            { label: 'Sources', link: '/features/sources/' },
+            { label: 'Audio Summary', link: '/features/audio-summary/' },
+            { label: 'Mind Map', link: '/features/mind-map/' },
+            { label: 'Study Guide', link: '/features/study-guide/' },
+            { label: 'Flashcards', link: '/features/flashcards/' },
           ],
         },
       ],
