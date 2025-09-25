@@ -1,9 +1,17 @@
 import { AccountSection, AppearanceSection } from "../components/settings";
 import { motion } from "motion/react";
+import SEOMetadata from "@/shared/SEOMetadata";
 
 export default function SettingsPage() {
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
+      <SEOMetadata
+        title="Settings - Escruta"
+        description="Configure your Escruta account settings, appearance preferences, and application behavior."
+        url="https://escruta.francids.com/app/settings"
+        image="https://escruta.francids.com/OpenGraphImage.png"
+        twitterCard="summary_large_image"
+      />
       <motion.div
         className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
         initial={{ opacity: 0, y: -10 }}

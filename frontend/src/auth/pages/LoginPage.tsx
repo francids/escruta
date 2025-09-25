@@ -4,6 +4,7 @@ import { useAuth, useCookie } from "@/hooks";
 import PatternBackground from "@/shared/PatternBackground";
 import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
+import SEOMetadata from "@/shared/SEOMetadata";
 
 export default function LoginPage() {
   const [savedEmail, setSavedEmail] = useCookie<{ email: string }>(
@@ -137,6 +138,13 @@ export default function LoginPage() {
 
   return (
     <div className="relative h-screen w-full">
+      <SEOMetadata
+        title="Login - Escruta"
+        description="Sign in to your Escruta account to access your research notebooks, notes, and AI-powered study tools."
+        url="https://escruta.francids.com/login"
+        image="https://escruta.francids.com/OpenGraphImage.png"
+        twitterCard="summary_large_image"
+      />
       <PatternBackground className="hidden sm:block" />
       <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
         <motion.div

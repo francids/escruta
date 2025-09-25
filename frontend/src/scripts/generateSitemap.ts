@@ -40,6 +40,7 @@ ${routes
 }
 
 function createSitemap() {
+  console.log("Generating sitemap...");
   const sitemap = generateSitemap();
   const outputPath = path.join(__dirname, "..", "..", "dist", "sitemap.xml");
 

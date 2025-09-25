@@ -19,6 +19,8 @@ import ChatCard from "../components/ChatCard";
 import NoteEditor from "../components/NoteEditor";
 import SourceViewer from "../components/SourceViewer";
 import ToolsCard from "../components/ToolsCard";
+import SEOMetadata from "@/shared/SEOMetadata";
+import { generateNotebookMetadata } from "@/config/seo";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -211,8 +213,21 @@ export default function NotebookPage() {
     );
   }
 
+  const metadata = notebook
+    ? generateNotebookMetadata(notebook.title, notebookId)
+    : null;
+
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
+      {metadata && (
+        <SEOMetadata
+          title={metadata.title}
+          description={metadata.description}
+          url={metadata.url}
+          image={metadata.image}
+          twitterCard={metadata.twitterCard}
+        />
+      )}
       <motion.div
         className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5"
         initial={{ opacity: 0, y: -10 }}

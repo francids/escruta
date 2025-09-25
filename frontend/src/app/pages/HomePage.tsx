@@ -12,6 +12,8 @@ import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
 import { GridIcon, ListIcon } from "../components/icons";
 import { motion } from "motion/react";
+import SEOMetadata from "@/shared/SEOMetadata";
+import { getRouteMetadata } from "@/config/seo";
 
 enum SortOptions {
   Newest = "Newest",
@@ -89,8 +91,17 @@ export default function HomePage() {
     }
   }
 
+  const metadata = getRouteMetadata("/app");
+
   return (
     <div className="flex h-screen max-h-full w-full flex-col">
+      <SEOMetadata
+        title={metadata.title}
+        description={metadata.description}
+        url={metadata.url}
+        image={metadata.image}
+        twitterCard={metadata.twitterCard}
+      />
       <motion.div
         className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5 z-30"
         initial={{ opacity: 0, y: -10 }}

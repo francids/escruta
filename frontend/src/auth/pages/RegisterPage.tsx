@@ -4,6 +4,7 @@ import { useAuth, useToast } from "@/hooks";
 import PatternBackground from "@/shared/PatternBackground";
 import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
+import SEOMetadata from "@/shared/SEOMetadata";
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
@@ -147,6 +148,13 @@ export default function RegisterPage() {
 
   return (
     <div className="relative h-screen w-full">
+      <SEOMetadata
+        title="Register - Escruta"
+        description="Create your free Escruta account and start organizing your knowledge with AI-powered research tools."
+        url="https://escruta.francids.com/register"
+        image="https://escruta.francids.com/OpenGraphImage.png"
+        twitterCard="summary_large_image"
+      />
       <PatternBackground className="hidden sm:block" />
       <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
         <motion.div
