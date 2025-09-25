@@ -1,0 +1,37 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<!-- Custom head content for Escruta branding -->
+<meta name="author" content="Escruta Team">
+<meta name="keywords" content="AI research assistant, note taking, academic research, study tools, knowledge management">
+
+<!-- Enhanced Open Graph -->
+<meta property="og:site_name" content="Escruta Documentation">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@escruta">
+
+<!-- Preload critical fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+<!-- Favicon and app icons -->
+<link rel="icon" type="image/svg+xml" href="/docs/favicon.svg">
+<link rel="alternate icon" href="/docs/favicon.ico">
+<link rel="apple-touch-icon" href="/docs/apple-touch-icon.png">
+
+<!-- Theme color for mobile browsers -->
+<meta name="theme-color" content="#0388fc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#4babfd" media="(prefers-color-scheme: dark)">
+
+<!-- Prevent FOUC -->
+<script is:inline>
+  // Prevent flash of unstyled content
+  document.documentElement.style.visibility = 'hidden';
+  window.addEventListener('DOMContentLoaded', () => {
+    document.documentElement.style.visibility = 'visible';
+  });
+</script>

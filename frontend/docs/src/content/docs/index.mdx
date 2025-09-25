@@ -1,29 +1,119 @@
 ---
 title: Welcome to Escruta
-description: Get started with Escruta, your AI-powered research assistant
+description: Get started with Escruta, your AI-powered research assistant designed for students, researchers, and knowledge workers.
+template: splash
+hero:
+  tagline: Your AI-powered research companion for organizing, analyzing, and learning from knowledge.
+  image:
+    file: ../../assets/AppScreenshot.png
+    alt: Escruta application interface showing notebooks, notes, and AI-powered features
+  actions:
+    - text: Explore Features
+      link: /docs/features/notebooks/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/francids/escruta
+      icon: external
+      variant: minimal
 ---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<div class="docs-hero">
 
 # Escruta Documentation
 
-Escruta is an open-source platform powered by AI, created for researchers, students, and professionals in knowledge-intensive roles.
+Welcome to the complete documentation for **Escruta** - an open-source platform powered by AI, created for researchers, students, and professionals in knowledge-intensive roles.
 
-![Escruta App Screenshot](../../assets/AppScreenshot.png)
+</div>
 
 ## What is Escruta?
 
-Escruta is designed to help you organize, analyze, and extract insights from your research materials. Whether you're working on academic research, professional projects, or personal learning, Escruta provides powerful AI-driven tools to enhance your workflow.
+Escruta is designed to help you **organize, analyze, and extract insights** from your research materials. Whether you're working on academic research, professional projects, or personal learning, Escruta provides powerful AI-driven tools to enhance your workflow.
+
+## Core Capabilities
+
+<CardGrid>
+  <Card title="📚 Smart Organization" icon="open-book">
+    **Notebooks** provide centralized workspaces to organize research by project or topic, keeping all related materials in one place.
+  </Card>
+  
+  <Card title="📄 Content Management" icon="document">
+    **Sources** support various formats - PDFs, web links, documents - with automatic text extraction and AI-powered analysis.
+  </Card>
+  
+  <Card title="✍️ Intelligent Notes" icon="pencil">
+    **Notes** feature AI-assisted writing with smart suggestions, auto-linking, and contextual insights from your sources.
+  </Card>
+  
+  <Card title="🤖 AI-Powered Tools" icon="rocket">
+    Generate **summaries, mind maps, study guides, and flashcards** automatically from your research materials.
+  </Card>
+</CardGrid>
 
 ## Key Features
 
-- **Notebooks**: Organize your research into centralized project workspaces  
-- **Sources**: Upload and manage documents, web links, and research materials
-- **Notes**: Take intelligent notes with AI-powered assistance
-- **AI Tools**: Generate summaries, mind maps, study guides, and flashcards
+### 🎯 **Research Organization**
+- **Centralized Notebooks**: Project-based organization with unlimited sources and notes
+- **Smart Tagging**: Automatic categorization and manual tag management
+- **Advanced Search**: Full-text and semantic search across all content
+
+### 🔬 **AI-Enhanced Analysis**
+- **Content Summarization**: Multi-level summaries from quick overviews to detailed analysis
+- **Concept Mapping**: Visual representation of relationships between ideas
+- **Study Material Generation**: Automated flashcards, quizzes, and study guides
+
+### 🎵 **Accessibility Features**
+- **Audio Summaries**: Text-to-speech conversion for on-the-go learning
+- **Multi-language Support**: Content processing in multiple languages
+- **Responsive Design**: Seamless experience across desktop and mobile devices
+
+### 🔧 **Developer-Friendly**
+- **Open Source**: Complete source code available on GitHub
+- **API Access**: Programmatic access to core functionality
+- **Self-Hosting**: Deploy on your own infrastructure
 
 ## Getting Started
 
-Explore the features and get started with Escruta through the documentation provided in the sidebar. Each feature has its own dedicated page with detailed explanations and usage instructions.
+<div class="feature-card">
 
-## Open Source
+### 🚀 **Quick Start Guide**
 
-Escruta is open-source and available on [GitHub](https://github.com/francids/escruta). We welcome contributions and feedback from the community.
+1. **Create your first notebook** to organize a research project
+2. **Add sources** by uploading documents or pasting web links  
+3. **Take notes** with AI assistance and automatic source linking
+4. **Generate study materials** using AI-powered tools
+5. **Export and share** your research with collaborators
+
+[Start with Notebooks →](/docs/features/notebooks/)
+
+</div>
+
+## Architecture Overview
+
+Escruta is built with a modern, scalable architecture:
+
+- **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS
+- **Backend**: Java 17 + Spring Boot + Spring AI (OpenAI-compatible)
+- **Database**: PostgreSQL with pgvector for AI embeddings
+- **Mobile**: React Native + Expo for cross-platform support
+
+## Open Source & Community
+
+Escruta is **100% open source** and available on [GitHub](https://github.com/francids/escruta). We welcome contributions, feature requests, and feedback from the community.
+
+- 🐛 **Report Issues**: Found a bug? Let us know!
+- 💡 **Feature Requests**: Have ideas for improvements?
+- 🤝 **Contribute**: Submit pull requests and help improve Escruta
+- ⭐ **Star the Repo**: Show your support on GitHub
+
+---
+
+<div style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: var(--sl-color-accent-low); border-radius: 12px;">
+
+**Ready to transform your research workflow?**
+
+[Explore Core Features →](/docs/features/notebooks/) or [View the Source Code →](https://github.com/francids/escruta)
+
+</div>
