@@ -1,120 +1,79 @@
-/* Escruta Documentation - Custom Theme to match frontend design */
+/* Escruta Documentation - Clean and Professional Theme */
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-/* Root CSS Custom Properties matching frontend theme */
+/* Root CSS Custom Properties - Simplified and Clean */
 :root {
-  /* Escruta Brand Colors */
-  --sl-color-accent-low: #ebf6ff;
-  --sl-color-accent: #0388fc;
-  --sl-color-accent-high: #025baa;
+  /* Brand Colors - Subtle and Professional */
+  --sl-color-accent-low: #f0f9ff;
+  --sl-color-accent: #0ea5e9;
+  --sl-color-accent-high: #0284c7;
   
-  /* Background Colors */
-  --sl-color-bg: #fafafa;
+  /* Clean Background Colors */
+  --sl-color-bg: #ffffff;
   --sl-color-bg-nav: #ffffff;
-  --sl-color-bg-sidebar: #ffffff;
-  --sl-color-bg-inline-code: #e6e6e6;
+  --sl-color-bg-sidebar: #fafafa;
+  --sl-color-bg-inline-code: #f1f5f9;
   
-  /* Text Colors */
-  --sl-color-text: #121212;
-  --sl-color-text-accent: #0388fc;
+  /* Professional Text Colors */
+  --sl-color-text: #334155;
+  --sl-color-text-accent: #0ea5e9;
   --sl-color-text-invert: #ffffff;
   
-  /* Border & Gray Colors */
-  --sl-color-gray-1: #fafafa;
-  --sl-color-gray-2: #e6e6e6;
-  --sl-color-gray-3: #d1d1d1;
-  --sl-color-gray-4: #b0b0b0;
-  --sl-color-gray-5: #6b6b6b;
-  --sl-color-gray-6: #363636;
+  /* Subtle Gray Scale */
+  --sl-color-gray-1: #f8fafc;
+  --sl-color-gray-2: #e2e8f0;
+  --sl-color-gray-3: #cbd5e1;
+  --sl-color-gray-4: #94a3b8;
+  --sl-color-gray-5: #64748b;
+  --sl-color-gray-6: #475569;
   
-  /* Semantic Colors */
-  --sl-color-white: #ffffff;
-  --sl-color-black: #121212;
-  
-  /* Custom shadows and borders */
-  --sl-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --sl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --sl-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Dark theme colors matching frontend */
-:root[data-theme='dark'] {
-  /* Escruta Brand Colors for Dark */
-  --sl-color-accent-low: #012545;
-  --sl-color-accent: #4babfd;
-  --sl-color-accent-high: #85c5ff;
-  
-  /* Background Colors */
-  --sl-color-bg: #121212;
-  --sl-color-bg-nav: #222222;
-  --sl-color-bg-sidebar: #222222;
-  --sl-color-bg-inline-code: #363636;
-  
-  /* Text Colors */
-  --sl-color-text: #fafafa;
-  --sl-color-text-accent: #4babfd;
-  --sl-color-text-invert: #121212;
-  
-  /* Border & Gray Colors */
-  --sl-color-gray-1: #222222;
-  --sl-color-gray-2: #363636;
-  --sl-color-gray-3: #525252;
-  --sl-color-gray-4: #6b6b6b;
-  --sl-color-gray-5: #909090;
-  --sl-color-gray-6: #d1d1d1;
-  
-  /* Semantic Colors */
-  --sl-color-white: #121212;
-  --sl-color-black: #fafafa;
-}
-
-/* Font family override */
-:root {
-  --sl-font: "Raleway", system-ui, sans-serif;
+  /* Clean Typography */
+  --sl-font: "Inter", system-ui, sans-serif;
   --sl-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* Global styles */
+/* Dark Theme - Professional and Easy on Eyes */
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #0f172a;
+  --sl-color-accent: #38bdf8;
+  --sl-color-accent-high: #7dd3fc;
+  
+  --sl-color-bg: #0f172a;
+  --sl-color-bg-nav: #1e293b;
+  --sl-color-bg-sidebar: #1e293b;
+  --sl-color-bg-inline-code: #334155;
+  
+  --sl-color-text: #e2e8f0;
+  --sl-color-text-accent: #38bdf8;
+  --sl-color-text-invert: #0f172a;
+  
+  --sl-color-gray-1: #1e293b;
+  --sl-color-gray-2: #334155;
+  --sl-color-gray-3: #475569;
+  --sl-color-gray-4: #64748b;
+  --sl-color-gray-5: #94a3b8;
+  --sl-color-gray-6: #cbd5e1;
+}
+
+/* Global Font Override */
 * {
   font-family: var(--sl-font);
 }
 
-/* Custom header styling */
+/* Clean Header */
 .header {
   border-bottom: 1px solid var(--sl-color-gray-2);
-  backdrop-filter: blur(10px);
   background: var(--sl-color-bg-nav);
 }
 
-[data-theme='dark'] .header {
-  border-bottom-color: var(--sl-color-gray-2);
-}
-
-/* Logo styling */
-.site-title {
-  font-weight: 700;
-  color: var(--sl-color-text);
-}
-
-.site-title:hover {
-  color: var(--sl-color-accent);
-}
-
-/* Navigation styling */
+/* Professional Navigation */
 .sidebar-content {
   background: var(--sl-color-bg-sidebar);
   border-right: 1px solid var(--sl-color-gray-2);
 }
 
-[data-theme='dark'] .sidebar-content {
-  background: var(--sl-color-bg-sidebar);
-  border-right-color: var(--sl-color-gray-2);
-}
-
-/* Navigation links */
 .sidebar a {
-  color: var(--sl-color-text);
   border-radius: 6px;
   transition: all 0.2s ease;
   font-weight: 500;
@@ -123,7 +82,6 @@
 .sidebar a:hover {
   background: var(--sl-color-accent-low);
   color: var(--sl-color-accent);
-  transform: translateX(2px);
 }
 
 .sidebar a[aria-current='page'] {
@@ -132,63 +90,45 @@
   font-weight: 600;
 }
 
-[data-theme='dark'] .sidebar a:hover {
-  background: var(--sl-color-accent-low);
-  color: var(--sl-color-accent);
-}
-
-[data-theme='dark'] .sidebar a[aria-current='page'] {
-  background: var(--sl-color-accent-low);
-  color: var(--sl-color-accent);
-}
-
-/* Main content area */
+/* Clean Content Styling */
 main {
   background: var(--sl-color-bg);
 }
 
-/* Content styling */
-.content-panel {
-  background: var(--sl-color-bg);
-}
-
-/* Headings */
+/* Professional Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--sl-font);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--sl-color-text);
 }
 
 h1 {
-  color: var(--sl-color-text);
-  font-size: 2.25rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
 }
 
 h2 {
-  color: var(--sl-color-text);
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   margin-top: 2rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--sl-color-gray-2);
+  border-bottom: 1px solid var(--sl-color-gray-2);
 }
 
 h3 {
-  color: var(--sl-color-text);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-/* Paragraph and text styling */
+/* Clean Paragraph Styling */
 p {
   color: var(--sl-color-text);
-  line-height: 1.7;
+  line-height: 1.6;
   margin-bottom: 1rem;
 }
 
-/* Links */
+/* Professional Links */
 a {
   color: var(--sl-color-accent);
   text-decoration: none;
@@ -198,254 +138,129 @@ a {
 
 a:hover {
   color: var(--sl-color-accent-high);
-  text-decoration: underline;
 }
 
-/* Code blocks */
+/* Clean Code Blocks */
 .astro-code {
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: var(--sl-shadow-sm);
+  border-radius: 6px;
+  padding: 1rem;
   border: 1px solid var(--sl-color-gray-2);
   background: var(--sl-color-bg-inline-code) !important;
 }
 
-[data-theme='dark'] .astro-code {
-  border-color: var(--sl-color-gray-2);
-  background: var(--sl-color-bg-inline-code) !important;
-}
-
-/* Inline code */
+/* Inline Code */
 code {
   background: var(--sl-color-bg-inline-code);
   color: var(--sl-color-accent-high);
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
-  font-size: 0.9em;
-  font-weight: 600;
-  border: 1px solid var(--sl-color-gray-2);
+  padding: 0.125rem 0.25rem;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
-/* Lists */
+/* Professional Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--sl-color-gray-2);
+}
+
+th {
+  font-weight: 600;
+  background: var(--sl-color-gray-1);
+}
+
+/* Clean Lists */
 ul, ol {
   color: var(--sl-color-text);
-  line-height: 1.7;
+  line-height: 1.6;
+  margin: 1rem 0;
 }
 
 li {
   margin-bottom: 0.5rem;
 }
 
-/* Strong text */
-strong {
-  color: var(--sl-color-accent-high);
-  font-weight: 700;
-}
-
-/* Blockquotes */
-blockquote {
-  border-left: 4px solid var(--sl-color-accent);
-  background: var(--sl-color-accent-low);
-  padding: 1rem 1.5rem;
-  margin: 1.5rem 0;
-  border-radius: 0 8px 8px 0;
-}
-
-/* Images */
-img {
-  border-radius: 8px;
-  box-shadow: var(--sl-shadow-md);
-  max-width: 100%;
-  height: auto;
-  margin: 1.5rem 0;
-  border: 1px solid var(--sl-color-gray-2);
-}
-
-/* Table of contents */
-.right-sidebar {
-  background: var(--sl-color-bg-sidebar);
-  border-left: 1px solid var(--sl-color-gray-2);
-}
-
-[data-theme='dark'] .right-sidebar {
-  background: var(--sl-color-bg-sidebar);
-  border-left-color: var(--sl-color-gray-2);
-}
-
-.right-sidebar a {
-  color: var(--sl-color-text);
-  font-weight: 400;
-  transition: all 0.2s ease;
-}
-
-.right-sidebar a:hover {
-  color: var(--sl-color-accent);
-  transform: translateX(2px);
-}
-
-/* Search */
-.search-dialog {
-  border-radius: 12px;
-  box-shadow: var(--sl-shadow-lg);
-  border: 1px solid var(--sl-color-gray-2);
-}
-
-/* Buttons */
-button {
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-/* Page navigation */
-.pagination-links a {
-  border-radius: 8px;
-  border: 1px solid var(--sl-color-gray-2);
-  background: var(--sl-color-bg);
-  color: var(--sl-color-text);
-  transition: all 0.2s ease;
-}
-
-.pagination-links a:hover {
-  border-color: var(--sl-color-accent);
-  color: var(--sl-color-accent);
-  transform: translateY(-1px);
-  box-shadow: var(--sl-shadow-md);
-}
-
-/* Custom cards for feature highlights */
+/* Professional Cards (Simplified) */
 .feature-card {
   background: var(--sl-color-bg);
   border: 1px solid var(--sl-color-gray-2);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
   margin: 1rem 0;
-  transition: all 0.3s ease;
-  box-shadow: var(--sl-shadow-sm);
 }
 
-.feature-card:hover {
-  border-color: var(--sl-color-accent);
-  box-shadow: var(--sl-shadow-lg);
-  transform: translateY(-2px);
+/* Clean Blockquotes */
+blockquote {
+  border-left: 3px solid var(--sl-color-accent);
+  background: var(--sl-color-gray-1);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 6px 6px 0;
 }
 
-.feature-card h3 {
-  color: var(--sl-color-accent);
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+/* Professional Images */
+img {
+  border-radius: 6px;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
 }
 
-/* Hero section styling for docs home */
-.docs-hero {
-  background: linear-gradient(135deg, var(--sl-color-accent-low) 0%, var(--sl-color-bg) 100%);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--sl-color-gray-2);
-}
-
-[data-theme='dark'] .docs-hero {
-  background: linear-gradient(135deg, var(--sl-color-accent-low) 0%, var(--sl-color-bg) 100%);
-}
-
-.docs-hero h1 {
-  color: var(--sl-color-accent-high);
-  margin-bottom: 0.5rem;
-}
-
-.docs-hero p {
-  color: var(--sl-color-text);
-  font-size: 1.1rem;
-  margin-bottom: 0;
-}
-
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .sidebar {
-    background: var(--sl-color-bg-sidebar);
-  }
-  
-  .feature-card {
-    padding: 1rem;
-  }
-  
-  .docs-hero {
-    padding: 1.5rem;
-  }
-  
-  h1 {
-    font-size: 1.875rem;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-  }
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Selection colors */
-::selection {
-  background-color: var(--sl-color-accent);
-  color: var(--sl-color-white);
-}
-
-/* Focus states */
+/* Clean Focus States */
 :focus-visible {
   outline: 2px solid var(--sl-color-accent);
   outline-offset: 2px;
 }
 
-/* Custom animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  .feature-card {
+    padding: 1rem;
   }
 }
 
+/* Remove excessive animations and decorations */
 .content-panel > * {
-  animation: fadeInUp 0.5s ease-out;
+  /* Remove fade animations that can cause visual issues */
 }
 
-/* Loading states */
-.loading {
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
+/* Clean hero section - much simpler */
+.docs-hero {
+  background: var(--sl-color-gray-1);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--sl-color-gray-2);
 }
 
-/* Brand integration - ensuring consistency with main site */
-.site-logo {
-  filter: none;
-  transition: filter 0.2s ease;
+.docs-hero h1 {
+  color: var(--sl-color-text);
+  margin-bottom: 0.5rem;
 }
 
-.site-logo:hover {
-  filter: brightness(1.1);
-}
-
-/* Enhanced visual hierarchy */
-.content h2 + p {
-  font-size: 1.1rem;
+.docs-hero p {
   color: var(--sl-color-gray-5);
-  margin-top: -0.5rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 0;
 }
 
-/* Improved spacing */
-.content > * + * {
-  margin-top: 1.5rem;
-}
-
-.content > h2 + *,
-.content > h3 + *,
-.content > h4 + * {
-  margin-top: 0.75rem;
+/* Selection colors */
+::selection {
+  background-color: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
 }
