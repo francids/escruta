@@ -1,5 +1,5 @@
 import { Pressable, View } from "react-native";
-import tw, { themed } from "../../lib/tailwind";
+import tw from "../../lib/tailwind";
 import React from "react";
 import useTheme from "../../hooks/useTheme";
 
@@ -33,20 +33,16 @@ export default function IconButton({
 
   const variantStyles = {
     primary: tw`bg-blue-500 border border-blue-600`,
-    secondary: tw`${themed(
-      "bg-neutral-100 border border-neutral-200",
-      "bg-gray-800 border border-gray-700",
-      isDark
-    )}`,
+    secondary: tw`bg-neutral-100 dark:bg-gray-800 border border-neutral-200 dark:border-gray-700`,
     danger: tw`bg-red-500 border border-red-600`,
     ghost: tw``,
   };
 
   const pressedVariantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`${themed("bg-neutral-200", "bg-gray-800/80", isDark)}`,
+    secondary: tw`bg-neutral-200 dark:bg-gray-800/80`,
     danger: tw`bg-red-600`,
-    ghost: tw`${themed("bg-gray-500/10", "bg-gray-500/10", isDark)}`,
+    ghost: tw`bg-gray-500/10`,
   };
 
   const iconColors = {

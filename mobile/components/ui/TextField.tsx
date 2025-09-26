@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TextInputProps } from "react-native";
-import tw, { themed } from "../../lib/tailwind";
+import tw from "../../lib/tailwind";
 import useTheme from "../../hooks/useTheme";
 
 type TextFieldProps = {
@@ -34,7 +34,7 @@ export default function TextField({
   return (
     <View style={[tw`w-full`, style]}>
       {label && (
-        <Text style={tw`${themed("text-neutral-700", "text-gray-300", isDark)} mb-2 text-lg`}>
+        <Text style={tw`text-neutral-700 dark:text-gray-300 mb-2 text-lg`}>
           {label}
         </Text>
       )}
@@ -42,11 +42,7 @@ export default function TextField({
         value={value}
         onChangeText={onChangeText}
         onKeyPress={onKeyPress}
-        style={tw`w-full ${themed(
-          "text-black bg-white border-neutral-300",
-          "text-neutral-200 bg-neutral-800 border-gray-600",
-          isDark
-        )} text-lg p-3 border font-sans rounded-sm focus:outline-none focus:ring focus:ring-blue-400`}
+        style={tw`w-full text-black dark:text-neutral-200 bg-white dark:bg-neutral-800 border-neutral-300 dark:border-gray-600 text-lg p-3 border font-sans rounded-sm focus:outline-none focus:ring focus:ring-blue-400`}
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         editable={editable}

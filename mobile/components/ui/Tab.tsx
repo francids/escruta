@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import tw, { themed } from "lib/tailwind";
-import useTheme from "../../hooks/useTheme";
+import tw from "lib/tailwind";
 
 type TabItem = {
   id: string;
@@ -22,9 +21,6 @@ export default function Tabs({
   onChange,
   style = {},
 }: TabsProps) {
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
-  
   const [activeTabId, setActiveTabId] = useState<string>(
     defaultActiveTab || (items.length > 0 ? items[0].id : "")
   );
@@ -43,11 +39,7 @@ export default function Tabs({
   return (
     <View style={[tw`w-full flex-1`, style]}>
       <View
-        style={tw`flex-row ${themed(
-          "bg-neutral-100 border-neutral-200",
-          "bg-gray-900 border-gray-700",
-          isDark
-        )} rounded-sm border mb-2 p-1`}
+        style={tw`flex-row bg-neutral-100 dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
         {items.map((tab) => (
           <TouchableOpacity
@@ -55,7 +47,7 @@ export default function Tabs({
             style={tw.style(
               `flex-1 py-2 items-center rounded-sm`,
               activeTabId === tab.id 
-                ? themed("bg-white", "bg-gray-700", isDark)
+                ? "bg-white dark:bg-gray-700"
                 : ""
             )}
             onPress={() => handleTabClick(tab.id)}
@@ -63,17 +55,9 @@ export default function Tabs({
           >
             <Text
               style={tw.style(
-                themed(
-                  "text-neutral-600 font-normal text-base",
-                  "text-gray-400 font-normal text-base",
-                  isDark
-                ),
+                "text-neutral-600 dark:text-gray-400 font-normal text-base",
                 activeTabId === tab.id 
-                  ? themed(
-                      "text-black font-medium",
-                      "text-gray-100 font-medium",
-                      isDark
-                    )
+                  ? "text-black dark:text-gray-100 font-medium"
                   : ""
               )}
             >

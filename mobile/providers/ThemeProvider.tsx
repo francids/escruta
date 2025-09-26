@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import { Appearance } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeContext, ThemeOptions } from "../contexts";
+import tw from "../lib/tailwind";
 
 const THEME_STORAGE_KEY = "themePreference";
 
@@ -24,6 +25,11 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     return determineEffectiveTheme(ThemeOptions.System);
   });
 
+  // Update twrnc colorScheme when theme changes
+  useEffect(() => {
+    tw.setColorScheme(effectiveTheme);
+  }, [effectiveTheme]);
+
   // Load theme preference from storage on mount
   useEffect(() => {
     const loadTheme = async () => {
@@ -32,7 +38,9 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
         if (storedTheme && Object.values(ThemeOptions).includes(storedTheme as ThemeOptions)) {
           const preference = storedTheme as ThemeOptions;
           setThemePreference(preference);
-          setEffectiveTheme(determineEffectiveTheme(preference));
+          const newEffectiveTheme = determineEffectiveTheme(preference);
+          setEffectiveTheme(newEffectiveTheme);
+          tw.setColorScheme(newEffectiveTheme);
         }
       } catch (error) {
         console.warn("Failed to load theme preference:", error);
@@ -48,6 +56,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       if (themePreference === ThemeOptions.System) {
         const newTheme = colorScheme === "dark" ? "dark" : "light";
         setEffectiveTheme(newTheme);
+        tw.setColorScheme(newTheme);
       }
     });
 
@@ -60,6 +69,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       setThemePreference(newTheme);
       const effectiveTheme = determineEffectiveTheme(newTheme);
       setEffectiveTheme(effectiveTheme);
+      tw.setColorScheme(effectiveTheme);
     } catch (error) {
       console.warn("Failed to save theme preference:", error);
     }

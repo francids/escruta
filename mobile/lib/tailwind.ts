@@ -1,6 +1,5 @@
 import { create } from "twrnc";
 
-// Create a configurable tw instance that can be extended
 const tw = create({
   theme: {
     fontFamily: {
@@ -90,10 +89,5 @@ const tw = create({
     },
   },
 });
-
-// Helper function to conditionally apply dark mode classes
-export const themed = (lightClasses: string, darkClasses: string, isDark: boolean) => {
-  return isDark ? darkClasses : lightClasses;
-};
 
 export default tw;

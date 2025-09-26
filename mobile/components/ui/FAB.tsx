@@ -1,5 +1,5 @@
 import { TouchableOpacity, View, Text } from "react-native";
-import tw, { themed } from "lib/tailwind";
+import tw from "lib/tailwind";
 import { cloneElement, isValidElement } from "react";
 import useTheme from "../../hooks/useTheme";
 
@@ -34,7 +34,7 @@ export default function FAB({
 
   const variantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`${themed("bg-neutral-100", "bg-gray-100", isDark)}`,
+    secondary: tw`bg-neutral-100 dark:bg-gray-100`,
     danger: tw`bg-red-600`,
   };
 

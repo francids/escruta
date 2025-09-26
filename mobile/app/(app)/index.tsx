@@ -1,17 +1,14 @@
 import { View, Text, ScrollView } from "react-native";
-import tw, { themed } from "lib/tailwind";
+import tw from "lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Notebook } from "interfaces";
 import NotebookCard from "components/NotebookCard";
 import ThemeDemo from "components/ThemeDemo";
 import { FAB } from "components/ui";
 import { AddIcon } from "components/icons";
-import useTheme from "../../hooks/useTheme";
 
 export default function AppScreen() {
   const insets = useSafeAreaInsets();
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
 
   const dummyNotebooks: Notebook[] = [
     {
@@ -59,7 +56,7 @@ export default function AppScreen() {
   ];
 
   return (
-    <View style={tw`flex flex-1 ${themed("bg-white", "bg-neutral-950", isDark)}`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
       <ScrollView
         contentContainerStyle={{
           paddingBottom: insets.bottom + 86,
@@ -72,7 +69,7 @@ export default function AppScreen() {
         
         {/* Notebooks Section */}
         <View style={tw`p-4`}>
-          <Text style={tw`${themed("text-black", "text-white", isDark)} text-2xl font-bold mb-4`}>
+          <Text style={tw`text-black dark:text-white text-2xl font-bold mb-4`}>
             Your Notebooks
           </Text>
           {dummyNotebooks.length > 0 ? (
@@ -83,7 +80,7 @@ export default function AppScreen() {
             </View>
           ) : (
             <View style={tw`flex flex-1 items-center justify-center py-12`}>
-              <Text style={tw`${themed("text-neutral-600", "text-neutral-400", isDark)} text-center text-lg`}>
+              <Text style={tw`text-neutral-600 dark:text-neutral-400 text-center text-lg`}>
                 No notebooks yet. Create your first one!
               </Text>
             </View>
