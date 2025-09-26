@@ -3,6 +3,7 @@ import { Appearance } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeContext, ThemeOptions } from "../contexts";
 import tw from "../lib/tailwind";
+import { useAppColorScheme } from "twrnc";
 
 const THEME_STORAGE_KEY = "themePreference";
 
@@ -17,6 +18,7 @@ const determineEffectiveTheme = (
 };
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
+  const [, , setColorScheme] = useAppColorScheme(tw);
   const [themePreference, setThemePreference] = useState<ThemeOptions>(
     ThemeOptions.System
   );
@@ -25,7 +27,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    tw.setColorScheme(effectiveTheme);
+    setColorScheme(effectiveTheme);
   }, [effectiveTheme]);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
           setThemePreference(preference);
           const newEffectiveTheme = determineEffectiveTheme(preference);
           setEffectiveTheme(newEffectiveTheme);
-          tw.setColorScheme(newEffectiveTheme);
+          setColorScheme(newEffectiveTheme);
         }
       } catch (error) {
         console.warn("Failed to load theme preference:", error);
@@ -55,7 +57,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       if (themePreference === ThemeOptions.System) {
         const newTheme = colorScheme === "dark" ? "dark" : "light";
         setEffectiveTheme(newTheme);
-        tw.setColorScheme(newTheme);
+        setColorScheme(newTheme);
       }
     });
 
@@ -68,7 +70,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       setThemePreference(newTheme);
       const effectiveTheme = determineEffectiveTheme(newTheme);
       setEffectiveTheme(effectiveTheme);
-      tw.setColorScheme(effectiveTheme);
+      setColorScheme(effectiveTheme);
     } catch (error) {
       console.warn("Failed to save theme preference:", error);
     }
