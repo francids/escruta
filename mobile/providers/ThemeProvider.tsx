@@ -12,7 +12,6 @@ const determineEffectiveTheme = (
   if (preference === ThemeOptions.Light) return "light";
   if (preference === ThemeOptions.Dark) return "dark";
 
-  // For system preference, use Appearance API
   const colorScheme = Appearance.getColorScheme();
   return colorScheme === "dark" ? "dark" : "light";
 };
@@ -25,17 +24,18 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     return determineEffectiveTheme(ThemeOptions.System);
   });
 
-  // Update twrnc colorScheme when theme changes
   useEffect(() => {
     tw.setColorScheme(effectiveTheme);
   }, [effectiveTheme]);
 
-  // Load theme preference from storage on mount
   useEffect(() => {
     const loadTheme = async () => {
       try {
         const storedTheme = await AsyncStorage.getItem(THEME_STORAGE_KEY);
-        if (storedTheme && Object.values(ThemeOptions).includes(storedTheme as ThemeOptions)) {
+        if (
+          storedTheme &&
+          Object.values(ThemeOptions).includes(storedTheme as ThemeOptions)
+        ) {
           const preference = storedTheme as ThemeOptions;
           setThemePreference(preference);
           const newEffectiveTheme = determineEffectiveTheme(preference);
@@ -50,7 +50,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     loadTheme();
   }, []);
 
-  // Listen to system theme changes
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       if (themePreference === ThemeOptions.System) {

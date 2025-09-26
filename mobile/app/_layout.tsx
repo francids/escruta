@@ -7,7 +7,7 @@ import useTheme from "../hooks/useTheme";
 
 function RootLayoutContent() {
   const { effectiveTheme } = useTheme();
-  
+
   return (
     <>
       <Stack
