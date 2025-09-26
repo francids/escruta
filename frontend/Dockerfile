@@ -9,6 +9,8 @@ RUN apt-get update && \
 COPY . .
 
 FROM base AS build
+ARG VITE_ESCRUTA_BACKEND_URL=http://localhost:6542
+ENV VITE_ESCRUTA_BACKEND_URL=$VITE_ESCRUTA_BACKEND_URL
 RUN npm run build
 
 FROM nginx:alpine AS production

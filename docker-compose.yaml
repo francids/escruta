@@ -35,14 +35,17 @@ services:
       ESCRUTA_AI_MODEL: llama3.2:latest
       ESCRUTA_AI_EMBEDDING_MODEL: nomic-embed-text
       ESCRUTA_AI_EMBEDDING_DIMENSIONS: 768
+      CORS_ALLOWED_ORIGINS: http://localhost:6543
+    ports:
+      - "6542:6542"
     restart: unless-stopped
 
   frontend:
     build:
       context: ./frontend
+      args:
+        VITE_ESCRUTA_BACKEND_URL: http://localhost:6542
     container_name: escruta-frontend
-    environment:
-      VITE_ESCRUTA_BACKEND_URL: http://backend:6542
     ports:
       - "6543:80"
     depends_on:
