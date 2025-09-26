@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useKeyboard } from "hooks/useKeyboard";
 import { IconButton } from "components/ui";
 import { SendIcon, FireIcon } from "components/icons";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "hooks/useTheme";
 
 interface Message {
   id: string;
@@ -143,7 +143,9 @@ export default function ChatScreen() {
               <View
                 style={tw`max-w-[280px] px-4 py-3 rounded-sm bg-neutral-200 dark:bg-neutral-800 mr-12`}
               >
-                <Text style={tw`text-black dark:text-white text-base`}>AI is thinking...</Text>
+                <Text style={tw`text-black dark:text-white text-base`}>
+                  AI is thinking...
+                </Text>
               </View>
             </View>
           ) : null
@@ -175,7 +177,11 @@ export default function ChatScreen() {
             value={input}
             onChangeText={setInput}
             placeholder="Type your message..."
-            placeholderTextColor={isDark ? tw.color("text-neutral-500") : tw.color("text-neutral-400")}
+            placeholderTextColor={
+              isDark
+                ? tw.color("text-neutral-500")
+                : tw.color("text-neutral-400")
+            }
             multiline
             maxLength={500}
             editable={!isLoading}
