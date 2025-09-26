@@ -27,7 +27,7 @@ export default function Header({
 
   return (
     <View
-      style={tw`bg-neutral-900 px-4 pt-[${insets.top + 16}px] pb-4 flex-row gap-4 items-center justify-between border-b border-neutral-700`}
+      style={tw`bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700 px-4 pt-[${insets.top + 16}px] pb-4 flex-row gap-4 items-center justify-between border-b`}
     >
       {showBackButton ? (
         <IconButton
@@ -42,7 +42,7 @@ export default function Header({
       <View style={tw`${centerTitle ? "flex-1 items-center" : "flex-1"}`}>
         {typeof title === "string" ? (
           <Text
-            style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
+            style={tw`text-black dark:text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
             numberOfLines={1}
             ellipsizeMode="tail"
           >

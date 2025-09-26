@@ -71,7 +71,7 @@ export default function Menu({
       <Pressable style={tw`flex-1`} onPress={onClose}>
         <View
           style={[
-            tw`absolute min-w-[180px] bg-gray-900 rounded-sm border border-gray-700 py-2 shadow-2xl z-50`,
+            tw`absolute min-w-[180px] bg-white dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border py-2 shadow-2xl z-50`,
             { elevation: 12 },
             menuPosition,
           ]}
@@ -82,7 +82,7 @@ export default function Menu({
               <Pressable
                 style={({ pressed }) => [
                   tw`flex-row items-center p-4`,
-                  pressed && tw`bg-gray-800`,
+                  pressed && tw`bg-neutral-100 dark:bg-gray-800`,
                 ]}
                 onPress={() => {
                   onClose();
@@ -90,7 +90,7 @@ export default function Menu({
                 }}
               >
                 {item.icon && <View style={tw`mr-4`}>{item.icon}</View>}
-                <Text style={tw`text-gray-100 text-base font-medium`}>
+                <Text style={tw`text-black dark:text-gray-100 text-base font-medium`}>
                   {item.text}
                 </Text>
               </Pressable>

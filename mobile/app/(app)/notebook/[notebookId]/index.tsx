@@ -93,7 +93,7 @@ export default function NotebookScreen() {
   ];
 
   return (
-    <View style={tw`flex flex-1 bg-neutral-950`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
       <Stack.Screen
         options={{
           headerRight: () => (
@@ -129,15 +129,15 @@ export default function NotebookScreen() {
       />
       <ScrollView style={tw`flex-1 px-4`} contentContainerStyle={tw`py-6`}>
         {/* Notebook Title */}
-        <Text style={tw`text-white text-2xl font-bold`}>
+        <Text style={tw`text-black dark:text-white text-2xl font-bold`}>
           How traffic lights work?
         </Text>
 
         {/* Notebook Summary */}
-        <Text style={tw`text-white text-lg mt-4`}>
+        <Text style={tw`text-black dark:text-white text-lg mt-4`}>
           Summary of the notebook:
         </Text>
-        <Text selectable style={tw`text-gray-300 text-lg mt-2`}>
+        <Text selectable style={tw`text-neutral-700 dark:text-gray-300 text-lg mt-2`}>
           Traffic lights use timed cycles to control vehicle and pedestrian flow
           at intersections. Red stops traffic, green allows movement, and yellow
           warns of upcoming changes. Modern systems use sensors to adjust timing
@@ -174,8 +174,8 @@ export default function NotebookScreen() {
                 <View>
                   <Pressable
                     style={({ pressed }) => [
-                      tw`bg-gray-900 rounded-none p-4 mb-3 border border-dashed border-gray-700 flex-row items-center justify-center opacity-70`,
-                      pressed && tw`bg-gray-800/60`,
+                      tw`bg-white dark:bg-gray-900 rounded-none p-4 mb-3 border border-dashed border-neutral-300 dark:border-gray-700 flex-row items-center justify-center opacity-70`,
+                      pressed && tw`bg-neutral-100 dark:bg-gray-800/60`,
                     ]}
                     onPress={() => {
                       console.log("Add source pressed");
@@ -185,7 +185,7 @@ export default function NotebookScreen() {
                       style={tw`flex-row items-center justify-center w-full`}
                     >
                       <Text
-                        style={tw`text-gray-400 text-base font-normal text-center mr-2`}
+                        style={tw`text-neutral-600 dark:text-gray-400 text-base font-normal text-center mr-2`}
                       >
                         Add source
                       </Text>
@@ -205,8 +205,8 @@ export default function NotebookScreen() {
                 <View>
                   <Pressable
                     style={({ pressed }) => [
-                      tw`bg-gray-900 rounded-none p-4 mb-3 border border-dashed border-gray-700 flex-row items-center justify-center opacity-70`,
-                      pressed && tw`bg-gray-800/60`,
+                      tw`bg-white dark:bg-gray-900 rounded-none p-4 mb-3 border border-dashed border-neutral-300 dark:border-gray-700 flex-row items-center justify-center opacity-70`,
+                      pressed && tw`bg-neutral-100 dark:bg-gray-800/60`,
                     ]}
                     onPress={() => {
                       console.log("Add note pressed");
@@ -216,7 +216,7 @@ export default function NotebookScreen() {
                       style={tw`flex-row items-center justify-center w-full`}
                     >
                       <Text
-                        style={tw`text-gray-400 text-base font-normal text-center mr-2`}
+                        style={tw`text-neutral-600 dark:text-gray-400 text-base font-normal text-center mr-2`}
                       >
                         Add note
                       </Text>
