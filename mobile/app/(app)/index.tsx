@@ -3,7 +3,7 @@ import tw, { themed } from "lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Notebook } from "interfaces";
 import NotebookCard from "components/NotebookCard";
-import ThemeToggle from "components/ThemeToggle";
+import ThemeDemo from "components/ThemeDemo";
 import { FAB } from "components/ui";
 import { AddIcon } from "components/icons";
 import useTheme from "../../hooks/useTheme";
@@ -67,22 +67,28 @@ export default function AppScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Theme Toggle for demonstration */}
-        <ThemeToggle />
+        {/* Theme Demo Section */}
+        <ThemeDemo />
         
-        {dummyNotebooks.length > 0 ? (
-          <View style={tw`flex flex-col gap-4 p-4 pb-2`}>
-            {dummyNotebooks.map((notebook) => (
-              <NotebookCard notebook={notebook} key={notebook.id} />
-            ))}
-          </View>
-        ) : (
-          <View style={tw`flex flex-1 items-center justify-center`}>
-            <Text style={tw`${themed("text-neutral-600", "text-neutral-400", isDark)} text-center text-lg`}>
-              No notebooks yet. Create your first one!
-            </Text>
-          </View>
-        )}
+        {/* Notebooks Section */}
+        <View style={tw`p-4`}>
+          <Text style={tw`${themed("text-black", "text-white", isDark)} text-2xl font-bold mb-4`}>
+            Your Notebooks
+          </Text>
+          {dummyNotebooks.length > 0 ? (
+            <View style={tw`flex flex-col gap-4`}>
+              {dummyNotebooks.map((notebook) => (
+                <NotebookCard notebook={notebook} key={notebook.id} />
+              ))}
+            </View>
+          ) : (
+            <View style={tw`flex flex-1 items-center justify-center py-12`}>
+              <Text style={tw`${themed("text-neutral-600", "text-neutral-400", isDark)} text-center text-lg`}>
+                No notebooks yet. Create your first one!
+              </Text>
+            </View>
+          )}
+        </View>
       </ScrollView>
       <FAB
         icon={<AddIcon />}

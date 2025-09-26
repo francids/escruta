@@ -1,6 +1,7 @@
 import { View, Text, Modal, Pressable } from "react-native";
 import Divider from "./Divider";
-import tw from "lib/tailwind";
+import tw, { themed } from "lib/tailwind";
+import useTheme from "../../hooks/useTheme";
 
 export interface MenuItem {
   text: string;
@@ -29,6 +30,9 @@ export default function Menu({
   onClose,
   anchor,
 }: MenuProps) {
+  const { effectiveTheme } = useTheme();
+  const isDark = effectiveTheme === "dark";
+
   if (!anchor) return null;
 
   let menuPosition = {};
@@ -71,7 +75,11 @@ export default function Menu({
       <Pressable style={tw`flex-1`} onPress={onClose}>
         <View
           style={[
-            tw`absolute min-w-[180px] bg-gray-900 rounded-sm border border-gray-700 py-2 shadow-2xl z-50`,
+            tw`absolute min-w-[180px] ${themed(
+              "bg-white border-neutral-200",
+              "bg-gray-900 border-gray-700",
+              isDark
+            )} rounded-sm border py-2 shadow-2xl z-50`,
             { elevation: 12 },
             menuPosition,
           ]}
@@ -82,7 +90,7 @@ export default function Menu({
               <Pressable
                 style={({ pressed }) => [
                   tw`flex-row items-center p-4`,
-                  pressed && tw`bg-gray-800`,
+                  pressed && tw`${themed("bg-neutral-100", "bg-gray-800", isDark)}`,
                 ]}
                 onPress={() => {
                   onClose();
@@ -90,7 +98,7 @@ export default function Menu({
                 }}
               >
                 {item.icon && <View style={tw`mr-4`}>{item.icon}</View>}
-                <Text style={tw`text-gray-100 text-base font-medium`}>
+                <Text style={tw`${themed("text-black", "text-gray-100", isDark)} text-base font-medium`}>
                   {item.text}
                 </Text>
               </Pressable>

@@ -1,9 +1,10 @@
 import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import tw from "lib/tailwind";
+import tw, { themed } from "lib/tailwind";
 import { IconButton } from "./ui";
 import { BackIcon } from "./icons";
 import { router } from "expo-router";
+import useTheme from "../hooks/useTheme";
 
 type HeaderTitleType =
   | string
@@ -24,10 +25,16 @@ export default function Header({
   showBackButton,
 }: HeaderProps) {
   const insets = useSafeAreaInsets();
+  const { effectiveTheme } = useTheme();
+  const isDark = effectiveTheme === "dark";
 
   return (
     <View
-      style={tw`bg-neutral-900 px-4 pt-[${insets.top + 16}px] pb-4 flex-row gap-4 items-center justify-between border-b border-neutral-700`}
+      style={tw`${themed(
+        "bg-white border-neutral-200",
+        "bg-neutral-900 border-neutral-700",
+        isDark
+      )} px-4 pt-[${insets.top + 16}px] pb-4 flex-row gap-4 items-center justify-between border-b`}
     >
       {showBackButton ? (
         <IconButton
@@ -42,7 +49,7 @@ export default function Header({
       <View style={tw`${centerTitle ? "flex-1 items-center" : "flex-1"}`}>
         {typeof title === "string" ? (
           <Text
-            style={tw`text-white text-xl font-medium ${centerTitle ? "text-center" : ""}`}
+            style={tw`${themed("text-black", "text-white", isDark)} text-xl font-medium ${centerTitle ? "text-center" : ""}`}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
