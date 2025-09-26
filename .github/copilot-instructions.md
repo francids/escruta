@@ -4,7 +4,7 @@
 
 Escruta is an AI-powered research assistant with a **multi-platform architecture**:
 
-- **Backend**: Java 17 + Spring Boot + Spring AI (OpenAI-compatible) + PostgreSQL with pgvector
+- **Backend**: Java 21 + Spring Boot + Spring AI (OpenAI-compatible) + PostgreSQL with pgvector
 - **Frontend**: React 19 + TypeScript + Vite + Tailwind CSS + React Router v7
 - **Mobile**: React Native + Expo + TypeScript
 - **Database**: PostgreSQL with vector embeddings for AI-powered search
@@ -54,7 +54,7 @@ shared/         # Cross-app utilities and components
 ### Local Development
 
 ```bash
-# Backend (requires Java 17)
+# Backend (requires Java 21)
 cd backend && ./gradlew bootRun
 
 # Frontend
