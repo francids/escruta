@@ -3,10 +3,9 @@ import tw from "lib/tailwind";
 import { View, Text, FlatList, TextInput, Alert } from "react-native";
 import { useState, useRef, useEffect } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useKeyboard } from "hooks/useKeyboard";
+import { useKeyboard, useTheme } from "hooks";
 import { IconButton } from "components/ui";
 import { SendIcon, FireIcon } from "components/icons";
-import useTheme from "hooks/useTheme";
 
 interface Message {
   id: string;

@@ -4,7 +4,7 @@ import { Button, Divider, TextField } from "components/ui";
 import tw from "lib/tailwind";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useKeyboard } from "hooks/useKeyboard";
+import { useKeyboard } from "hooks";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
@@ -45,7 +45,9 @@ export default function LoginScreen() {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <Text style={tw`text-3xl font-bold text-black dark:text-white mb-8`}>Login</Text>
+      <Text style={tw`text-3xl font-bold text-black dark:text-white mb-8`}>
+        Login
+      </Text>
 
       <TextField
         label="Email"
@@ -74,7 +76,9 @@ export default function LoginScreen() {
       <Divider />
 
       <View style={tw`flex-row justify-center items-center w-full`}>
-        <Text style={tw`text-neutral-600 dark:text-gray-400 text-base`}>Don't have an account? </Text>
+        <Text style={tw`text-neutral-600 dark:text-gray-400 text-base`}>
+          Don't have an account?{" "}
+        </Text>
         <TouchableOpacity onPress={() => router.push("/register")}>
           <Text style={tw`text-blue-500 text-base`}>Register</Text>
         </TouchableOpacity>

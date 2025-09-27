@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from "react";
 import { ThemeContext, ThemeOptions } from "contexts";
 import tw from "lib/tailwind";
 import { useAppColorScheme, useDeviceContext } from "twrnc";
-import useStorage from "hooks/useStorage";
+import { useStorage } from "hooks";
 import { useColorScheme } from "react-native";
 
 const THEME_STORAGE_KEY = "schemaPreference";

@@ -1,6 +1,6 @@
 import { Button, Divider, TextField } from "components/ui";
 import { router } from "expo-router";
-import { useKeyboard } from "hooks/useKeyboard";
+import { useKeyboard } from "hooks";
 import tw from "lib/tailwind";
 import { useState, useRef } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -48,7 +48,9 @@ export default function RegisterScreen() {
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <Text style={tw`text-3xl font-bold text-black dark:text-white mb-8`}>Register</Text>
+      <Text style={tw`text-3xl font-bold text-black dark:text-white mb-8`}>
+        Register
+      </Text>
 
       <TextField
         label="Full Name"
