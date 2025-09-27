@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import tw from "lib/tailwind";
-import type Notebook from "interfaces/Notebook";
+import type { Notebook } from "interfaces";
 import { formatDate } from "utils";
 import { router } from "expo-router";
 

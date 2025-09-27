@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import tw from "lib/tailwind";
-import useTheme from "hooks/useTheme";
+import { useTheme } from "hooks";
 import { LightIcon, DarkIcon, SystemIcon } from "./icons";
 
 export default function ThemeToggle() {

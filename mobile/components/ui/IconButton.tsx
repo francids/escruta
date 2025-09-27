@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
-import tw from "../../lib/tailwind";
+import tw from "lib/tailwind";
 import React from "react";
-import useTheme from "../../hooks/useTheme";
+import { useTheme } from "hooks";
 
 interface IconButtonProps {
   icon: React.JSX.Element | React.ReactNode;

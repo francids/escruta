@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { View } from "react-native";
-import Menu from "./Menu";
-import type { MenuItem, MenuPosition } from "./Menu";
+import Menu, { type MenuItem, type MenuPosition } from "./Menu";
 
 interface MenuButtonProps {
   menuItems: MenuItem[];

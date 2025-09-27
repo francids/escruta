@@ -90,7 +90,9 @@ export default function Menu({
                 }}
               >
                 {item.icon && <View style={tw`mr-4`}>{item.icon}</View>}
-                <Text style={tw`text-black dark:text-gray-100 text-base font-medium`}>
+                <Text
+                  style={tw`text-black dark:text-gray-100 text-base font-medium`}
+                >
                   {item.text}
                 </Text>
               </Pressable>

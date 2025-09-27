@@ -46,9 +46,7 @@ export default function Tabs({
             key={tab.id}
             style={tw.style(
               `flex-1 py-2 items-center rounded-sm`,
-              activeTabId === tab.id 
-                ? "bg-white dark:bg-gray-700"
-                : ""
+              activeTabId === tab.id ? "bg-white dark:bg-gray-700" : ""
             )}
             onPress={() => handleTabClick(tab.id)}
             activeOpacity={0.7}
@@ -56,7 +54,7 @@ export default function Tabs({
             <Text
               style={tw.style(
                 "text-neutral-600 dark:text-gray-400 font-normal text-base",
-                activeTabId === tab.id 
+                activeTabId === tab.id
                   ? "text-black dark:text-gray-100 font-medium"
                   : ""
               )}

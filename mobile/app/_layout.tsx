@@ -1,8 +1,8 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import tw from "lib/tailwind";
-import ThemeProvider from "providers/ThemeProvider";
-import useTheme from "hooks/useTheme";
+import { ThemeProvider } from "providers";
+import { useTheme } from "hooks";
 import { View } from "react-native";
 
 function RootLayoutContent() {

@@ -4,7 +4,7 @@ import tw from "lib/tailwind";
 import Logo from "components/Logo";
 import { Button } from "components/ui";
 import { ArrowRightIcon } from "components/icons";
-import useTheme from "hooks/useTheme";
+import { useTheme } from "hooks";
 
 export default function LandingScreen() {
   const { colorScheme } = useTheme();

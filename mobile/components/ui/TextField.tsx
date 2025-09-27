@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TextInputProps } from "react-native";
-import tw from "../../lib/tailwind";
-import useTheme from "../../hooks/useTheme";
+import tw from "lib/tailwind";
+import { useTheme } from "hooks";
 
 type TextFieldProps = {
   id?: string;
@@ -48,7 +48,9 @@ export default function TextField({
         editable={editable}
         numberOfLines={1}
         autoFocus={autoFocus}
-        placeholderTextColor={isDark ? tw.color("text-gray-400") : tw.color("text-neutral-500")}
+        placeholderTextColor={
+          isDark ? tw.color("text-gray-400") : tw.color("text-neutral-500")
+        }
         selectionColor={tw.color("text-blue-400")}
         {...rest}
       />

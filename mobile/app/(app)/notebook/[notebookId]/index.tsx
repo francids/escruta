@@ -137,7 +137,10 @@ export default function NotebookScreen() {
         <Text style={tw`text-black dark:text-white text-lg mt-4`}>
           Summary of the notebook:
         </Text>
-        <Text selectable style={tw`text-neutral-700 dark:text-gray-300 text-lg mt-2`}>
+        <Text
+          selectable
+          style={tw`text-neutral-700 dark:text-gray-300 text-lg mt-2`}
+        >
           Traffic lights use timed cycles to control vehicle and pedestrian flow
           at intersections. Red stops traffic, green allows movement, and yellow
           warns of upcoming changes. Modern systems use sensors to adjust timing

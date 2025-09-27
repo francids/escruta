@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Text } from "react-native";
 import tw from "lib/tailwind";
 import { cloneElement, isValidElement } from "react";
-import useTheme from "../../hooks/useTheme";
+import { useTheme } from "hooks";
 
 interface FABProps {
   icon: React.ReactNode;
