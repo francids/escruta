@@ -3,11 +3,14 @@ import tw from "lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Notebook } from "interfaces";
 import NotebookCard from "components/NotebookCard";
-import { FAB } from "components/ui";
+import { FAB, Button } from "components/ui";
 import { AddIcon } from "components/icons";
+import Header from "components/Header";
 
 export default function AppScreen() {
   const insets = useSafeAreaInsets();
+
+  const currentUser = { fullName: "User" };
 
   const dummyNotebooks: Notebook[] = [
     {
@@ -56,29 +59,34 @@ export default function AppScreen() {
 
   return (
     <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
+      <Header
+        title={`Welcome, ${currentUser?.fullName || "User"}!`}
+        subtitle="Dashboard"
+      />
       <ScrollView
+        style={tw`flex-1 bg-gray-50 dark:bg-gray-950`}
         contentContainerStyle={{
           paddingBottom: insets.bottom + 86,
           ...(dummyNotebooks.length === 0 && { flexGrow: 1 }),
+          flexGrow: 1,
         }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={tw`p-4`}>
-          <Text style={tw`text-black dark:text-white text-2xl font-bold mb-4`}>
-            Your Notebooks
-          </Text>
+        <View style={tw`flex-1 p-4`}>
           {dummyNotebooks.length > 0 ? (
-            <View style={tw`flex flex-col gap-4`}>
-              {dummyNotebooks.map((notebook) => (
-                <NotebookCard notebook={notebook} key={notebook.id} />
+            <View style={tw`flex flex-col gap-3`}>
+              {dummyNotebooks.map((notebook, index) => (
+                <View key={index}>
+                  <NotebookCard notebook={notebook} />
+                </View>
               ))}
             </View>
           ) : (
-            <View style={tw`flex flex-1 items-center justify-center py-12`}>
+            <View style={tw`flex-1 items-center justify-center px-6`}>
               <Text
-                style={tw`text-neutral-600 dark:text-neutral-400 text-center text-lg`}
+                style={tw`text-neutral-400 dark:text-neutral-600 text-center`}
               >
-                No notebooks yet. Create your first one!
+                No notebooks. Create one!
               </Text>
             </View>
           )}

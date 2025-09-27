@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import tw from "lib/tailwind";
 import type { Notebook } from "interfaces";
 import { formatDate } from "utils";
@@ -10,13 +10,15 @@ interface NotebookCardProps {
 
 export default function NotebookCard({ notebook }: NotebookCardProps) {
   return (
-    <TouchableOpacity
-      style={tw`flex flex-row items-center bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-sm p-4 h-16`}
+    <Pressable
+      style={({ pressed }) => [
+        tw`flex flex-row items-center bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700 rounded-sm p-4`,
+        pressed && tw`bg-gray-50 dark:bg-gray-700`,
+      ]}
       onPress={() => router.push(`/notebook/${notebook.id}`)}
-      activeOpacity={0.8}
     >
       <View
-        style={tw`w-8 h-8 bg-neutral-100 dark:bg-neutral-700 rounded-sm mr-3 items-center justify-center`}
+        style={tw`w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-sm mr-3 items-center justify-center`}
       >
         <Text style={tw`text-black dark:text-white text-lg`}>
           {notebook.icon || "📓"}
@@ -30,10 +32,10 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
         >
           {notebook.title}
         </Text>
-        <Text style={tw`text-neutral-600 dark:text-neutral-400 text-sm`}>
+        <Text style={tw`text-gray-600 dark:text-gray-400 text-sm`}>
           {formatDate(notebook.updatedAt)}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

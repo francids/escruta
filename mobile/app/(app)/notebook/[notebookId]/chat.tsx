@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useKeyboard, useTheme } from "hooks";
 import { IconButton } from "components/ui";
 import { SendIcon, FireIcon } from "components/icons";
+import Header from "components/Header";
 
 interface Message {
   id: string;
@@ -93,6 +94,7 @@ export default function ChatScreen() {
 
   return (
     <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
+      <Header title="Chat" subtitle="Notebook" showBackButton={true} />
       <FlatList
         ref={flatListRef}
         data={messages}
