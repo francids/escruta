@@ -1,6 +1,7 @@
 import { TouchableOpacity, View, Text } from "react-native";
 import tw from "lib/tailwind";
 import { cloneElement, isValidElement } from "react";
+import useTheme from "../../hooks/useTheme";
 
 interface FABProps {
   icon: React.ReactNode;
@@ -17,6 +18,9 @@ export default function FAB({
   variant = "primary",
   disabled = false,
 }: FABProps) {
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
+
   const baseStyles = tw`
     absolute bottom-12 right-8
     flex-row justify-center items-center
@@ -30,7 +34,7 @@ export default function FAB({
 
   const variantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`bg-gray-100`,
+    secondary: tw`bg-neutral-100 dark:bg-gray-800`,
     danger: tw`bg-red-600`,
   };
 
@@ -38,7 +42,7 @@ export default function FAB({
 
   const iconColors = {
     primary: "white",
-    secondary: "black",
+    secondary: isDark ? "white" : "black",
     danger: "white",
   };
 

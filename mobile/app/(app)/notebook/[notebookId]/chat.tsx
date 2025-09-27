@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useKeyboard } from "hooks/useKeyboard";
 import { IconButton } from "components/ui";
 import { SendIcon, FireIcon } from "components/icons";
+import useTheme from "hooks/useTheme";
 
 interface Message {
   id: string;
@@ -19,6 +20,8 @@ export default function ChatScreen() {
   const insets = useSafeAreaInsets();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const flatListRef = useRef<FlatList>(null);
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -90,7 +93,7 @@ export default function ChatScreen() {
   };
 
   return (
-    <View style={tw`flex flex-1 bg-neutral-950`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
       <FlatList
         ref={flatListRef}
         data={messages}
@@ -113,11 +116,11 @@ export default function ChatScreen() {
                 style={tw`max-w-[280px] px-4 py-3 rounded-sm ${
                   message.sender === "user"
                     ? "bg-blue-600 ml-12"
-                    : "bg-neutral-800 mr-12"
+                    : "bg-neutral-200 dark:bg-neutral-800 mr-12"
                 }`}
               >
                 <Text
-                  style={tw`text-white text-base leading-relaxed ${
+                  style={tw`${message.sender === "user" ? "text-white" : "text-black dark:text-white"} text-base leading-relaxed ${
                     message.sender === "user" ? "font-medium" : "font-normal"
                   }`}
                 >
@@ -138,9 +141,11 @@ export default function ChatScreen() {
           isLoading ? (
             <View style={tw`flex items-start mb-4`}>
               <View
-                style={tw`max-w-[280px] px-4 py-3 rounded-sm bg-neutral-800 mr-12`}
+                style={tw`max-w-[280px] px-4 py-3 rounded-sm bg-neutral-200 dark:bg-neutral-800 mr-12`}
               >
-                <Text style={tw`text-white text-base`}>AI is thinking...</Text>
+                <Text style={tw`text-black dark:text-white text-base`}>
+                  AI is thinking...
+                </Text>
               </View>
             </View>
           ) : null
@@ -149,7 +154,7 @@ export default function ChatScreen() {
 
       <View
         style={[
-          tw`border-t border-neutral-800 bg-neutral-950 px-4 py-3`,
+          tw`border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 py-3`,
           {
             paddingBottom: isKeyboardVisible
               ? keyboardHeight + 36
@@ -168,11 +173,15 @@ export default function ChatScreen() {
           )}
 
           <TextInput
-            style={tw`flex-1 bg-neutral-800 text-white text-base px-4 py-3 rounded-sm border border-neutral-700 font-sans`}
+            style={tw`flex-1 bg-white dark:bg-neutral-800 text-black dark:text-white text-base px-4 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 font-sans`}
             value={input}
             onChangeText={setInput}
             placeholder="Type your message..."
-            placeholderTextColor={tw.color("text-neutral-500")}
+            placeholderTextColor={
+              isDark
+                ? tw.color("text-neutral-500")
+                : tw.color("text-neutral-400")
+            }
             multiline
             maxLength={500}
             editable={!isLoading}

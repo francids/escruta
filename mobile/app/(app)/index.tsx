@@ -55,7 +55,7 @@ export default function AppScreen() {
   ];
 
   return (
-    <View style={tw`flex flex-1 bg-neutral-950`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
       <ScrollView
         contentContainerStyle={{
           paddingBottom: insets.bottom + 86,
@@ -63,19 +63,26 @@ export default function AppScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        {dummyNotebooks.length > 0 ? (
-          <View style={tw`flex flex-col gap-4 p-4 pb-2`}>
-            {dummyNotebooks.map((notebook) => (
-              <NotebookCard notebook={notebook} key={notebook.id} />
-            ))}
-          </View>
-        ) : (
-          <View style={tw`flex flex-1 items-center justify-center`}>
-            <Text style={tw`text-neutral-400 text-center text-lg`}>
-              No notebooks yet. Create your first one!
-            </Text>
-          </View>
-        )}
+        <View style={tw`p-4`}>
+          <Text style={tw`text-black dark:text-white text-2xl font-bold mb-4`}>
+            Your Notebooks
+          </Text>
+          {dummyNotebooks.length > 0 ? (
+            <View style={tw`flex flex-col gap-4`}>
+              {dummyNotebooks.map((notebook) => (
+                <NotebookCard notebook={notebook} key={notebook.id} />
+              ))}
+            </View>
+          ) : (
+            <View style={tw`flex flex-1 items-center justify-center py-12`}>
+              <Text
+                style={tw`text-neutral-600 dark:text-neutral-400 text-center text-lg`}
+              >
+                No notebooks yet. Create your first one!
+              </Text>
+            </View>
+          )}
+        </View>
       </ScrollView>
       <FAB
         icon={<AddIcon />}

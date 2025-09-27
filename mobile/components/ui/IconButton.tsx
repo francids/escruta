@@ -1,6 +1,7 @@
 import { Pressable, View } from "react-native";
 import tw from "../../lib/tailwind";
 import React from "react";
+import useTheme from "../../hooks/useTheme";
 
 interface IconButtonProps {
   icon: React.JSX.Element | React.ReactNode;
@@ -19,6 +20,9 @@ export default function IconButton({
   disabled = false,
   size = "md",
 }: IconButtonProps) {
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
+
   const baseStyles = tw`relative items-center justify-center rounded-sm`;
 
   const sizeStyles = {
@@ -29,23 +33,23 @@ export default function IconButton({
 
   const variantStyles = {
     primary: tw`bg-blue-500 border border-blue-600`,
-    secondary: tw`bg-gray-800 border border-gray-700`,
+    secondary: tw`bg-neutral-100 dark:bg-gray-800 border border-neutral-200 dark:border-gray-700`,
     danger: tw`bg-red-500 border border-red-600`,
     ghost: tw``,
   };
 
   const pressedVariantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`bg-gray-800/80`,
+    secondary: tw`bg-neutral-200 dark:bg-gray-800/80`,
     danger: tw`bg-red-600`,
     ghost: tw`bg-gray-500/10`,
   };
 
   const iconColors = {
     primary: "white",
-    secondary: "white",
+    secondary: isDark ? "white" : "black",
     danger: "white",
-    ghost: "white",
+    ghost: isDark ? "white" : "black",
   };
 
   const disabledStyles = tw`opacity-50`;

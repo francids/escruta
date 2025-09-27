@@ -39,22 +39,26 @@ export default function Tabs({
   return (
     <View style={[tw`w-full flex-1`, style]}>
       <View
-        style={tw`flex-row bg-gray-900 rounded-sm border border-gray-700 mb-2 p-1`}
+        style={tw`flex-row bg-neutral-100 dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
         {items.map((tab) => (
           <TouchableOpacity
             key={tab.id}
             style={tw.style(
               `flex-1 py-2 items-center rounded-sm`,
-              activeTabId === tab.id ? "bg-gray-700" : ""
+              activeTabId === tab.id 
+                ? "bg-white dark:bg-gray-700"
+                : ""
             )}
             onPress={() => handleTabClick(tab.id)}
             activeOpacity={0.7}
           >
             <Text
               style={tw.style(
-                `text-gray-400 font-normal text-base`,
-                activeTabId === tab.id ? "text-gray-100 font-medium" : ""
+                "text-neutral-600 dark:text-gray-400 font-normal text-base",
+                activeTabId === tab.id 
+                  ? "text-black dark:text-gray-100 font-medium"
+                  : ""
               )}
             >
               {tab.label}
