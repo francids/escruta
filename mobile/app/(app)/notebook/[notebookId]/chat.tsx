@@ -20,8 +20,8 @@ export default function ChatScreen() {
   const insets = useSafeAreaInsets();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const flatListRef = useRef<FlatList>(null);
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");

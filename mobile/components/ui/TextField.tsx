@@ -28,8 +28,8 @@ export default function TextField({
   autoFocus = false,
   ...rest
 }: TextFieldProps) {
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
 
   return (
     <View style={[tw`w-full`, style]}>

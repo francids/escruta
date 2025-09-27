@@ -20,8 +20,8 @@ export default function IconButton({
   disabled = false,
   size = "md",
 }: IconButtonProps) {
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
 
   const baseStyles = tw`relative items-center justify-center rounded-sm`;
 

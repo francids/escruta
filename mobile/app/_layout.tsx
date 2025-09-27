@@ -1,20 +1,20 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import tw from "lib/tailwind";
-import { useDeviceContext } from "twrnc";
-import ThemeProvider from "../providers/ThemeProvider";
-import useTheme from "../hooks/useTheme";
+import ThemeProvider from "providers/ThemeProvider";
+import useTheme from "hooks/useTheme";
+import { View } from "react-native";
 
 function RootLayoutContent() {
-  const { effectiveTheme } = useTheme();
+  const { colorScheme } = useTheme();
 
   return (
-    <>
+    <View style={tw`flex-1 bg-white dark:bg-neutral-900`}>
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: effectiveTheme === "dark" ? "#121212" : "#ffffff",
+            backgroundColor: "transparent",
           },
           animation: "fade_from_bottom",
           animationDuration: 300,
@@ -28,14 +28,12 @@ function RootLayoutContent() {
         {/* App Routes - Nested */}
         <Stack.Screen name="(app)" />
       </Stack>
-      <StatusBar style={effectiveTheme === "dark" ? "light" : "dark"} />
-    </>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+    </View>
   );
 }
 
 export default function RootLayout() {
-  useDeviceContext(tw);
-
   return (
     <ThemeProvider>
       <RootLayoutContent />

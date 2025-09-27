@@ -1,89 +1,40 @@
-import { type ReactNode, useEffect, useState } from "react";
-import { Appearance } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ThemeContext, ThemeOptions } from "../contexts";
-import tw from "../lib/tailwind";
-import { useAppColorScheme } from "twrnc";
+import { PropsWithChildren, useState } from "react";
+import { ThemeContext, ThemeOptions } from "contexts";
+import tw from "lib/tailwind";
+import { useAppColorScheme, useDeviceContext } from "twrnc";
+import useStorage from "hooks/useStorage";
+import { useColorScheme } from "react-native";
 
-const THEME_STORAGE_KEY = "themePreference";
+const THEME_STORAGE_KEY = "schemaPreference";
 
-const determineEffectiveTheme = (
-  preference: ThemeOptions
-): "light" | "dark" => {
-  if (preference === ThemeOptions.Light) return "light";
-  if (preference === ThemeOptions.Dark) return "dark";
+export default function ThemeProvider(props: PropsWithChildren) {
+  const { getItem, setItem } = useStorage();
+  const deviceColorScheme = useColorScheme();
 
-  const colorScheme = Appearance.getColorScheme();
-  return colorScheme === "dark" ? "dark" : "light";
-};
-
-export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [, , setColorScheme] = useAppColorScheme(tw);
-  const [themePreference, setThemePreference] = useState<ThemeOptions>(
-    ThemeOptions.System
-  );
-  const [effectiveTheme, setEffectiveTheme] = useState<"light" | "dark">(() => {
-    return determineEffectiveTheme(ThemeOptions.System);
+  useDeviceContext(tw, {
+    observeDeviceColorSchemeChanges: false,
+    initialColorScheme: getItem<ThemeOptions>(THEME_STORAGE_KEY) || "device",
   });
 
-  useEffect(() => {
-    setColorScheme(effectiveTheme);
-  }, [effectiveTheme]);
+  const [colorScheme, , setColorScheme] = useAppColorScheme(tw);
+  const [userPreference, setUserPreference] = useState<ThemeOptions>(
+    getItem<ThemeOptions>(THEME_STORAGE_KEY) || "device"
+  );
 
-  useEffect(() => {
-    const loadTheme = async () => {
-      try {
-        const storedTheme = await AsyncStorage.getItem(THEME_STORAGE_KEY);
-        if (
-          storedTheme &&
-          Object.values(ThemeOptions).includes(storedTheme as ThemeOptions)
-        ) {
-          const preference = storedTheme as ThemeOptions;
-          setThemePreference(preference);
-          const newEffectiveTheme = determineEffectiveTheme(preference);
-          setEffectiveTheme(newEffectiveTheme);
-          setColorScheme(newEffectiveTheme);
-        }
-      } catch (error) {
-        console.warn("Failed to load theme preference:", error);
-      }
-    };
-
-    loadTheme();
-  }, []);
-
-  useEffect(() => {
-    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-      if (themePreference === ThemeOptions.System) {
-        const newTheme = colorScheme === "dark" ? "dark" : "light";
-        setEffectiveTheme(newTheme);
-        setColorScheme(newTheme);
-      }
-    });
-
-    return () => subscription.remove();
-  }, [themePreference]);
-
-  const setTheme = async (newTheme: ThemeOptions) => {
-    try {
-      await AsyncStorage.setItem(THEME_STORAGE_KEY, newTheme);
-      setThemePreference(newTheme);
-      const effectiveTheme = determineEffectiveTheme(newTheme);
-      setEffectiveTheme(effectiveTheme);
-      setColorScheme(effectiveTheme);
-    } catch (error) {
-      console.warn("Failed to save theme preference:", error);
+  function setTheme(theme: ThemeOptions) {
+    setItem(THEME_STORAGE_KEY, theme);
+    setUserPreference(theme);
+    if (theme === "device") {
+      theme = deviceColorScheme === "dark" ? "dark" : "light";
     }
-  };
-
-  const value = {
-    themePreference,
-    effectiveTheme,
-    setTheme,
-    ThemeOptions,
-  };
+    setColorScheme(theme);
+  }
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider
+      key={tw.memoBuster}
+      {...props}
+      value={{ colorScheme, userPreference, setTheme }}
+    />
   );
 }

@@ -18,8 +18,8 @@ export default function FAB({
   variant = "primary",
   disabled = false,
 }: FABProps) {
-  const { effectiveTheme } = useTheme();
-  const isDark = effectiveTheme === "dark";
+  const { colorScheme } = useTheme();
+  const isDark = colorScheme === "dark";
 
   const baseStyles = tw`
     absolute bottom-12 right-8

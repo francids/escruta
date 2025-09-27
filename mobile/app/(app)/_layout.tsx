@@ -23,7 +23,9 @@ export default function AppLayout() {
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: () => <Logo style="w-24 h-8 text-black dark:text-white" />,
+          headerTitle: () => (
+            <Logo style="w-24 h-8 text-black dark:text-white" />
+          ),
           headerTitleAlign: "center",
         }}
       />
