@@ -12,8 +12,8 @@ export default function NotebookCard({ notebook }: NotebookCardProps) {
   return (
     <Pressable
       style={({ pressed }) => [
-        tw`flex flex-row items-center bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700 rounded-sm p-4`,
-        pressed && tw`bg-gray-50 dark:bg-gray-700`,
+        tw`flex flex-row items-center bg-white dark:bg-gray-800 border border-gray-200/60 dark:border-gray-700 rounded-sm p-3`,
+        pressed && tw`bg-gray-50 dark:bg-gray-700/50`,
       ]}
       onPress={() => router.push(`/notebook/${notebook.id}`)}
     >
