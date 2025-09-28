@@ -112,7 +112,7 @@ export default function NotebookScreen() {
       />
       <ScrollView
         style={tw`flex-1 bg-gray-50 dark:bg-gray-950`}
-        contentContainerStyle={tw`py-6`}
+        contentContainerStyle={tw`pt-6 pb-8`}
       >
         {/* Notebook Summary Section */}
         <View style={tw`px-4 mb-6`}>
@@ -163,7 +163,7 @@ export default function NotebookScreen() {
                 id: "1",
                 label: `Sources (${dummySources.length})`,
                 content: (
-                  <View style={tw`mt-4`}>
+                  <>
                     <Pressable
                       style={({ pressed }) => [
                         tw`bg-white dark:bg-gray-900 rounded-sm p-4 mb-4 border border-dashed border-neutral-300 dark:border-gray-700 flex-row items-center justify-center`,
@@ -189,14 +189,14 @@ export default function NotebookScreen() {
                         <SourceCard key={source.id} source={source} />
                       ))}
                     </View>
-                  </View>
+                  </>
                 ),
               },
               {
                 id: "2",
                 label: `Notes (${dummyNotes.length})`,
                 content: (
-                  <View style={tw`mt-4`}>
+                  <>
                     <Pressable
                       style={({ pressed }) => [
                         tw`bg-white dark:bg-gray-900 rounded-sm p-4 mb-4 border border-dashed border-neutral-300 dark:border-gray-700 flex-row items-center justify-center`,
@@ -222,7 +222,7 @@ export default function NotebookScreen() {
                         <NoteCard key={note.id} note={note} />
                       ))}
                     </View>
-                  </View>
+                  </>
                 ),
               },
             ]}
