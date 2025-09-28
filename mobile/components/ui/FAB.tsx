@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text } from "react-native";
+import { Pressable, View } from "react-native";
 import tw from "lib/tailwind";
 import { cloneElement, isValidElement } from "react";
 import { useTheme } from "hooks";
@@ -38,6 +38,12 @@ export default function FAB({
     danger: tw`bg-red-600`,
   };
 
+  const pressedStyles = {
+    primary: tw`bg-blue-700`,
+    secondary: tw`bg-neutral-200 dark:bg-gray-700`,
+    danger: tw`bg-red-700`,
+  };
+
   const disabledStyles = tw`opacity-40`;
 
   const iconColors = {
@@ -47,16 +53,16 @@ export default function FAB({
   };
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={[
+      style={({ pressed }) => [
         baseStyles,
         variantStyles[variant],
         disabled && disabledStyles,
+        pressed && !disabled ? pressedStyles[variant] : null,
         style,
       ]}
       disabled={disabled}
-      activeOpacity={0.9}
       accessibilityRole="button"
       accessibilityLabel={"Floating Action Button"}
     >
@@ -70,6 +76,6 @@ export default function FAB({
             } as any)
           : icon}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

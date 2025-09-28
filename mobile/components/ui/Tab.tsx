@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import tw from "lib/tailwind";
 
 type TabItem = {
@@ -42,14 +42,18 @@ export default function Tabs({
         style={tw`flex-row bg-neutral-100 dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
         {items.map((tab) => (
-          <TouchableOpacity
+          <Pressable
             key={tab.id}
-            style={tw.style(
-              `flex-1 py-2 items-center rounded-sm`,
-              activeTabId === tab.id ? "bg-white dark:bg-gray-700" : ""
-            )}
+            style={({ pressed }) => [
+              tw.style(
+                `flex-1 py-2 items-center rounded-sm`,
+                activeTabId === tab.id ? "bg-white dark:bg-gray-700" : "",
+                pressed && activeTabId !== tab.id
+                  ? "bg-neutral-50 dark:bg-gray-800"
+                  : ""
+              ),
+            ]}
             onPress={() => handleTabClick(tab.id)}
-            activeOpacity={0.7}
           >
             <Text
               style={tw.style(
@@ -61,7 +65,7 @@ export default function Tabs({
             >
               {tab.label}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         ))}
       </View>
       <View style={tw`flex-1 w-full mt-2`}>{activeTab?.content}</View>
