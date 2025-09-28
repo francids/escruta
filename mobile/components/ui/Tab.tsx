@@ -9,20 +9,20 @@ type TabItem = {
 };
 
 type TabsProps = {
-  items: TabItem[];
+  tabs: TabItem[];
   defaultActiveTab?: string;
   onChange?: (tabId: string) => void;
   style?: object;
 };
 
 export default function Tabs({
-  items,
+  tabs,
   defaultActiveTab,
   onChange,
   style = {},
 }: TabsProps) {
   const [activeTabId, setActiveTabId] = useState<string>(
-    defaultActiveTab || (items.length > 0 ? items[0].id : "")
+    defaultActiveTab || (tabs.length > 0 ? tabs[0].id : "")
   );
 
   const handleTabClick = (tabId: string) => {
@@ -32,21 +32,26 @@ export default function Tabs({
     }
   };
 
-  if (items.length === 0) return null;
+  if (tabs.length === 0) return null;
 
-  const activeTab = items.find((tab) => tab.id === activeTabId);
+  const activeTab = tabs.find((tab) => tab.id === activeTabId);
 
   return (
     <View style={[tw`w-full flex-1`, style]}>
       <View
         style={tw`flex-row bg-neutral-100 dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
-        {items.map((tab) => (
+        {tabs.map((tab, index) => (
           <Pressable
             key={tab.id}
             style={({ pressed }) => [
               tw.style(
                 `flex-1 py-2 items-center rounded-sm`,
+                index === 0
+                  ? "mr-0.5"
+                  : index === tabs.length - 1
+                    ? "ml-0.5"
+                    : "mx-0.5",
                 activeTabId === tab.id ? "bg-white dark:bg-gray-700" : "",
                 pressed && activeTabId !== tab.id
                   ? "bg-neutral-50 dark:bg-gray-800"

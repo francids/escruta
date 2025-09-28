@@ -158,7 +158,7 @@ export default function NotebookScreen() {
 
         <View style={tw`px-4`}>
           <Tab
-            items={[
+            tabs={[
               {
                 id: "1",
                 label: `Sources (${dummySources.length})`,
