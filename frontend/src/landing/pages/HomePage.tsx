@@ -1,5 +1,6 @@
 import { useLocation } from "react-router";
 import SimpleBackground from "../components/backgrounds/SimpleBackground";
+import ShowcaseSection from "../components/ShowcaseSection";
 import FeaturesSection from "../components/FeaturesSection";
 import HeroSection from "../components/HeroSection";
 import OpenSourceSection from "../components/OpenSourceSection";
@@ -22,6 +23,7 @@ export default function HomePage() {
       />
       <SimpleBackground className="z-10" />
       <HeroSection />
+      <ShowcaseSection />
       <FeaturesSection />
       <OpenSourceSection />
     </div>

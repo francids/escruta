@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 
-import AppDesktopImage from "../assets/AppDesktop.png";
 import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
 import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
 import { justLanding, repoUrl } from "@/config";
@@ -12,38 +11,19 @@ export default function HeroSection() {
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
-      {/* App Image */}
-      <motion.div
-        className="absolute w-full h-full inset-0 z-[8] overflow-hidden hidden lg:block"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className="absolute -right-16 top-24 w-4xl h-auto rounded-xs shadow-2xl shadow-blue-500/10">
-          <div className="relative p-1 rounded-xs">
-            <img
-              src={AppDesktopImage}
-              alt="App Desktop"
-              className="relative z-10 w-full h-auto select-none pointer-events-none rounded-xs bg-gray-900 border border-blue-700"
-            />
-            <span className="animate-[var(--animate-slow-pulse)] blur-2xl absolute inset-2 rounded-lg bg-blue-500 opacity-10"></span>
-          </div>
-        </div>
-      </motion.div>
-
       {/* Background Overlay */}
       <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none">
-        <div className="h-full w-full bg-linear-to-t from-gray-900 via-gray-900 via-15% to-gray-900/5" />
+        <div className="h-full w-full bg-linear-to-t from-gray-900 via-gray-900/60 via-15% to-gray-900/5" />
       </div>
 
       {/* Content */}
-      <div className="mx-auto z-10 relative flex flex-col justify-end size-full px-6 md:px-12 lg:px-24 py-16 md:py-24">
-        <div className="w-full text-left flex flex-col items-start justify-start">
+      <div className="mx-auto z-10 relative flex flex-col justify-center items-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24 pt-16 md:pt-0">
+        <div className="flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-6"
+            className="mb-8"
           >
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none">
               <svg className="size-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -57,20 +37,20 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 40, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="mb-4"
+            className="mb-6"
           >
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+            <h1 className="text-[42px] sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center leading-12 sm:leading-16">
               Think, ask, <span className="text-blue-400">learn</span>
             </h1>
           </motion.div>
 
           <motion.div
-            className="relative mb-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="relative mb-8"
           >
-            <p className="max-w-2xl text-lg md:text-xl text-gray-400 text-left font-medium">
+            <p className="max-w-2xl text-lg sm:text-xl text-gray-400 text-center font-medium tracking-normal leading-8">
               Organize, analyze, and learn from your own knowledge. Ask
               questions, take notes, and gain valuable insights, all in one
               platform.
@@ -81,7 +61,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-col md:flex-row w-full justify-start items-start gap-4"
+            className="flex flex-col md:flex-row justify-start items-start gap-4"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -118,7 +98,7 @@ export default function HeroSection() {
       <div
         onClick={() => {
           document
-            .getElementById("features")
+            .getElementById("showcase")
             ?.scrollIntoView({ behavior: "smooth" });
         }}
         className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 hidden md:flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"

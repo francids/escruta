@@ -1,6 +1,8 @@
 import { useMediaQuery } from "@/hooks";
 import { motion } from "motion/react";
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import InteractiveCard from "./InteractiveCard";
+import { twMerge } from "tailwind-merge";
 
 interface Feature {
   title: string;
@@ -97,160 +99,22 @@ function FeatureCard({
   mousePosition: { x: number; y: number };
   isMouseInArea: boolean;
 }) {
-  const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 });
-  const [isPressed, setIsPressed] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  useEffect(() => {
-    if (cardRef.current && isDesktop) {
-      const updatePosition = () => {
-        const rect = cardRef.current!.getBoundingClientRect();
-        const sectionElement = cardRef.current!.closest("section");
-        const sectionRect = sectionElement?.getBoundingClientRect();
-        if (sectionRect) {
-          setCardPosition({
-            x: rect.left - sectionRect.left,
-            y: rect.top - sectionRect.top,
-          });
-        }
-      };
-
-      updatePosition();
-      window.addEventListener("resize", updatePosition);
-      return () => window.removeEventListener("resize", updatePosition);
-    }
-  }, [isDesktop]);
-
-  const relativeMouseX = mousePosition.x - cardPosition.x;
-  const relativeMouseY = mousePosition.y - cardPosition.y;
-
-  const isNearCard = (
-    mouseX: number,
-    mouseY: number,
-    cardX: number,
-    cardY: number,
-    cardWidth: number,
-    cardHeight: number,
-    threshold: number = 100
-  ) => {
-    return (
-      mouseX >= cardX - threshold &&
-      mouseX <= cardX + cardWidth + threshold &&
-      mouseY >= cardY - threshold &&
-      mouseY <= cardY + cardHeight + threshold
-    );
-  };
-
-  const showDesktopEffect =
-    isDesktop && isMouseInArea && cardRef.current
-      ? isNearCard(
-          mousePosition.x,
-          mousePosition.y,
-          cardPosition.x,
-          cardPosition.y,
-          cardRef.current.offsetWidth,
-          cardRef.current.offsetHeight
-        )
-      : false;
-
-  const handleMouseDown = () => {
-    if (isDesktop) setIsPressed(true);
-  };
-
-  const handleMouseUp = () => {
-    if (isDesktop) setIsPressed(false);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDesktop) setIsPressed(false);
-  };
-
-  const handleTouchStart = () => {
-    if (!isDesktop) {
-      setIsTouched(true);
-      setTimeout(() => setIsTouched(false), 200);
-    }
-  };
-
   return (
-    <div
-      ref={cardRef}
-      className={`group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden ${
-        !isDesktop
-          ? "active:ring-2 active:ring-offset-2 active:ring-offset-transparent active:outline-0 active:ring-blue-500"
-          : ""
-      } ${className}`}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
+    <InteractiveCard
+      className={twMerge("text-center", className)}
+      mousePosition={mousePosition}
+      isMouseInArea={isMouseInArea}
     >
-      {isDesktop && (
-        <>
-          <div
-            className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
-              showDesktopEffect ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
-            }}
-          />
-
-          <div
-            className={`absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none ${
-              showDesktopEffect ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
-              padding: "1px",
-              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              maskComposite: "exclude",
-              WebkitMask:
-                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              WebkitMaskComposite: "exclude",
-            }}
-          />
-
-          <div
-            className={`absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none ${
-              isPressed ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              background: `linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 64, 175, 0.6))`,
-              padding: "1px",
-              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              maskComposite: "exclude",
-              WebkitMask:
-                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              WebkitMaskComposite: "exclude",
-            }}
-          />
-        </>
-      )}
-
-      {!isDesktop && (
-        <div
-          className={`absolute inset-0 rounded-xs transition-opacity duration-150 pointer-events-none ${
-            isTouched ? "opacity-100" : "opacity-0"
-          }`}
-          style={{
-            background: `linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(30, 64, 175, 0.2))`,
-          }}
-        />
-      )}
-
-      <div className="relative z-10">
-        <div className="text-blue-500 mb-4 md:mb-6">{feature.icon}</div>
-        <h3 className="text-lg md:text-xl font-medium mb-2 md:mb-3 text-white">
-          {feature.title}
-        </h3>
-        <p className="text-sm md:text-base text-gray-400">
-          {feature.description}
-        </p>
+      <div className="text-blue-500 mb-4 md:mb-6 flex justify-center">
+        {feature.icon}
       </div>
-    </div>
+      <h3 className="text-lg md:text-xl font-medium mb-2 md:mb-3 text-white">
+        {feature.title}
+      </h3>
+      <p className="text-sm md:text-base text-gray-400">
+        {feature.description}
+      </p>
+    </InteractiveCard>
   );
 }
 
@@ -283,7 +147,7 @@ export default function FeaturesSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="container mx-auto px-6 md:px-24">
+      <div className="mx-auto px-6 md:px-24">
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -300,7 +164,7 @@ export default function FeaturesSection() {
             </span>
           </motion.div>
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-3 md:mb-4 text-white"
+            className="text-4xl md:text-5xl font-bold tracking-tight mb-3 md:mb-4 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
