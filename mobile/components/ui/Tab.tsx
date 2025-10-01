@@ -55,7 +55,7 @@ export default function Tabs({
   return (
     <View style={[tw`w-full flex-1`, style]}>
       <View
-        style={tw`flex-row bg-gray-100/60 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
+        style={tw`flex-row bg-gray-100/35 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
         {tabs.map((tab, index) => (
           <Pressable

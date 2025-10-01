@@ -9,7 +9,7 @@ interface ToolIconProps {
 export default function ToolIcon({
   width = 24,
   height = 24,
-  color = "white",
+  color = "currentColor",
 }: ToolIconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 24 24">

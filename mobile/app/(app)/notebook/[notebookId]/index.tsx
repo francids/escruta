@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { ScrollView, Text, View, Pressable } from "react-native";
 import tw from "lib/tailwind";
-import { Tab, Button } from "components/ui";
+import { Tab, Button, Divider } from "components/ui";
 import SourceCard from "components/SourceCard";
 import NoteCard from "components/NoteCard";
 import Header from "components/Header";
@@ -111,11 +111,11 @@ export default function NotebookScreen() {
         ]}
       />
       <ScrollView
-        style={tw`flex-1 bg-gray-50 dark:bg-gray-950`}
+        style={tw`flex-1 bg-white dark:bg-gray-950`}
         contentContainerStyle={tw`pt-6 pb-8`}
       >
         {/* Notebook Summary Section */}
-        <View style={tw`px-4 mb-6`}>
+        <View style={tw`px-4`}>
           <Text
             style={tw`text-black dark:text-white text-lg font-semibold mb-3`}
           >
@@ -136,8 +136,10 @@ export default function NotebookScreen() {
           </View>
         </View>
 
+        <Divider />
+
         {/* Action Buttons */}
-        <View style={tw`px-4 mb-6`}>
+        <View style={tw`px-4`}>
           <View style={tw`flex-col gap-3`}>
             <Button
               text="Chat"
@@ -156,6 +158,8 @@ export default function NotebookScreen() {
           </View>
         </View>
 
+        <Divider />
+
         <View style={tw`px-4`}>
           <Tab
             tabs={[
@@ -167,7 +171,7 @@ export default function NotebookScreen() {
                     <Pressable
                       style={({ pressed }) => [
                         tw`bg-white dark:bg-gray-900 rounded-sm p-4 mb-4 border border-dashed border-gray-300 dark:border-gray-700 flex-row items-center justify-center`,
-                        pressed && tw`bg-gray-100 dark:bg-gray-800/60`,
+                        pressed && tw`bg-gray-50 dark:bg-gray-800/60`,
                       ]}
                       onPress={() => {
                         console.log("Add source pressed");
@@ -200,7 +204,7 @@ export default function NotebookScreen() {
                     <Pressable
                       style={({ pressed }) => [
                         tw`bg-white dark:bg-gray-900 rounded-sm p-4 mb-4 border border-dashed border-gray-300 dark:border-gray-700 flex-row items-center justify-center`,
-                        pressed && tw`bg-gray-100 dark:bg-gray-800/60`,
+                        pressed && tw`bg-gray-50 dark:bg-gray-800/60`,
                       ]}
                       onPress={() => {
                         console.log("Add note pressed");
