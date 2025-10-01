@@ -33,14 +33,14 @@ export default function IconButton({
 
   const variantStyles = {
     primary: tw`bg-blue-500 border border-blue-600`,
-    secondary: tw`bg-neutral-100 dark:bg-gray-800 border border-neutral-200 dark:border-gray-700`,
+    secondary: tw`bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700`,
     danger: tw`bg-red-500 border border-red-600`,
     ghost: tw``,
   };
 
   const pressedVariantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`bg-neutral-200 dark:bg-gray-800/80`,
+    secondary: tw`bg-gray-200 dark:bg-gray-800/80`,
     danger: tw`bg-red-600`,
     ghost: tw`bg-gray-500/10`,
   };

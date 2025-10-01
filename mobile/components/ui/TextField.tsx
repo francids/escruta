@@ -34,7 +34,7 @@ export default function TextField({
   return (
     <View style={[tw`w-full`, style]}>
       {label && (
-        <Text style={tw`text-neutral-700 dark:text-gray-300 mb-2 text-lg`}>
+        <Text style={tw`text-gray-700 dark:text-gray-300 mb-2 text-lg`}>
           {label}
         </Text>
       )}
@@ -42,14 +42,14 @@ export default function TextField({
         value={value}
         onChangeText={onChangeText}
         onKeyPress={onKeyPress}
-        style={tw`w-full text-black dark:text-neutral-200 bg-white dark:bg-neutral-800 border-neutral-300 dark:border-gray-600 text-lg p-3 border font-sans rounded-sm focus:outline-none focus:ring focus:ring-blue-400`}
+        style={tw`w-full text-black dark:text-gray-200 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-lg p-3 border font-sans rounded-sm focus:outline-none focus:ring focus:ring-blue-400`}
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         editable={editable}
         numberOfLines={1}
         autoFocus={autoFocus}
         placeholderTextColor={
-          isDark ? tw.color("text-gray-400") : tw.color("text-neutral-500")
+          isDark ? tw.color("text-gray-400") : tw.color("text-gray-500")
         }
         selectionColor={tw.color("text-blue-400")}
         {...rest}

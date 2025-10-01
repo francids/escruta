@@ -34,7 +34,7 @@ export default function RegisterScreen() {
     <ScrollView
       ref={scrollViewRef}
       style={[
-        tw`w-full h-full max-w-md bg-white dark:bg-neutral-900 pt-12 px-4 rounded-sm`,
+        tw`w-full h-full max-w-md bg-white dark:bg-gray-900 pt-12 px-4 rounded-sm`,
         {
           paddingTop: insets.top + 32,
         },
@@ -100,7 +100,7 @@ export default function RegisterScreen() {
       <Divider />
 
       <View style={tw`flex-row justify-center items-center w-full`}>
-        <Text style={tw`text-neutral-600 dark:text-gray-400 text-base`}>
+        <Text style={tw`text-gray-600 dark:text-gray-400 text-base`}>
           Already have an account?{" "}
         </Text>
         <TouchableOpacity onPress={() => router.back()}>

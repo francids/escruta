@@ -9,7 +9,7 @@ function RootLayoutContent() {
   const { colorScheme } = useTheme();
 
   return (
-    <View style={tw`flex-1 bg-white dark:bg-neutral-900`}>
+    <View style={tw`flex-1 bg-white dark:bg-gray-900`}>
       <Stack
         screenOptions={{
           headerShown: false,

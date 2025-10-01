@@ -58,7 +58,7 @@ export default function AppScreen() {
   ];
 
   return (
-    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-gray-950`}>
       <Header
         title={`Welcome, ${currentUser?.fullName || "User"}!`}
         subtitle="Dashboard"
@@ -84,7 +84,7 @@ export default function AppScreen() {
           ) : (
             <View style={tw`flex-1 items-center justify-center px-6`}>
               <Text
-                style={tw`text-neutral-400 dark:text-neutral-600 text-center`}
+                style={tw`text-gray-400 dark:text-gray-600 text-center`}
               >
                 No notebooks. Create one!
               </Text>

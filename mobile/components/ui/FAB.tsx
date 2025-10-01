@@ -34,13 +34,13 @@ export default function FAB({
 
   const variantStyles = {
     primary: tw`bg-blue-600`,
-    secondary: tw`bg-neutral-100 dark:bg-gray-800`,
+    secondary: tw`bg-gray-100 dark:bg-gray-800`,
     danger: tw`bg-red-600`,
   };
 
   const pressedStyles = {
     primary: tw`bg-blue-700`,
-    secondary: tw`bg-neutral-200 dark:bg-gray-700`,
+    secondary: tw`bg-gray-200 dark:bg-gray-700`,
     danger: tw`bg-red-700`,
   };
 

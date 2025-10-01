@@ -81,7 +81,7 @@ export default function Menu({
       <Pressable style={tw`flex-1`} onPress={onClose}>
         <Animated.View
           style={[
-            tw`absolute min-w-[180px] bg-white dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border py-2 shadow-2xl z-50`,
+            tw`absolute min-w-[180px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-sm border py-2 shadow-2xl z-50`,
             { elevation: 12 },
             menuStyle,
             animatedStyle,
@@ -93,7 +93,7 @@ export default function Menu({
               <Pressable
                 style={({ pressed }) => [
                   tw`flex-row items-center p-4`,
-                  pressed && tw`bg-neutral-100/35 dark:bg-gray-800`,
+                  pressed && tw`bg-gray-100/35 dark:bg-gray-800`,
                 ]}
                 onPress={() => {
                   onClose();

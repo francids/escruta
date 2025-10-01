@@ -25,7 +25,7 @@ export default function ThemeToggle() {
             style={tw`flex-col items-center gap-2 p-3 rounded-lg ${
               isSelected
                 ? "bg-blue-100 dark:bg-blue-900/30 border border-blue-300 dark:border-blue-600"
-                : "bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700"
+                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
             }`}
           >
             <Icon
@@ -37,7 +37,7 @@ export default function ThemeToggle() {
               style={tw`text-sm font-medium ${
                 isSelected
                   ? "text-blue-600"
-                  : "text-neutral-700 dark:text-neutral-300"
+                  : "text-gray-700 dark:text-gray-300"
               }`}
             >
               {label}

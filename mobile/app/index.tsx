@@ -22,7 +22,7 @@ export default function LandingScreen() {
     >
       <View
         style={[
-          tw`w-full max-w-md bg-white dark:bg-neutral-900 pt-12 px-4 rounded-sm`,
+          tw`w-full max-w-md bg-white dark:bg-gray-900 pt-12 px-4 rounded-sm`,
           {
             paddingBottom: 64,
           },

@@ -93,7 +93,7 @@ export default function ChatScreen() {
   };
 
   return (
-    <View style={tw`flex flex-1 bg-white dark:bg-neutral-950`}>
+    <View style={tw`flex flex-1 bg-white dark:bg-gray-950`}>
       <Header title="Chat" subtitle="Notebook" showBackButton={true} />
       <FlatList
         ref={flatListRef}
@@ -117,7 +117,7 @@ export default function ChatScreen() {
                 style={tw`max-w-[280px] px-4 py-3 rounded-sm ${
                   message.sender === "user"
                     ? "bg-blue-600 ml-12"
-                    : "bg-neutral-200 dark:bg-neutral-800 mr-12"
+                    : "bg-gray-200 dark:bg-gray-800 mr-12"
                 }`}
               >
                 <Text
@@ -129,7 +129,7 @@ export default function ChatScreen() {
                 </Text>
               </View>
               <Text
-                style={tw`text-neutral-500 text-xs mt-1 ${
+                style={tw`text-gray-500 text-xs mt-1 ${
                   message.sender === "user" ? "mr-2" : "ml-2"
                 }`}
               >
@@ -142,7 +142,7 @@ export default function ChatScreen() {
           isLoading ? (
             <View style={tw`flex items-start mb-4`}>
               <View
-                style={tw`max-w-[280px] px-4 py-3 rounded-sm bg-neutral-200 dark:bg-neutral-800 mr-12`}
+                style={tw`max-w-[280px] px-4 py-3 rounded-sm bg-gray-200 dark:bg-gray-800 mr-12`}
               >
                 <Text style={tw`text-black dark:text-white text-base`}>
                   AI is thinking...
@@ -155,7 +155,7 @@ export default function ChatScreen() {
 
       <View
         style={[
-          tw`border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 py-3`,
+          tw`border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3`,
           {
             paddingBottom: isKeyboardVisible
               ? keyboardHeight + 36
@@ -174,14 +174,14 @@ export default function ChatScreen() {
           )}
 
           <TextInput
-            style={tw`flex-1 bg-white dark:bg-neutral-800 text-black dark:text-white text-base px-4 py-3 rounded-sm border border-neutral-300 dark:border-neutral-700 font-sans`}
+            style={tw`flex-1 bg-white dark:bg-gray-800 text-black dark:text-white text-base px-4 py-3 rounded-sm border border-gray-300 dark:border-gray-700 font-sans`}
             value={input}
             onChangeText={setInput}
             placeholder="Type your message..."
             placeholderTextColor={
               isDark
-                ? tw.color("text-neutral-500")
-                : tw.color("text-neutral-400")
+                ? tw.color("text-gray-500")
+                : tw.color("text-gray-400")
             }
             multiline
             maxLength={500}
