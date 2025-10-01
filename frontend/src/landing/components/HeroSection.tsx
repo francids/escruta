@@ -18,7 +18,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="mx-auto z-10 relative flex flex-col justify-center items-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24 pt-16 md:pt-0">
-        <div className="flex flex-col items-center justify-center">
+        <div className="w-full sm:w-auto flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -61,7 +61,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-col md:flex-row justify-start items-start gap-4"
+            className="w-full flex flex-col md:flex-row justify-center items-center gap-4"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
