@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import Logo from "@/shared/Logo";
+import Logotype from "@/shared/Logotype";
 import { useAuth } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
 import { justLanding, repoUrl } from "@/config";
@@ -71,7 +71,7 @@ export default function Navbar() {
           className="flex items-center gap-6"
         >
           <Link to="/home" className="flex items-center group">
-            <Logo className="size-12 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
+            <Logotype className="w-auto h-8 py-2 fill-white transition-all duration-300 group-hover:fill-blue-400" />
           </Link>
           <div className="hidden lg:flex gap-2">
             {navbarOptions.map((option, index) => (
