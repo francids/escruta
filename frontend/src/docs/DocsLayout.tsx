@@ -17,7 +17,7 @@ export default function DocsLayout() {
         <div className="flex flex-grow overflow-hidden pt-14">
           <NavSidePanel />
           {/* Main content */}
-          <article className="flex flex-grow overflow-auto docs-prose dark:docs-prose-invert max-w-none h-full bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+          <article className="flex flex-grow overflow-auto docs-prose dark:docs-prose-invert max-w-none h-full bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
             <div className="h-full mx-8 md:mx-16 lg:mx-32 py-8 select-text">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-xs text-sm font-semibold bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-300 dark:border-blue-700 select-none">
                 <svg
