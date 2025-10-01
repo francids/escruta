@@ -1,4 +1,5 @@
-import { View, Text, Modal, Pressable } from "react-native";
+import { View, Text, Modal, Pressable, Animated, Easing } from "react-native";
+import { useRef, useEffect } from "react";
 import Divider from "./Divider";
 import tw from "lib/tailwind";
 
@@ -29,51 +30,61 @@ export default function Menu({
   onClose,
   anchor,
 }: MenuProps) {
+  const animValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animValue, {
+      toValue: visible ? 1 : 0,
+      duration: 300,
+      easing: Easing.out(Easing.exp),
+      useNativeDriver: true,
+    }).start();
+  }, [visible]);
+
   if (!anchor) return null;
 
-  let menuPosition = {};
+  let menuStyle = { left: anchor.x, top: anchor.y };
+  let menuTransform: any[] = [];
 
   switch (position) {
     case "top-left":
-      menuPosition = { position: "absolute", left: anchor.x, top: anchor.y };
       break;
     case "top-right":
-      menuPosition = {
-        position: "absolute",
-        left: anchor.x + anchor.width,
-        top: anchor.y,
-        transform: [{ translateX: -180 }],
-      };
+      menuStyle.left = anchor.x + anchor.width;
+      menuTransform.push({ translateX: -180 });
       break;
     case "bottom-left":
-      menuPosition = {
-        position: "absolute",
-        left: anchor.x,
-        top: anchor.y + anchor.height,
-      };
+      menuStyle.top = anchor.y + anchor.height;
       break;
     case "bottom-right":
-      menuPosition = {
-        position: "absolute",
-        left: anchor.x + anchor.width,
-        top: anchor.y + anchor.height,
-        transform: [{ translateX: -180 }],
-      };
+      menuStyle.left = anchor.x + anchor.width;
+      menuStyle.top = anchor.y + anchor.height;
+      menuTransform.push({ translateX: -180 });
+      break;
   }
 
+  const animatedStyle = {
+    opacity: animValue,
+    transform: [
+      ...menuTransform,
+      {
+        scale: animValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0.8, 1],
+        }),
+      },
+    ],
+  };
+
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} transparent onRequestClose={onClose}>
       <Pressable style={tw`flex-1`} onPress={onClose}>
-        <View
+        <Animated.View
           style={[
             tw`absolute min-w-[180px] bg-white dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border py-2 shadow-2xl z-50`,
             { elevation: 12 },
-            menuPosition,
+            menuStyle,
+            animatedStyle,
           ]}
         >
           {items.map((item, idx) => (
@@ -82,7 +93,7 @@ export default function Menu({
               <Pressable
                 style={({ pressed }) => [
                   tw`flex-row items-center p-4`,
-                  pressed && tw`bg-neutral-100 dark:bg-gray-800`,
+                  pressed && tw`bg-neutral-100/35 dark:bg-gray-800`,
                 ]}
                 onPress={() => {
                   onClose();
@@ -98,7 +109,7 @@ export default function Menu({
               </Pressable>
             </View>
           ))}
-        </View>
+        </Animated.View>
       </Pressable>
     </Modal>
   );
