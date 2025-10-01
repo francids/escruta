@@ -8,6 +8,7 @@ export default function AppLayout() {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="settings" />
       <Stack.Screen name="notebook/[notebookId]/index" />
       <Stack.Screen name="notebook/[notebookId]/chat" />
     </Stack>

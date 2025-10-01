@@ -3,9 +3,10 @@ import tw from "lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { Notebook } from "interfaces";
 import NotebookCard from "components/NotebookCard";
-import { FAB, Button } from "components/ui";
+import { FAB } from "components/ui";
 import { AddIcon } from "components/icons";
 import Header from "components/Header";
+import { router } from "expo-router";
 
 export default function AppScreen() {
   const insets = useSafeAreaInsets();
@@ -62,6 +63,12 @@ export default function AppScreen() {
       <Header
         title={`Welcome, ${currentUser?.fullName || "User"}!`}
         subtitle="Dashboard"
+        menuItems={[
+          {
+            text: "Settings",
+            onPress: () => router.push("/settings"),
+          },
+        ]}
       />
       <ScrollView
         style={tw`flex-1 bg-gray-50 dark:bg-gray-950`}
@@ -83,9 +90,7 @@ export default function AppScreen() {
             </View>
           ) : (
             <View style={tw`flex-1 items-center justify-center px-6`}>
-              <Text
-                style={tw`text-gray-400 dark:text-gray-600 text-center`}
-              >
+              <Text style={tw`text-gray-400 dark:text-gray-600 text-center`}>
                 No notebooks. Create one!
               </Text>
             </View>
