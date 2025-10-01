@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { useState, useRef } from "react";
+import { View, Text, Pressable, Animated, Easing } from "react-native";
 import tw from "lib/tailwind";
 
 type TabItem = {
@@ -24,12 +24,28 @@ export default function Tabs({
   const [activeTabId, setActiveTabId] = useState<string>(
     defaultActiveTab || (tabs.length > 0 ? tabs[0].id : "")
   );
+  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const handleTabClick = (tabId: string) => {
-    setActiveTabId(tabId);
-    if (onChange) {
-      onChange(tabId);
-    }
+    if (tabId === activeTabId) return;
+
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 100,
+      easing: Easing.inOut(Easing.ease),
+      useNativeDriver: true,
+    }).start(() => {
+      setActiveTabId(tabId);
+      if (onChange) {
+        onChange(tabId);
+      }
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    });
   };
 
   if (tabs.length === 0) return null;
@@ -39,7 +55,7 @@ export default function Tabs({
   return (
     <View style={[tw`w-full flex-1`, style]}>
       <View
-        style={tw`flex-row bg-neutral-100 dark:bg-gray-900 border-neutral-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
+        style={tw`flex-row bg-gray-100/60 dark:bg-gray-900 border-gray-200 dark:border-gray-700 rounded-sm border mb-2 p-1`}
       >
         {tabs.map((tab, index) => (
           <Pressable
@@ -54,7 +70,7 @@ export default function Tabs({
                     : "mx-0.5",
                 activeTabId === tab.id ? "bg-white dark:bg-gray-700" : "",
                 pressed && activeTabId !== tab.id
-                  ? "bg-neutral-50 dark:bg-gray-800"
+                  ? "bg-gray-50/50 dark:bg-gray-800"
                   : ""
               ),
             ]}
@@ -62,7 +78,7 @@ export default function Tabs({
           >
             <Text
               style={tw.style(
-                "text-neutral-600 dark:text-gray-400 font-normal text-base",
+                "text-gray-600 dark:text-gray-400 font-normal text-base",
                 activeTabId === tab.id
                   ? "text-black dark:text-gray-100 font-medium"
                   : ""
@@ -73,7 +89,9 @@ export default function Tabs({
           </Pressable>
         ))}
       </View>
-      <View style={tw`flex-1 w-full mt-2`}>{activeTab?.content}</View>
+      <Animated.View style={[tw`flex-1 w-full mt-2`, { opacity: fadeAnim }]}>
+        {activeTab?.content}
+      </Animated.View>
     </View>
   );
 }
