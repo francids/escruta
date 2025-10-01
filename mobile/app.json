@@ -25,6 +25,7 @@
         "monochromeImage": "./assets/adaptive-icon-monochrome.png",
         "backgroundColor": "#1a1a1a"
       },
+      "predictiveBackGestureEnabled": true,
       "edgeToEdgeEnabled": true,
       "package": "com.francids.escruta",
       "backgroundColor": "#121212"
