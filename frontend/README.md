@@ -130,28 +130,6 @@ For deployment on traditional web servers, ensure your server is configured to:
 
 The included [`nginx.conf`](./nginx.conf) provides a reference configuration.
 
-## Development Guidelines
-
-### Code Style
-
-- Use TypeScript for all new components and utilities.
-- Follow React functional component patterns with hooks.
-- Implement responsive design using Tailwind CSS utility classes.
-- Keep components small and focused on single responsibilities.
-- Use custom hooks for complex state logic and data fetching.
-
-### Component Architecture
-
-- **UI Components** (`src/app/components/ui/`): Reusable, unstyled components.
-- **Feature Components** (`src/app/components/`): Application-specific components.
-
-### State Management
-
-- Use React Context for global application state.
-- Implement custom hooks for component-specific state logic.
-- Keep server state synchronized using the custom `useFetch` hook.
-- Leverage local storage for user preferences and session data using the `useCookie` hook.
-
 ## Integration with Backend
 
 The frontend communicates with the Escruta backend through RESTful APIs. Ensure the backend service is running and accessible at the configured `VITE_ESCRUTA_BACKEND_URL` for full functionality.
