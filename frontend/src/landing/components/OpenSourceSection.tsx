@@ -67,14 +67,14 @@ export default function OpenSourceSection() {
               View source
             </Link>
 
-            <Link
+            {/* <Link
               to={`${repoUrl}/blob/main/CONTRIBUTING.md`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gray-900 text-white hover:bg-gray-800 group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-xs border border-gray-800 px-6 md:px-8 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 select-none w-full md:w-auto"
             >
               Contribute
-            </Link>
+            </Link> */}
           </motion.div>
         </div>
       </div>

@@ -9,18 +9,23 @@ interface FooterLink {
   external?: boolean;
 }
 
-const footerLinks: { title: string; links: FooterLink[] }[] = [
+interface FooterSection {
+  title: string;
+  links: FooterLink[];
+}
+
+const footerSections: FooterSection[] = [
   {
     title: "Product",
     links: [
-      { name: "Pricing", href: "/pricing" },
+      // { name: "Pricing", href: "/pricing" },
       { name: "Documentation", href: "/docs" },
     ],
   },
-  {
-    title: "Resources",
-    links: [{ name: "Blog", href: "/blog" }],
-  },
+  // {
+  //   title: "Resources",
+  //   links: [{ name: "Blog", href: "/blog" }],
+  // },
   {
     title: "Open Source",
     links: [
@@ -29,14 +34,14 @@ const footerLinks: { title: string; links: FooterLink[] }[] = [
       { name: "Issues", href: `${repoUrl}/issues`, external: true },
     ],
   },
-  {
-    title: "Legal",
-    links: [
-      { name: "Privacy Policy", href: "/privacy" },
-      // { name: "Terms of Service", href: "/terms" },
-      { name: "Cookie Policy", href: "/cookies" },
-    ],
-  },
+  // {
+  //   title: "Legal",
+  //   links: [
+  //     { name: "Privacy Policy", href: "/privacy" },
+  //     { name: "Terms of Service", href: "/terms" },
+  //     { name: "Cookie Policy", href: "/cookies" },
+  //   ],
+  // },
 ];
 
 interface SocialLink {
@@ -100,7 +105,7 @@ export default function Footer() {
 
             <div className="lg:col-span-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {footerLinks.map((section, sectionIndex) => (
+                {footerSections.map((section, sectionIndex) => (
                   <motion.div
                     key={section.title}
                     initial={{ opacity: 0, y: 20 }}
