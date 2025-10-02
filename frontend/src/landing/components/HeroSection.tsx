@@ -7,7 +7,7 @@ import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
-    <section className="relative pb-6 md:pb-0 w-full md:min-h-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden bg-gray-900">
+    <section className="relative pb-6 md:pb-0 w-full min-h-[calc(100vh-60px)] h-[calc(100vh-60px)] overflow-hidden bg-gray-900">
       <ScrollingGridBackground />
       <GradientAnimationBackground />
 
@@ -17,7 +17,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="mx-auto z-10 relative flex flex-col justify-center items-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24 pt-16 md:pt-0">
+      <div className="mx-auto z-10 relative flex flex-col justify-center items-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24">
         <div className="w-full sm:w-auto flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
