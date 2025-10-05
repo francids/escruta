@@ -22,7 +22,7 @@ The project is organized into three main directories: [`frontend/`](./frontend/)
 
 - **Backend**: Java, Spring Boot, Spring Web, Spring Security, Spring AI (OpenAI Starter).
 - **Frontend**: Node.js, TypeScript, Vite, React, React Router, Tailwind CSS, Motion.
-- **Mobile**: Bun, TypeScript, React Native, Expo, twrnc.
+- **Mobile**: Node.js, TypeScript, React Native, Expo, twrnc.
 - **Database**: PostgreSQL, pgvector.
 
 ## Containerization
