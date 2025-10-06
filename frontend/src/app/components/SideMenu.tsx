@@ -53,8 +53,8 @@ export default function SideMenu() {
 
   return (
     <div className="flex h-screen flex-col justify-between border-e border-gray-900/20 dark:border-gray-100/20 transition-all duration-300 w-16 min-w-16 max-w-16">
-      <NavLink to="/app" className="w-16 h-16 grid place-items-center">
-        <AppIcon className="h-10 w-10" />
+      <NavLink to="/app" className="w-16 h-16 grid place-items-center group">
+        <AppIcon className="h-10 w-10 fill-gray-800 dark:fill-white transition-all duration-300 group-hover:fill-blue-500 dark:group-hover:fill-blue-400" />
       </NavLink>
 
       <div className="mb-6 flex flex-col items-center justify-center gap-3">
