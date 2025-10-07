@@ -5,6 +5,19 @@ import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
 
+const registerPhrases = [
+  "Start your AI-powered research journey",
+  "Transform how you organize knowledge",
+  "Join thousands of smart researchers",
+  "Build your intelligent note-taking system",
+  "Create, connect, and discover with AI",
+  "Your personal research assistant awaits",
+  "Unlock the future of knowledge management",
+  "Where research meets artificial intelligence",
+  "Begin your smart study revolution",
+  "Experience research without limits",
+];
+
 export default function RegisterPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -384,13 +397,26 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.5 }}
+          className="text-center lg:text-left"
         >
           <Link
             to="/home"
             className="flex items-center p-4 bg-[#f9f9f9] dark:bg-[#131313] lg:bg-transparent dark:lg:bg-transparent rounded-xs"
           >
-            <Logo className="h-4 w-auto fill-black lg:fill-white dark:fill-white" />
+            <Logo className="h-4 lg:h-5 w-auto fill-black lg:fill-white dark:fill-white" />
           </Link>
+          <motion.p
+            className="hidden lg:block px-4 font-medium text-pretty text-blue-200/80 w-full max-w-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            {
+              registerPhrases[
+                Math.floor(Math.random() * registerPhrases.length)
+              ]
+            }
+          </motion.p>
         </motion.div>
       </div>
     </div>

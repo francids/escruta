@@ -5,6 +5,19 @@ import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
 
+const loginPhrases = [
+  "Welcome back to your research journey",
+  "Continue exploring knowledge with AI",
+  "Your notebooks are waiting for you",
+  "Dive back into intelligent research",
+  "Resume your AI-powered studies",
+  "Your knowledge workspace awaits",
+  "Continue building your research empire",
+  "Welcome back, knowledge seeker",
+  "Your AI research assistant is ready",
+  "Step back into smart learning",
+];
+
 export default function LoginPage() {
   const [savedEmail, setSavedEmail] = useCookie<{ email: string }>(
     "savedEmail",
@@ -343,8 +356,16 @@ export default function LoginPage() {
             to="/home"
             className="flex items-center p-4 bg-[#f9f9f9] dark:bg-[#131313] lg:bg-transparent dark:lg:bg-transparent rounded-xs"
           >
-            <Logo className="h-4 w-auto fill-black lg:fill-white dark:fill-white" />
+            <Logo className="h-4 lg:h-5 w-auto fill-black lg:fill-white dark:fill-white" />
           </Link>
+          <motion.p
+            className="hidden lg:block px-4 font-medium text-pretty text-blue-200/80 w-full max-w-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            {loginPhrases[Math.floor(Math.random() * loginPhrases.length)]}
+          </motion.p>
         </motion.div>
       </div>
     </div>
