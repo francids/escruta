@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useMediaQuery } from "@/hooks";
-import AppDesktopImage from "../assets/AppDesktop.png";
+import AppDesktopImage from "../assets/AppDesktop.webp";
 import InteractiveCard from "./InteractiveCard";
 
 interface Feature {

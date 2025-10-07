@@ -151,13 +151,13 @@ export default function RegisterPage() {
         title="Register - Escruta"
         description="Create your free Escruta account and start organizing your knowledge with AI-powered research tools."
         url="https://escruta.francids.com/register"
-        image="https://escruta.francids.com/OpenGraphImage.png"
+        image="https://escruta.francids.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <div className="flex h-screen">
         {/* Left side - Background */}
         <div className="hidden lg:flex lg:flex-1 relative">
-          <div className="bg-[url(/Background.png)] bg-cover absolute inset-0 -z-50"></div>
+          <div className="bg-[url(/Background.webp)] bg-cover absolute inset-0 -z-50"></div>
         </div>
 
         {/* Right side - Form */}

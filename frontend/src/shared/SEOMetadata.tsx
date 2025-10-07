@@ -12,7 +12,7 @@ interface SEOMetadataProps {
 }
 
 const baseUrl = "https://escruta.francids.com";
-const defaultImage = `${baseUrl}/OpenGraphImage.png`;
+const defaultImage = `${baseUrl}/OpenGraphImage.webp`;
 const defaultAuthor = "Francisco Mesa";
 const defaultSiteName = "Escruta";
 

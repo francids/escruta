@@ -9,7 +9,7 @@ export default function SettingsPage() {
         title="Settings - Escruta"
         description="Configure your Escruta account settings, appearance preferences, and application behavior."
         url="https://escruta.francids.com/app/settings"
-        image="https://escruta.francids.com/OpenGraphImage.png"
+        image="https://escruta.francids.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <motion.div

@@ -141,13 +141,13 @@ export default function LoginPage() {
         title="Login - Escruta"
         description="Sign in to your Escruta account to access your research notebooks, notes, and AI-powered study tools."
         url="https://escruta.francids.com/login"
-        image="https://escruta.francids.com/OpenGraphImage.png"
+        image="https://escruta.francids.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <div className="flex h-screen">
         {/* Left side - Background */}
         <div className="hidden lg:flex lg:flex-1 relative">
-          <div className="bg-[url(/Background.png)] bg-cover absolute inset-0 -z-50"></div>
+          <div className="bg-[url(/Background.webp)] bg-cover absolute inset-0 -z-50"></div>
         </div>
 
         {/* Right side - Form */}

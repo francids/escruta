@@ -16,7 +16,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
     url: baseUrl,
-    image: `${baseUrl}/OpenGraphImage.png`,
+    image: `${baseUrl}/OpenGraphImage.webp`,
     keywords:
       "knowledge management, AI research, note taking, open source, study tools, academic research, knowledge base, documentation, learning platform",
     twitterCard: "summary_large_image",
@@ -26,7 +26,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
     url: `${baseUrl}/home`,
-    image: `${baseUrl}/OpenGraphImage.png`,
+    image: `${baseUrl}/OpenGraphImage.webp`,
     keywords:
       "knowledge management, AI research, note taking, open source, study tools, academic research, knowledge base, documentation, learning platform",
     twitterCard: "summary_large_image",
@@ -36,7 +36,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Access your notebooks, sources, and AI-powered research tools in Escruta.",
     url: `${baseUrl}/app`,
-    image: `${baseUrl}/OpenGraphImage.png`,
+    image: `${baseUrl}/OpenGraphImage.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs": {
@@ -44,7 +44,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Complete documentation for Escruta, the open-source AI-powered platform for researchers, students, and knowledge workers.",
     url: `${baseUrl}/docs`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/audio-summary": {
@@ -52,7 +52,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Learn how to use Escruta's AI-powered audio summary feature to convert your research materials into spoken content.",
     url: `${baseUrl}/docs/features/audio-summary`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/flashcards": {
@@ -60,7 +60,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Create and study with AI-generated flashcards based on your research materials and notes in Escruta.",
     url: `${baseUrl}/docs/features/flashcards`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/mind-map": {
@@ -68,7 +68,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Generate interactive mind maps from your research content to visualize connections and concepts in Escruta.",
     url: `${baseUrl}/docs/features/mind-map`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/notebooks": {
@@ -76,7 +76,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Organize your research into centralized notebooks. Learn how to manage projects and topics effectively in Escruta.",
     url: `${baseUrl}/docs/features/notebooks`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/notes": {
@@ -84,7 +84,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Take and organize notes within your research projects. Discover Escruta's intelligent note-taking capabilities.",
     url: `${baseUrl}/docs/features/notes`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/sources": {
@@ -92,7 +92,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Upload and manage documents, web links, and research materials. Learn about Escruta's source management system.",
     url: `${baseUrl}/docs/features/sources`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
   "/docs/features/study-guide": {
@@ -100,7 +100,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
     description:
       "Generate comprehensive study guides from your research materials using Escruta's AI-powered study tools.",
     url: `${baseUrl}/docs/features/study-guide`,
-    image: `${baseUrl}/OpenGraphImageDocumentation.png`,
+    image: `${baseUrl}/OpenGraphImageDocumentation.webp`,
     twitterCard: "summary_large_image",
   },
 };
@@ -117,7 +117,7 @@ export function generateNotebookMetadata(
     title: `${notebookTitle} - Escruta`,
     description: `Explore and manage your research in the ${notebookTitle} notebook. Take notes, upload sources, and get AI-powered insights.`,
     url: `${baseUrl}/app/notebook/${notebookId}`,
-    image: `${baseUrl}/OpenGraphImage.png`,
+    image: `${baseUrl}/OpenGraphImage.webp`,
     twitterCard: "summary_large_image",
   };
 }
