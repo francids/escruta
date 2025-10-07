@@ -106,18 +106,8 @@ html.light body {
   --color-black: #000;
 
   /* Animations */
-  --animate-scrolling-grid: scrolling-grid 3s linear infinite;
   --animate-slow-pulse: ping 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-slow-bounce: bounce 4s infinite;
-}
-
-@keyframes scrolling-grid {
-  0% {
-    background-position: 0 0, 0 0;
-  }
-  100% {
-    background-position: 50px 50px, 50px 50px;
-  }
 }
 
 @supports (scrollbar-color: auto) {

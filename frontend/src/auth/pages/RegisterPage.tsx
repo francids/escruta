@@ -172,7 +172,7 @@ export default function RegisterPage() {
       <div className="flex h-screen">
         {/* Left side - Background */}
         <div className="hidden lg:flex lg:flex-1 relative">
-          <ScrollingGridBackground />
+          <ScrollingGridBackground speed={2.5} />
           <GradientAnimationBackground />
 
           <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none opacity-35">
