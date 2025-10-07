@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth, useToast } from "@/hooks";
-import PatternBackground from "@/shared/PatternBackground";
 import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
@@ -155,8 +154,232 @@ export default function RegisterPage() {
         image="https://escruta.francids.com/OpenGraphImage.png"
         twitterCard="summary_large_image"
       />
-      <PatternBackground className="hidden sm:block" />
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center flex-col-reverse gap-8 bg-white dark:bg-gray-900 sm:bg-transparent sm:dark:bg-transparent">
+      <div className="flex h-screen">
+        {/* Left side - Background */}
+        <div className="hidden lg:flex lg:flex-1 relative">
+          <div className="bg-[url(/Background.png)] bg-cover absolute inset-0 -z-50"></div>
+        </div>
+
+        {/* Right side - Form */}
+        <div className="flex-1 lg:flex-none lg:w-1/2 flex items-center justify-center p-8 bg-white dark:bg-gray-900 lg:border-l lg:border-blue-200 lg:dark:border-blue-800">
+          <div className="w-full max-w-sm">
+            <motion.form
+              onSubmit={handleSubmit}
+              className="relative w-full bg-transparent text-gray-800 dark:text-gray-200"
+              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 25,
+                duration: 0.5,
+              }}
+            >
+              <motion.h1
+                className="text-2xl font-bold mb-6 select-none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                Register
+              </motion.h1>
+
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
+                <label
+                  className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+                  htmlFor="fullName"
+                >
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+                  placeholder="John Doe"
+                  required
+                  ref={fullNameInputRef}
+                />
+              </motion.div>
+
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.4 }}
+              >
+                <label
+                  className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+                  required
+                  autoComplete="email"
+                />
+              </motion.div>
+
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
+              >
+                <label
+                  className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className={`w-full px-3 py-2 border ${
+                    passwordError
+                      ? "border-red-400"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
+                  required
+                  autoComplete="new-password"
+                />
+                <AnimatePresence mode="wait">
+                  {passwordError && (
+                    <motion.p
+                      className="mt-1 text-sm text-red-500"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {passwordError}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <motion.div
+                className="mb-4"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.6 }}
+              >
+                <label
+                  className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
+                  htmlFor="confirmPassword"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={`w-full px-3 py-2 border ${
+                    password !== confirmPassword && confirmPassword
+                      ? "border-red-400"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
+                  required
+                  autoComplete="new-password"
+                />
+                <AnimatePresence mode="wait">
+                  {password !== confirmPassword && confirmPassword && (
+                    <motion.p
+                      className="mt-1 text-sm text-red-500"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      Passwords do not match.
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <AnimatePresence mode="wait">
+                {error && (
+                  <motion.div
+                    className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded-xs overflow-hidden"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.button
+                type="submit"
+                disabled={loading || !allowSubmit}
+                className={`w-full ${
+                  allowSubmit
+                    ? "bg-blue-500 hover:bg-blue-600"
+                    : "bg-blue-300 cursor-not-allowed"
+                } text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.7 }}
+                whileHover={{ scale: allowSubmit ? 1.02 : 1 }}
+                whileTap={{ scale: allowSubmit ? 0.98 : 1 }}
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <motion.span
+                      className="inline-block h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1,
+                        ease: "linear",
+                      }}
+                    />
+                    Registering...
+                  </span>
+                ) : (
+                  "Register"
+                )}
+              </motion.button>
+
+              <motion.div
+                className="mt-4 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.8 }}
+              >
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  Already have an account?{" "}
+                </span>
+                <Link
+                  to="/login"
+                  className="text-sm text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  Log in
+                </Link>
+              </motion.div>
+            </motion.form>
+          </div>
+        </div>
+      </div>
+
+      {/* Logo at top-left on desktop, center bottom on mobile */}
+      <div className="absolute lg:top-8 bottom-8 z-20 lg:left-8 left-1/2 transform lg:transform-none -translate-x-1/2 lg:translate-x-0">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -164,218 +387,11 @@ export default function RegisterPage() {
         >
           <Link
             to="/home"
-            className="flex items-center p-4 bg-[#f9f9f9] dark:bg-[#131313] rounded-xs"
+            className="flex items-center p-4 bg-[#f9f9f9] dark:bg-[#131313] lg:bg-transparent dark:lg:bg-transparent rounded-xs"
           >
-            <Logo className="h-4 w-auto fill-black dark:fill-white" />
+            <Logo className="h-4 w-auto fill-black lg:fill-white dark:fill-white" />
           </Link>
         </motion.div>
-        <motion.form
-          onSubmit={handleSubmit}
-          className="relative w-full sm:max-w-sm bg-white dark:bg-gray-900 p-6 sm:rounded-xs sm:border border-gray-300 dark:border-gray-600 shadow-xs text-gray-800 dark:text-gray-200"
-          initial={{ opacity: 0, scale: 0.95, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 25,
-            duration: 0.5,
-          }}
-        >
-          <motion.h1
-            className="text-2xl font-bold mb-6 select-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            Register
-          </motion.h1>
-
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-          >
-            <label
-              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
-              htmlFor="fullName"
-            >
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="fullName"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
-              placeholder="John Doe"
-              required
-              ref={fullNameInputRef}
-            />
-          </motion.div>
-
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
-          >
-            <label
-              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
-              required
-              autoComplete="email"
-            />
-          </motion.div>
-
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-          >
-            <label
-              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className={`w-full px-3 py-2 border ${
-                passwordError
-                  ? "border-red-400"
-                  : "border-gray-300 dark:border-gray-600"
-              } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
-              required
-              autoComplete="new-password"
-            />
-            <AnimatePresence mode="wait">
-              {passwordError && (
-                <motion.p
-                  className="mt-1 text-sm text-red-500"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {passwordError}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
-
-          <motion.div
-            className="mb-4"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: 0.6 }}
-          >
-            <label
-              className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
-              htmlFor="confirmPassword"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full px-3 py-2 border ${
-                password !== confirmPassword && confirmPassword
-                  ? "border-red-400"
-                  : "border-gray-300 dark:border-gray-600"
-              } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
-              required
-              autoComplete="new-password"
-            />
-            <AnimatePresence mode="wait">
-              {password !== confirmPassword && confirmPassword && (
-                <motion.p
-                  className="mt-1 text-sm text-red-500"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  Passwords do not match.
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            {error && (
-              <motion.div
-                className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded-xs overflow-hidden"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {error}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <motion.button
-            type="submit"
-            disabled={loading || !allowSubmit}
-            className={`w-full ${
-              allowSubmit
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-blue-300 cursor-not-allowed"
-            } text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
-            whileHover={{ scale: allowSubmit ? 1.02 : 1 }}
-            whileTap={{ scale: allowSubmit ? 0.98 : 1 }}
-          >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <motion.span
-                  className="inline-block h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                />
-                Registering...
-              </span>
-            ) : (
-              "Register"
-            )}
-          </motion.button>
-
-          <motion.div
-            className="mt-4 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.8 }}
-          >
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              Already have an account?{" "}
-            </span>
-            <Link
-              to="/login"
-              className="text-sm text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
-            >
-              Log in
-            </Link>
-          </motion.div>
-        </motion.form>
       </div>
     </div>
   );
