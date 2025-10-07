@@ -4,6 +4,8 @@ import { useAuth, useCookie } from "@/hooks";
 import Logo from "@/shared/Logotype";
 import { motion, AnimatePresence } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
+import ScrollingGridBackground from "@/landing/components/backgrounds/ScrollingGridBackground";
+import GradientAnimationBackground from "@/landing/components/backgrounds/GradientAnimationBackground";
 
 const loginPhrases = [
   "Welcome back to your research journey",
@@ -160,7 +162,12 @@ export default function LoginPage() {
       <div className="flex h-screen">
         {/* Left side - Background */}
         <div className="hidden lg:flex lg:flex-1 relative">
-          <div className="bg-[url(/Background.webp)] bg-cover absolute inset-0 -z-50"></div>
+          <ScrollingGridBackground />
+          <GradientAnimationBackground />
+
+          <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none opacity-35">
+            <div className="h-full w-full bg-linear-to-t from-blue-900 via-blue-900/60 via-15% to-blue-900/5" />
+          </div>
         </div>
 
         {/* Right side - Form */}

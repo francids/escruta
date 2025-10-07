@@ -1,6 +1,6 @@
 export default function GradientAnimationBackground() {
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden">
+    <div className="fixed inset-0 z-0 overflow-hidden w-full h-full">
       <style>{`
                 @keyframes gradient-shift {
                     0%, 100% {
@@ -16,25 +16,20 @@ export default function GradientAnimationBackground() {
                 @keyframes gradient-pulse {
                     0%, 100% {
                         opacity: 0.6;
-                        transform: scale(1);
                     }
                     50% {
                         opacity: 0.9;
-                        transform: scale(1.05);
                     }
                 }
 
                 @keyframes gradient-float {
                     0%, 100% {
-                        transform: translateY(0px) rotate(0deg);
                         opacity: 0.6;
                     }
                     33% {
-                        transform: translateY(-10px) rotate(1deg);
                         opacity: 0.9;
                     }
                     66% {
-                        transform: translateY(5px) rotate(-1deg);
                         opacity: 0.6;
                     }
                 }
@@ -52,10 +47,10 @@ export default function GradientAnimationBackground() {
                 }
             `}</style>
 
-      <div className="absolute inset-0 opacity-100 transition-opacity duration-500">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-900/20 to-blue-800/30 animate-gradient-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-bl from-gray-900/80 via-transparent to-blue-900/40 animate-gradient-float" />
+      <div className="absolute inset-0 w-full h-full opacity-100 transition-opacity duration-500">
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 animate-gradient-shift" />
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-tr from-transparent via-blue-900/20 to-blue-800/30 animate-gradient-pulse" />
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-bl from-gray-900/80 via-transparent to-blue-900/40 animate-gradient-float" />
       </div>
     </div>
   );

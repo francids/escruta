@@ -6,7 +6,7 @@ export default function ScrollingGridBackground() {
           absolute inset-0
           bg-[linear-gradient(rgba(3,136,252,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(3,136,252,0.12)_1px,transparent_1px)]
           bg-[length:50px_50px]
-          animate-[scrolling-grid_1.5s_linear_infinite]
+          animate-[scrolling-grid_2.5s_linear_infinite]
         `}
       />
     </div>
