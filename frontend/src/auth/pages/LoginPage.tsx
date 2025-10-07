@@ -321,7 +321,6 @@ export default function LoginPage() {
                 className="flex items-center my-6"
               >
                 <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
-                <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
               </motion.div>
 
               <motion.div

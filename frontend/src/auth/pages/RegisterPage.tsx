@@ -371,7 +371,16 @@ export default function RegisterPage() {
               </motion.button>
 
               <motion.div
-                className="mt-4 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                transition={{ duration: 0.3, delay: 0.6 }}
+                className="flex items-center my-6"
+              >
+                <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
+              </motion.div>
+
+              <motion.div
+                className="text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.8 }}
