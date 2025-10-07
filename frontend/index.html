@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link
+      id="favicon-light"
       href="/LightIcon.svg"
       rel="icon"
       media="(prefers-color-scheme: light)"
     />
     <link
+      id="favicon-dark"
       href="/DarkIcon.svg"
       rel="icon"
       media="(prefers-color-scheme: dark)"
@@ -65,6 +67,25 @@
         }
 
         initializeTheme();
+      })();
+    </script>
+
+    <script>
+      (function () {
+        function updateFavicon() {
+          const faviconLight = document.getElementById("favicon-light");
+          const faviconDark = document.getElementById("favicon-dark");
+
+          if (document.hidden) {
+            faviconLight.href = "/LightIcon.svg";
+            faviconDark.href = "/DarkIcon.svg";
+          } else {
+            faviconLight.href = "/Icon.svg";
+            faviconDark.href = "/Icon.svg";
+          }
+        }
+        updateFavicon();
+        document.addEventListener("visibilitychange", updateFavicon);
       })();
     </script>
 
