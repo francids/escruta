@@ -14,6 +14,7 @@ import { Analytics } from "@vercel/analytics/react";
 import MainLayout from "./MainLayout";
 import LandingRoutes from "./landing/LandingRoutes";
 import DocsRoutes from "./docs/DocsRoutes";
+import AuthLayout from "./auth/AuthLayout";
 const LoginPage = lazy(() => import("./auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("./auth/pages/RegisterPage"));
 import AppRoutes from "./app/AppRoutes";
@@ -53,11 +54,13 @@ const router = createBrowserRouter(
         },
         {
           path: "login",
-          Component: LoginPage,
+          Component: AuthLayout,
+          children: [{ index: true, Component: LoginPage }],
         },
         {
           path: "register",
-          Component: RegisterPage,
+          Component: AuthLayout,
+          children: [{ index: true, Component: RegisterPage }],
         },
         {
           Component: ProtectedRoute,

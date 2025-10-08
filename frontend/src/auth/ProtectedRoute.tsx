@@ -1,5 +1,4 @@
-import { Outlet, useNavigate } from "react-router";
-import LoginPage from "./pages/LoginPage";
+import { Navigate, Outlet, useNavigate } from "react-router";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import { Modal, Button } from "@/app/components/ui";
@@ -37,7 +36,7 @@ export default function ProtectedRoute() {
   }, [isAuthenticated, checkTokenValidity]);
 
   if (!isAuthenticated()) {
-    return <LoginPage />;
+    return <Navigate to="/login" />;
   }
 
   return (
