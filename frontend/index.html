@@ -72,16 +72,17 @@
 
     <script>
       (function () {
+        const version = Date.now();
         function updateFavicon() {
           const faviconLight = document.getElementById("favicon-light");
           const faviconDark = document.getElementById("favicon-dark");
 
           if (document.hidden) {
-            faviconLight.href = "/LightIcon.svg";
-            faviconDark.href = "/DarkIcon.svg";
+            faviconLight.href = `/LightIcon.svg?v=${version}`;
+            faviconDark.href = `/DarkIcon.svg?v=${version}`;
           } else {
-            faviconLight.href = "/Icon.svg";
-            faviconDark.href = "/Icon.svg";
+            faviconLight.href = `/Icon.svg?v=${version}`;
+            faviconDark.href = `/Icon.svg?v=${version}`;
           }
         }
         updateFavicon();
