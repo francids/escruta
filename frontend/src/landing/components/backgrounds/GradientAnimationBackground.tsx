@@ -1,6 +1,6 @@
 export default function GradientAnimationBackground() {
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden w-full h-full">
+    <div className="absolute inset-0 z-0 overflow-hidden w-full h-full">
       <style>{`
                 @keyframes gradient-shift {
                     0%, 100% {
