@@ -20,17 +20,17 @@ export default function IconButton({
   tabIndex,
 }: IconButtonProps) {
   const baseStyles =
-    "flex items-center justify-center rounded-xs transition-all duration-300 select-none";
+    "flex items-center justify-center rounded-xs transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900";
 
   const variantStyles = {
     primary:
-      "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700",
+      "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700",
     secondary:
-      "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
+      "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
     danger:
-      "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
+      "bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 dark:bg-red-600 dark:hover:bg-red-700",
     ghost:
-      "bg-transparent text-gray-800 hover:bg-gray-200/60 dark:text-gray-200 dark:hover:bg-gray-600",
+      "bg-transparent text-gray-800 hover:bg-gray-200/60 focus:ring-gray-400 dark:text-gray-200 dark:hover:bg-gray-600",
   };
 
   const sizeStyles = {
