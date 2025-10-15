@@ -3,7 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
 }
-val springAiVersion by extra("1.0.0")
+val springAiVersion by extra("1.0.3")
 
 group = "com.francids.escruta"
 version = "0.0.1"
@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework.ai:spring-ai-starter-model-openai")
     implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     implementation("org.springframework.ai:spring-ai-tika-document-reader")
+    implementation("org.springframework.ai:spring-ai-advisors-vector-store")
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

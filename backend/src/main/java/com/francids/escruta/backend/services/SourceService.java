@@ -43,17 +43,22 @@ public class SourceService {
 
     private WebContent fetchWebContent(String url) {
         try {
-            var doc = Jsoup.connect(url).get();
+            var doc = Jsoup.connect(url)
+                    .get();
             String title = doc.title();
 
-            if (title.trim().isEmpty()) {
-                title = doc.select("meta[property=og:title]").attr("content");
+            if (title.trim()
+                    .isEmpty()) {
+                title = doc.select("meta[property=og:title]")
+                        .attr("content");
             }
-            if (title.trim().isEmpty()) {
+            if (title.trim()
+                    .isEmpty()) {
                 title = generateDefaultTitle(url);
             }
 
-            String textContent = doc.body().text();
+            String textContent = doc.body()
+                    .text();
             return new WebContent(title.trim(), textContent);
         } catch (IOException e) {
             throw new RuntimeException("Failed to fetch content from URL: " + url, e);
@@ -71,31 +76,38 @@ public class SourceService {
         try {
             UserMessage userMessage = new UserMessage(rawContent);
             Prompt prompt = new Prompt(List.of(new SystemMessage(systemPrompt), userMessage));
-            return chatModel.call(prompt).getResult().getOutput().getText();
+            return chatModel.call(prompt)
+                    .getResult()
+                    .getOutput()
+                    .getText();
         } catch (Exception e) {
-            return rawContent.replaceAll("(?m)^[ \t]*\r?\n", "").trim();
+            return rawContent.replaceAll("(?m)^[ \t]*\r?\n", "")
+                    .trim();
         }
     }
 
     private String generateDefaultTitle(String url) {
         try {
-            String domain = new java.net.URL(url).getHost();
+            String domain = new java.net.URI(url).getHost();
             return "Content from " + domain.replaceFirst("^www\\.", "");
         } catch (Exception e) {
             return "Untitled Web Content";
         }
     }
 
-    public List<SourceResponseDTO> getSources(UUID notebookId) {
-        if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return sourceRepository.findByNotebookId(notebookId).stream().map(SourceResponseDTO::new).toList();
+    public boolean hasSources(UUID notebookId) {
+        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+            throw new SecurityException("User does not have permission to access this notebook.");
         }
-        return List.of();
+        return sourceRepository.existsByNotebookId(notebookId);
     }
 
-    public List<SourceWithContentDTO> getSourcesWithContent(UUID notebookId) {
+    public List<SourceResponseDTO> getSources(UUID notebookId) {
         if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return sourceRepository.findByNotebookId(notebookId).stream().map(SourceWithContentDTO::new).toList();
+            return sourceRepository.findByNotebookId(notebookId)
+                    .stream()
+                    .map(SourceResponseDTO::new)
+                    .toList();
         }
         return List.of();
     }
@@ -104,7 +116,9 @@ public class SourceService {
         if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
             return null;
         }
-        return sourceRepository.findById(sourceId).map(SourceWithContentDTO::new).orElse(null);
+        return sourceRepository.findById(sourceId)
+                .map(SourceWithContentDTO::new)
+                .orElse(null);
     }
 
     @Transactional
@@ -112,7 +126,8 @@ public class SourceService {
         var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
 
-        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(
+                notebookId)) {
             throw new SecurityException("User does not have permission to add a source to this notebook.");
         }
 
@@ -127,7 +142,9 @@ public class SourceService {
             }
 
             Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content);
-            if (source.getTitle() == null || source.getTitle().trim().isEmpty()) {
+            if (source.getTitle() == null || source.getTitle()
+                    .trim()
+                    .isEmpty()) {
                 source.setTitle(webContent.title());
             }
 
@@ -148,7 +165,8 @@ public class SourceService {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Source> sourceOptional = sourceRepository.findById(UUID.fromString(newSource.id()));
 
-        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(
+                notebookId)) {
             Source source = sourceOptional.get();
             sourceMapper.updateSourceFromDto(newSource, source);
             sourceRepository.save(source);
@@ -162,7 +180,8 @@ public class SourceService {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
 
-        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(
+                notebookId)) {
             Source sourceToDelete = sourceOptional.get();
             try {
                 retrievalService.deleteIndexedSource(sourceId);
@@ -185,7 +204,8 @@ public class SourceService {
         var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
 
-        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(
+                notebookId)) {
             throw new SecurityException("User does not have permission to add a source to this notebook.");
         }
 
@@ -196,7 +216,8 @@ public class SourceService {
         String content;
         try {
             content = fileTextExtractionService.extractTextFromFile(file);
-            if (content == null || content.trim().isEmpty()) {
+            if (content == null || content.trim()
+                    .isEmpty()) {
                 throw new RuntimeException("No text content could be extracted from the file");
             }
 
@@ -232,7 +253,9 @@ public class SourceService {
         try {
             Prompt prompt = getPrompt(source);
             var response = chatModel.call(prompt);
-            String summary = response.getResult().getOutput().getText();
+            String summary = response.getResult()
+                    .getOutput()
+                    .getText();
 
             source.setSummary(summary);
             sourceRepository.save(source);
@@ -262,7 +285,9 @@ public class SourceService {
         }
 
         Source source = sourceOptional.get();
-        if (!source.getNotebook().getId().equals(notebookId)) {
+        if (!source.getNotebook()
+                .getId()
+                .equals(notebookId)) {
             throw new SecurityException("Source does not belong to this notebook.");
         }
 
@@ -281,7 +306,9 @@ public class SourceService {
         }
 
         Source source = sourceOptional.get();
-        if (!source.getNotebook().getId().equals(notebookId)) {
+        if (!source.getNotebook()
+                .getId()
+                .equals(notebookId)) {
             throw new SecurityException("Source does not belong to this notebook.");
         }
 
@@ -299,7 +326,9 @@ public class SourceService {
         }
 
         Source source = sourceOptional.get();
-        if (!source.getNotebook().getId().equals(notebookId)) {
+        if (!source.getNotebook()
+                .getId()
+                .equals(notebookId)) {
             throw new SecurityException("Source does not belong to this notebook.");
         }
 

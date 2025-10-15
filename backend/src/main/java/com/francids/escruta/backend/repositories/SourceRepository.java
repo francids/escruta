@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface SourceRepository extends CrudRepository<Source, UUID> {
     List<Source> findByNotebookId(UUID notebookId);
+    boolean existsByNotebookId(UUID notebookId);
 }
