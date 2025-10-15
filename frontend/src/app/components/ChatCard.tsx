@@ -326,7 +326,7 @@ export default function ChatCard({
                 }`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200 ${
+                  className={`max-w-xl flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200 ${
                     msg.sender === "user"
                       ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
                       : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
