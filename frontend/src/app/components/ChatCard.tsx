@@ -45,20 +45,17 @@ function processMarkdownText(
   if (!text) return [];
 
   const isSystemMessage = [
-    "I don't have any relevant sources",
-    "The available sources don't contain",
-    "I couldn't generate a response",
     "No sources are available",
-    "The sources in this notebook",
-    "Unable to generate",
-    "An error occurred",
+    "Invalid notebook ID format",
+    "An error occurred while",
+    "Sorry, I encountered an error",
   ].some((phrase) => text.startsWith(phrase));
 
   if (isSystemMessage && !isUserMessage) {
     return [
       <div
         key="system-message"
-        className="italic text-gray-600 dark:text-gray-400"
+        className="italic text-gray-600 dark:text-gray-400 my-2"
       >
         {text}
       </div>,
