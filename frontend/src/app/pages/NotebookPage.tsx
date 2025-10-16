@@ -69,7 +69,7 @@ export default function NotebookPage() {
       const containerWidth = window.innerWidth - 32;
       const newWidth = Math.min(
         Math.max(((e.clientX - 16) / containerWidth) * 100, 30),
-        45
+        50
       );
       setLeftPanelWidth(newWidth);
     };
@@ -114,7 +114,7 @@ export default function NotebookPage() {
   };
 
   const handleDoubleClick = () => {
-    setLeftPanelWidth(33);
+    setLeftPanelWidth(50);
   };
 
   async function handleRenameNotebook() {
