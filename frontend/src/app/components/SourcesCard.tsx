@@ -1,5 +1,5 @@
 import type { Source } from "@/interfaces";
-import { AddIcon, StarsIcon } from "./icons";
+import { AddIcon } from "./icons";
 import SourceChip from "./SourceChip";
 import {
   Card,
@@ -148,14 +148,14 @@ export default function SourcesCard({
         <div className="flex flex-row justify-between items-center mb-2 flex-shrink-0">
           <h2 className="text-lg font-sans font-semibold">Sources</h2>
           <div className="flex gap-3">
-            <Tooltip text="Find sources" position="bottom">
+            {/* <Tooltip text="Find sources" position="bottom">
               <IconButton
                 icon={<StarsIcon />}
                 variant="ghost"
                 size="sm"
                 className="flex-shrink-0"
               />
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip text="Add source" position="bottom">
               <IconButton
                 icon={<AddIcon />}
