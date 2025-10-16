@@ -13,3 +13,4 @@ export { default as Spinner } from "./Spinner";
 export { default as Switch } from "./Switch";
 export { default as FilePicker } from "./FilePicker";
 export { default as SegmentedButtons } from "./SegmentedButtons";
+export { default as Chip } from "./Chip";

@@ -9,6 +9,7 @@ import {
   Tooltip,
   Button,
   Spinner,
+  Chip,
 } from "./ui";
 const CodeBlock = lazy(() => import("./CodeBlock"));
 import { useEffect, useState, type ReactNode } from "react";
@@ -196,7 +197,7 @@ export default function ChatCard({
     false
   );
 
-  const { loading: isRegenerating, refetch: regenerateSummary } =
+  const { loading: isSummaryRegenerating, refetch: regenerateSummary } =
     useFetch<string>(
       `notebooks/${notebookId}/summary`,
       {
@@ -214,6 +215,24 @@ export default function ChatCard({
   useEffect(() => {
     refetchSummary(true);
   }, [refreshTrigger]);
+
+  const {
+    data: exampleQuestions,
+    loading: isExampleQuestionsLoading,
+    error: exampleQuestionsError,
+    refetch: refetchExampleQuestions,
+  } = useFetch<{
+    questions: string[];
+  }>(
+    `notebooks/${notebookId}/example-questions`,
+    {
+      method: "GET",
+      onError: (error) => {
+        console.error("Error fetching example questions:", error);
+      },
+    },
+    true
+  );
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
@@ -291,19 +310,19 @@ export default function ChatCard({
           notebookSummary ? (
             <Tooltip
               text={
-                isRegenerating
+                isSummaryRegenerating
                   ? "Regenerating summary..."
                   : "Regenerate summary"
               }
               position="bottom"
             >
               <IconButton
-                icon={isRegenerating ? <Spinner /> : <RestartIcon />}
+                icon={isSummaryRegenerating ? <Spinner /> : <RestartIcon />}
                 variant="ghost"
                 size="sm"
                 className="flex-shrink-0"
                 onClick={regenerateSummary}
-                disabled={isRegenerating}
+                disabled={isSummaryRegenerating}
               />
             </Tooltip>
           ) : null}
@@ -396,17 +415,67 @@ export default function ChatCard({
             ) : (
               <Button
                 onClick={regenerateSummary}
-                icon={isRegenerating ? <Spinner /> : null}
-                disabled={isRegenerating}
+                icon={isSummaryRegenerating ? <Spinner /> : null}
+                disabled={isSummaryRegenerating}
               >
-                {isRegenerating ? "Generating summary..." : "Generate summary"}
+                {isSummaryRegenerating
+                  ? "Generating summary..."
+                  : "Generate summary"}
               </Button>
             )}
           </div>
         </motion.div>
       )}
       <Divider className="mt-0" />
-      <div className="py-4 flex-shrink-0">
+      <div className="pb-4 flex-shrink-0">
+        {/* Example questions */}
+        <div className="pt-1">
+          {messages.length === 0 && !isChatLoading && (
+            <div className="mb-3">
+              {isExampleQuestionsLoading ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Loading example questions...
+                </p>
+              ) : exampleQuestionsError ? (
+                <p className="text-sm text-red-500">
+                  Error: {exampleQuestionsError.message}
+                </p>
+              ) : exampleQuestions &&
+                exampleQuestions.questions &&
+                exampleQuestions.questions.length > 0 ? (
+                <div className="flex gap-2 overflow-x-auto py-1">
+                  <span className="flex gap-2">
+                    {exampleQuestions.questions.map((question, index) => (
+                      <Chip
+                        key={index}
+                        onClick={() => {
+                          setInput(question);
+                        }}
+                      >
+                        {question}
+                      </Chip>
+                    ))}
+                  </span>
+                  <IconButton
+                    icon={<RestartIcon />}
+                    variant="ghost"
+                    size="sm"
+                    className="flex-shrink-0"
+                    onClick={() => {
+                      refetchExampleQuestions(true);
+                    }}
+                  />
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No example questions available.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Chat input */}
         <div className="flex items-center gap-2">
           {messages.length > 0 ? (
             <Tooltip text="Clear chat" position="top">

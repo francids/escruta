@@ -2,6 +2,7 @@ package com.francids.escruta.backend.controllers;
 
 import com.francids.escruta.backend.dtos.ChatRequest;
 import com.francids.escruta.backend.dtos.ChatReplyMessage;
+import com.francids.escruta.backend.dtos.ExampleQuestions;
 import com.francids.escruta.backend.dtos.SummaryResponse;
 import com.francids.escruta.backend.repositories.NotebookRepository;
 import com.francids.escruta.backend.services.SourceService;
@@ -60,7 +61,7 @@ class ChatController {
                     .body("Invalid notebook ID format");
         } catch (Exception e) {
             System.out.println("Error during summary generation: " + e.getMessage());
-            return ResponseEntity.status(500)
+            return ResponseEntity.internalServerError()
                     .body("An error occurred while generating the summary. Please try again.");
         }
     }
@@ -87,8 +88,34 @@ class ChatController {
             return ResponseEntity.badRequest()
                     .body("Invalid notebook ID format");
         } catch (Exception e) {
-            return ResponseEntity.status(500)
+            return ResponseEntity.internalServerError()
                     .body("An error occurred while retrieving the summary. Please try again.");
+        }
+    }
+
+    @GetMapping("example-questions")
+    public ResponseEntity<?> getExampleQuestions(@PathVariable UUID notebookId) {
+        try {
+            if (!sourceService.hasSources(notebookId)) {
+                return ResponseEntity.badRequest()
+                        .body("No sources are available in this notebook to generate a summary.");
+            }
+
+            ExampleQuestions exampleQuestions = ChatClient.create(chatModel)
+                    .prompt()
+                    .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
+                    .user("Based on the context provided, generate three diverse and concise questions that can be answered from the sources.")
+                    .call()
+                    .entity(ExampleQuestions.class);
+
+            return ResponseEntity.ok(exampleQuestions);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                    .body(List.of());
+        } catch (Exception e) {
+            System.out.println("Error during example questions generation: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(List.of());
         }
     }
 
@@ -132,7 +159,7 @@ class ChatController {
                     .body(new ChatReplyMessage("Invalid notebook ID format", List.of()));
         } catch (Exception e) {
             System.out.println("Error during chat generation: " + e.getMessage());
-            return ResponseEntity.status(500)
+            return ResponseEntity.internalServerError()
                     .body(new ChatReplyMessage(
                             "An error occurred while processing your request. Please try again.",
                             List.of()
