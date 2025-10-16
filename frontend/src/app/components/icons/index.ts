@@ -28,3 +28,4 @@ export { default as ListIcon } from "./ListIcon";
 export { default as CardIcon } from "./CardIcon";
 export { default as ExpandIcon } from "./ExpandIcon";
 export { default as CompressIcon } from "./CompressIcon";
+export { default as QuestionnaireIcon } from "./QuestionnaireIcon";

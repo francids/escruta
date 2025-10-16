@@ -1,32 +1,57 @@
-import { MindMapIcon, WaveIcon, StudyIcon, CardIcon } from "./icons";
+import {
+  MindMapIcon,
+  WaveIcon,
+  StudyIcon,
+  CardIcon,
+  QuestionnaireIcon,
+  FileIcon,
+} from "./icons";
 import { Card, Divider } from "./ui";
 import ToolCard from "./ToolCard";
 
+interface Tool {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
 export default function ToolsCard() {
-  const tools = [
+  const tools: Tool[] = [
     {
       icon: <WaveIcon />,
       title: "Audio Summary",
       description:
-        "Generate an audio summary of your notes for hands-free review",
+        "Generate an audio summary of your notes for hands-free review.",
     },
     {
       icon: <MindMapIcon />,
       title: "Mind Map",
       description:
-        "Create a visual mind map to explore connections between concepts",
+        "Create a visual mind map to explore connections between concepts.",
     },
     {
       icon: <StudyIcon />,
       title: "Study Guide",
       description:
-        "Generate a comprehensive study guide with key points and questions",
+        "Generate a comprehensive study guide with key points and questions.",
     },
     {
       icon: <CardIcon />,
       title: "Flashcards",
       description:
-        "Create flashcards from your notes for effective spaced repetition learning",
+        "Create flashcards from your notes for effective spaced repetition learning.",
+    },
+    {
+      icon: <QuestionnaireIcon />,
+      title: "Questionnaire",
+      description:
+        "Generate a questionnaire to test your understanding of the material.",
+    },
+    {
+      icon: <FileIcon />,
+      title: "Sources Report",
+      description:
+        "Generate a consolidated report listing all sources from the notebook.",
     },
   ];
 
