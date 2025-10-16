@@ -56,9 +56,6 @@ class ChatController {
             assert summary != null;
             notebookRepository.updateSummary(notebookId, summary.summary());
             return ResponseEntity.ok(summary.summary());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest()
-                    .body("Invalid notebook ID format");
         } catch (Exception e) {
             System.out.println("Error during summary generation: " + e.getMessage());
             return ResponseEntity.internalServerError()
@@ -84,9 +81,6 @@ class ChatController {
             }
 
             return ResponseEntity.ok(summary);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest()
-                    .body("Invalid notebook ID format");
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body("An error occurred while retrieving the summary. Please try again.");
@@ -109,9 +103,6 @@ class ChatController {
                     .entity(ExampleQuestions.class);
 
             return ResponseEntity.ok(exampleQuestions);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest()
-                    .body(List.of());
         } catch (Exception e) {
             System.out.println("Error during example questions generation: " + e.getMessage());
             return ResponseEntity.internalServerError()
@@ -154,9 +145,6 @@ class ChatController {
                             .getOutput()
                             .getText(), citedSources
             ));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest()
-                    .body(new ChatReplyMessage("Invalid notebook ID format", List.of()));
         } catch (Exception e) {
             System.out.println("Error during chat generation: " + e.getMessage());
             return ResponseEntity.internalServerError()
