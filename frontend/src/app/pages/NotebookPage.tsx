@@ -28,6 +28,7 @@ export default function NotebookPage() {
     data: notebook,
     loading,
     error,
+    refetch: refetchNotebook,
   } = useFetch<NotebookContent>(`/notebooks/${notebookId}`);
 
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
@@ -323,6 +324,15 @@ export default function NotebookPage() {
                             setSelectedSource(source)
                           }
                           refreshTrigger={sourcesRefreshKey}
+                          onSourceAdded={function () {
+                            if (
+                              notebook?.sources !== undefined &&
+                              notebook!.sources.length === 0
+                            ) {
+                              refetchNotebook(true);
+                              setSourcesRefreshKey((prev) => prev + 1);
+                            }
+                          }}
                         />
                       </motion.div>
                     </div>
@@ -417,6 +427,7 @@ export default function NotebookPage() {
           >
             <ChatCard
               notebookId={notebookId}
+              sourcesCount={notebook?.sources.length ?? 0}
               refreshTrigger={sourcesRefreshKey}
               onSourceSelect={handleSourceSelectFromChat}
             />

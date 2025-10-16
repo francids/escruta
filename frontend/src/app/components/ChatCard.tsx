@@ -34,6 +34,7 @@ interface ChatApiResponse {
 
 interface ChatCardProps {
   notebookId: string;
+  sourcesCount: number;
   refreshTrigger?: number;
   onSourceSelect?: (sourceId: string) => void;
 }
@@ -175,6 +176,7 @@ function processTextContent(text: string, isUserMessage: boolean) {
 
 export default function ChatCard({
   notebookId,
+  sourcesCount,
   refreshTrigger,
   onSourceSelect,
 }: ChatCardProps) {
@@ -228,7 +230,7 @@ export default function ChatCard({
         console.error("Error fetching example questions:", error);
       },
     },
-    true
+    sourcesCount > 0
   );
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -393,41 +395,52 @@ export default function ChatCard({
           transition={{ delay: 0.2, duration: 0.5 }}
           className="flex flex-col flex-grow min-h-0 max-h-full overflow-y-auto"
         >
-          <div className="text-muted-foreground w-full max-w-lg mx-auto my-auto py-8">
-            <h3 className="text-xl font-semibold mb-3 text-foreground">
-              Summary of the notebook
-            </h3>
-            {isSummaryLoading ? (
+          {sourcesCount > 0 ? (
+            <div className="text-muted-foreground w-full max-w-lg mx-auto my-auto py-8">
+              <h3 className="text-xl font-semibold mb-3 text-foreground">
+                Summary of the notebook
+              </h3>
+              {isSummaryLoading ? (
+                <p className="mt-1 mb-1 text-base font-medium leading-6">
+                  Loading summary...
+                </p>
+              ) : summaryError ? (
+                <p className="mt-1 mb-1 text-base font-medium leading-6">
+                  Error: {summaryError.message}
+                </p>
+              ) : notebookSummary ? (
+                <div className="prose dark:prose-invert prose-sm max-w-none select-text">
+                  {processMarkdownText(notebookSummary, false)}
+                </div>
+              ) : (
+                <Button
+                  onClick={regenerateSummary}
+                  icon={isSummaryRegenerating ? <Spinner /> : null}
+                  disabled={isSummaryRegenerating}
+                >
+                  {isSummaryRegenerating
+                    ? "Generating summary..."
+                    : "Generate summary"}
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="text-muted-foreground w-full max-w-lg mx-auto my-auto py-8">
+              <h3 className="text-xl font-semibold mb-3 text-foreground">
+                This notebook is empty
+              </h3>
               <p className="mt-1 mb-1 text-base font-medium leading-6">
-                Loading summary...
+                Add some sources to start chatting with your documents.
               </p>
-            ) : summaryError ? (
-              <p className="mt-1 mb-1 text-base font-medium leading-6">
-                Error: {summaryError.message}
-              </p>
-            ) : notebookSummary ? (
-              <div className="prose dark:prose-invert prose-sm max-w-none select-text">
-                {processMarkdownText(notebookSummary, false)}
-              </div>
-            ) : (
-              <Button
-                onClick={regenerateSummary}
-                icon={isSummaryRegenerating ? <Spinner /> : null}
-                disabled={isSummaryRegenerating}
-              >
-                {isSummaryRegenerating
-                  ? "Generating summary..."
-                  : "Generate summary"}
-              </Button>
-            )}
-          </div>
+            </div>
+          )}
         </motion.div>
       )}
       <Divider className="mt-0" />
       <div className="pb-4 flex-shrink-0">
         {/* Example questions */}
         <div className="pt-1">
-          {messages.length === 0 && !isChatLoading && (
+          {messages.length === 0 && !isChatLoading && sourcesCount > 0 && (
             <div className="mb-3">
               {isExampleQuestionsLoading ? (
                 <p className="text-sm text-gray-500 dark:text-gray-400">

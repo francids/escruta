@@ -21,12 +21,14 @@ interface SourcesCardProps {
   notebookId: string;
   onSourceSelect?: (source: Source) => void;
   refreshTrigger?: number;
+  onSourceAdded?: () => void;
 }
 
 export default function SourcesCard({
   notebookId,
   onSourceSelect,
   refreshTrigger,
+  onSourceAdded,
 }: SourcesCardProps) {
   useEffect(() => {
     if (refreshTrigger !== undefined) {
@@ -79,6 +81,7 @@ export default function SourcesCard({
         setSourceType("Website");
         setIsAddSourceModalOpen(false);
         refetchSources(true);
+        onSourceAdded?.();
       },
       onError: (error) => {
         console.error("Error adding source:", error);
