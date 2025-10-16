@@ -8,6 +8,8 @@ import {
   LinkIcon,
   CopyIcon,
   RestartIcon,
+  ExpandIcon,
+  CompressIcon,
 } from "./icons";
 import {
   Button,
@@ -21,6 +23,7 @@ import {
 import Markdown from "react-markdown";
 const CodeBlock = lazy(() => import("./CodeBlock"));
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
+import { twMerge } from "tailwind-merge";
 
 interface SourceViewerProps {
   notebookId: string;
@@ -37,6 +40,7 @@ export default function SourceViewer({
   onSourceDelete,
   className,
 }: SourceViewerProps) {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const {
     data: fullSource,
     loading,
@@ -137,7 +141,12 @@ export default function SourceViewer({
   return (
     <>
       <Card
-        className={`${className} flex flex-col overflow-y-auto p-0 dark:bg-gray-800`}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+        className={twMerge(
+          "flex flex-col overflow-y-auto p-0 dark:bg-gray-800",
+          className
+        )}
       >
         <div className="sticky h-20 top-0 z-10 ">
           <div className="h-6 bg-gray-50 dark:bg-gray-800 w-full flex-shrink-0" />
@@ -202,6 +211,17 @@ export default function SourceViewer({
                     onClick={() => setIsDeleteModalOpen(true)}
                   />
                 </Tooltip>
+                <Tooltip
+                  text={isExpanded ? "Restore size" : "Expand"}
+                  position="bottom"
+                >
+                  <IconButton
+                    icon={isExpanded ? <CompressIcon /> : <ExpandIcon />}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsExpanded((s) => !s)}
+                  />
+                </Tooltip>
                 <Tooltip text="Close source" position="bottom">
                   <IconButton
                     icon={<CloseIcon />}
@@ -226,7 +246,7 @@ export default function SourceViewer({
           </div>
         )}
         {fullSource && !loading && !error && (
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col max-w-5xl mx-auto">
             <div className="px-6 pt-4">
               <Card className="bg-gray-100/60 dark:bg-gray-700">
                 <div className="flex items-center justify-between mb-4">
