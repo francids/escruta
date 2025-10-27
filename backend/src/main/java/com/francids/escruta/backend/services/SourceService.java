@@ -30,9 +30,7 @@ import java.util.UUID;
 public class SourceService {
     private final SourceRepository sourceRepository;
     private final NotebookRepository notebookRepository;
-    private final UserService userService;
     private final SourceMapper sourceMapper;
-    private final NotebookOwnershipService notebookOwnershipService;
     private final RetrievalService retrievalService;
     private final ChatModel chatModel;
     private final FileTextExtractionService fileTextExtractionService;
@@ -96,40 +94,28 @@ public class SourceService {
     }
 
     public boolean hasSources(UUID notebookId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            throw new SecurityException("User does not have permission to access this notebook.");
-        }
         return sourceRepository.existsByNotebookId(notebookId);
     }
 
     public List<SourceResponseDTO> getSources(UUID notebookId) {
-        if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return sourceRepository.findByNotebookId(notebookId)
-                    .stream()
-                    .map(SourceResponseDTO::new)
-                    .toList();
-        }
-        return List.of();
+        return sourceRepository.findByNotebookId(notebookId)
+                .stream()
+                .map(SourceResponseDTO::new)
+                .toList();
     }
 
     public SourceWithContentDTO getSource(UUID notebookId, UUID sourceId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        Optional<Source> source = sourceRepository.findById(sourceId);
+        if (source.isEmpty() || !notebookRepository.existsById(notebookId)) {
             return null;
         }
-        return sourceRepository.findById(sourceId)
-                .map(SourceWithContentDTO::new)
+        return source.map(SourceWithContentDTO::new)
                 .orElse(null);
     }
 
     @Transactional
     public SourceWithContentDTO addSource(UUID notebookId, SourceCreationDTO newSourceDto, boolean aiConverter) {
-        var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
-
-        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(
-                notebookId)) {
-            throw new SecurityException("User does not have permission to add a source to this notebook.");
-        }
 
         try {
             WebContent webContent = fetchWebContent(newSourceDto.link());
@@ -141,6 +127,7 @@ public class SourceService {
                 content = webContent.content();
             }
 
+            assert notebookOptional.isPresent();
             Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content);
             if (source.getTitle() == null || source.getTitle()
                     .trim()
@@ -165,8 +152,7 @@ public class SourceService {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Source> sourceOptional = sourceRepository.findById(UUID.fromString(newSource.id()));
 
-        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(
-                notebookId)) {
+        if (notebookOptional.isPresent() && sourceOptional.isPresent()) {
             Source source = sourceOptional.get();
             sourceMapper.updateSourceFromDto(newSource, source);
             sourceRepository.save(source);
@@ -180,8 +166,7 @@ public class SourceService {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
 
-        if (notebookOptional.isPresent() && sourceOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(
-                notebookId)) {
+        if (notebookOptional.isPresent() && sourceOptional.isPresent()) {
             Source sourceToDelete = sourceOptional.get();
             try {
                 retrievalService.deleteIndexedSource(sourceId);
@@ -201,13 +186,7 @@ public class SourceService {
             MultipartFile file,
             boolean aiConverter
     ) {
-        var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
-
-        if (notebookOptional.isEmpty() || currentUser == null || !notebookOwnershipService.isUserNotebookOwner(
-                notebookId)) {
-            throw new SecurityException("User does not have permission to add a source to this notebook.");
-        }
 
         if (!fileTextExtractionService.isSupportedFileType(file.getContentType())) {
             throw new RuntimeException("Unsupported file type: " + file.getContentType());
@@ -230,6 +209,7 @@ public class SourceService {
 
         Source source;
         try {
+            assert notebookOptional.isPresent();
             source = new Source();
             source.setNotebook(notebookOptional.get());
             source.setIcon(newSourceDto.icon());
@@ -275,10 +255,6 @@ public class SourceService {
     }
 
     public String generateSummary(UUID notebookId, UUID sourceId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            throw new SecurityException("User cannot access this source.");
-        }
-
         Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
         if (sourceOptional.isEmpty()) {
             return null;
@@ -296,10 +272,6 @@ public class SourceService {
     }
 
     public String getSummary(UUID notebookId, UUID sourceId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            throw new SecurityException("User cannot access this source.");
-        }
-
         Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
         if (sourceOptional.isEmpty()) {
             return "";
@@ -312,14 +284,12 @@ public class SourceService {
             throw new SecurityException("Source does not belong to this notebook.");
         }
 
-        return source.getSummary() != null ? source.getSummary() : "";
+        return source.getSummary() != null ?
+                source.getSummary() :
+                "";
     }
 
     public boolean deleteSummary(UUID notebookId, UUID sourceId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            throw new SecurityException("User cannot access this source.");
-        }
-
         Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
         if (sourceOptional.isEmpty()) {
             return false;

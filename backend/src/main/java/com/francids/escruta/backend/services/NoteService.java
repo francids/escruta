@@ -23,27 +23,27 @@ public class NoteService {
     private final NotebookRepository notebookRepository;
     private final UserService userService;
     private final NoteMapper noteMapper;
-    private final NotebookOwnershipService notebookOwnershipService;
 
     public List<NoteResponseDTO> getNotes(UUID notebookId) {
-        if (notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            return noteRepository.findByNotebookId(notebookId).stream().map(NoteResponseDTO::new).toList();
-        }
-        return null;
+        return noteRepository.findByNotebookId(notebookId)
+                .stream()
+                .map(NoteResponseDTO::new)
+                .toList();
     }
 
     public NoteWithContentDTO getNote(UUID notebookId, UUID noteId) {
-        if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        Optional<Note> note = noteRepository.findById(noteId);
+        if (note.isEmpty() || !notebookRepository.existsById(notebookId)) {
             return null;
         }
-        Optional<Note> note = noteRepository.findById(noteId);
-        return note.map(NoteWithContentDTO::new).orElse(null);
+        return note.map(NoteWithContentDTO::new)
+                .orElse(null);
     }
 
     public NoteResponseDTO addNote(UUID notebookId, NoteCreationDTO newNoteDto) {
         var currentUser = userService.getCurrentFullUser();
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
-        if (notebookOptional.isPresent() && currentUser != null && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isPresent() && currentUser != null) {
             Note note = noteMapper.toNote(newNoteDto, notebookOptional.get());
             noteRepository.save(note);
             return new NoteResponseDTO(note);
@@ -54,7 +54,7 @@ public class NoteService {
     public NoteResponseDTO updateNote(UUID notebookId, NoteUpdateDTO newNoteDto) {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Note> noteOptional = noteRepository.findById(UUID.fromString(newNoteDto.id()));
-        if (notebookOptional.isPresent() && noteOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
+        if (notebookOptional.isPresent() && noteOptional.isPresent()) {
             Note note = noteOptional.get();
             noteMapper.updateNoteFromDto(newNoteDto, note);
             noteRepository.save(note);
@@ -66,8 +66,9 @@ public class NoteService {
     public NoteResponseDTO deleteNote(UUID notebookId, UUID noteId) {
         Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
         Optional<Note> noteOptional = noteRepository.findById(noteId);
-        if (notebookOptional.isPresent() && noteOptional.isPresent() && notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-            noteRepository.deleteById(noteOptional.get().getId());
+        if (notebookOptional.isPresent() && noteOptional.isPresent()) {
+            noteRepository.deleteById(noteOptional.get()
+                    .getId());
             return new NoteResponseDTO(noteOptional.get());
         }
         return null;

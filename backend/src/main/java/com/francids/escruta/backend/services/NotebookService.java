@@ -24,17 +24,15 @@ public class NotebookService {
     private final SourceRepository sourceRepository;
     private final NotebookMapper notebookMapper;
     private final NoteService noteService;
-    private final NotebookOwnershipService notebookOwnershipService;
 
     public List<NotebookResponseDTO> getAllUserNotebooks() {
-        return notebookRepository.findByUserId(userService.getUserId()).stream().map(NotebookResponseDTO::new).toList();
+        return notebookRepository.findByUserId(userService.getUserId())
+                .stream()
+                .map(NotebookResponseDTO::new)
+                .toList();
     }
 
     public Optional<NotebookWithDetailsDTO> getUserNotebookWithDetails(UUID id) {
-        if (!notebookOwnershipService.isUserNotebookOwner(id)) {
-            return Optional.empty();
-        }
-
         Optional<Notebook> notebookOptional = notebookRepository.findById(id);
         if (notebookOptional.isPresent()) {
             Notebook notebook = notebookOptional.get();
@@ -59,11 +57,6 @@ public class NotebookService {
     public NotebookResponseDTO updateNotebook(NotebookUpdateDTO newNotebookDto) {
         try {
             UUID notebookId = UUID.fromString(newNotebookDto.id());
-
-            if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-                return null;
-            }
-
             Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
             if (notebookOptional.isPresent()) {
                 Notebook notebook = notebookOptional.get();
@@ -80,11 +73,6 @@ public class NotebookService {
     public NotebookResponseDTO deleteNotebook(NotebookUpdateDTO notebookDto) {
         try {
             UUID notebookId = UUID.fromString(notebookDto.id());
-
-            if (!notebookOwnershipService.isUserNotebookOwner(notebookId)) {
-                return null;
-            }
-
             Optional<Notebook> notebookOptional = notebookRepository.findById(notebookId);
             if (notebookOptional.isPresent()) {
                 Notebook notebook = notebookOptional.get();

@@ -38,24 +38,24 @@ class ChatController {
     private final NotebookRepository notebookRepository;
 
     @PostMapping("summary")
-    ResponseEntity<?> generateSummary(@PathVariable UUID notebookId) {
+    ResponseEntity<String> generateSummary(@PathVariable UUID notebookId) {
         try {
-            if (!sourceService.hasSources(notebookId)) {
+            if (sourceService.hasSources(notebookId)) {
+                SummaryResponse summary = ChatClient.create(chatModel)
+                        .prompt()
+                        .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
+                        .system(UNIFIED_SYSTEM_MESSAGE)
+                        .user("I want you to summarize the key information in 2 or 3 sentences, and I want that summary to be clear, complete, and free of citations or references.")
+                        .call()
+                        .entity(SummaryResponse.class);
+
+                assert summary != null;
+                notebookRepository.updateSummary(notebookId, summary.summary());
+                return ResponseEntity.ok(summary.summary());
+            } else {
                 return ResponseEntity.badRequest()
                         .body("No sources are available in this notebook to generate a summary.");
             }
-
-            SummaryResponse summary = ChatClient.create(chatModel)
-                    .prompt()
-                    .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
-                    .system(UNIFIED_SYSTEM_MESSAGE)
-                    .user("I want you to summarize the key information in 2 or 3 sentences, and I want that summary to be clear, complete, and free of citations or references.")
-                    .call()
-                    .entity(SummaryResponse.class);
-
-            assert summary != null;
-            notebookRepository.updateSummary(notebookId, summary.summary());
-            return ResponseEntity.ok(summary.summary());
         } catch (Exception e) {
             System.out.println("Error during summary generation: " + e.getMessage());
             return ResponseEntity.internalServerError()
@@ -90,19 +90,19 @@ class ChatController {
     @GetMapping("example-questions")
     public ResponseEntity<?> getExampleQuestions(@PathVariable UUID notebookId) {
         try {
-            if (!sourceService.hasSources(notebookId)) {
+            if (sourceService.hasSources(notebookId)) {
+                ExampleQuestions exampleQuestions = ChatClient.create(chatModel)
+                        .prompt()
+                        .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
+                        .user("Based on the context provided, generate three diverse and concise questions that can be answered from the sources.")
+                        .call()
+                        .entity(ExampleQuestions.class);
+
+                return ResponseEntity.ok(exampleQuestions);
+            } else {
                 return ResponseEntity.badRequest()
                         .body("No sources are available in this notebook to generate a summary.");
             }
-
-            ExampleQuestions exampleQuestions = ChatClient.create(chatModel)
-                    .prompt()
-                    .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
-                    .user("Based on the context provided, generate three diverse and concise questions that can be answered from the sources.")
-                    .call()
-                    .entity(ExampleQuestions.class);
-
-            return ResponseEntity.ok(exampleQuestions);
         } catch (Exception e) {
             System.out.println("Error during example questions generation: " + e.getMessage());
             return ResponseEntity.internalServerError()

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,15 +26,11 @@ public class NotebookController {
         return notebookService.getAllUserNotebooks();
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<NotebookWithDetailsDTO> getUserNotebook(@PathVariable String id) {
-        try {
-            UUID uuid = UUID.fromString(id);
-            var notebook = notebookService.getUserNotebookWithDetails(uuid);
-            return notebook.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("{notebookId}")
+    public ResponseEntity<NotebookWithDetailsDTO> getUserNotebook(@PathVariable UUID notebookId) {
+        var notebook = notebookService.getUserNotebookWithDetails(notebookId);
+        return notebook.map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -43,6 +40,7 @@ public class NotebookController {
     }
 
     @PutMapping
+    @PreAuthorize("@notebookOwnershipService.isUserNotebookOwner(#notebookDto.id)")
     public ResponseEntity<NotebookResponseDTO> updateNotebook(@Valid @RequestBody NotebookUpdateDTO notebookDto) {
         var notebook = notebookService.updateNotebook(notebookDto);
         if (notebook == null) {
@@ -53,6 +51,7 @@ public class NotebookController {
 
 
     @DeleteMapping
+    @PreAuthorize("@notebookOwnershipService.isUserNotebookOwner(#notebookDto.id)")
     public ResponseEntity<NotebookResponseDTO> deleteNotebook(@Valid @RequestBody NotebookUpdateDTO notebookDto) {
         var notebook = notebookService.deleteNotebook(notebookDto);
         if (notebook == null) {
