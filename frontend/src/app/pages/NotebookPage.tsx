@@ -160,6 +160,35 @@ export default function NotebookPage() {
       );
     }
 
+    if ("status" in error && error.status === 401) {
+      return (
+        <div className="flex justify-center h-screen w-full flex-col">
+          <div className="border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5">
+            <motion.div
+              className="flex justify-center items-center py-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="text-center">
+                <div className="w-16 h-16 bg-yellow-50 dark:bg-yellow-950 rounded-xs flex items-center justify-center mb-4 mx-auto">
+                  <div className="w-8 h-8 text-yellow-500">
+                    <NotebookIcon />
+                  </div>
+                </div>
+                <h1 className="text-xl font-medium text-yellow-600 dark:text-yellow-400 mb-2">
+                  Access denied
+                </h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                  You do not have permission to access this notebook.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="flex justify-center h-screen w-full flex-col">
         <div className="border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 px-6 py-5">
