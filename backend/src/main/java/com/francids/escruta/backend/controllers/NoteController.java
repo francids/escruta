@@ -20,81 +20,57 @@ import java.util.UUID;
 public class NoteController {
     private final NoteService noteService;
 
-    private UUID parseUUID(String id) {
-        try {
-            return UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid UUID: " + id);
-        }
-    }
-
     @GetMapping
     public ResponseEntity<List<NoteResponseDTO>> getNotebookNotes(
-            @PathVariable String notebookId
+            @PathVariable UUID notebookId
     ) {
-        try {
-            UUID uuid = parseUUID(notebookId);
-            return ResponseEntity.ok(noteService.getNotes(uuid));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(noteService.getNotes(notebookId));
     }
 
     @GetMapping("{noteId}")
     public ResponseEntity<NoteWithContentDTO> getNotebookNoteContent(
-            @PathVariable String notebookId,
-            @PathVariable String noteId
+            @PathVariable UUID notebookId,
+            @PathVariable UUID noteId
     ) {
-        try {
-            UUID notebookUuid = parseUUID(notebookId);
-            UUID noteUuid = UUID.fromString(noteId);
-            var note = noteService.getNote(notebookUuid, noteUuid);
-            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        var note = noteService.getNote(notebookId, noteId);
+        return note != null ?
+                ResponseEntity.ok(note) :
+                ResponseEntity.notFound()
+                        .build();
+
     }
 
     @PostMapping
     public ResponseEntity<NoteResponseDTO> createNotebookNote(
-            @PathVariable String notebookId,
+            @PathVariable UUID notebookId,
             @Valid @RequestBody NoteCreationDTO noteCreationDTO
     ) {
-        try {
-            UUID uuid = parseUUID(notebookId);
-            var note = noteService.addNote(uuid, noteCreationDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(note);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        var note = noteService.addNote(notebookId, noteCreationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(note);
     }
 
     @PutMapping
     public ResponseEntity<NoteResponseDTO> updateNotebookNote(
-            @PathVariable String notebookId,
+            @PathVariable UUID notebookId,
             @Valid @RequestBody NoteUpdateDTO noteUpdateDTO
     ) {
-        try {
-            UUID uuid = UUID.fromString(notebookId);
-            var note = noteService.updateNote(uuid, noteUpdateDTO);
-            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        var note = noteService.updateNote(notebookId, noteUpdateDTO);
+        return note != null ?
+                ResponseEntity.ok(note) :
+                ResponseEntity.notFound()
+                        .build();
     }
 
     @DeleteMapping("{noteId}")
     public ResponseEntity<NoteResponseDTO> deleteNotebookNote(
-            @PathVariable String notebookId,
-            @PathVariable String noteId
+            @PathVariable UUID notebookId,
+            @PathVariable UUID noteId
     ) {
-        try {
-            UUID notebookUuid = UUID.fromString(notebookId);
-            UUID noteUuid = UUID.fromString(noteId);
-            var note = noteService.deleteNote(notebookUuid, noteUuid);
-            return note != null ? ResponseEntity.ok(note) : ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        var note = noteService.deleteNote(notebookId, noteId);
+        return note != null ?
+                ResponseEntity.ok(note) :
+                ResponseEntity.notFound()
+                        .build();
     }
 }
