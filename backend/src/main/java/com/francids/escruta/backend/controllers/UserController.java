@@ -20,7 +20,8 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<BasicUser> authenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
 
         User currentUser = (User) authentication.getPrincipal();
         BasicUser basicUser = new BasicUser(currentUser);
@@ -32,11 +33,14 @@ public class UserController {
     public ResponseEntity<?> changeName(@RequestParam String newFullName) {
         try {
             userService.changeName(newFullName);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok()
+                    .build();
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError()
+                    .build();
         }
     }
 
@@ -44,11 +48,14 @@ public class UserController {
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
         try {
             userService.changePassword(changePasswordDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok()
+                    .build();
         } catch (BadCredentialsException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError()
+                    .build();
         }
     }
 }

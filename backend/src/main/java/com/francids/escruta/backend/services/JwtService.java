@@ -58,13 +58,8 @@ public class JwtService {
         return jwtExpiration;
     }
 
-    private String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration
-    ) {
-        return Jwts
-                .builder()
+    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+        return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -98,7 +93,8 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         try {
-            if (token == null || token.trim().isEmpty()) {
+            if (token == null || token.trim()
+                    .isEmpty()) {
                 logger.debug("Token is null or empty");
                 return null;
             }

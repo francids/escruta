@@ -17,7 +17,11 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthenticationService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -34,15 +38,12 @@ public class AuthenticationService {
 
     public User authenticate(LoginUserDto input) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            input.getEmail(),
-                            input.getPassword()
-                    )
-            );
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    input.getEmail(),
+                    input.getPassword()
+            ));
 
-            return userRepository
-                    .findByEmail(input.getEmail())
+            return userRepository.findByEmail(input.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User with the given email not found"));
         } catch (BadCredentialsException e) {
             return null;

@@ -31,11 +31,14 @@ public class AuthenticationController {
             loginResponse.setToken(jwtToken);
             loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(loginResponse);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(loginResponse);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
         }
     }
 
@@ -44,7 +47,8 @@ public class AuthenticationController {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         if (authenticatedUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .build();
         }
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
