@@ -10,6 +10,7 @@ import {
   RestartIcon,
   ExpandIcon,
   CompressIcon,
+  StarsIcon,
 } from "./icons";
 import {
   Button,
@@ -159,6 +160,16 @@ export default function SourceViewer({
                 <h2 className="truncate font-semibold">
                   {fullSource?.title || source.title || "Source viewer"}
                 </h2>
+                {(fullSource?.isConvertedByAi || source.isConvertedByAi) && (
+                  <Tooltip text="Converted by AI" position="bottom">
+                    <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-700 select-none">
+                      <div className="w-3.5 h-3.5 flex-shrink-0">
+                        <StarsIcon />
+                      </div>
+                      <span className="text-xs font-semibold">AI</span>
+                    </div>
+                  </Tooltip>
+                )}
               </div>
               <div className="flex gap-2">
                 <Tooltip

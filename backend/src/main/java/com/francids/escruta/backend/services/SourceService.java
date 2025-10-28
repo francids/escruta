@@ -36,7 +36,10 @@ public class SourceService {
     private final FileTextExtractionService fileTextExtractionService;
     private final AsyncVectorIndexingService asyncVectorIndexingService;
 
-    private record WebContent(String title, String content) {
+    private record WebContent(
+            String title,
+            String content
+    ) {
     }
 
     private WebContent fetchWebContent(String url) {
@@ -128,7 +131,7 @@ public class SourceService {
             }
 
             assert notebookOptional.isPresent();
-            Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content);
+            Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content, aiConverter);
             if (source.getTitle() == null || source.getTitle()
                     .trim()
                     .isEmpty()) {
@@ -207,20 +210,9 @@ public class SourceService {
             throw new RuntimeException("Error processing file: " + e.getMessage(), e);
         }
 
-        Source source;
-        try {
-            assert notebookOptional.isPresent();
-            source = new Source();
-            source.setNotebook(notebookOptional.get());
-            source.setIcon(newSourceDto.icon());
-            source.setTitle(newSourceDto.title());
-            source.setLink("file://" + file.getOriginalFilename());
-            source.setContent(content);
-
-            source = sourceRepository.save(source);
-        } catch (Exception e) {
-            throw new RuntimeException("Error while saving the source: " + e.getMessage(), e);
-        }
+        assert notebookOptional.isPresent();
+        Source source = sourceMapper.toSource(newSourceDto, notebookOptional.get(), content, aiConverter);
+        source = sourceRepository.save(source);
 
         generateAndSetSummary(source);
 

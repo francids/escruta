@@ -32,6 +32,9 @@ public class Source {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column(nullable = false)
+    private boolean isConvertedByAi = false;
+
     @Column(columnDefinition = "TEXT")
     private String summary;
 

@@ -10,6 +10,7 @@ public record SourceResponseDTO(
         UUID notebookId,
         String icon,
         String title,
+        boolean isConvertedByAi,
         String link,
         Timestamp createdAt,
         Timestamp updatedAt
@@ -17,9 +18,11 @@ public record SourceResponseDTO(
     public SourceResponseDTO(Source source) {
         this(
                 source.getId(),
-                source.getNotebook().getId(),
+                source.getNotebook()
+                        .getId(),
                 source.getIcon(),
                 source.getTitle(),
+                source.isConvertedByAi(),
                 source.getLink(),
                 source.getCreatedAt(),
                 source.getUpdatedAt()

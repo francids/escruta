@@ -1,6 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import type { Source } from "@/interfaces";
 import { getSourceIcon } from "../utils";
+import { StarsIcon } from "./icons";
+import { Tooltip } from "./ui";
 
 interface SourceChipProps {
   source: Source;
@@ -43,7 +45,7 @@ export default function SourceChip({
       role="button"
     >
       <div className="relative p-3 h-full flex items-center gap-3">
-        <div className="p-2 rounded-xs transition-all duration-300 bg-gray-100 dark:bg-gray-700 group-hover:bg-blue-100 dark:group-hover:bg-blue-800 flex-shrink-0">
+        <div className="shrink-0 p-2 rounded-xs transition-all duration-300 bg-gray-100 dark:bg-gray-700 group-hover:bg-blue-100 dark:group-hover:bg-blue-800">
           <div className="w-4 h-4 transition-all duration-300 transform group-hover:scale-110 text-gray-600 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400">
             {getSourceIcon(source)}
           </div>
@@ -53,6 +55,16 @@ export default function SourceChip({
             {source.title}
           </h2>
         </div>
+        {source.isConvertedByAi && (
+          <Tooltip text="Converted by AI" position="top">
+            <div className="flex-shrink-0 flex items-center gap-1.5 px-2 py-1 rounded-xs transition-all duration-300 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-700 group-hover:bg-blue-200 dark:group-hover:bg-blue-900 select-none">
+              <div className="w-3 h-3 flex-shrink-0">
+                <StarsIcon />
+              </div>
+              <span className="text-xs font-semibold">AI</span>
+            </div>
+          </Tooltip>
+        )}
       </div>
     </div>
   );

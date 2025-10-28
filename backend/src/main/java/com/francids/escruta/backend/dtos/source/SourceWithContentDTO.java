@@ -11,6 +11,7 @@ public record SourceWithContentDTO(
         String icon,
         String title,
         String content,
+        boolean isConvertedByAi,
         String summary,
         String link,
         Timestamp createdAt,
@@ -19,10 +20,12 @@ public record SourceWithContentDTO(
     public SourceWithContentDTO(Source source) {
         this(
                 source.getId(),
-                source.getNotebook().getId(),
+                source.getNotebook()
+                        .getId(),
                 source.getIcon(),
                 source.getTitle(),
                 source.getContent(),
+                source.isConvertedByAi(),
                 source.getSummary(),
                 source.getLink(),
                 source.getCreatedAt(),

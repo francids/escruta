@@ -29,7 +29,11 @@ export default function NotebookPage() {
     loading,
     error,
     refetch: refetchNotebook,
-  } = useFetch<NotebookContent>(`/notebooks/${notebookId}`);
+  } = useFetch<NotebookContent>(`/notebooks/${notebookId}`, {
+    onError: (err) => {
+      console.error("Error fetching notebook:", err);
+    },
+  });
 
   const [isRenameModalOpen, setIsRenameModalOpen] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
@@ -49,6 +53,7 @@ export default function NotebookPage() {
       id: sourceId,
       notebookId: notebookId,
       title: "",
+      isConvertedByAi: false,
       link: "",
       createdAt: new Date(),
       updatedAt: new Date(),
