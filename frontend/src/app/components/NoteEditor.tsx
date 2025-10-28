@@ -1,8 +1,16 @@
 import { lazy } from "react";
 import { useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { useFetch } from "@/hooks";
 import type { Note } from "@/interfaces";
-import { CloseIcon, DeleteIcon, EditIcon, SaveIcon } from "./icons";
+import {
+  CloseIcon,
+  CompressIcon,
+  DeleteIcon,
+  EditIcon,
+  ExpandIcon,
+  SaveIcon,
+} from "./icons";
 import { Button, Card, IconButton, Modal, TextField, Tooltip } from "./ui";
 const Editor = lazy(() => import("./Editor"));
 
@@ -21,6 +29,7 @@ export default function NoteEditor({
   className,
   onNoteDeleted,
 }: NoteEditorProps) {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const {
     data: fullNote,
     loading,
@@ -126,7 +135,12 @@ export default function NoteEditor({
   return (
     <>
       <Card
-        className={`${className} flex flex-col overflow-y-auto dark:bg-gray-800`}
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+        className={twMerge(
+          "flex flex-col overflow-y-auto dark:bg-gray-800",
+          className
+        )}
       >
         <div className="flex justify-between items-center flex-shrink-0 mb-2">
           <h2 className="text-lg font-sans font-semibold truncate">
@@ -166,6 +180,17 @@ export default function NoteEditor({
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsDeleteModalOpen(true)}
+              />
+            </Tooltip>
+            <Tooltip
+              text={isExpanded ? "Restore size" : "Expand"}
+              position="bottom"
+            >
+              <IconButton
+                icon={isExpanded ? <CompressIcon /> : <ExpandIcon />}
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsExpanded((s) => !s)}
               />
             </Tooltip>
             <Tooltip text="Close note" position="bottom">
