@@ -1,3 +1,5 @@
+<img src="./resources/Banner.webp" alt="Escruta Banner" width="100%" />
+
 # Escruta
 
 _"Think, ask, learn"_
