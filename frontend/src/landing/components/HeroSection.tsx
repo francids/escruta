@@ -17,8 +17,8 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="mx-auto z-10 relative flex flex-col justify-center items-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24">
-        <div className="w-full sm:w-auto flex flex-col items-center justify-center">
+      <div className="mx-auto z-10 relative flex flex-col justify-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24 md:bg-gray-900">
+        <div className="w-full max-w-xl flex flex-col items-center justify-center md:items-start">
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -39,7 +39,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="mb-6"
           >
-            <h1 className="text-[42px] sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center leading-12 sm:leading-16">
+            <h1 className="text-[42px] sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center md:text-start leading-12 sm:leading-16">
               Think, ask, <span className="text-blue-400">learn</span>
             </h1>
           </motion.div>
@@ -50,7 +50,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="relative mb-8"
           >
-            <p className="max-w-2xl text-lg sm:text-xl text-gray-400 text-center font-medium tracking-normal leading-8">
+            <p className="max-w-2xl text-lg sm:text-xl text-gray-400 text-center md:text-start font-medium tracking-normal leading-8">
               Organize, analyze, and learn from your own knowledge. Ask
               questions, take notes, and gain valuable insights, all in one
               platform.
@@ -61,7 +61,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="w-full flex flex-col md:flex-row justify-center items-center gap-4"
+            className="w-full md:w-auto flex flex-col md:flex-row justify-center gap-4"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
