@@ -1,4 +1,4 @@
-<img src="./resources/Banner.webp" alt="Escruta Banner" width="100%" />
+<img src="./resources/Banner.png" alt="Escruta Banner" width="100%" />
 
 # Escruta
 
