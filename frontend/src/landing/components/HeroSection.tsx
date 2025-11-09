@@ -1,22 +1,10 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
-
-import ScrollingGridBackground from "./backgrounds/ScrollingGridBackground";
-import GradientAnimationBackground from "./backgrounds/GradientAnimationBackground";
 import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
     <section className="relative pb-6 md:pb-0 w-full min-h-[calc(100vh-60px)] h-[calc(100vh-60px)] overflow-hidden bg-gray-900">
-      <ScrollingGridBackground />
-      <GradientAnimationBackground />
-
-      {/* Background Overlay */}
-      <div className="absolute inset-0 z-[9] overflow-hidden pointer-events-none">
-        <div className="h-full w-full bg-linear-to-t from-gray-900 via-gray-900/60 via-15% to-gray-900/5" />
-      </div>
-
-      {/* Content */}
       <div className="mx-auto z-10 relative flex flex-col justify-center size-full px-6 md:px-12 lg:px-24 pb-16 md:pb-24 md:bg-gray-900">
         <div className="w-full max-w-xl flex flex-col items-center justify-center md:items-start">
           <motion.div
