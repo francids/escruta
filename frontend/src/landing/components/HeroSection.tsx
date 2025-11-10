@@ -4,7 +4,7 @@ import { justLanding, repoUrl } from "@/config";
 
 export default function HeroSection() {
   return (
-    <section className="relative flex pb-6 md:pb-0 w-full min-h-[calc(100vh-60px)] h-[calc(100vh-0px)] overflow-hidden bg-gray-900 px-6">
+    <section className="relative flex pb-6 md:pb-0 w-full h-screen overflow-hidden bg-gray-900 px-6">
       <div className="w-full flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
@@ -82,9 +82,13 @@ export default function HeroSection() {
 
       <div
         onClick={() => {
-          document
-            .getElementById("showcase")
-            ?.scrollIntoView({ behavior: "smooth" });
+          const elementPosition = document
+            .getElementById("showcase")!
+            .getBoundingClientRect().top;
+          window.scrollTo({
+            top: elementPosition + window.pageYOffset - 60,
+            behavior: "smooth",
+          });
         }}
         className="animate-[var(--animate-slow-bounce)] rounded-xs absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-8 bg-blue-900/30 backdrop-blur-md border border-blue-800 hidden md:flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-10 text-blue-400"
       >
