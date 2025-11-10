@@ -9,38 +9,6 @@
   ],
   "rewrites": [
     {
-      "source": "/docs",
-      "destination": "/docs/index.html"
-    },
-    {
-      "source": "/docs/features/audio-summary",
-      "destination": "/docs/features/audio-summary/index.html"
-    },
-    {
-      "source": "/docs/features/flashcards",
-      "destination": "/docs/features/flashcards/index.html"
-    },
-    {
-      "source": "/docs/features/mind-map",
-      "destination": "/docs/features/mind-map/index.html"
-    },
-    {
-      "source": "/docs/features/notebooks",
-      "destination": "/docs/features/notebooks/index.html"
-    },
-    {
-      "source": "/docs/features/notes",
-      "destination": "/docs/features/notes/index.html"
-    },
-    {
-      "source": "/docs/features/sources",
-      "destination": "/docs/features/sources/index.html"
-    },
-    {
-      "source": "/docs/features/study-guide",
-      "destination": "/docs/features/study-guide/index.html"
-    },
-    {
       "source": "/home",
       "destination": "/home/index.html"
     },
