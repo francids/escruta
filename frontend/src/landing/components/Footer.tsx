@@ -15,13 +15,13 @@ interface FooterSection {
 }
 
 const footerSections: FooterSection[] = [
-  {
-    title: "Product",
-    links: [
-      // { name: "Pricing", href: "/pricing" },
-      { name: "Documentation", href: "/docs" },
-    ],
-  },
+  // {
+  //   title: "Product",
+  //   links: [
+  //     // { name: "Pricing", href: "/pricing" },
+  //     // { name: "Documentation", href: "/docs" },
+  //   ],
+  // },
   // {
   //   title: "Resources",
   //   links: [{ name: "Blog", href: "/blog" }],

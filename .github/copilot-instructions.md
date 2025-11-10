@@ -39,7 +39,6 @@ services/        # Business logic layer
 app/            # Protected routes (/app/*) with lazy-loaded pages
 auth/           # Authentication flow (/login, /register)
 contexts/       # React contexts for global state
-docs/           # Documentation pages (/docs/*)
 hooks/          # Custom React hooks (useAuth, useTheme, etc.)
 interfaces/     # TypeScript interfaces
 landing/        # Public marketing pages

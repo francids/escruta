@@ -32,7 +32,6 @@ src/
 │   └── utils/           # Helper functions and utilities
 ├── auth/                # Authentication flow (login, register)
 ├── contexts/            # Global React contexts for shared state
-├── docs/                # Documentation files and guides
 ├── hooks/               # Custom React hooks for data fetching and state logic
 ├── landing/             # Public landing page and components
 ├── providers/           # Context providers and application-wide state management

@@ -10,17 +10,7 @@ import type { PreviewServer } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const routes = [
-  "/home",
-  "/docs",
-  "/docs/features/audio-summary",
-  "/docs/features/flashcards",
-  "/docs/features/mind-map",
-  "/docs/features/notebooks",
-  "/docs/features/notes",
-  "/docs/features/sources",
-  "/docs/features/study-guide",
-];
+const ROUTE = "/home";
 
 class PrerenderService {
   private server: PreviewServer | null = null;
@@ -62,21 +52,50 @@ class PrerenderService {
     });
   }
 
-  async prerenderRoutes(): Promise<void> {
-    console.log(`Prerendering ${routes.length} routes...`);
+  async prerenderRoute(): Promise<void> {
+    console.log(`Prerendering ${ROUTE}...`);
 
     await this.testConnection();
 
-    for (const route of routes) {
-      try {
-        await this.prerenderRoute(route);
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      } catch (error) {
-        console.error(
-          `Failed to prerender ${route}:`,
-          (error as Error).message
-        );
+    try {
+      const startTime = Date.now();
+
+      if (!this.page) {
+        throw new Error("Page not initialized");
       }
+
+      if (!this.server?.resolvedUrls?.local) {
+        throw new Error("Server URL not available");
+      }
+
+      await this.page.goto(
+        new URL(ROUTE, this.server?.resolvedUrls?.local[0]).toString(),
+        {
+          waitUntil: "domcontentloaded",
+          timeout: 15000,
+        }
+      );
+
+      await this.page
+        .waitForFunction(
+          () =>
+            (document.querySelector("[data-reactroot], #root")?.children
+              .length ?? 0) > 0,
+          { timeout: 5000 }
+        )
+        .catch(() => {});
+
+      const content = await this.page.content();
+      const filePath = this.getFilePath(ROUTE);
+
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      fs.writeFileSync(filePath, content);
+
+      const duration = Date.now() - startTime;
+      console.log(`${ROUTE} (${duration}ms)`);
+    } catch (error) {
+      console.error(`Failed to prerender ${ROUTE}:`, (error as Error).message);
+      throw error;
     }
   }
 
@@ -107,44 +126,6 @@ class PrerenderService {
     throw new Error("Cannot connect to server after 5 attempts");
   }
 
-  private async prerenderRoute(route: string): Promise<void> {
-    const startTime = Date.now();
-
-    if (!this.page) {
-      throw new Error("Page not initialized");
-    }
-
-    if (!this.server?.resolvedUrls?.local) {
-      throw new Error("Server URL not available");
-    }
-
-    await this.page.goto(
-      new URL(route, this.server?.resolvedUrls?.local[0]).toString(),
-      {
-        waitUntil: "domcontentloaded",
-        timeout: 15000,
-      }
-    );
-
-    await this.page
-      .waitForFunction(
-        () =>
-          (document.querySelector("[data-reactroot], #root")?.children.length ??
-            0) > 0,
-        { timeout: 5000 }
-      )
-      .catch(() => {});
-
-    const content = await this.page.content();
-    const filePath = this.getFilePath(route);
-
-    fs.mkdirSync(path.dirname(filePath), { recursive: true });
-    fs.writeFileSync(filePath, content);
-
-    const duration = Date.now() - startTime;
-    console.log(`${route} (${duration}ms)`);
-  }
-
   private getFilePath(route: string): string {
     const routePath = route.replace(/^\//, "") || "index";
     return path.join(__dirname, "..", "..", "dist", routePath, "index.html");
@@ -168,7 +149,7 @@ async function prerender(): Promise<void> {
 
   try {
     await service.start();
-    await service.prerenderRoutes();
+    await service.prerenderRoute();
     createSitemap();
     console.log("Prerender complete!");
   } catch (error) {
