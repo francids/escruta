@@ -9,6 +9,7 @@ interface ChipProps {
   variant?: ChipVariants;
   icon?: React.ReactNode;
   title?: string;
+  multiline?: boolean;
 }
 
 export default function Chip({
@@ -18,6 +19,7 @@ export default function Chip({
   variant = "default",
   icon,
   title,
+  multiline = false,
 }: ChipProps) {
   const base =
     "inline-flex items-center gap-2 rounded-xs px-3 py-1 text-sm font-medium transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900";
@@ -46,7 +48,7 @@ export default function Chip({
       className={twMerge(base, variantStyles[variant], className)}
     >
       {icon && <span className="flex items-center">{icon}</span>}
-      <span className="truncate">{children}</span>
+      <span className={multiline ? "text-clip" : "truncate"}>{children}</span>
     </div>
   );
 }

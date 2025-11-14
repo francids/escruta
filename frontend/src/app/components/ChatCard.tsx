@@ -423,6 +423,53 @@ export default function ChatCard({
                     : "Generate summary"}
                 </Button>
               )}
+
+              {/* Example questions */}
+              {messages.length === 0 && !isChatLoading && (
+                <div className="mt-6">
+                  {isExampleQuestionsLoading ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Loading example questions...
+                    </p>
+                  ) : exampleQuestionsError ? (
+                    <p className="text-sm text-red-500">
+                      Error: {exampleQuestionsError.message}
+                    </p>
+                  ) : exampleQuestions &&
+                    exampleQuestions.questions &&
+                    exampleQuestions.questions.length > 0 ? (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-semibold text-foreground">
+                          Example questions
+                        </h4>
+                        <IconButton
+                          icon={<RestartIcon />}
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            refetchExampleQuestions(true);
+                          }}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {exampleQuestions.questions.map((question, index) => (
+                          <Chip
+                            key={index}
+                            onClick={() => {
+                              setInput(question);
+                            }}
+                            multiline
+                            className="w-full justify-start text-left"
+                          >
+                            {question}
+                          </Chip>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-muted-foreground w-full max-w-lg mx-auto my-auto py-8">
@@ -438,55 +485,8 @@ export default function ChatCard({
       )}
       <Divider className="mt-0" />
       <div className="pb-4 flex-shrink-0">
-        {/* Example questions */}
-        <div className="pt-1">
-          {messages.length === 0 && !isChatLoading && sourcesCount > 0 && (
-            <div className="mb-3">
-              {isExampleQuestionsLoading ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Loading example questions...
-                </p>
-              ) : exampleQuestionsError ? (
-                <p className="text-sm text-red-500">
-                  Error: {exampleQuestionsError.message}
-                </p>
-              ) : exampleQuestions &&
-                exampleQuestions.questions &&
-                exampleQuestions.questions.length > 0 ? (
-                <div className="flex gap-2 overflow-x-auto py-1">
-                  <span className="flex gap-2">
-                    {exampleQuestions.questions.map((question, index) => (
-                      <Chip
-                        key={index}
-                        onClick={() => {
-                          setInput(question);
-                        }}
-                      >
-                        {question}
-                      </Chip>
-                    ))}
-                  </span>
-                  <IconButton
-                    icon={<RestartIcon />}
-                    variant="ghost"
-                    size="sm"
-                    className="flex-shrink-0"
-                    onClick={() => {
-                      refetchExampleQuestions(true);
-                    }}
-                  />
-                </div>
-              ) : (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  No example questions available.
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-
         {/* Chat input */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pt-1">
           {messages.length > 0 ? (
             <Tooltip text="Clear chat" position="top">
               <IconButton
