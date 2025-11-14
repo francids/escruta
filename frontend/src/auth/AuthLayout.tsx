@@ -1,9 +1,11 @@
-import { Outlet, Link } from "react-router";
+import { Outlet, Link, Navigate } from "react-router";
 import { motion } from "motion/react";
 import Logotype from "@/shared/Logotype";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks";
 
 export default function AuthLayout() {
+  const { isAuthenticated } = useAuth();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   useEffect(() => {
@@ -14,6 +16,10 @@ export default function AuthLayout() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  if (isAuthenticated()) {
+    return <Navigate to="/app" />;
+  }
 
   return (
     <main>
