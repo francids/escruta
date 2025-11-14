@@ -72,10 +72,10 @@ export default function NotebookPage() {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing) return;
 
-      const containerWidth = window.innerWidth - 32;
+      const containerWidth = window.innerWidth - 46;
       const newWidth = Math.min(
         Math.max(((e.clientX - 16) / containerWidth) * 100, 30),
-        50
+        64
       );
       setLeftPanelWidth(newWidth);
     };
