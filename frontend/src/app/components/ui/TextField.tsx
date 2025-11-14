@@ -1,19 +1,31 @@
+import { useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
-type TextFieldProps = {
+interface TextFieldBaseProps {
   id: string;
   label?: string;
-  type?: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   autoFocus?: boolean;
   autoComplete?: string;
-};
+}
+
+interface TextFieldSingleLineProps extends TextFieldBaseProps {
+  multiline?: false;
+  type?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
+
+interface TextFieldMultiLineProps extends TextFieldBaseProps {
+  multiline: true;
+  type?: never;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+}
 
 export default function TextField({
   id,
@@ -28,7 +40,21 @@ export default function TextField({
   disabled = false,
   autoFocus = false,
   autoComplete,
-}: TextFieldProps) {
+  multiline = false,
+}: TextFieldSingleLineProps | TextFieldMultiLineProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (multiline && textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+    }
+  }, [value, multiline]);
+
+  const inputClassName =
+    "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400 resize-none";
+
   return (
     <div className={label ? twMerge(`mb-4 ${className}`) : className}>
       {label && (
@@ -39,19 +65,52 @@ export default function TextField({
           {label}
         </label>
       )}
-      <input
-        type={type}
-        id={id}
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        autoFocus={autoFocus}
-        autoComplete={autoComplete}
-      />
+      {multiline ? (
+        <textarea
+          ref={textareaRef}
+          id={id}
+          value={value}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            e.target.style.height = "auto";
+            e.target.style.height = e.target.scrollHeight + "px";
+            (onChange as (e: React.ChangeEvent<HTMLTextAreaElement>) => void)(
+              e
+            );
+          }}
+          onKeyDown={
+            onKeyDown as
+              | ((e: React.KeyboardEvent<HTMLTextAreaElement>) => void)
+              | undefined
+          }
+          className={inputClassName}
+          placeholder={placeholder}
+          required={required}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          rows={1}
+          style={{ minHeight: "42px" }}
+        />
+      ) : (
+        <input
+          type={type}
+          id={id}
+          value={value}
+          onChange={
+            onChange as (e: React.ChangeEvent<HTMLInputElement>) => void
+          }
+          onKeyDown={
+            onKeyDown as
+              | ((e: React.KeyboardEvent<HTMLInputElement>) => void)
+              | undefined
+          }
+          className={inputClassName}
+          placeholder={placeholder}
+          required={required}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          autoComplete={autoComplete}
+        />
+      )}
     </div>
   );
 }

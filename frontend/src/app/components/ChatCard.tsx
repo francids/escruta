@@ -503,18 +503,26 @@ export default function ChatCard({
           ) : null}
           <TextField
             id="chat-input"
-            type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === "Enter" && !isChatLoading && input.trim()) {
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setInput(e.target.value)
+            }
+            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              if (
+                e.key === "Enter" &&
+                !e.shiftKey &&
+                !isChatLoading &&
+                input.trim()
+              ) {
+                e.preventDefault();
                 handleSendMessage();
               }
             }}
-            placeholder="Type your message..."
+            placeholder="Ask a question..."
             className="flex-grow"
             disabled={isChatLoading}
             autoFocus
+            multiline
           />
           <IconButton
             icon={<SendIcon />}
