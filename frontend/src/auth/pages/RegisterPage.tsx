@@ -155,7 +155,7 @@ export default function RegisterPage() {
       />
       <motion.form
         onSubmit={handleSubmit}
-        className="relative w-full bg-transparent text-gray-800 dark:text-gray-200"
+        className="relative w-full bg-transparent text-gray-800 dark:text-gray-200 pb-6"
         initial={{ opacity: 0, scale: 0.95, y: -20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
@@ -216,6 +216,7 @@ export default function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400"
+            placeholder="john@example.com"
             required
             autoComplete="email"
           />

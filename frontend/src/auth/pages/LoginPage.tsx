@@ -145,7 +145,7 @@ export default function LoginPage() {
       />
       <motion.form
         onSubmit={handleSubmit}
-        className="relative w-full bg-transparent text-gray-800 dark:text-gray-200"
+        className="relative w-full bg-transparent text-gray-800 dark:text-gray-200 pb-6"
         initial={{ opacity: 0, scale: 0.95, y: -20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{
