@@ -94,7 +94,7 @@ class ChatController {
                 ExampleQuestions exampleQuestions = ChatClient.create(chatModel)
                         .prompt()
                         .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
-                        .user("Based on the context provided, generate three diverse and concise questions that can be answered from the sources.")
+                        .user("Based on the provided context, generate three simple, short, and concise questions that can be answered using the sources.")
                         .call()
                         .entity(ExampleQuestions.class);
 
