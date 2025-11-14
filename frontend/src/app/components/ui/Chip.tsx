@@ -20,13 +20,13 @@ export default function Chip({
   title,
 }: ChipProps) {
   const base =
-    "inline-flex items-center gap-2 rounded-xs px-3 py-1 text-sm font-medium transition-colors select-none";
+    "inline-flex items-center gap-2 rounded-xs px-3 py-1 text-sm font-medium transition-all duration-300 select-none focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900";
 
   const variantStyles: Record<ChipVariants, string> = {
     default:
-      "bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400",
+      "bg-gray-50/50 text-gray-600 hover:bg-gray-100 hover:text-gray-800 dark:bg-gray-800/30 dark:text-gray-400 dark:hover:bg-gray-700/50 dark:hover:text-gray-300 focus:ring-blue-400/50 border border-gray-200/50 dark:border-gray-700/50",
     primary:
-      "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
+      "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-blue-500",
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
