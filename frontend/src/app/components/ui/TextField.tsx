@@ -53,7 +53,7 @@ export default function TextField({
   }, [value, multiline]);
 
   const inputClassName =
-    "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400 resize-none";
+    "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 focus:ring-blue-500 dark:focus:ring-blue-400 resize-none";
 
   return (
     <div className={label ? twMerge(`mb-4 ${className}`) : className}>
