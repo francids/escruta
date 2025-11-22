@@ -44,37 +44,45 @@ export default function useFetch<T = unknown>(
   options?: UseFetchOptions<T>,
   immediate: boolean = true
 ): UseFetchReturn<T> {
-  const [state, setState] = useState<UseFetchState<T>>({
-    data: null,
-    loading: false,
-    error: null,
-  });
   const [token] = useCookie<Token>(AUTH_TOKEN_KEY);
 
   const memoizedCacheTime = useMemo(() => {
     return options?.cacheTime ?? 5 * 60 * 1000;
   }, [options?.cacheTime]);
 
+  const cacheKey = useMemo(
+    () => generateCacheKey(endpoint, options),
+    [endpoint, options]
+  );
+
+  const cachedItem = cache[cacheKey];
+  const now = Date.now();
+  const hasValidCache =
+    cachedItem &&
+    now - cachedItem.timestamp < memoizedCacheTime &&
+    !options?.skipCache &&
+    memoizedCacheTime > 0;
+
+  const [state, setState] = useState<UseFetchState<T>>({
+    data: hasValidCache ? (cachedItem.data as T) : null,
+    loading: immediate && !hasValidCache,
+    error: null,
+  });
+
   const optionsRef = useRef(options);
   useEffect(() => {
     optionsRef.current = options;
   }, [options]);
 
-  const cacheKey = useRef<string>(generateCacheKey(endpoint, options));
-  useEffect(() => {
-    cacheKey.current = generateCacheKey(endpoint, options);
-  }, [endpoint, options]);
-
   const fetchData = useCallback(
     async (forcedUpdate: boolean): Promise<void> => {
       const currentOptions = optionsRef.current;
-      const currentCacheKey = cacheKey.current;
       const effectiveCacheTime = memoizedCacheTime;
 
       const skipCache =
         forcedUpdate || currentOptions?.skipCache || effectiveCacheTime <= 0;
 
-      const cachedItem = cache[currentCacheKey];
+      const cachedItem = cache[cacheKey];
       const now = Date.now();
 
       if (
@@ -93,7 +101,11 @@ export default function useFetch<T = unknown>(
         return;
       }
 
-      setState((prev) => ({ ...prev, loading: true, error: null }));
+      setState((prev) => ({
+        ...prev,
+        loading: true,
+        error: null,
+      }));
 
       try {
         const requestConfig: AxiosRequestConfig = {
@@ -109,7 +121,7 @@ export default function useFetch<T = unknown>(
         const response: AxiosResponse<T> = await backendClient(requestConfig);
 
         if (effectiveCacheTime > 0) {
-          cache[currentCacheKey] = {
+          cache[cacheKey] = {
             data: response.data,
             timestamp: now,
           };
@@ -146,14 +158,14 @@ export default function useFetch<T = unknown>(
         }
       }
     },
-    [endpoint, token, memoizedCacheTime]
+    [endpoint, token, memoizedCacheTime, cacheKey]
   );
 
   useEffect(() => {
-    if (immediate) {
+    if (immediate && !hasValidCache) {
       fetchData(false);
     }
-  }, [fetchData, immediate]);
+  }, [fetchData, immediate, hasValidCache]);
 
   return {
     ...state,
