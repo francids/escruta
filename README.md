@@ -15,8 +15,7 @@ _"Think, ask, learn"_
 - **Source Management**: Upload and manage your documents. When you provide a web link, Escruta processes it into a clean, readable document for analysis. Escruta uses these materials as the sole knowledge base for its AI.
 - **Context-Aware AI Chat**: Engage in a dialogue with an AI that understands your documents. Ask complex questions, clarify concepts, and get answers based only on the sources you've provided.
 - **Integrated Note-Taking**: Capture your thoughts and summaries directly within your notebooks. Keep your insights connected to your source material.
-- **Audio Summaries**: Listen to your knowledge. Generate and play audio summaries from your notebook's sources, perfect for on-the-go learning and revision.
-- **Mind Maps**: Visualize the big picture. Automatically generate mind maps that illustrate the connections and hierarchies between topics in your sources.
+- **Study and Learning Tools**: Generate audio summaries, mind maps, study guides, flashcards, and questionnaires to enhance your learning experience.
 
 ## Technology Stack
 
