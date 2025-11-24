@@ -149,8 +149,8 @@ export default function RegisterPage() {
       <SEOMetadata
         title="Register - Escruta"
         description="Create your free Escruta account and start organizing your knowledge with AI-powered research tools."
-        url="https://escruta.francids.com/register"
-        image="https://escruta.francids.com/OpenGraphImage.webp"
+        url="https://escruta.com/register"
+        image="https://escruta.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <motion.form

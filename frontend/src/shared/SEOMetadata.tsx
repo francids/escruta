@@ -11,7 +11,7 @@ interface SEOMetadataProps {
   locale?: string;
 }
 
-const baseUrl = "https://escruta.francids.com";
+const baseUrl = "https://escruta.com";
 const defaultImage = `${baseUrl}/OpenGraphImage.webp`;
 const defaultAuthor = "Francisco Mesa";
 const defaultSiteName = "Escruta";

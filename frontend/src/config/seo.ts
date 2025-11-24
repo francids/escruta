@@ -1,4 +1,4 @@
-const baseUrl = "https://escruta.francids.com";
+const baseUrl = "https://escruta.com";
 
 export interface RouteMetadata {
   title: string;

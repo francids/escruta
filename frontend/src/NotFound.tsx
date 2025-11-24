@@ -7,8 +7,8 @@ export default function NotFound() {
       <SEOMetadata
         title="404 - Page Not Found - Escruta"
         description="The page you are looking for does not exist. Return to Escruta's homepage to continue your research journey."
-        url="https://escruta.francids.com/404"
-        image="https://escruta.francids.com/OpenGraphImage.webp"
+        url="https://escruta.com/404"
+        image="https://escruta.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <h1 className="text-4xl font-bold mb-2">404 Not Found</h1>

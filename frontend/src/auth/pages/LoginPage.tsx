@@ -139,8 +139,8 @@ export default function LoginPage() {
       <SEOMetadata
         title="Login - Escruta"
         description="Sign in to your Escruta account to access your research notebooks, notes, and AI-powered study tools."
-        url="https://escruta.francids.com/login"
-        image="https://escruta.francids.com/OpenGraphImage.webp"
+        url="https://escruta.com/login"
+        image="https://escruta.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <motion.form

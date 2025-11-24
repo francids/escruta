@@ -8,8 +8,8 @@ export default function SettingsPage() {
       <SEOMetadata
         title="Settings - Escruta"
         description="Configure your Escruta account settings, appearance preferences, and application behavior."
-        url="https://escruta.francids.com/app/settings"
-        image="https://escruta.francids.com/OpenGraphImage.webp"
+        url="https://escruta.com/app/settings"
+        image="https://escruta.com/OpenGraphImage.webp"
         twitterCard="summary_large_image"
       />
       <motion.div
