@@ -1,5 +1,6 @@
 import { useState, useImperativeHandle, forwardRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { twMerge } from "tailwind-merge";
 
 type TabItem = {
   id: string;
@@ -45,7 +46,7 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     const activeTab = items.find((tab) => tab.id === activeTabId);
 
     return (
-      <div className={`w-full relative ${className}`}>
+      <div className={twMerge("w-full relative", className)}>
         <div className="flex w-full justify-start p-1 bg-gray-50 dark:bg-gray-800/80 rounded-xs border border-gray-200 dark:border-gray-600">
           {items.map((tab, index) => (
             <div key={index} className="relative w-full group">

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 
 type MenuItem = {
   label: string;
@@ -50,7 +51,7 @@ export default function Menu({
   }, []);
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={twMerge("relative", className)}>
       <div onClick={toggleMenu} ref={triggerRef}>
         {trigger}
       </div>

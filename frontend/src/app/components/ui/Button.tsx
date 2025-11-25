@@ -36,9 +36,10 @@ export default function Button({
     <button
       onClick={onClick}
       className={twMerge(
-        `${baseStyles} ${variantStyles[variant]} ${
-          disabled ? disabledStyles : ""
-        } ${className}`
+        baseStyles,
+        variantStyles[variant],
+        disabled ? disabledStyles : "",
+        className
       )}
       type="button"
       disabled={disabled}

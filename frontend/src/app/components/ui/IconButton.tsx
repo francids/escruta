@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 type IconButtonProps = {
   icon: React.ReactNode;
   onClick?: () => void;
@@ -46,9 +48,13 @@ export default function IconButton({
   return (
     <button
       onClick={onClick}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
-        disabled ? disabledStyles : ""
-      } ${className}`}
+      className={twMerge(
+        baseStyles,
+        variantStyles[variant],
+        sizeStyles[size],
+        disabled ? disabledStyles : "",
+        className
+      )}
       type="button"
       disabled={disabled}
       aria-label={ariaLabel}
