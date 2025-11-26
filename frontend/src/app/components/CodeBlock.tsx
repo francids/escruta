@@ -12,6 +12,7 @@ import xml from "highlight.js/lib/languages/xml";
 import css from "highlight.js/lib/languages/css";
 import sql from "highlight.js/lib/languages/sql";
 import markdown from "highlight.js/lib/languages/markdown";
+import { cn } from "@/lib/utils";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("typescript", typescript);
@@ -57,9 +58,10 @@ export default function CodeBlock({
   return (
     <code
       ref={codeRef}
-      className={`block bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xs p-6 overflow-x-auto font-mono text-sm leading-relaxed whitespace-pre ${
-        className || ""
-      }`}
+      className={cn(
+        "block bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-xs p-6 overflow-x-auto font-mono text-sm leading-relaxed whitespace-pre",
+        className
+      )}
     >
       {children}
     </code>

@@ -21,6 +21,7 @@ import SourceViewer from "../components/SourceViewer";
 import ToolsCard from "../components/ToolsCard";
 import SEOMetadata from "@/shared/SEOMetadata";
 import { generateNotebookMetadata } from "@/config/seo";
+import { cn } from "@/lib/utils";
 
 export default function NotebookPage() {
   const notebookId: string = useLoaderData();
@@ -299,9 +300,9 @@ export default function NotebookPage() {
       <div className="flex-1 p-4 bg-gray-50 dark:bg-gray-950 overflow-hidden">
         <section className="flex h-full overflow-hidden gap-1">
           <motion.div
-            className={`min-h-0 flex flex-col overflow-hidden ${
-              isResizing ? "" : "transition-all duration-200 ease-out"
-            }`}
+            className={cn("min-h-0 flex flex-col overflow-hidden", {
+              "transition-all duration-200 ease-out": !isResizing,
+            })}
             style={{ width: `${leftPanelWidth ?? 33}%` }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -442,18 +443,18 @@ export default function NotebookPage() {
             transition={{ duration: 0.3, delay: 0.2 }}
           >
             <div
-              className={`w-1 h-8 rounded-xs transition-all duration-150 ${
-                isResizing
-                  ? "bg-blue-500 dark:bg-blue-400"
-                  : "bg-gray-300/60 dark:bg-gray-600 group-hover:bg-blue-400 dark:group-hover:bg-blue-500"
-              }`}
+              className={cn("w-1 h-8 rounded-xs transition-all duration-150", {
+                "bg-blue-500 dark:bg-blue-400": isResizing,
+                "bg-gray-300/60 dark:bg-gray-600 group-hover:bg-blue-400 dark:group-hover:bg-blue-500":
+                  !isResizing,
+              })}
             />
           </motion.div>
 
           <motion.div
-            className={`min-h-0 flex flex-col overflow-hidden ${
-              isResizing ? "" : "transition-all duration-200 ease-out"
-            }`}
+            className={cn("min-h-0 flex flex-col overflow-hidden", {
+              "transition-all duration-200 ease-out": !isResizing,
+            })}
             style={{ width: `${100 - (leftPanelWidth ?? 33)}%` }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type DividerProps = {
   className?: string;
@@ -14,7 +14,7 @@ export default function Divider({
   if (orientation === "vertical") {
     return (
       <div
-        className={twMerge(
+        className={cn(
           "inline-block h-full w-px bg-gray-200 dark:bg-gray-700",
           className
         )}
@@ -24,7 +24,7 @@ export default function Divider({
 
   if (label) {
     return (
-      <div className={twMerge("relative flex items-center py-2", className)}>
+      <div className={cn("relative flex items-center py-2", className)}>
         <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
         <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">
           {label}
@@ -36,7 +36,7 @@ export default function Divider({
 
   return (
     <hr
-      className={twMerge(
+      className={cn(
         "border-t border-gray-200 dark:border-gray-700 my-2",
         className
       )}

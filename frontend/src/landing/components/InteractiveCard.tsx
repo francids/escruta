@@ -1,5 +1,5 @@
 import { useCardMouseEffect } from "@/hooks";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 interface InteractiveCardProps {
@@ -35,11 +35,12 @@ export default function InteractiveCard({
   return (
     <div
       ref={cardRef}
-      className={twMerge(
+      className={cn(
         "group relative p-6 md:p-8 rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden",
-        !isDesktop
-          ? "active:ring-2 active:ring-offset-2 active:ring-offset-transparent active:outline-0 active:ring-blue-500"
-          : "",
+        {
+          "active:ring-2 active:ring-offset-2 active:ring-offset-transparent active:outline-0 active:ring-blue-500":
+            !isDesktop,
+        },
         className
       )}
       onMouseDown={handleMouseDown}
@@ -50,18 +51,26 @@ export default function InteractiveCard({
       {isDesktop && (
         <>
           <div
-            className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${
-              showDesktopEffect ? "opacity-100" : "opacity-0"
-            }`}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-300 pointer-events-none",
+              {
+                "opacity-100": showDesktopEffect,
+                "opacity-0": !showDesktopEffect,
+              }
+            )}
             style={{
               background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.1), transparent 60%)`,
             }}
           />
 
           <div
-            className={`absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none ${
-              showDesktopEffect ? "opacity-100" : "opacity-0"
-            }`}
+            className={cn(
+              "absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none",
+              {
+                "opacity-100": showDesktopEffect,
+                "opacity-0": !showDesktopEffect,
+              }
+            )}
             style={{
               background: `radial-gradient(300px circle at ${relativeMouseX}px ${relativeMouseY}px, rgba(59, 130, 246, 0.6), transparent 60%)`,
               padding: "1px",
@@ -74,9 +83,13 @@ export default function InteractiveCard({
           />
 
           <div
-            className={`absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none ${
-              isPressed ? "opacity-100" : "opacity-0"
-            }`}
+            className={cn(
+              "absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none",
+              {
+                "opacity-100": isPressed,
+                "opacity-0": !isPressed,
+              }
+            )}
             style={{
               background: `linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(30, 64, 175, 0.6))`,
               padding: "1px",
@@ -92,9 +105,13 @@ export default function InteractiveCard({
 
       {!isDesktop && (
         <div
-          className={`absolute inset-0 rounded-xs transition-opacity duration-150 pointer-events-none ${
-            isTouched ? "opacity-100" : "opacity-0"
-          }`}
+          className={cn(
+            "absolute inset-0 rounded-xs transition-opacity duration-150 pointer-events-none",
+            {
+              "opacity-100": isTouched,
+              "opacity-0": !isTouched,
+            }
+          )}
           style={{
             background: `linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(30, 64, 175, 0.2))`,
           }}

@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { useFetch } from "@/hooks";
 import type { Note } from "@/interfaces";
 import {
@@ -137,7 +137,7 @@ export default function NoteEditor({
       <Card
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
-        className={twMerge(
+        className={cn(
           "flex flex-col overflow-y-auto dark:bg-gray-800",
           className
         )}

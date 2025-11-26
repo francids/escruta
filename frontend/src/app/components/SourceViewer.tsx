@@ -24,7 +24,7 @@ import {
 import Markdown from "react-markdown";
 const CodeBlock = lazy(() => import("./CodeBlock"));
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface SourceViewerProps {
   notebookId: string;
@@ -144,7 +144,7 @@ export default function SourceViewer({
       <Card
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
-        className={twMerge(
+        className={cn(
           "flex flex-col overflow-y-auto p-0 dark:bg-gray-800",
           className
         )}

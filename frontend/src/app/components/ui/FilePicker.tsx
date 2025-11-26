@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 type FilePickerProps = {
@@ -59,13 +59,15 @@ export default function FilePicker({
     }
   };
 
-  const baseStyles = twMerge(
+  const baseStyles = cn(
     "relative w-full border-2 border-dashed rounded-xs transition-all duration-200 cursor-pointer",
     "border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800",
     "hover:border-blue-400 hover:bg-blue-50 dark:hover:border-blue-500 dark:hover:bg-gray-700",
-    dragOver && "border-blue-500 bg-blue-50 dark:bg-gray-700",
-    disabled &&
-      "opacity-50 cursor-not-allowed hover:border-gray-300 hover:bg-gray-50 dark:hover:border-gray-600 dark:hover:bg-gray-800",
+    {
+      "opacity-50 cursor-not-allowed hover:border-gray-300 hover:bg-gray-50 dark:hover:border-gray-600 dark:hover:bg-gray-800":
+        disabled,
+      "border-blue-500 bg-blue-50 dark:bg-gray-700": dragOver,
+    },
     className
   );
 

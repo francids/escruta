@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type MenuItem = {
   label: string;
@@ -51,7 +51,7 @@ export default function Menu({
   }, []);
 
   return (
-    <div className={twMerge("relative", className)}>
+    <div className={cn("relative", className)}>
       <div onClick={toggleMenu} ref={triggerRef}>
         {trigger}
       </div>
@@ -59,19 +59,24 @@ export default function Menu({
       {isOpen && (
         <div
           ref={menuRef}
-          className={`absolute z-10 mt-2 rounded-xs bg-white shadow-lg dark:bg-gray-800 border border-gray-200 dark:border-gray-600 ${
-            align === "right" ? "right-0" : "left-0"
-          }`}
+          className={cn(
+            "absolute z-10 mt-2 rounded-xs bg-white shadow-lg dark:bg-gray-800 border border-gray-200 dark:border-gray-600",
+            {
+              "right-0": align === "right",
+              "left-0": align === "left",
+            }
+          )}
         >
           <div className="py-1">
             {items.map((item, index) => (
               <button
                 key={index}
-                className={`flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 ${
-                  item.variant === "danger"
-                    ? "text-red-600 dark:text-red-400"
-                    : ""
-                }`}
+                className={cn(
+                  "flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
+                  {
+                    "text-red-600 dark:text-red-400": item.variant === "danger",
+                  }
+                )}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsOpen(false);

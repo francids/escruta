@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useLayoutEffect } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { createPortal } from "react-dom";
 
 interface TooltipProps {
@@ -130,7 +130,7 @@ export default function Tooltip({
     <>
       <div
         ref={triggerRef}
-        className={twMerge("relative", className)}
+        className={cn("relative", className)}
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
       >

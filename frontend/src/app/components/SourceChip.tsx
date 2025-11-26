@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import type { Source } from "@/interfaces";
 import { getSourceIcon } from "../utils";
 import { StarsIcon } from "./icons";
@@ -15,25 +15,24 @@ export default function SourceChip({
   className,
   onSourceSelect,
 }: SourceChipProps) {
-  const baseClasses = `
-    group relative overflow-hidden rounded-xs border cursor-pointer 
-    transition-all duration-300 ease-out select-none
-    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 
-    dark:focus:ring-offset-gray-900
-    bg-white dark:bg-gray-800
-    border-gray-200 dark:border-gray-600
-    hover:bg-blue-50 dark:hover:bg-gray-700
-    hover:border-blue-300 dark:hover:border-gray-500
-    hover:scale-[101%]
-  `;
-
   const handleChipClick = () => {
     onSourceSelect?.(source);
   };
 
   return (
     <div
-      className={twMerge(baseClasses, className)}
+      className={cn(
+        "group relative overflow-hidden rounded-xs border cursor-pointer ",
+        "transition-all duration-300 ease-out select-none",
+        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1",
+        "dark:focus:ring-offset-gray-900",
+        "bg-white dark:bg-gray-800",
+        "border-gray-200 dark:border-gray-600",
+        "hover:bg-blue-50 dark:hover:bg-gray-700",
+        "hover:border-blue-300 dark:hover:border-gray-500",
+        "hover:scale-[101%]",
+        className
+      )}
       onClick={handleChipClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

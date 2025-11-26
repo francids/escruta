@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface ToolCardProps {
   icon: React.ReactNode;
@@ -38,11 +38,7 @@ export default function ToolCard({
 
   return (
     <div
-      className={twMerge(
-        baseClasses,
-        disabled ? disabledClasses : "",
-        className
-      )}
+      className={cn(baseClasses, { [disabledClasses]: disabled }, className)}
       onClick={disabled ? undefined : onClick}
       onKeyDown={(e) => {
         if (!disabled && (e.key === "Enter" || e.key === " ")) {

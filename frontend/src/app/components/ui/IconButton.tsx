@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type IconButtonProps = {
   icon: React.ReactNode;
@@ -48,11 +48,13 @@ export default function IconButton({
   return (
     <button
       onClick={onClick}
-      className={twMerge(
+      className={cn(
         baseStyles,
         variantStyles[variant],
         sizeStyles[size],
-        disabled ? disabledStyles : "",
+        {
+          [disabledStyles]: disabled,
+        },
         className
       )}
       type="button"

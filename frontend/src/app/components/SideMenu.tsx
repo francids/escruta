@@ -4,6 +4,7 @@ import { Tooltip, Button, Modal } from "./ui";
 import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
 import { useState } from "react";
 import AppIcon from "@/shared/AppIcon";
+import { cn } from "@/lib/utils";
 
 type SideItemMenuProps = {
   icon: React.ReactNode;
@@ -22,14 +23,15 @@ function SideItemMenu({
     <Tooltip text={label} position="right">
       <button
         onClick={onClick}
-        className={`
-          w-10 h-10 p-2.5 rounded-xs flex items-center justify-center transition-all duration-300 select-none
-          ${
-            isActive
-              ? "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+        className={cn(
+          "w-10 h-10 p-2.5 rounded-xs flex items-center justify-center transition-all duration-300 select-none",
+          {
+            "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700":
+              isActive,
+            "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700":
+              !isActive,
           }
-        `}
+        )}
         aria-label={label}
         type="button"
       >

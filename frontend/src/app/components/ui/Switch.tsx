@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckIcon, CloseIcon } from "../icons";
 
@@ -21,17 +21,19 @@ export default function Switch({
 }: SwitchProps) {
   return (
     <label
-      className={twMerge(
+      className={cn(
         "group relative inline-flex items-center cursor-pointer select-none gap-3",
         "transition-all duration-200 ease-in-out",
-        disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+        {
+          "opacity-50 cursor-not-allowed pointer-events-none": disabled,
+        },
         className
       )}
       htmlFor={id}
     >
       {label && (
         <span
-          className={twMerge(
+          className={cn(
             "text-base font-medium text-gray-700 dark:text-gray-300",
             "transition-colors duration-200",
             "flex items-center"
@@ -53,7 +55,7 @@ export default function Switch({
 
         {/* Track/Background */}
         <div
-          className={twMerge(
+          className={cn(
             "absolute inset-0 rounded-full transition-all duration-200 ease-in-out",
             "border border-gray-300 dark:border-gray-600",
             "bg-gray-100 dark:bg-gray-700",
@@ -65,7 +67,7 @@ export default function Switch({
 
         {/* Thumb */}
         <div
-          className={twMerge(
+          className={cn(
             "absolute rounded-full transition-all duration-200 ease-in-out",
             "bg-white dark:bg-gray-200",
             "border border-gray-200 dark:border-gray-300",

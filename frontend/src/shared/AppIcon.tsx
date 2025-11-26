@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 export default function AppIcon({ className }: { className?: string }) {
   return (
@@ -8,7 +8,7 @@ export default function AppIcon({ className }: { className?: string }) {
       viewBox="0 0 512 512"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
-      className={twMerge("select-none pointer-events-none", className)}
+      className={cn("select-none pointer-events-none", className)}
     >
       <path
         fillRule="evenodd"

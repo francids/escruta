@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -35,12 +35,9 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={twMerge(
-        baseStyles,
-        variantStyles[variant],
-        disabled ? disabledStyles : "",
-        className
-      )}
+      className={cn(baseStyles, variantStyles[variant], className, {
+        [disabledStyles]: disabled,
+      })}
       type="button"
       disabled={disabled}
     >

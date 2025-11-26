@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface TextFieldBaseProps {
   id: string;
@@ -55,7 +55,7 @@ export default function TextField({
   const baseInputClassName =
     "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xs focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900 focus:ring-blue-500 dark:focus:ring-blue-400 resize-none";
 
-  const inputClassName = twMerge(baseInputClassName, className);
+  const inputClassName = cn(baseInputClassName, className);
 
   if (!label) {
     return multiline ? (
@@ -103,7 +103,7 @@ export default function TextField({
   }
 
   return (
-    <div className={twMerge("mb-4", className)}>
+    <div className={cn("mb-4", className)}>
       <label
         className="block text-gray-700 dark:text-gray-300 mb-2 select-none"
         htmlFor={id}

@@ -2,7 +2,7 @@ import { useMediaQuery } from "@/hooks";
 import { motion } from "motion/react";
 import { useState, type ReactNode } from "react";
 import InteractiveCard from "./InteractiveCard";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface Feature {
   title: string;
@@ -101,7 +101,7 @@ function FeatureCard({
 }) {
   return (
     <InteractiveCard
-      className={twMerge("text-center", className)}
+      className={cn("text-center", className)}
       mousePosition={mousePosition}
       isMouseInArea={isMouseInArea}
     >

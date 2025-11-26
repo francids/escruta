@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
 import { CloseIcon } from "../icons";
+import { cn } from "@/lib/utils";
 
 type ToastProps = {
   message: string;
@@ -40,25 +41,6 @@ export default function Toast({
     }
   }, [isVisible, duration, onClose]);
 
-  const typeStyles = {
-    success:
-      "bg-green-50 border-green-500 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-200",
-    error:
-      "bg-red-50 border-red-500 text-red-800 dark:bg-red-900 dark:border-red-600 dark:text-red-200",
-    warning:
-      "bg-yellow-50 border-yellow-500 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-600 dark:text-yellow-200",
-    info: "bg-blue-50 border-blue-500 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-200",
-  };
-
-  const positionClasses = {
-    "top-right": "top-8 right-8",
-    "top-left": "top-8 left-8",
-    "bottom-right": "bottom-8 right-8",
-    "bottom-left": "bottom-8 left-8",
-    "top-center": "top-8 left-1/2 -translate-x-1/2",
-    "bottom-center": "bottom-8 left-1/2 -translate-x-1/2",
-  };
-
   return (
     <AnimatePresence>
       {isVisible && (
@@ -67,10 +49,29 @@ export default function Toast({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className={`fixed z-50 ${positionClasses[position]} max-w-sm w-full px-4`}
+          className={cn("fixed z-50 max-w-sm w-full px-4", {
+            "top-8 right-8": position === "top-right",
+            "top-8 left-8": position === "top-left",
+            "bottom-8 right-8": position === "bottom-right",
+            "bottom-8 left-8": position === "bottom-left",
+            "top-8 left-1/2 -translate-x-1/2": position === "top-center",
+            "bottom-8 left-1/2 -translate-x-1/2": position === "bottom-center",
+          })}
         >
           <div
-            className={`flex items-center justify-between p-4 rounded-xs border shadow-md ${typeStyles[type]}`}
+            className={cn(
+              "flex items-center justify-between p-4 rounded-xs border shadow-md",
+              {
+                "bg-green-50 border-green-500 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-200":
+                  type === "success",
+                "bg-red-50 border-red-500 text-red-800 dark:bg-red-900 dark:border-red-600 dark:text-red-200":
+                  type === "error",
+                "bg-yellow-50 border-yellow-500 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-600 dark:text-yellow-200":
+                  type === "warning",
+                "bg-blue-50 border-blue-500 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-200":
+                  type === "info",
+              }
+            )}
             role="alert"
           >
             <div className="flex items-center">

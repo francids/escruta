@@ -4,6 +4,7 @@ import { NotebookIcon, DotsVerticalIcon } from "./icons";
 import { useState } from "react";
 import { useFetch } from "@/hooks";
 import { useNavigate } from "react-router";
+import { cn } from "@/lib/utils";
 
 interface NotebookCardProps {
   notebook: Notebook;
@@ -72,16 +73,15 @@ export default function NotebookCard({
   return (
     <>
       <div
-        className={`${baseClasses} ${
-          viewMode === "grid" ? gridClasses : listClasses
-        }`}
+        className={cn(baseClasses, {
+          [gridClasses]: viewMode === "grid",
+          [listClasses]: viewMode === "list",
+          "min-w-44 max-w-52": viewMode === "grid",
+        })}
         onClick={() => {
           navigate(`/app/notebook/${notebook.id}`);
           window.scrollTo(0, 0);
         }}
-        style={
-          viewMode === "grid" ? { minWidth: "180px", maxWidth: "220px" } : {}
-        }
       >
         {viewMode === "grid" ? (
           <>

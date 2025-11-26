@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect } from "react";
 
@@ -23,8 +23,8 @@ export default function Card({
   isExpanded,
   setIsExpanded,
 }: ControlledProps | UncontrolledProps) {
-  const baseClasses = twMerge(
-    `bg-gray-50 dark:bg-gray-800/80 p-4 rounded-xs border border-gray-200 dark:border-gray-600`,
+  const baseClasses = cn(
+    "bg-gray-50 dark:bg-gray-800/80 p-4 rounded-xs border border-gray-200 dark:border-gray-600",
     className
   );
 

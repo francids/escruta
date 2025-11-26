@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface ScrollingGridBackgroundProps {
   speed?: number;
 }
@@ -23,12 +25,12 @@ export default function ScrollingGridBackground({
       `}</style>
 
       <div
-        className={`
-          absolute inset-0
-          bg-[linear-gradient(rgba(3,136,252,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(3,136,252,0.12)_1px,transparent_1px)]
-          bg-[length:50px_50px]
-          animate-scrolling-grid
-        `}
+        className={cn(
+          "absolute inset-0",
+          "bg-[linear-gradient(rgba(3,136,252,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(3,136,252,0.12)_1px,transparent_1px)]",
+          "bg-[length:50px_50px]",
+          "animate-scrolling-grid"
+        )}
       />
     </div>
   );

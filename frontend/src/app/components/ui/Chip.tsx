@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type ChipVariants = "default" | "primary";
 
@@ -45,7 +45,7 @@ export default function Chip({
       onClick={onClick}
       onKeyDown={handleKeyDown}
       title={title}
-      className={twMerge(base, variantStyles[variant], className)}
+      className={cn(base, variantStyles[variant], className)}
     >
       {icon && <span className="flex items-center">{icon}</span>}
       <span className={multiline ? "text-clip" : "truncate"}>{children}</span>

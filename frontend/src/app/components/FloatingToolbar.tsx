@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/utils";
 
 interface FloatingToolbarProps {
   quillInstance: Quill | null;
@@ -165,11 +166,14 @@ export default function FloatingToolbar({
         >
           <button
             onClick={() => applyFormat("bold")}
-            className={`p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-              getFormatState("bold")
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+            className={cn(
+              "p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+              {
+                "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400":
+                  getFormatState("bold"),
+                "text-gray-600 dark:text-gray-400": !getFormatState("bold"),
+              }
+            )}
             title="Bold"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -179,11 +183,14 @@ export default function FloatingToolbar({
 
           <button
             onClick={() => applyFormat("italic")}
-            className={`p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-              getFormatState("italic")
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+            className={cn(
+              "p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+              {
+                "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400":
+                  getFormatState("italic"),
+                "text-gray-600 dark:text-gray-400": !getFormatState("italic"),
+              }
+            )}
             title="Italic"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -193,11 +200,15 @@ export default function FloatingToolbar({
 
           <button
             onClick={() => applyFormat("underline")}
-            className={`p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-              getFormatState("underline")
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+            className={cn(
+              "p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+              {
+                "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400":
+                  getFormatState("underline"),
+                "text-gray-600 dark:text-gray-400":
+                  !getFormatState("underline"),
+              }
+            )}
             title="Underline"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -209,11 +220,14 @@ export default function FloatingToolbar({
 
           <button
             onClick={() => applyFormat("list")}
-            className={`p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-              getFormatState("list")
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+            className={cn(
+              "p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+              {
+                "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400":
+                  getFormatState("list"),
+                "text-gray-600 dark:text-gray-400": !getFormatState("list"),
+              }
+            )}
             title="List"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -223,11 +237,15 @@ export default function FloatingToolbar({
 
           <button
             onClick={() => applyFormat("code-block")}
-            className={`p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-              getFormatState("code-block")
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+            className={cn(
+              "p-2 rounded-xs hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+              {
+                "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400":
+                  getFormatState("code-block"),
+                "text-gray-600 dark:text-gray-400":
+                  !getFormatState("code-block"),
+              }
+            )}
             title="Code Block"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

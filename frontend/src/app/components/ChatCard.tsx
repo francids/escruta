@@ -14,6 +14,7 @@ import {
 const CodeBlock = lazy(() => import("./CodeBlock"));
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/utils";
 
 interface Message {
   id: string;
@@ -339,16 +340,21 @@ export default function ChatCard({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className={`flex mb-3 ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                }`}
+                className={cn("flex mb-3", {
+                  "justify-end": msg.sender === "user",
+                  "justify-start": msg.sender === "ai",
+                })}
               >
                 <div
-                  className={`max-w-xl flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200 ${
-                    msg.sender === "user"
-                      ? "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12"
-                      : "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12"
-                  }`}
+                  className={cn(
+                    "max-w-xl flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200",
+                    {
+                      "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12":
+                        msg.sender === "user",
+                      "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12":
+                        msg.sender === "ai",
+                    }
+                  )}
                 >
                   {processMarkdownText(msg.text, msg.sender === "user")}
                   {msg.sender === "ai" &&

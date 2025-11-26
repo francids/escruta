@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface SegmentedOption<T = string> {
   value: T;
@@ -41,24 +41,18 @@ export default function SegmentedButtons<T = string>({
     md: "h-10 px-4 text-sm",
   };
 
-  const getButtonStyles = (isActive: boolean) => {
-    if (isActive) {
-      return "bg-blue-100 dark:bg-gray-800 text-blue-700 dark:text-blue-300";
-    }
-    return "text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-600";
-  };
-
   return (
-    <div className={twMerge(containerStyles, className)}>
+    <div className={cn(containerStyles, className)}>
       {options.map((option, index) => (
         <button
           key={index}
           onClick={() => onChange(option.value)}
-          className={twMerge(
-            buttonBaseStyles,
-            sizeStyles[size],
-            getButtonStyles(value === option.value)
-          )}
+          className={cn(buttonBaseStyles, sizeStyles[size], {
+            "bg-blue-100 dark:bg-gray-800 text-blue-700 dark:text-blue-300":
+              value === option.value,
+            "text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-600":
+              value !== option.value,
+          })}
           aria-label={option.ariaLabel || option.label}
           type="button"
         >

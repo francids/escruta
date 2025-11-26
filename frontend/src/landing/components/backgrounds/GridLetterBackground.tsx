@@ -1,5 +1,5 @@
 import { useRef, useEffect, useMemo, useCallback } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 interface GridLetterBackgroundProps {
   className?: string;
@@ -123,7 +123,7 @@ export default function GridLetterBackground({
   return (
     <canvas
       ref={canvasRef}
-      className={twMerge(
+      className={cn(
         "absolute inset-0 overflow-hidden pointer-events-none",
         className
       )}

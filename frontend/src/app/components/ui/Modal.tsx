@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
 import { CloseIcon } from "../icons";
 import { useModal } from "@/hooks";
+import { cn } from "@/lib/utils";
 
 type ModalProps = {
   isOpen: boolean;
@@ -56,13 +57,6 @@ export default function Modal({
     };
   }, [isOpen, onClose, isTopModal]);
 
-  const widthClasses = {
-    sm: "max-w-md",
-    md: "max-w-lg",
-    lg: "max-w-xl",
-    xl: "max-w-2xl",
-  };
-
   const modalZIndex = getModalZIndex(modalId.current);
   const shouldShowOverlay = isTopModal(modalId.current);
 
@@ -92,7 +86,15 @@ export default function Modal({
           >
             <motion.div
               ref={modalRef}
-              className={`${widthClasses[width]} w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 pointer-events-auto`}
+              className={cn(
+                "w-full bg-white dark:bg-gray-800 rounded-xs border border-gray-200 dark:border-gray-600 pointer-events-auto",
+                {
+                  "max-w-md": width === "sm",
+                  "max-w-lg": width === "md",
+                  "max-w-xl": width === "lg",
+                  "max-w-2xl": width === "xl",
+                }
+              )}
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"

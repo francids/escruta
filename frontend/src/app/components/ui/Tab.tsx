@@ -1,6 +1,6 @@
 import { useState, useImperativeHandle, forwardRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type TabItem = {
   id: string;
@@ -46,7 +46,7 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
     const activeTab = items.find((tab) => tab.id === activeTabId);
 
     return (
-      <div className={twMerge("w-full relative", className)}>
+      <div className={cn("w-full relative", className)}>
         <div className="flex w-full justify-start p-1 bg-gray-50 dark:bg-gray-800/80 rounded-xs border border-gray-200 dark:border-gray-600">
           {items.map((tab, index) => (
             <div key={index} className="relative w-full group">
@@ -70,17 +70,20 @@ const Tabs = forwardRef<TabsRef, TabsProps>(
               )}
               <button
                 onClick={() => handleTabClick(tab.id)}
-                className={`w-full px-6 py-1.5 text-sm font-medium rounded-xs transition-all duration-150 relative group-hover:scale-[1.02] ${
-                  activeTabId === tab.id ? "transform-none" : ""
-                }`}
+                className={cn(
+                  "w-full px-6 py-1.5 text-sm font-medium rounded-xs transition-all duration-150 relative group-hover:scale-[1.02]",
+                  {
+                    "transform-none": activeTabId === tab.id,
+                  }
+                )}
               >
                 <span
-                  className={`${
-                    activeTabId === tab.id
-                      ? "text-gray-800 dark:text-gray-100 font-semibold"
-                      : "text-gray-600 dark:text-gray-400 font-medium group-hover:text-gray-800 dark:group-hover:text-gray-200"
-                  }
-                    text-sm transition-all duration-150`}
+                  className={cn("text-sm transition-all duration-150", {
+                    "text-gray-800 dark:text-gray-100 font-semibold":
+                      activeTabId === tab.id,
+                    "text-gray-600 dark:text-gray-400 font-medium group-hover:text-gray-800 dark:group-hover:text-gray-200":
+                      activeTabId !== tab.id,
+                  })}
                 >
                   {tab.label}
                 </span>

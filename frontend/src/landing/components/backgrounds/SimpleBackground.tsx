@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 export default function SimpleBackground({
   className,
@@ -6,7 +6,7 @@ export default function SimpleBackground({
   className?: string;
 }) {
   return (
-    <div className={twMerge("fixed inset-0 z-0 pointer-events-none", className)}>
+    <div className={cn("fixed inset-0 z-0 pointer-events-none", className)}>
       <div
         className="absolute inset-0 h-full w-full"
         style={{

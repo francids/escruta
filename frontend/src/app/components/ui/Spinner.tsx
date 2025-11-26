@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 
 type SpinnerProps = {
   size?: number;
@@ -14,7 +14,7 @@ export default function Spinner({
 }: SpinnerProps) {
   return (
     <motion.div
-      className={twMerge("inline-flex items-center justify-center", className)}
+      className={cn("inline-flex items-center justify-center", className)}
       aria-label={ariaLabel}
       role="status"
       initial={{ rotate: 0 }}

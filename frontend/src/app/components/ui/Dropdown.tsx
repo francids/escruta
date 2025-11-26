@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckIcon } from "../icons";
 
@@ -56,7 +56,7 @@ export default function Dropdown<T extends string>({
   };
 
   return (
-    <div className={twMerge("flex items-center gap-3", className)}>
+    <div className={cn("flex items-center gap-3", className)}>
       {label && (
         <label className="text-base font-medium text-gray-700 dark:text-gray-200 select-none">
           {label}
@@ -70,7 +70,7 @@ export default function Dropdown<T extends string>({
           onClick={() => !disabled && setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           disabled={disabled}
-          className={twMerge(
+          className={cn(
             "relative w-full min-w-[160px] h-10 px-3 pr-10 text-left",
             "bg-white dark:bg-gray-700",
             "border border-gray-300 dark:border-gray-600",
@@ -79,13 +79,14 @@ export default function Dropdown<T extends string>({
             "focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400",
             "transition-all duration-200 ease-in-out",
             "select-none",
-            !disabled && "hover:border-blue-500 dark:hover:border-blue-400",
-            !disabled && "cursor-pointer",
-            disabled &&
-              "opacity-50 cursor-not-allowed bg-gray-50 dark:bg-gray-900",
-            isOpen &&
-              !disabled &&
-              "ring-2 ring-blue-500 dark:ring-blue-400 border-blue-500 dark:border-blue-400"
+            {
+              "hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer":
+                !disabled,
+              "opacity-50 cursor-not-allowed bg-gray-50 dark:bg-gray-900":
+                disabled,
+              "ring-2 ring-blue-500 dark:ring-blue-400 border-blue-500 dark:border-blue-400":
+                isOpen && !disabled,
+            }
           )}
         >
           <span className="block truncate">
@@ -98,9 +99,11 @@ export default function Dropdown<T extends string>({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className={twMerge(
+              className={cn(
                 "h-4 w-4 text-gray-400 dark:text-gray-400 transition-transform duration-200",
-                isOpen && "rotate-180"
+                {
+                  "rotate-180": isOpen,
+                }
               )}
             >
               <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
@@ -119,7 +122,7 @@ export default function Dropdown<T extends string>({
                 duration: 0.2,
                 ease: "easeOut",
               }}
-              className={twMerge(
+              className={cn(
                 "absolute z-50 w-full mt-1.5",
                 "bg-white dark:bg-gray-800",
                 "border border-gray-300 dark:border-gray-600",
@@ -140,15 +143,17 @@ export default function Dropdown<T extends string>({
                       ease: "easeOut",
                     }}
                     onClick={() => handleSelect(option)}
-                    className={twMerge(
+                    className={cn(
                       "relative w-full px-3 py-2 text-left",
                       "text-gray-900 dark:text-gray-100",
                       "transition-colors duration-150",
                       "hover:bg-blue-50 dark:hover:bg-gray-700",
                       "focus:outline-none focus:bg-blue-50 dark:focus:bg-gray-700",
                       "cursor-pointer select-none",
-                      selectedOption === option &&
-                        "bg-blue-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300"
+                      {
+                        "bg-blue-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300":
+                          selectedOption === option,
+                      }
                     )}
                   >
                     <span className="block truncate">{option}</span>

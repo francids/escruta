@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router";
 import { useAuth, useCookie } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   const [savedEmail, setSavedEmail] = useCookie<{ email: string }>(
@@ -203,11 +204,13 @@ export default function LoginPage() {
             id="password"
             value={password}
             onChange={handlePasswordChange}
-            className={`w-full px-3 py-2 border ${
-              passwordError
-                ? "border-red-400"
-                : "border-gray-300 dark:border-gray-600"
-            } rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400`}
+            className={cn(
+              "w-full px-3 py-2 border rounded-xs focus:outline-none focus:ring focus:ring-blue-500 dark:focus:ring-blue-400",
+              {
+                "border-red-400": passwordError,
+                "border-gray-300 dark:border-gray-600": !passwordError,
+              }
+            )}
             required
             ref={passwordInputRef}
             autoComplete="current-password"
@@ -262,11 +265,13 @@ export default function LoginPage() {
         <motion.button
           type="submit"
           disabled={loading || !allowSubmit}
-          className={`w-full ${
-            allowSubmit
-              ? "bg-blue-500 hover:bg-blue-600"
-              : "bg-blue-300 cursor-not-allowed"
-          } text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300`}
+          className={cn(
+            "w-full text-white px-4 py-2 rounded-xs transition duration-300 select-none disabled:bg-blue-300",
+            {
+              "bg-blue-500 hover:bg-blue-600": allowSubmit,
+              "bg-blue-300 cursor-not-allowed": !allowSubmit,
+            }
+          )}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.6 }}
