@@ -9,6 +9,7 @@ import {
   Modal,
   TextField,
   Tooltip,
+  Spinner,
 } from "./ui";
 import { useFetch } from "@/hooks";
 import { useState, useEffect } from "react";
@@ -136,8 +137,9 @@ export default function NotesCard({
                 await addNote();
               }}
               disabled={!newNoteTitle.trim() || addingNote}
+              icon={addingNote ? <Spinner /> : <AddIcon />}
             >
-              {addingNote ? "Adding..." : "Add"}
+              {addingNote ? "Adding" : "Add"}
             </Button>
           </>
         }

@@ -42,7 +42,7 @@ export default function Button({
       disabled={disabled}
     >
       {icon && (
-        <span className="mr-2 flex items-center justify-center w-4 h-4">
+        <span className="mr-2 flex items-center justify-center size-5">
           {icon}
         </span>
       )}

@@ -10,6 +10,7 @@ import {
   TextField,
   Button,
   Modal,
+  Spinner,
 } from "../components/ui";
 import type { TabsRef } from "../components/ui/Tab";
 import { motion, AnimatePresence } from "motion/react";
@@ -488,8 +489,9 @@ export default function NotebookPage() {
               variant="primary"
               onClick={handleRenameNotebook}
               disabled={!newTitle.trim() || renamingNotebook}
+              icon={renamingNotebook ? <Spinner /> : <EditIcon />}
             >
-              {renamingNotebook ? "Renaming..." : "Rename"}
+              {renamingNotebook ? "Renaming" : "Rename"}
             </Button>
           </>
         }

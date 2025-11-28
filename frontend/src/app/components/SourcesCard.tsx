@@ -12,6 +12,7 @@ import {
   Switch,
   Dropdown,
   FilePicker,
+  Spinner,
 } from "./ui";
 import { useEffect, useState } from "react";
 import { useFetch } from "@/hooks";
@@ -244,8 +245,9 @@ export default function SourcesCard({
                       ? !newSourceFile
                       : !newSourceLink.trim()) || addingSource
                   }
+                  icon={addingSource ? <Spinner /> : <AddIcon />}
                 >
-                  {addingSource ? "Adding..." : "Add"}
+                  {addingSource ? "Adding" : "Add"}
                 </Button>
               </div>
             </div>

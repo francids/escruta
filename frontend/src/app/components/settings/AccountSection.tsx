@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, TextField } from "../ui";
+import { Button, Modal, Spinner, TextField } from "../ui";
 import CommonBar from "../CommonBar";
 import { useAuth, useFetch } from "@/hooks";
+import { CheckIcon } from "../icons";
 
 export default function AccountSection() {
   const { logout, currentUser: user, fetchUserData } = useAuth();
@@ -209,8 +210,9 @@ export default function AccountSection() {
               variant="primary"
               onClick={() => updateName()}
               disabled={!newFullName || isUpdatingName}
+              icon={isUpdatingName ? <Spinner /> : <CheckIcon />}
             >
-              {isUpdatingName ? "Updating..." : "Update name"}
+              {isUpdatingName ? "Updating" : "Update name"}
             </Button>
           </>
         }
@@ -257,8 +259,9 @@ export default function AccountSection() {
                 !confirmPassword ||
                 isChangingPassword
               }
+              icon={isChangingPassword ? <Spinner /> : <CheckIcon />}
             >
-              {isChangingPassword ? "Changing..." : "Change password"}
+              {isChangingPassword ? "Changing" : "Change password"}
             </Button>
           </>
         }

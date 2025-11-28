@@ -7,10 +7,11 @@ import {
   Modal,
   TextField,
   SegmentedButtons,
+  Spinner,
 } from "../components/ui";
 import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
-import { GridIcon, ListIcon } from "../components/icons";
+import { AddIcon, GridIcon, ListIcon } from "../components/icons";
 import { motion } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
 import { getRouteMetadata } from "@/config/seo";
@@ -200,8 +201,9 @@ export default function HomePage() {
                 variant="primary"
                 onClick={async () => await createNotebook()}
                 disabled={!newNotebookTitle.trim() || creatingNotebook}
+                icon={creatingNotebook ? <Spinner /> : <AddIcon />}
               >
-                {creatingNotebook ? "Creating..." : "Create"}
+                {creatingNotebook ? "Creating" : "Create"}
               </Button>
             </>
           }

@@ -340,12 +340,10 @@ export default function SourceViewer({
                 ) : (
                   <Button
                     onClick={regenerateSummary}
-                    icon={isRegenerating ? <Spinner /> : null}
+                    icon={isRegenerating ? <Spinner /> : <RestartIcon />}
                     disabled={isRegenerating}
                   >
-                    {isRegenerating
-                      ? "Generating summary..."
-                      : "Generate summary"}
+                    {isRegenerating ? "Generating summary" : "Generate summary"}
                   </Button>
                 )}
               </Card>
@@ -434,8 +432,9 @@ export default function SourceViewer({
               onClick={async () => {
                 await deleteSource();
               }}
+              icon={deletingSource ? <Spinner /> : <DeleteIcon />}
             >
-              {deletingSource ? "Deleting..." : "Delete"}
+              {deletingSource ? "Deleting" : "Delete"}
             </Button>
           </>
         }

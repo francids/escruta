@@ -311,7 +311,7 @@ export default function ChatCard({
             <Tooltip
               text={
                 isSummaryRegenerating
-                  ? "Regenerating summary..."
+                  ? "Regenerating summary"
                   : "Regenerate summary"
               }
               position="bottom"
@@ -408,7 +408,7 @@ export default function ChatCard({
               </h3>
               {isSummaryLoading ? (
                 <p className="mt-1 mb-1 text-base font-medium leading-6">
-                  Loading summary...
+                  <Spinner />
                 </p>
               ) : summaryError ? (
                 <p className="mt-1 mb-1 text-base font-medium leading-6">
@@ -425,7 +425,7 @@ export default function ChatCard({
                   disabled={isSummaryRegenerating}
                 >
                   {isSummaryRegenerating
-                    ? "Generating summary..."
+                    ? "Generating summary"
                     : "Generate summary"}
                 </Button>
               )}
@@ -435,7 +435,7 @@ export default function ChatCard({
                 <div className="mt-6">
                   {isExampleQuestionsLoading ? (
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Loading example questions...
+                      <Spinner />
                     </p>
                   ) : exampleQuestionsError ? (
                     <p className="text-sm text-red-500">

@@ -1,5 +1,5 @@
 import type { Notebook } from "@/interfaces";
-import { Button, Menu, Modal, IconButton } from "./ui";
+import { Button, Menu, Modal, IconButton, Spinner } from "./ui";
 import { NotebookIcon, DotsVerticalIcon } from "./icons";
 import { useState } from "react";
 import { useFetch } from "@/hooks";
@@ -177,8 +177,9 @@ export default function NotebookCard({
               variant="danger"
               onClick={handleDeleteNotebook}
               disabled={deletingNotebook}
+              icon={deletingNotebook ? <Spinner /> : undefined}
             >
-              {deletingNotebook ? "Deleting..." : "Delete"}
+              {deletingNotebook ? "Deleting" : "Delete"}
             </Button>
           </>
         }

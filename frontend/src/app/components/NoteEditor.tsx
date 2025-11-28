@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useFetch } from "@/hooks";
 import type { Note } from "@/interfaces";
 import {
+  CheckIcon,
   CloseIcon,
   CompressIcon,
   DeleteIcon,
@@ -11,7 +12,15 @@ import {
   ExpandIcon,
   SaveIcon,
 } from "./icons";
-import { Button, Card, IconButton, Modal, TextField, Tooltip } from "./ui";
+import {
+  Button,
+  Card,
+  IconButton,
+  Modal,
+  Spinner,
+  TextField,
+  Tooltip,
+} from "./ui";
 const Editor = lazy(() => import("./Editor"));
 
 interface NoteEditorProps {
@@ -244,8 +253,9 @@ export default function NoteEditor({
                 await updateNote();
               }}
               disabled={!newTitle.trim() || updatingNote}
+              icon={updatingNote ? <Spinner /> : <CheckIcon />}
             >
-              {updatingNote ? "Updating..." : "Update"}
+              {updatingNote ? "Updating" : "Update"}
             </Button>
           </>
         }
@@ -287,8 +297,9 @@ export default function NoteEditor({
               onClick={async () => {
                 await deleteNote();
               }}
+              icon={deletingNote ? <Spinner /> : <DeleteIcon />}
             >
-              {deletingNote ? "Deleting..." : "Delete"}
+              {deletingNote ? "Deleting" : "Delete"}
             </Button>
           </>
         }

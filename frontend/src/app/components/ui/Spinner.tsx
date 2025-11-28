@@ -11,7 +11,7 @@ type SpinnerProps = {
 export default function Spinner({
   size = 24,
   className = "",
-  "aria-label": ariaLabel = "Loading...",
+  "aria-label": ariaLabel = "Loading",
 }: SpinnerProps) {
   return (
     <motion.div
