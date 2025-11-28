@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckIcon } from "../icons";
+import { CheckIcon, ChevronDownIcon } from "../icons";
 
 type DropdownProps<T extends string> = {
   options: T[];
@@ -95,19 +95,14 @@ export default function Dropdown<T extends string>({
 
           {/* Chevron Icon */}
           <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+            <ChevronDownIcon
               className={cn(
-                "h-4 w-4 text-gray-400 dark:text-gray-400 transition-transform duration-200",
+                "w-5 h-5 text-gray-400 dark:text-gray-400 transition-transform duration-200",
                 {
                   "rotate-180": isOpen,
                 }
               )}
-            >
-              <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-            </svg>
+            />
           </span>
         </button>
 
@@ -159,9 +154,7 @@ export default function Dropdown<T extends string>({
                     <span className="block truncate">{option}</span>
                     {selectedOption === option && (
                       <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-blue-600 dark:text-blue-400">
-                        <div className="h-3 w-3">
-                          <CheckIcon />
-                        </div>
+                        <CheckIcon className="w-5 h-5" />
                       </span>
                     )}
                   </motion.button>

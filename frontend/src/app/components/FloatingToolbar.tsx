@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import {
+  BoldIcon,
+  ItalicIcon,
+  UnderlineIcon,
+  FormatListBulletedIcon,
+  CodeIcon,
+} from "./icons";
 
 interface FloatingToolbarProps {
   quillInstance: Quill | null;
@@ -176,9 +183,7 @@ export default function FloatingToolbar({
             )}
             title="Bold"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z" />
-            </svg>
+            <BoldIcon className="w-4 h-4" />
           </button>
 
           <button
@@ -193,9 +198,7 @@ export default function FloatingToolbar({
             )}
             title="Italic"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4h-8z" />
-            </svg>
+            <ItalicIcon className="w-4 h-4" />
           </button>
 
           <button
@@ -211,9 +214,7 @@ export default function FloatingToolbar({
             )}
             title="Underline"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 17c3.31 0 6-2.69 6-6V3h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S8.5 12.93 8.5 11V3H6v8c0 3.31 2.69 6 6 6zm-7 2v2h14v-2H5z" />
-            </svg>
+            <UnderlineIcon className="w-4 h-4" />
           </button>
 
           <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
@@ -230,9 +231,7 @@ export default function FloatingToolbar({
             )}
             title="List"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" />
-            </svg>
+            <FormatListBulletedIcon className="w-4 h-4" />
           </button>
 
           <button
@@ -248,9 +247,7 @@ export default function FloatingToolbar({
             )}
             title="Code Block"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
-            </svg>
+            <CodeIcon className="w-4 h-4" />
           </button>
         </motion.div>
       )}

@@ -87,7 +87,7 @@ export default function NotebookCard({
           <>
             <div className="flex justify-between items-start">
               <div className="p-2 rounded-xs bg-blue-25 dark:bg-blue-900/30 text-blue-500 dark:text-blue-300">
-                <NotebookIcon />
+                <NotebookIcon className="w-5 h-5" />
               </div>
               <div onClick={handleMenuClick}>
                 <Menu
