@@ -20,6 +20,11 @@ spring:
     jdbc:
       dialect: postgresql
   ai:
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
     openai:
       base-url: ${ESCRUTA_AI_BASE_URL}
       api-key: ${ESCRUTA_AI_API_KEY}

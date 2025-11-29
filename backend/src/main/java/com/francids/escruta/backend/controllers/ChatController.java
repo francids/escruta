@@ -9,7 +9,11 @@ import com.francids.escruta.backend.services.SourceService;
 import com.francids.escruta.backend.services.RetrievalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.document.Document;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +40,7 @@ class ChatController {
     private final RetrievalService retrievalService;
     private final ChatModel chatModel;
     private final NotebookRepository notebookRepository;
+    private final JdbcChatMemoryRepository chatMemoryRepository;
 
     @PostMapping("summary")
     ResponseEntity<String> generateSummary(@PathVariable UUID notebookId) {
@@ -66,17 +71,14 @@ class ChatController {
     @GetMapping("summary")
     ResponseEntity<String> getSummary(@PathVariable UUID notebookId) {
         try {
-            var notebook = notebookRepository.findById(notebookId)
-                    .orElse(null);
+            var notebook = notebookRepository.findById(notebookId).orElse(null);
 
             if (notebook == null) {
-                return ResponseEntity.notFound()
-                        .build();
+                return ResponseEntity.notFound().build();
             }
 
             String summary = notebook.getSummary();
-            if (summary == null || summary.trim()
-                    .isEmpty()) {
+            if (summary == null || summary.trim().isEmpty()) {
                 return ResponseEntity.ok("");
             }
 
@@ -105,8 +107,7 @@ class ChatController {
             }
         } catch (Exception e) {
             System.out.println("Error during example questions generation: " + e.getMessage());
-            return ResponseEntity.internalServerError()
-                    .body(List.of());
+            return ResponseEntity.internalServerError().body(List.of());
         }
     }
 
@@ -116,11 +117,23 @@ class ChatController {
             @Valid @RequestBody ChatRequest request
     ) {
         try {
-            var chatResponse = ChatClient.create(chatModel)
-                    .prompt()
-                    .advisors(retrievalService.getQuestionAnswerAdvisor(notebookId))
-                    .system(UNIFIED_SYSTEM_MESSAGE)
-                    .user(request.getUserInput())
+            ChatMemory chatMemory = MessageWindowChatMemory.builder()
+                    .chatMemoryRepository(chatMemoryRepository)
+                    .maxMessages(10)
+                    .build();
+
+            var chatClient = ChatClient.builder(chatModel).defaultSystem(UNIFIED_SYSTEM_MESSAGE).defaultAdvisors(
+                    MessageChatMemoryAdvisor.builder(chatMemory).build(),
+                    retrievalService.getQuestionAnswerAdvisor(notebookId)
+            ).build();
+
+            String conversationId = request.conversationId() != null ?
+                    request.conversationId() :
+                    UUID.randomUUID().toString();
+
+            var chatResponse = chatClient.prompt()
+                    .advisors(advisorSpec -> advisorSpec.param(ChatMemory.CONVERSATION_ID, conversationId))
+                    .user(request.userInput())
                     .call()
                     .chatResponse();
 
@@ -133,23 +146,22 @@ class ChatController {
                             UUID.fromString(doc.getMetadata()
                                     .get("sourceId")
                                     .toString()),
-                            doc.getMetadata()
-                                    .get("title")
-                                    .toString()
+                            doc.getMetadata().get("title").toString()
                     ))
                     .distinct()
                     .toList();
 
             return ResponseEntity.ok(new ChatReplyMessage(
-                    chatResponse.getResult()
-                            .getOutput()
-                            .getText(), citedSources
+                    chatResponse.getResult().getOutput().getText(),
+                    conversationId,
+                    citedSources
             ));
         } catch (Exception e) {
             System.out.println("Error during chat generation: " + e.getMessage());
             return ResponseEntity.internalServerError()
                     .body(new ChatReplyMessage(
                             "An error occurred while processing your request. Please try again.",
+                            null,
                             List.of()
                     ));
         }

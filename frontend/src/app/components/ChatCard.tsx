@@ -16,11 +16,14 @@ import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
+type Sender = "user" | "ai";
+
 interface Message {
   id: string;
   text: string;
-  sender: "user" | "ai";
+  sender: Sender;
   citedSources?: CitedSource[];
+  error?: true;
 }
 
 interface CitedSource {
@@ -28,8 +31,9 @@ interface CitedSource {
   title: string;
 }
 
-interface ChatApiResponse {
+interface ChatResponse {
   content: string;
+  conversationId: string | null;
   citedSources: CitedSource[];
 }
 
@@ -40,26 +44,14 @@ interface ChatCardProps {
   onSourceSelect?: (sourceId: string) => void;
 }
 
-function processMarkdownText(
-  text: string,
-  isUserMessage: boolean = false
-): ReactNode {
-  if (!text) return [];
-
-  const isSystemMessage = [
-    "No sources are available",
-    "Invalid notebook ID format",
-    "An error occurred while",
-    "Sorry, I encountered an error",
-  ].some((phrase) => text.startsWith(phrase));
-
-  if (isSystemMessage && !isUserMessage) {
+function processMessage(message: Message): ReactNode {
+  if (message.error) {
     return [
       <div
         key="system-message"
         className="italic text-gray-600 dark:text-gray-400 my-2"
       >
-        {text}
+        {message.text}
       </div>,
     ];
   }
@@ -69,9 +61,9 @@ function processMarkdownText(
   let lastIndex = 0;
   let match;
 
-  while ((match = codeBlockRegex.exec(text)) !== null) {
+  while ((match = codeBlockRegex.exec(message.text)) !== null) {
     if (match.index > lastIndex) {
-      const beforeCode = text.slice(lastIndex, match.index);
+      const beforeCode = message.text.slice(lastIndex, match.index);
       if (beforeCode.trim()) {
         parts.push({ type: "text", content: beforeCode });
       }
@@ -86,15 +78,15 @@ function processMarkdownText(
     lastIndex = match.index + match[0].length;
   }
 
-  if (lastIndex < text.length) {
-    const remaining = text.slice(lastIndex);
+  if (lastIndex < message.text.length) {
+    const remaining = message.text.slice(lastIndex);
     if (remaining.trim()) {
       parts.push({ type: "text", content: remaining });
     }
   }
 
   if (parts.length === 0) {
-    parts.push({ type: "text", content: text });
+    parts.push({ type: "text", content: message.text });
   }
 
   return parts.map((part, index) => {
@@ -110,15 +102,16 @@ function processMarkdownText(
     }
 
     return (
-      <div key={index}>{processTextContent(part.content, isUserMessage)}</div>
+      <div key={index}>{processTextContent(part.content, message.sender)}</div>
     );
   });
 }
 
-function processTextContent(text: string, isUserMessage: boolean) {
-  const linkColorClass = isUserMessage
-    ? "text-blue-300 hover:text-blue-200"
-    : "text-blue-500 hover:text-blue-400";
+function processTextContent(text: string, sender: Sender) {
+  const linkColorClass = {
+    user: "text-blue-300 hover:text-blue-200",
+    ai: "text-blue-500 hover:text-blue-400",
+  }[sender];
 
   const processed = text
     .replace(
@@ -236,6 +229,7 @@ export default function ChatCard({
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
   const handleSourceClick = (sourceId: string) => {
     if (
@@ -252,30 +246,26 @@ export default function ChatCard({
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
-    const userInput = input.trim();
     const newMessage: Message = {
       id: Date.now().toString(),
-      text: userInput,
+      text: input.trim(),
       sender: "user",
     };
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     setInput("");
 
-    try {
-      await fetchChatResponse(true);
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+    await fetchChatResponse(true);
   };
 
   const { loading: isChatLoading, refetch: fetchChatResponse } =
-    useFetch<ChatApiResponse>(
+    useFetch<ChatResponse>(
       `notebooks/${notebookId}/chat`,
       {
         method: "POST",
         data: {
           userInput: input.trim(),
+          conversationId,
         },
         onSuccess: (response) => {
           const aiResponse: Message = {
@@ -285,13 +275,15 @@ export default function ChatCard({
             citedSources: response.citedSources,
           };
           setMessages((prevMessages) => [...prevMessages, aiResponse]);
+          setConversationId(response.conversationId);
         },
         onError: (error) => {
-          console.error("Error fetching chat response:", error);
+          console.error("Error sending message:", error);
           const errorResponse: Message = {
             id: (Date.now() + 1).toString(),
             text: "Sorry, I encountered an error while processing your request. Please try again.",
             sender: "ai",
+            error: true,
           };
           setMessages((prevMessages) => [...prevMessages, errorResponse]);
         },
@@ -332,17 +324,17 @@ export default function ChatCard({
       {messages.length > 0 ? (
         <div className="flex-1 overflow-y-auto p-4 space-y-2 min-h-0">
           <AnimatePresence>
-            {messages.map((msg) => (
+            {messages.map((message) => (
               <motion.div
-                key={msg.id}
+                key={message.id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
                 className={cn("flex mb-3", {
-                  "justify-end": msg.sender === "user",
-                  "justify-start": msg.sender === "ai",
+                  "justify-end": message.sender === "user",
+                  "justify-start": message.sender === "ai",
                 })}
               >
                 <div
@@ -350,19 +342,19 @@ export default function ChatCard({
                     "max-w-xl flex flex-col gap-3 px-4 py-1 rounded-xs select-text shadow-sm transition-all duration-200",
                     {
                       "bg-blue-500 dark:bg-blue-600 text-white font-medium ml-12":
-                        msg.sender === "user",
+                        message.sender === "user",
                       "bg-gray-100/60 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium mr-12":
-                        msg.sender === "ai",
+                        message.sender === "ai",
                     }
                   )}
                 >
-                  {processMarkdownText(msg.text, msg.sender === "user")}
-                  {msg.sender === "ai" &&
-                    msg.citedSources &&
-                    msg.citedSources.length > 0 && (
+                  {processMessage(message)}
+                  {message.sender === "ai" &&
+                    message.citedSources &&
+                    message.citedSources.length > 0 && (
                       <div className="py-3 border-t border-gray-200 dark:border-gray-600">
                         <div className="flex flex-wrap gap-2">
-                          {msg.citedSources.map((source, index) => (
+                          {message.citedSources.map((source, index) => (
                             <button
                               key={source.id}
                               onClick={(e) => {
@@ -416,7 +408,7 @@ export default function ChatCard({
                 </p>
               ) : notebookSummary ? (
                 <div className="prose dark:prose-invert prose-sm max-w-none select-text">
-                  {processMarkdownText(notebookSummary, false)}
+                  {processTextContent(notebookSummary, "ai")}
                 </div>
               ) : (
                 <Button
@@ -501,6 +493,7 @@ export default function ChatCard({
                 onClick={() => {
                   setMessages([]);
                   setInput("");
+                  setConversationId(null);
                 }}
                 disabled={messages.length === 0 && !isChatLoading}
                 variant="ghost"
