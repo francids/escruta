@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useCookie from "./useCookie";
 import backendClient from "@/backend";
 import { type AxiosRequestConfig, type AxiosResponse, AxiosError } from "axios";
@@ -46,131 +46,77 @@ export default function useFetch<T = unknown>(
 ): UseFetchReturn<T> {
   const [token] = useCookie<Token>(AUTH_TOKEN_KEY);
 
-  const memoizedCacheTime = useMemo(() => {
-    return options?.cacheTime ?? 5 * 60 * 1000;
-  }, [options?.cacheTime]);
+  const cacheTime = options?.cacheTime ?? 5 * 60 * 1000;
+  const cacheKey = generateCacheKey(endpoint, options);
 
-  const cacheKey = useMemo(
-    () => generateCacheKey(endpoint, options),
-    [endpoint, options]
-  );
+  const [state, setState] = useState<UseFetchState<T>>(() => {
+    const cached = cache[cacheKey];
+    const isValid =
+      cached &&
+      Date.now() - cached.timestamp < cacheTime &&
+      !options?.skipCache &&
+      cacheTime > 0;
 
-  const cachedItem = cache[cacheKey];
-  const now = Date.now();
-  const hasValidCache =
-    cachedItem &&
-    now - cachedItem.timestamp < memoizedCacheTime &&
-    !options?.skipCache &&
-    memoizedCacheTime > 0;
-
-  const [state, setState] = useState<UseFetchState<T>>({
-    data: hasValidCache ? (cachedItem.data as T) : null,
-    loading: immediate && !hasValidCache,
-    error: null,
+    return {
+      data: isValid ? (cached.data as T) : null,
+      loading: immediate && !isValid,
+      error: null,
+    };
   });
 
-  const optionsRef = useRef(options);
-  useEffect(() => {
-    optionsRef.current = options;
-  }, [options]);
-
   const fetchData = useCallback(
-    async (forcedUpdate: boolean): Promise<void> => {
-      const currentOptions = optionsRef.current;
-      const effectiveCacheTime = memoizedCacheTime;
-
-      const skipCache =
-        forcedUpdate || currentOptions?.skipCache || effectiveCacheTime <= 0;
-
-      const cachedItem = cache[cacheKey];
+    async (forcedUpdate = false) => {
+      const skipCache = forcedUpdate || options?.skipCache || cacheTime <= 0;
+      const cached = cache[cacheKey];
       const now = Date.now();
 
-      if (
-        !skipCache &&
-        cachedItem &&
-        now - cachedItem.timestamp < effectiveCacheTime
-      ) {
-        setState({
-          data: cachedItem.data as T,
-          loading: false,
-          error: null,
-        });
-        if (currentOptions?.onSuccess) {
-          currentOptions.onSuccess(cachedItem.data as T);
-        }
+      if (!skipCache && cached && now - cached.timestamp < cacheTime) {
+        setState({ data: cached.data as T, loading: false, error: null });
+        options?.onSuccess?.(cached.data as T);
         return;
       }
 
-      setState((prev) => ({
-        ...prev,
-        loading: true,
-        error: null,
-      }));
+      setState((prev) => ({ ...prev, loading: true, error: null }));
 
       try {
-        const requestConfig: AxiosRequestConfig = {
+        const response: AxiosResponse<T> = await backendClient({
           url: endpoint,
-          ...currentOptions,
+          ...options,
           headers: {
             Authorization: `Bearer ${token!.token}`,
             "Content-Type": "application/json",
-            ...(currentOptions?.headers || {}),
+            ...options?.headers,
           },
-        };
-
-        const response: AxiosResponse<T> = await backendClient(requestConfig);
-
-        if (effectiveCacheTime > 0) {
-          cache[cacheKey] = {
-            data: response.data,
-            timestamp: now,
-          };
-        }
-
-        setState({
-          data: response.data,
-          loading: false,
-          error: null,
         });
 
-        if (currentOptions?.onSuccess) {
-          currentOptions.onSuccess(response.data);
+        if (cacheTime > 0) {
+          cache[cacheKey] = { data: response.data, timestamp: now };
         }
+
+        setState({ data: response.data, loading: false, error: null });
+        options?.onSuccess?.(response.data);
       } catch (error) {
-        let errorObj: Error | AxiosError;
+        const errorObj =
+          error instanceof AxiosError
+            ? error
+            : new Error(
+                `An unexpected error occurred. Please try again. Error: ${error}`
+              );
 
-        if (error instanceof AxiosError) {
-          errorObj = error;
-        } else {
-          errorObj = new Error(
-            `An unexpected error occurred. Please try again. Error: ${error}`
-          );
-        }
-
-        setState({
-          data: null,
-          loading: false,
-          error: errorObj,
-        });
-
-        if (currentOptions?.onError) {
-          currentOptions.onError(errorObj);
-        }
+        setState({ data: null, loading: false, error: errorObj });
+        options?.onError?.(errorObj);
       }
     },
-    [endpoint, token, memoizedCacheTime, cacheKey]
+    [endpoint, token, cacheTime, cacheKey]
   );
 
   useEffect(() => {
-    if (immediate && !hasValidCache) {
+    if (immediate && !cache[cacheKey]) {
       fetchData(false);
     }
-  }, [fetchData, immediate, hasValidCache]);
+  }, [immediate, cacheKey, fetchData]);
 
-  return {
-    ...state,
-    refetch: (forcedUpdate: boolean = false) => fetchData(forcedUpdate),
-  };
+  return { ...state, refetch: fetchData };
 }
 
 useFetch.clearCache = (cacheKey?: string) => {
