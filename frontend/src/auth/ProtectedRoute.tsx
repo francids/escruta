@@ -47,6 +47,7 @@ export default function ProtectedRoute() {
           isOpen={isModalOpen}
           onClose={handleLogout}
           closeOnOutsideClick={false}
+          closeOnEscape={false}
           title="Session expired"
           width="sm"
           actions={

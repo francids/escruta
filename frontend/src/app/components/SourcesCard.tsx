@@ -215,6 +215,7 @@ export default function SourcesCard({
           onClose={handleModalClose}
           title="Add source"
           closeOnOutsideClick={!addingSource}
+          closeOnEscape={!addingSource}
           actions={
             <div className="flex justify-between w-full">
               {sourceType === "Website" || sourceType === "File" ? (

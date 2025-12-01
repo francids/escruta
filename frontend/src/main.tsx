@@ -1,12 +1,7 @@
 import { lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import {
-  AuthProvider,
-  ModalProvider,
-  ThemeProvider,
-  ToastProvider,
-} from "./providers";
+import { AuthProvider, ThemeProvider, ToastProvider } from "./providers";
 
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
@@ -64,14 +59,12 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
-    <ModalProvider>
-      <ThemeProvider>
-        <ToastProvider>
-          <RouterProvider router={router} />
-          <SpeedInsights />
-          <Analytics />
-        </ToastProvider>
-      </ThemeProvider>
-    </ModalProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <RouterProvider router={router} />
+        <SpeedInsights />
+        <Analytics />
+      </ToastProvider>
+    </ThemeProvider>
   </AuthProvider>
 );
