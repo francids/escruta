@@ -1,4 +1,4 @@
-import { Card } from "./ui";
+import { Card } from "@/shared/ui";
 import { cn } from "@/lib/utils";
 
 export default function CommonBar({

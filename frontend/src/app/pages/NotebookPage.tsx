@@ -2,17 +2,17 @@ import { useEffect, useState, useRef } from "react";
 import { useLoaderData } from "react-router";
 import { useFetch, useCookie } from "@/hooks";
 import type { Note, Source, Notebook, NotebookContent } from "@/interfaces";
-import { EditIcon, NotebookIcon, FireIcon } from "../components/icons";
+import { EditIcon, NotebookIcon, FireIcon } from "@/shared/icons";
 import {
   Tooltip,
   IconButton,
   Tab,
+  type TabsRef,
   TextField,
   Button,
   Modal,
   Spinner,
-} from "../components/ui";
-import type { TabsRef } from "../components/ui/Tab";
+} from "@/shared/ui";
 import { motion, AnimatePresence } from "motion/react";
 import SourcesCard from "../components/SourcesCard";
 import NotesCard from "../components/NotesCard";

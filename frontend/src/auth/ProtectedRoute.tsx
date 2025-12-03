@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useNavigate } from "react-router";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
-import { Modal, Button } from "@/app/components/ui";
+import { Modal, Button } from "@/shared/ui";
 
 export default function ProtectedRoute() {
   const navigate = useNavigate();

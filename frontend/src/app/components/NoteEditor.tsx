@@ -11,7 +11,7 @@ import {
   EditIcon,
   ExpandIcon,
   SaveIcon,
-} from "./icons";
+} from "@/shared/icons";
 import {
   Button,
   Card,
@@ -20,7 +20,7 @@ import {
   Spinner,
   TextField,
   Tooltip,
-} from "./ui";
+} from "@/shared/ui";
 const Editor = lazy(() => import("./Editor"));
 
 interface NoteEditorProps {

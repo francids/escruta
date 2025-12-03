@@ -8,7 +8,7 @@ import {
   UnderlineIcon,
   FormatListBulletedIcon,
   CodeIcon,
-} from "./icons";
+} from "@/shared/icons";
 
 interface FloatingToolbarProps {
   quillInstance: Quill | null;

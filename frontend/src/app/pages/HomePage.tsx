@@ -8,10 +8,10 @@ import {
   TextField,
   SegmentedButtons,
   Spinner,
-} from "../components/ui";
+} from "@/shared/ui";
 import NotebookCard from "../components/NotebookCard";
 import CommonBar from "../components/CommonBar";
-import { AddIcon, GridIcon, ListIcon } from "../components/icons";
+import { AddIcon, GridIcon, ListIcon } from "@/shared/icons";
 import { motion } from "motion/react";
 import SEOMetadata from "@/shared/SEOMetadata";
 import { getRouteMetadata } from "@/config/seo";

@@ -1,7 +1,7 @@
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "@/hooks";
-import { Tooltip, Button, Modal } from "./ui";
-import { HomeIcon, SettingsIcon, LogoutIcon } from "./icons";
+import { Tooltip, Button, Modal } from "@/shared/ui";
+import { HomeIcon, SettingsIcon, LogoutIcon } from "@/shared/icons";
 import { useState } from "react";
 import AppIcon from "@/shared/AppIcon";
 import { cn } from "@/lib/utils";

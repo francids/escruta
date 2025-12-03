@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckIcon, CloseIcon } from "../icons";
+import { CheckIcon, CloseIcon } from "@/shared/icons";
 
 type SwitchProps = {
   checked: boolean;

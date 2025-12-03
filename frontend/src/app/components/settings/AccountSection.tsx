@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, Spinner, TextField } from "../ui";
+import { Button, Modal, Spinner, TextField } from "@/shared/ui";
 import CommonBar from "../CommonBar";
 import { useAuth, useFetch } from "@/hooks";
-import { CheckIcon } from "../icons";
+import { CheckIcon } from "@/shared/icons";
 
 export default function AccountSection() {
   const { logout, currentUser: user, fetchUserData } = useAuth();

@@ -11,7 +11,7 @@ import {
   ExpandIcon,
   CompressIcon,
   StarsIcon,
-} from "./icons";
+} from "@/shared/icons";
 import {
   Button,
   Card,
@@ -20,7 +20,7 @@ import {
   Tooltip,
   Divider,
   Spinner,
-} from "./ui";
+} from "@/shared/ui";
 import Markdown from "react-markdown";
 const CodeBlock = lazy(() => import("./CodeBlock"));
 import { getSourceType, getYouTubeVideoId, getSourceTypeIcon } from "../utils";

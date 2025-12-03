@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
-import { CloseIcon } from "../icons";
+import { CloseIcon } from "@/shared/icons";
 import { cn } from "@/lib/utils";
 
 interface ModalProps {

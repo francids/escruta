@@ -5,8 +5,8 @@ import {
   CardIcon,
   QuestionnaireIcon,
   FileIcon,
-} from "./icons";
-import { Card, Divider } from "./ui";
+} from "@/shared/icons";
+import { Card, Divider } from "@/shared/ui";
 import ToolCard from "./ToolCard";
 
 interface Tool {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import IconButton from "./IconButton";
-import { CloseIcon } from "../icons";
+import { CloseIcon } from "@/shared/icons";
 import { cn } from "@/lib/utils";
 
 type ToastProps = {

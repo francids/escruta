@@ -1,4 +1,4 @@
-import { LinkIcon, FileIcon, YouTubeIcon } from "../components/icons";
+import { LinkIcon, FileIcon, YouTubeIcon } from "@/shared/icons";
 import type { SourceType } from "./sourceUtils";
 import type { Source } from "@/interfaces";
 import { getSourceType } from "./sourceUtils";

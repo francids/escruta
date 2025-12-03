@@ -1,6 +1,6 @@
 import type { Notebook } from "@/interfaces";
-import { Button, Menu, Modal, IconButton, Spinner } from "./ui";
-import { NotebookIcon, DotsVerticalIcon } from "./icons";
+import { Button, Menu, Modal, IconButton, Spinner } from "@/shared/ui";
+import { NotebookIcon, DotsVerticalIcon } from "@/shared/icons";
 import { useState } from "react";
 import { useFetch } from "@/hooks";
 import { useNavigate } from "react-router";

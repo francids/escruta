@@ -1,6 +1,6 @@
 import { useTheme } from "@/hooks";
 import CommonBar from "../CommonBar";
-import { Dropdown } from "../ui";
+import { Dropdown } from "@/shared/ui";
 
 export default function AppearanceSection() {
   const { themePreference, setTheme, ThemeOptions } = useTheme();

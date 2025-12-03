@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import type { Source } from "@/interfaces";
 import { getSourceIcon } from "../utils";
-import { StarsIcon } from "./icons";
-import { Tooltip } from "./ui";
+import { StarsIcon } from "@/shared/icons";
+import { Tooltip } from "@/shared/ui";
 
 interface SourceChipProps {
   source: Source;

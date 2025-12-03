@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckIcon, ChevronDownIcon } from "../icons";
+import { CheckIcon, ChevronDownIcon } from "@/shared/icons";
 
 type DropdownProps<T extends string> = {
   options: T[];

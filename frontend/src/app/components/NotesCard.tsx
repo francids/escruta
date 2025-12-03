@@ -1,5 +1,5 @@
 import type { Note } from "@/interfaces";
-import { AddIcon } from "./icons";
+import { AddIcon } from "@/shared/icons";
 import NoteChip from "./NoteChip";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   TextField,
   Tooltip,
   Spinner,
-} from "./ui";
+} from "@/shared/ui";
 import { useFetch } from "@/hooks";
 import { useState, useEffect } from "react";
 

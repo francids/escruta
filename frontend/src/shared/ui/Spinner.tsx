@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { LoadingIcon } from "../icons";
+import { LoadingIcon } from "@/shared/icons";
 
 type SpinnerProps = {
   size?: number;

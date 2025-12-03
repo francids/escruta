@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { UploadIcon } from "../icons";
+import { UploadIcon } from "@/shared/icons";
 
 type FilePickerProps = {
   id: string;

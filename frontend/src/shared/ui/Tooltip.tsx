@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useState, useRef, useLayoutEffect } from "react";
 import { cn } from "@/lib/utils";
 import { createPortal } from "react-dom";

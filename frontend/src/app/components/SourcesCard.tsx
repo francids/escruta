@@ -1,5 +1,5 @@
 import type { Source } from "@/interfaces";
-import { AddIcon } from "./icons";
+import { AddIcon } from "@/shared/icons";
 import SourceChip from "./SourceChip";
 import {
   Card,
@@ -13,7 +13,7 @@ import {
   Dropdown,
   FilePicker,
   Spinner,
-} from "./ui";
+} from "@/shared/ui";
 import { useEffect, useState } from "react";
 import { useFetch } from "@/hooks";
 import type { SourceType } from "../utils";
