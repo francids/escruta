@@ -1,0 +1,149 @@
+---
+interface Props {
+  class?: string;
+  characters?: string;
+  gridSize?: number;
+  glitchFrequency?: "low" | "medium" | "high";
+}
+
+const {
+  class: className,
+  characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  gridSize = 60,
+  glitchFrequency = "low",
+} = Astro.props;
+---
+
+<canvas
+  class:list={["grid-letter-bg", className]}
+  data-characters={characters}
+  data-grid-size={gridSize}
+  data-glitch-frequency={glitchFrequency}></canvas>
+
+<script>
+  const frequencyMap = {
+    low: 8,
+    medium: 4,
+    high: 2,
+  };
+
+  document.querySelectorAll(".grid-letter-bg").forEach((canvas) => {
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+
+    const characters =
+      canvas.dataset.characters || "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const gridSize = parseInt(canvas.dataset.gridSize || "60");
+    const glitchFrequency =
+      (canvas.dataset.glitchFrequency as "low" | "medium" | "high") || "low";
+    const animationSpeed = frequencyMap[glitchFrequency];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const cols = Math.ceil(window.innerWidth / gridSize);
+    const rows = Math.ceil(window.innerHeight / gridSize);
+
+    const gridItems = Array.from({ length: cols * rows }, (_, i) => ({
+      char: characters[Math.floor(Math.random() * characters.length)],
+      row: Math.floor(i / cols),
+      col: i % cols,
+    }));
+
+    const glitches: Array<{
+      row: number;
+      col: number;
+      char: string;
+      startTime: number;
+    }> = [];
+
+    function animate() {
+      if (!ctx || !(canvas instanceof HTMLCanvasElement)) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.font = "16px monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#4b5563";
+      ctx.globalAlpha = 0.4;
+
+      gridItems.forEach((item) => {
+        const x = item.col * gridSize + gridSize / 2;
+        const y = item.row * gridSize + gridSize / 2;
+        ctx.fillText(item.char, x, y);
+      });
+
+      for (let i = glitches.length - 1; i >= 0; i--) {
+        const glitch = glitches[i];
+        const progress = (Date.now() - glitch.startTime) / 1000;
+
+        if (progress > animationSpeed) {
+          glitches.splice(i, 1);
+          continue;
+        }
+
+        const phase = progress / animationSpeed;
+        let opacity, color, scale;
+
+        if (phase < 0.8) {
+          opacity = 0.4;
+          color = "#4b5563";
+          scale = 1;
+        } else if (phase < 0.85) {
+          opacity = 0.9;
+          color = "#06b6d4";
+          scale = 1.05;
+        } else if (phase < 0.9) {
+          opacity = 0.7;
+          color = "#3b82f6";
+          scale = 0.95;
+        } else {
+          opacity = 0.4;
+          color = "#4b5563";
+          scale = 1;
+        }
+
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = color;
+        const x = glitch.col * gridSize + gridSize / 2;
+        const y = glitch.row * gridSize + gridSize / 2;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        ctx.fillText(glitch.char, 0, 0);
+        ctx.restore();
+      }
+
+      const glitchChance = 1 / (animationSpeed * 60);
+      if (Math.random() < glitchChance) {
+        const randomIndex = Math.floor(Math.random() * gridItems.length);
+        const item = gridItems[randomIndex];
+        glitches.push({ ...item, startTime: Date.now() });
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  });
+</script>
+
+<style>
+  .grid-letter-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>

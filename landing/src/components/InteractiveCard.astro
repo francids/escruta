@@ -1,0 +1,190 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "interactive-card group relative rounded-xs bg-gray-900/50 border border-gray-800 transition-all duration-300 cursor-pointer overflow-hidden",
+    className,
+  ]}
+>
+  <div
+    class="glow-effect absolute inset-0 transition-opacity duration-300 pointer-events-none opacity-0"
+  >
+  </div>
+
+  <div
+    class="border-glow absolute inset-0 rounded-xs transition-opacity duration-300 pointer-events-none opacity-0"
+  >
+  </div>
+
+  <div
+    class="press-effect absolute inset-0 rounded-xs transition-opacity duration-200 pointer-events-none opacity-0"
+  >
+  </div>
+
+  <div
+    class="touch-effect absolute inset-0 rounded-xs transition-opacity duration-150 pointer-events-none opacity-0"
+  >
+  </div>
+
+  <div class="relative z-10">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .press-effect {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.8),
+      rgba(30, 64, 175, 0.6)
+    );
+    padding: 1px;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+  }
+
+  .touch-effect {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.3),
+      rgba(30, 64, 175, 0.2)
+    );
+  }
+
+  @media (max-width: 767px) {
+    .interactive-card:active {
+      ring: 2px;
+      ring-offset: 2px;
+      ring-color: rgb(59, 130, 246);
+      outline: none;
+    }
+  }
+</style>
+
+<script>
+  function initInteractiveCards() {
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    const cards = document.querySelectorAll<HTMLElement>(".interactive-card");
+
+    if (!isDesktop) {
+      cards.forEach((card) => {
+        card.addEventListener("touchstart", () => {
+          const touchEffect = card.querySelector<HTMLElement>(".touch-effect");
+          if (touchEffect) {
+            touchEffect.style.opacity = "1";
+            setTimeout(() => {
+              touchEffect.style.opacity = "0";
+            }, 200);
+          }
+        });
+      });
+      return;
+    }
+
+    const sections = document.querySelectorAll<HTMLElement>("section");
+
+    sections.forEach((section) => {
+      const sectionCards =
+        section.querySelectorAll<HTMLElement>(".interactive-card");
+      if (sectionCards.length === 0) return;
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let isMouseInSection = false;
+
+      section.addEventListener("mousemove", (e) => {
+        const rect = section.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        isMouseInSection = true;
+        updateCardEffects();
+      });
+
+      section.addEventListener("mouseleave", () => {
+        isMouseInSection = false;
+        sectionCards.forEach((card) => {
+          const glowEffect = card.querySelector<HTMLElement>(".glow-effect");
+          const borderGlow = card.querySelector<HTMLElement>(".border-glow");
+          if (glowEffect) glowEffect.style.opacity = "0";
+          if (borderGlow) borderGlow.style.opacity = "0";
+        });
+      });
+
+      function updateCardEffects() {
+        sectionCards.forEach((card) => {
+          const cardRect = card.getBoundingClientRect();
+          const sectionRect = section.getBoundingClientRect();
+
+          const cardX = cardRect.left - sectionRect.left;
+          const cardY = cardRect.top - sectionRect.top;
+          const cardWidth = cardRect.width;
+          const cardHeight = cardRect.height;
+
+          const threshold = 100;
+          const isNear =
+            mouseX >= cardX - threshold &&
+            mouseX <= cardX + cardWidth + threshold &&
+            mouseY >= cardY - threshold &&
+            mouseY <= cardY + cardHeight + threshold;
+
+          const relativeX = mouseX - cardX;
+          const relativeY = mouseY - cardY;
+
+          const glowEffect = card.querySelector<HTMLElement>(".glow-effect");
+          const borderGlow = card.querySelector<HTMLElement>(".border-glow");
+
+          if (isNear && isMouseInSection) {
+            if (glowEffect) {
+              glowEffect.style.opacity = "1";
+              glowEffect.style.background = `radial-gradient(300px circle at ${relativeX}px ${relativeY}px, rgba(59, 130, 246, 0.1), transparent 60%)`;
+            }
+            if (borderGlow) {
+              borderGlow.style.opacity = "1";
+              borderGlow.style.background = `radial-gradient(300px circle at ${relativeX}px ${relativeY}px, rgba(59, 130, 246, 0.6), transparent 60%)`;
+              borderGlow.style.padding = "1px";
+              borderGlow.style.mask =
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)";
+              borderGlow.style.maskComposite = "exclude";
+              (borderGlow.style as any).webkitMaskComposite = "xor";
+            }
+          } else {
+            if (glowEffect) glowEffect.style.opacity = "0";
+            if (borderGlow) borderGlow.style.opacity = "0";
+          }
+        });
+      }
+
+      sectionCards.forEach((card) => {
+        card.addEventListener("mousedown", () => {
+          const pressEffect = card.querySelector<HTMLElement>(".press-effect");
+          if (pressEffect) pressEffect.style.opacity = "1";
+        });
+
+        card.addEventListener("mouseup", () => {
+          const pressEffect = card.querySelector<HTMLElement>(".press-effect");
+          if (pressEffect) pressEffect.style.opacity = "0";
+        });
+
+        card.addEventListener("mouseleave", () => {
+          const pressEffect = card.querySelector<HTMLElement>(".press-effect");
+          if (pressEffect) pressEffect.style.opacity = "0";
+        });
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initInteractiveCards);
+  document.addEventListener("astro:page-load", initInteractiveCards);
+</script>

@@ -1,4 +1,4 @@
-const baseUrl = "https://escruta.com";
+const baseUrl = "https://app.escruta.com";
 
 export interface RouteMetadata {
   title: string;
@@ -11,26 +11,6 @@ export interface RouteMetadata {
 }
 
 export const routeMetadata: Record<string, RouteMetadata> = {
-  "/": {
-    title: "Escruta - Think, ask, learn",
-    description:
-      "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
-    url: baseUrl,
-    image: `${baseUrl}/OpenGraphImage.webp`,
-    keywords:
-      "knowledge management, AI research, note taking, open source, study tools, academic research, knowledge base, documentation, learning platform",
-    twitterCard: "summary_large_image",
-  },
-  "/home": {
-    title: "Escruta - Think, ask, learn",
-    description:
-      "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
-    url: `${baseUrl}/home`,
-    image: `${baseUrl}/OpenGraphImage.webp`,
-    keywords:
-      "knowledge management, AI research, note taking, open source, study tools, academic research, knowledge base, documentation, learning platform",
-    twitterCard: "summary_large_image",
-  },
   "/app": {
     title: "Dashboard - Escruta",
     description:
@@ -42,7 +22,7 @@ export const routeMetadata: Record<string, RouteMetadata> = {
 };
 
 export function getRouteMetadata(path: string): RouteMetadata {
-  return routeMetadata[path] || routeMetadata["/"];
+  return routeMetadata[path] || routeMetadata["/app"];
 }
 
 export function generateNotebookMetadata(

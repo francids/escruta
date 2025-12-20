@@ -1,0 +1,156 @@
+---
+import "../styles/global.css";
+
+import SEO from "../components/SEO.astro";
+
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  keywords?: string;
+  type?: string;
+  twitterCard?: string;
+}
+
+const { title, description, url, image, keywords, type, twitterCard } =
+  Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <link
+      id="favicon-light"
+      href="/LightIcon.svg"
+      rel="icon"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      id="favicon-dark"
+      href="/DarkIcon.svg"
+      rel="icon"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+    <meta name="theme-color" content="#121212" />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={title}
+      description={description}
+      url={url}
+      image={image}
+      keywords={keywords}
+      type={type}
+      twitterCard={twitterCard}
+    />
+
+    <meta name="application-name" content="Escruta" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      (function () {
+        function getCookie(name: string) {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop()?.split(";").shift();
+        }
+
+        function initializeTheme() {
+          let themePreference: string;
+          try {
+            const cookieValue = getCookie("themePreference");
+            themePreference = cookieValue
+              ? JSON.parse(decodeURIComponent(cookieValue))
+              : "System";
+          } catch (e) {
+            themePreference = "System";
+          }
+
+          document.documentElement.classList.remove("dark", "light");
+
+          if (themePreference === "Dark") {
+            document.documentElement.classList.add("dark");
+          } else if (themePreference === "Light") {
+            document.documentElement.classList.add("light");
+          } else {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.add("light");
+            }
+          }
+        }
+
+        initializeTheme();
+      })();
+    </script>
+
+    <script>
+      (function () {
+        const version = Date.now();
+        function updateFavicon() {
+          const faviconLight = document.getElementById(
+            "favicon-light"
+          ) as HTMLLinkElement | null;
+          const faviconDark = document.getElementById(
+            "favicon-dark"
+          ) as HTMLLinkElement | null;
+
+          if (!faviconLight || !faviconDark) return;
+
+          if (document.hidden) {
+            faviconLight.href = `/LightIcon.svg?v=${version}`;
+            faviconDark.href = `/DarkIcon.svg?v=${version}`;
+          } else {
+            faviconLight.href = `/Icon.svg?v=${version}`;
+            faviconDark.href = `/Icon.svg?v=${version}`;
+          }
+        }
+        updateFavicon();
+        document.addEventListener("visibilitychange", updateFavicon);
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Escruta",
+        "description": "Organize, analyze, and learn from your own knowledge. Ask questions, take notes, and get insights—all in a open-source platform.",
+        "url": "https://escruta.com",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web",
+        "author": {
+          "@type": "Person",
+          "name": "Francisco Mesa",
+          "url": "https://francids.com"
+        },
+        "screenshot": "https://escruta.com/AppScreenshot.webp",
+        "featureList": [
+          "AI-powered knowledge management",
+          "Note taking and organization",
+          "Document analysis",
+          "Study guide generation",
+          "Flashcard creation",
+          "Mind mapping",
+          "Audio summaries"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="min-h-screen text-white bg-gray-900">
+      <div class="md:min-h-[calc(100vh-80px)]">
+        <Navbar />
+        <slot />
+        <Footer />
+      </div>
+    </div>
+  </body>
+</html>

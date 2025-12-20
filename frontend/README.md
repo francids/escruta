@@ -37,9 +37,7 @@ The application will be available at [localhost:5173](http://localhost:5173/) by
 ### Development Scripts
 
 - `npm run dev` - Start development server with hot reload
-- `npm run dev:landing` - Run only the landing page for marketing site development
 - `npm run build` - Create production build
-- `npm run build:landing` - Build only the landing page
 - `npm run lint` - Run ESLint for code quality checks
 - `npm run preview` - Preview production build locally
 
@@ -51,43 +49,11 @@ Create a `.env` file in the frontend root directory:
 
 ```env
 VITE_ESCRUTA_BACKEND_URL=http://localhost:8080
-VITE_JUST_LANDING=false
 ```
 
 Available environment variables:
 
 - `VITE_ESCRUTA_BACKEND_URL`: Backend API URL (defaults to `http://localhost:8080`)
-- `VITE_JUST_LANDING`: Set to `true` to build only the landing page
-
-## Building for Production
-
-### Standard Build
-
-- `npm run build` - This creates a `dist/` directory with optimized static files ready for deployment.
-
-### Docker Build
-
-The frontend includes a multi-stage Dockerfile for containerized deployment:
-
-```bash
-docker build -t escruta-frontend .
-docker run -d -p 80:80 escruta-frontend
-```
-
-The Docker image uses nginx to serve the static files with proper routing configuration for single-page application behavior.
-
-## Deployment
-
-> [!NOTE]
-> The project includes `vercel.json` configuration for seamless Vercel deployment with proper SPA routing.
-
-For deployment on traditional web servers, ensure your server is configured to:
-
-- Serve `index.html` for all non-file routes (SPA routing)
-- Set proper MIME types for static assets
-- Enable gzip compression for better performance
-
-The included [`nginx.conf`](./nginx.conf) provides a reference configuration.
 
 ## Integration with Backend
 

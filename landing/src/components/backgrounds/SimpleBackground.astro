@@ -1,0 +1,15 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className } = Astro.props;
+---
+
+<div class:list={["fixed inset-0 z-0 pointer-events-none", className]}>
+  <div
+    class="absolute inset-0 h-full w-full opacity-[0.05]"
+    style="background: linear-gradient(180deg, #3b82f6 0%, #1e40af 50%, #1f2937 100%);"
+  >
+  </div>
+</div>

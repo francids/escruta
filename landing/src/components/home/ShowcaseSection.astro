@@ -1,0 +1,134 @@
+---
+import { getImage } from "astro:assets";
+import InteractiveCard from "../InteractiveCard.astro";
+import AppDesktopImage from "../../assets/AppDesktop.webp";
+
+const optimizedImage = await getImage({ src: AppDesktopImage });
+---
+
+<section
+  id="showcase"
+  class="pt-8 md:pt-16 relative bg-gray-900 overflow-hidden"
+>
+  <div class="mx-auto px-6 md:px-24">
+    <div class="text-center mb-8 md:mb-12">
+      <div class="animate-fade-in-up mb-6">
+        <span
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-xs text-sm font-semibold bg-blue-900 text-blue-200 border border-blue-700 select-none"
+        >
+          <svg class="size-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M13 17V20H18V22H6V20H11V17H4C3.44772 17 3 16.5523 3 16V4H2V2H22V4H21V16C21 16.5523 20.5523 17 20 17H13ZM5 15H19V4H5V15ZM10 6L15 9.5L10 13V6Z"
+            ></path>
+          </svg>
+          Showcase
+        </span>
+      </div>
+      <h2
+        class="animate-fade-in-up animation-delay-100 text-4xl md:text-5xl font-bold tracking-tight mb-4 md:mb-6 text-white"
+      >
+        Intuitive and <span class="text-blue-400">powerful</span>
+      </h2>
+      <p
+        class="animate-fade-in-up animation-delay-200 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4"
+      >
+        Experience a clean, modern interface for researchers and learners.
+        Organize knowledge effortlessly.
+      </p>
+    </div>
+
+    <div
+      class="animate-fade-in-up animation-delay-300 relative max-w-6xl mx-auto mb-12 md:mb-16"
+    >
+      <div
+        class="absolute inset-0 bg-linear-to-br from-blue-900/20 via-transparent to-purple-900/20 blur-3xl rounded-xs"
+      >
+      </div>
+
+      <InteractiveCard class="p-4 mx-4 md:mx-0">
+        <div class="relative overflow-hidden rounded-xs">
+          <img
+            src={optimizedImage.src}
+            alt="Escruta Desktop Application Interface"
+            class="w-full h-auto select-none border border-gray-700/60"
+            loading="lazy"
+          />
+        </div>
+      </InteractiveCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
+</style>
+
+<script>
+  function initShowcaseAnimations() {
+    const section = document.getElementById("showcase");
+    if (!section) return;
+
+    const animatedElements = section.querySelectorAll(".animate-fade-in-up");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-started");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    animatedElements.forEach((el) => {
+      (el as HTMLElement).style.animationPlayState = "paused";
+      observer.observe(el);
+    });
+
+    const startObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          const target = mutation.target as HTMLElement;
+          if (target.classList.contains("animate-started")) {
+            target.style.animationPlayState = "running";
+          }
+        }
+      });
+    });
+
+    animatedElements.forEach((el) => {
+      startObserver.observe(el, { attributes: true });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initShowcaseAnimations);
+  document.addEventListener("astro:page-load", initShowcaseAnimations);
+</script>

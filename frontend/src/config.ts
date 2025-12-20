@@ -3,6 +3,6 @@ export const BACKEND_BASE_URL =
 
 export const AUTH_TOKEN_KEY = "authToken";
 
-export const justLanding = import.meta.env.VITE_JUST_LANDING === "true";
-
 export const repoUrl = "https://github.com/francids/escruta";
+
+export const websiteUrl = "https://escruta.com";

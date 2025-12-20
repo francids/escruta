@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import Logotype from "@/shared/Logotype";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks";
+import { websiteUrl } from "@/config";
 
 export default function AuthLayout() {
   const { isAuthenticated } = useAuth();
@@ -39,7 +40,7 @@ export default function AuthLayout() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="text-center"
           >
-            <Link to="/home" className="flex items-center p-4">
+            <Link to={websiteUrl} className="flex items-center p-4">
               <Logotype className="h-4 w-auto fill-black dark:fill-white" />
             </Link>
           </motion.div>
