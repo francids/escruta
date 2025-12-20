@@ -19,54 +19,18 @@ _"Think, ask, learn"_
 - **HTTP Client**: Axios for API communication.
 - **Code Highlighting**: highlight.js for syntax highlighting in code blocks.
 
-## Project Structure
-
-```
-src/
-├── app/                 # Core application with protected routes and main functionality
-│   ├── components/      # Reusable UI components (icons, buttons, textfields, modals, cards, etc.)
-│   ├── contexts/        # React context providers for global state management
-│   ├── interfaces/      # TypeScript type definitions and API response models
-│   ├── layouts/         # Page layout wrappers (dashboard, sidebar, navigation)
-│   ├── pages/           # Main application pages (notebook, settings, etc.)
-│   └── utils/           # Helper functions and utilities
-├── auth/                # Authentication flow (login, register)
-├── contexts/            # Global React contexts for shared state
-├── hooks/               # Custom React hooks for data fetching and state logic
-├── landing/             # Public landing page and components
-├── providers/           # Context providers and application-wide state management
-├── scripts/             # Build and deployment scripts
-├── services/            # API services and external integrations
-└── shared/              # Common utilities, helpers, and cross-app components
-```
-
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (version 18 or higher)
-- npm (comes with Node.js)
+- Node.js (version 20 or higher)
 - Escruta backend service running (see [backend README](../backend/README.md))
 
 ### Installation
 
-1. Navigate to the frontend directory:
-
-```bash
-cd escruta/frontend
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Start the development server:
-
-```bash
-npm run dev
-```
+1. `cd escruta/frontend` - Navigate to the frontend directory
+2. `npm install` - Install dependencies
+3. `npm run dev` - Start the development server
 
 The application will be available at [localhost:5173](http://localhost:5173/) by default.
 
@@ -99,11 +63,7 @@ Available environment variables:
 
 ### Standard Build
 
-```bash
-npm run build
-```
-
-This creates a `dist/` directory with optimized static files ready for deployment.
+- `npm run build` - This creates a `dist/` directory with optimized static files ready for deployment.
 
 ### Docker Build
 
